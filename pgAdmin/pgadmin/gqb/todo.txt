@@ -1,0 +1,24 @@
+// 1. READ MODEL STATE FROM gqbModel TO CREATE THE GRAPHIC REPRESENTATION OF THE QUERY
+// 2. USE THE CONTROLLER TO CHANGE THE MODEL WITH THE USER INPUT
+
+
+/// A list of what I think will be useful functionalities on the GQB if someone desiree to contribute:
+
+//TODO-GQB 0. GROUPBY & HAVING could be implemented the same way, we did for ORDERBY & CRITERIA respectively.
+
+//TODO-GQB 1. Add Subqueries, this probably requeries multiples tabs for query.
+
+//TODO-GQB 2. Add Support to composite types.
+
+//TODO-GQB 3. Add a new skin for the graphics probably with a scroll on right and showing always all the columns (fixed at top) but the other columns can be move up/down with the scrollbar (an option can allow to choose between this and old graphics). And each table have a minimize (shrink only to table title),restore and remove from query button just as a window in a graphical operative system.
+
+//TODO-GQB 4. Add Save/Load functionality (probably xml).
+
+//TODO-GQB 5. Adding columns myself which could be the result of a function (count(*) is the first one to pop on my mind, but user functions would be great to... all I ask for is a simple textbox to enter what we want).
+
+//TODO-GQB 6. Adding a user function in the ordering tab. Also thought about missing functions in column & ordering tabs. 
+
+//TODO-GQB 7. that if the user select one join should be an easy option to change the query type like a floating toolbar with button with the join types that //	will be show near the selected join. What do you think about this?
+//	I was also thinking about this option.
+//  One way is - we create a toolbar near the join for changing the join-type.
+//  And other is - we enable the UP/DOWN keys to change the join-type, while join is selected. But, the problem with this is - this feature will not be directly visible to users, and they won't be able to use until they experienced it. :(

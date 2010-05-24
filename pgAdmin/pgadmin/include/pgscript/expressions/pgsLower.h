@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////
+//
+// pgScript - PostgreSQL Tools
+// RCS-ID:      $Id: pgsLower.h 8189 2010-02-25 22:10:21Z dpage $
+// Copyright (C) 2002 - 2010, The pgAdmin Development Team
+// This software is released under the PostgreSQL Licence
+//
+//////////////////////////////////////////////////////////////////////////
+
+
+#ifndef PGSLOWER_H_
+#define PGSLOWER_H_
+
+#include "pgscript/pgScript.h"
+#include "pgscript/expressions/pgsOperation.h"
+
+class pgsLower : public pgsOperation
+{
+	
+public:
+
+	pgsLower(const pgsExpression * left, const pgsExpression * right);
+
+	virtual ~pgsLower();
+
+	virtual pgsExpression * clone() const;
+
+	pgsLower(const pgsLower & that);
+
+	pgsLower & operator =(const pgsLower & that);
+
+	virtual wxString value() const;
+	
+	virtual pgsOperand eval(pgsVarMap & vars) const;
+	
+};
+
+#endif /*PGSLOWER_H_*/
