@@ -23,7 +23,24 @@ public:
     ~ddIFigure();
 
 	virtual ddRect* DisplayBox() {return new ddRect();};
+	virtual bool ContainsPoint (wxPoint point);
 
+	/*
+		virtual void AddDependentFigure (ddIFigure figure);
+		bool ContainsPoint (double x, double y);
+		IConnector ConnectorAt (double x, double y);
+		ITool CreateFigureTool (IDrawingEditor editor, ITool defaultTool);
+		void Draw (Context context);
+		void DrawSelected (Context context);
+		object GetAttribute (FigureAttribute attribute);
+		bool Includes (IFigure figure);
+		void Invalidate ();		
+		void MoveBy (double x, double y);
+		void MoveTo (double x, double y);
+		void RemoveDependentFigure (IFigure figure);
+		void SetAttribute (FigureAttribute attribute, object value);
+		void Visit (IFigureVisitor visitor);	
+*/
 	
 /*
 		RectangleD DisplayBox { get; set; }

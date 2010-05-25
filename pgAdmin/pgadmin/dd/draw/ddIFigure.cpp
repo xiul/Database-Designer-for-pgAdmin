@@ -31,7 +31,9 @@ ddIFigure::~ddIFigure(){
 
 }
 
-
+bool ddIFigure::ContainsPoint (wxPoint point){
+	return false;
+}
 
 /*
 

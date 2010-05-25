@@ -20,6 +20,7 @@
 #include "dd/draw/ddDrawing.h"
 #include "dd/draw/ddArrayCollection.h"
 #include "dd/draw/ddRect.h"
+#include "dd/draw/ddIFigure.h"
 
 ddDrawing::ddDrawing()
 {
@@ -36,33 +37,51 @@ ddDrawing::~ddDrawing()
 
 void ddDrawing::add(ddIFigure *figure){
 	figures->addItem(figure);	
+	//DD-TODO: remove handle
+	//RecalculateDisplayBox???
+
 }
 
 void ddDrawing::remove(ddIFigure figure){
     if(figures)
         delete figures;
+	//DD-TODO: remove handle
+	//RecalculateDisplayBox???
 }
-/*	virtual void draw(wxBufferedDC& context, ddCollection figures)=0;
+
+/*	
+	//DD-TODO: this should be implemented in drawing?
+	virtual void draw(wxBufferedDC& context, ddCollection figures)=0;
 	virtual void draw(wxBufferedDC& context)=0;
 	*/
 
 bool ddDrawing::includes(ddIFigure figure){
-
+	//DD-TODO: add composite figures functionality
 	return true;
 }
 
 ddIFigure ddDrawing::findFigure(wxPoint point){
-	ddIFigure *nada=NULL;
-	return *nada;
+	ddIFigure *tmp=NULL, *out=NULL;
+	ddIteratorBase *iterator=figures->createIterator();
+	while(iterator->HasNext()){
+		 tmp=(ddIFigure *)iterator->Next();
+		 if(tmp->ContainsPoint(point)){
+			out=NULL;
+		 }
+	}
+	return *out;
 }
 
 void ddDrawing::recalculateDisplayBox(){
+	//DD-TODO: do it
 }
 
 void ddDrawing::bringToFront(ddIFigure figure){
+	//DD-TODO: do it
 }
 
 void ddDrawing::sendToBack(ddIFigure figure){
+	//DD-TODO: do it
 }
 
 /*

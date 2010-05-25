@@ -23,6 +23,26 @@ ddRect::ddRect(){
 
 }
 
+void ddRect::add (ddRect *newRect) {
+	int x1 = min(this->x,newRect->x);
+	int x2 = max(this->x+this->width,newRect->x);
+	int y1 = min(this->y,newRect->y);
+	int y2 = max(this->y+this->height,newRect->y);
+
+	this->SetX(x1);
+	this->SetWidth(x2-x1);
+	this->SetY(y1);
+	this->SetHeight(y2-y1);
+}
+
+ 
+int ddRect::min(int a, int b){
+	return(a<=b)?a:b;
+}
+
+int ddRect::max(int a, int b){
+	return(a>=b)?a:b;
+}
 
 //http://juanobligado.wordpress.com/2007/11/05/interfaces-con-c/
 /*ddAbstractFigure::ddAbstractFigure()

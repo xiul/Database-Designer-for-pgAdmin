@@ -16,12 +16,12 @@
 class ddRect : public wxRect
 {
 public:
-/*  TODOdd: Create this class*/
 	ddRect();
-
+	void add (ddRect *newRect);
 protected:
 
 private:
-
+	int min(int a, int b);
+	int max(int a, int b);
 };
 #endif
