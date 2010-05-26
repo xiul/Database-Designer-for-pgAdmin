@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////
+//
+// pgAdmin III - PostgreSQL Tools
+// RCS-ID:      $Id: dlgReassignDropOwned.h 8189 2010-02-25 22:10:21Z dpage $
+// Copyright (C) 2002 - 2010, The pgAdmin Development Team
+// This software is released under the PostgreSQL Licence
+//
+// dlgReassignDropOwned.h - Reassign or drop owned objects
+//
+//////////////////////////////////////////////////////////////////////////
+
+#ifndef dlgReassignDropOwned_H
+#define dlgReassignDropOwned_H
+
+// wxWindows headers
+#include <wx/wx.h>
+#include <wx/settings.h>
+
+
+#include "dlg/dlgClasses.h"
+class pgConn;
+class pgRole;
+
+// Class declarations
+class dlgReassignDropOwned : public pgDialog
+{
+public:
+    dlgReassignDropOwned(frmMain *win, pgConn *conn, pgRole *role, wxString dbrestriction);
+    ~dlgReassignDropOwned();
+    wxString GetDatabase();
+    wxString GetRole();
+    bool IsReassign();
+    
+private:
+    pgConn *connection;
+    frmMain *parent;
+    
+	void OnOK(wxCommandEvent& ev);
+    void OnCancel(wxCommandEvent& ev);
+	void OnChange(wxCommandEvent &ev);
+    DECLARE_EVENT_TABLE()
+};
+
+#endif

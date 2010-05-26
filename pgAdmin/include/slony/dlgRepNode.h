@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////
+//
+// pgAdmin III - PostgreSQL Tools
+// RCS-ID:      $Id: dlgRepNode.h 8189 2010-02-25 22:10:21Z dpage $
+// Copyright (C) 2002 - 2010, The pgAdmin Development Team
+// This software is released under the PostgreSQL Licence
+//
+// dlgRepNode.h - Slony-I Node property
+//
+//////////////////////////////////////////////////////////////////////////
+
+
+#ifndef __DLG_REPNODEPROP
+#define __DLG_REPNODEPROP
+
+#include "slony/dlgRepProperty.h"
+
+
+class slCluster;
+class slNode;
+
+class dlgRepNode : public dlgRepProperty
+{
+public:
+    dlgRepNode(pgaFactory *factory, frmMain *frame, slNode *node, slCluster *c);
+    int Go(bool modal);
+    wxString GetHelpPage() const { return wxT("slony-install#node"); }
+
+    void CheckChange();
+    wxString GetSql();
+    pgObject *CreateObject(pgCollection *collection);
+    pgObject *GetObject();
+
+private:
+    slNode *node;
+
+    DECLARE_EVENT_TABLE()
+};
+
+#endif
