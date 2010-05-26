@@ -31,6 +31,7 @@ public:
 	virtual void bringToFront(ddIFigure figure);
 	virtual void sendToBack(ddIFigure figure);
 	virtual ddRect* DisplayBox();
+	virtual ddIteratorBase* figuresEnumerator();
 
 /* DD-TODO: agregar estos manejadores de eventos
 		event EventHandler <DrawingEventArgs> DrawingInvalidated;

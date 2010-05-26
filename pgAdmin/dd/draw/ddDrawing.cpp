@@ -67,8 +67,8 @@ ddIFigure ddDrawing::findFigure(wxPoint point){
 	ddIteratorBase *iterator=figures->createIterator();
 	while(iterator->HasNext()){
 		 tmp=(ddIFigure *)iterator->Next();
-		 if(tmp->ContainsPoint(point)){
-			out=NULL;
+		 if(tmp->containsPoint(point)){
+			out=tmp;
 		 }
 	}
 	return *out;
@@ -114,6 +114,10 @@ void ddDrawing::sendToBack(ddIFigure figure){
 
 ddRect* ddDrawing::DisplayBox(){
 	return displayBox;
+}
+
+ddIteratorBase* ddDrawing::figuresEnumerator(){
+return figures->createIterator();
 }
 
 /*

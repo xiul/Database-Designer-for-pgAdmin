@@ -15,6 +15,7 @@
 
 // wxWindows headers
 #include <wx/wx.h>
+#include <wx/dcbuffer.h>
 
 // App headers
 #include "dd/draw/ddIFigure.h"
@@ -31,8 +32,14 @@ ddIFigure::~ddIFigure(){
 
 }
 
-bool ddIFigure::ContainsPoint (wxPoint point){
+bool ddIFigure::containsPoint (wxPoint point){
 	return false;
+}
+
+void ddIFigure::draw (wxBufferedDC& context){
+}
+
+void ddIFigure::drawSelected (wxBufferedDC& context){
 }
 
 /*

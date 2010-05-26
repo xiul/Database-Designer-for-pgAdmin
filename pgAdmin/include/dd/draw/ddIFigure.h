@@ -23,15 +23,17 @@ public:
     ~ddIFigure();
 
 	virtual ddRect* DisplayBox() {return new ddRect();};
-	virtual bool ContainsPoint (wxPoint point);
+	virtual bool containsPoint (wxPoint point);
+	virtual void draw (wxBufferedDC& context);
+	virtual void drawSelected (wxBufferedDC& context);
 
 	/*
 		virtual void AddDependentFigure (ddIFigure figure);
 		bool ContainsPoint (double x, double y);
 		IConnector ConnectorAt (double x, double y);
 		ITool CreateFigureTool (IDrawingEditor editor, ITool defaultTool);
-		void Draw (Context context);
-		void DrawSelected (Context context);
+		
+		
 		object GetAttribute (FigureAttribute attribute);
 		bool Includes (IFigure figure);
 		void Invalidate ();		

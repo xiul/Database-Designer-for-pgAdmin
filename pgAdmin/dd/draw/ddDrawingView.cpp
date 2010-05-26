@@ -46,7 +46,14 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 {
     wxPaintDC dcc(this);                          // Prepare Context for Buffered Draw
     wxBufferedDC dc(&dcc, canvasSize);
-	dc.DrawRectangle(wxRect(wxPoint(5,5), wxSize(100,100)));
+	//dc.DrawRectangle(wxRect(wxPoint(5,5), wxSize(100,100)));
+	ddIFigure *toDraw;
+	ddIteratorBase *iterator=drawing->figuresEnumerator();
+	while(iterator->HasNext()){
+		 toDraw=(ddIFigure *)iterator->Next();
+		 toDraw->draw(dc);
+	}
+
 }
 
 void ddDrawingView::add(ddIFigure *figure){
