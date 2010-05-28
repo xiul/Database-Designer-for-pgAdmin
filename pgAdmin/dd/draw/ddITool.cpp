@@ -23,6 +23,8 @@
 ddITool::ddITool(){
 	activatedValue=true;
 	undoableValue=false;
+	anchorX=0;
+	anchorY=0;
 }
 
 ddITool::~ddITool(){
@@ -41,6 +43,7 @@ void ddITool::mouseDrag(wxMouseEvent& event){
 }
 
 void ddITool::keyDown(wxKeyEvent& event){
+	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
 }
 
 void ddITool::keyUp(wxKeyEvent& event)
@@ -64,4 +67,9 @@ bool ddITool::activated()
 
 bool ddITool::undoable(){
 	return undoableValue;
+}
+
+void ddITool::setAnchorCoords(int x, int y){
+	anchorX=x;
+	anchorY=y;
 }

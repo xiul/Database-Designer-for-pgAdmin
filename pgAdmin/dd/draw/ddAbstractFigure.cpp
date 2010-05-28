@@ -21,6 +21,7 @@
 
 // App headers
 #include "dd/draw/ddAbstractFigure.h"
+#include "dd/draw/ddIFigure.h"
 
 
 
@@ -37,6 +38,55 @@ ddAbstractFigure::~ddAbstractFigure(){
 bool ddAbstractFigure::canConnect (){
 return true;
 }
+
+bool ddAbstractFigure::includes(ddIFigure figure){
+	return false;	
+	//DD-TODO: implement this return (this==figure);
+}
+
+void ddAbstractFigure::draw(wxBufferedDC& context){
+	basicDraw(context);
+}
+
+void ddAbstractFigure::basicDraw(wxBufferedDC& context){
+}
+
+void ddAbstractFigure::drawSelected(wxBufferedDC& context){
+		basicDrawSelected(context);
+}
+
+void ddAbstractFigure::basicDrawSelected(wxBufferedDC& context){
+}
+
+
+ddITool ddAbstractFigure::CreateFigureTool(ddITool *defaultTool){
+return *defaultTool;
+//DD-TODO: need IDrawingEditor as parameter?
+}
+
+void ddAbstractFigure::moveBy(int x, int y){
+	willChange();
+		ddRect r = displayBox;
+		r.x += x;
+		r.y += y;
+		displayBox = r;
+	changed();
+}
+
+
+void ddAbstractFigure::moveTo(int x, int y){
+		ddRect r = displayBox;
+		r.x = x;
+		r.y = y;
+		displayBox = r;
+}
+
+void ddAbstractFigure::willChange(){
+}
+
+void ddAbstractFigure::changed(){
+}
+
 
 /*
 bool ddAbstractFigure::containsPoint (wxPoint point){

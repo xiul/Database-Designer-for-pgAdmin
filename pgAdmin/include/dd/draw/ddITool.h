@@ -37,6 +37,8 @@ protected:
 
 	bool activatedValue;
 	bool undoableValue;
+	int anchorX, anchorY;
+	void setAnchorCoords(int x, int y);
 
 };
 #endif

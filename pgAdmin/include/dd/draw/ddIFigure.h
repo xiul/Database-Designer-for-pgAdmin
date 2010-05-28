@@ -53,9 +53,8 @@ public:
 
 */	
 protected:
-
+	ddRect displayBox;
 private:
-	ddRect rect;
 	ddCollection *figures;
 	ddCollection *handles;
 	ddCollection *dependentFigures;
