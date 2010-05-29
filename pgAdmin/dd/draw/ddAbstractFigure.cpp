@@ -16,19 +16,17 @@
 // wxWindows headers
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
-
-
+#include <wx/pen.h>
 
 // App headers
 #include "dd/draw/ddAbstractFigure.h"
 #include "dd/draw/ddIFigure.h"
-
-
-
-
+#include "dd/draw/ddArrayCollection.h"
 
 ddAbstractFigure::ddAbstractFigure(){
-
+	displayBox.SetPosition(wxPoint(5,5));
+	displayBox.width=100;
+	displayBox.height=100;
 }
 
 ddAbstractFigure::~ddAbstractFigure(){
@@ -49,6 +47,9 @@ void ddAbstractFigure::draw(wxBufferedDC& context){
 }
 
 void ddAbstractFigure::basicDraw(wxBufferedDC& context){
+	context.SetPen(*wxGREEN_PEN);
+	context.SetBrush(wxBrush (wxColour(208, 208, 208),wxSOLID));
+	context.DrawRectangle(displayBox);
 }
 
 void ddAbstractFigure::drawSelected(wxBufferedDC& context){
@@ -85,8 +86,31 @@ void ddAbstractFigure::willChange(){
 }
 
 void ddAbstractFigure::changed(){
+			invalidate();
+			//DD-TODO: OnFigureChanged (new FigureEventArgs (this, DisplayBox));
 }
 
+void ddAbstractFigure::invalidate(){
+//DD-TODO: OnFigureInvalidated (new FigureEventArgs (this, InvalidateDisplayBox));
+}
+
+bool ddAbstractFigure::containsPoint(int x, int y){
+	return displayBox.Contains(x,y);
+}
+
+void ddAbstractFigure::addDependentFigure (ddIFigure *figure){
+	if(!dependentFigures){
+		dependentFigures = new ddCollection(new ddArrayCollection());
+	}
+	dependentFigures->addItem(figure);	
+}
+
+
+void ddAbstractFigure::removeDependentFigure (ddIFigure *figure){
+	if(dependentFigures){
+		dependentFigures->removeItem(figure);		
+	}
+}
 
 /*
 bool ddAbstractFigure::containsPoint (wxPoint point){

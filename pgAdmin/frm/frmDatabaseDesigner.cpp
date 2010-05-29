@@ -7,6 +7,9 @@
 #include "frm/frmDatabaseDesigner.h"
 #include "ctl/ctlMenuToolbar.h"
 
+// Designer headers
+#include "dd/draw/ddAbstractFigure.h"
+
 // Icons
 #include "images/sql-32.xpm"
 
@@ -24,6 +27,7 @@ END_EVENT_TABLE()
 	mainForm=form;
 	SetMinSize(wxSize(450,300));
 	view = new ddDrawingView(this,wxSize(800,600),new ddDrawing());
+	view->add(new ddAbstractFigure());
 	//SetIcon(wxIcon(sql_32_xpm));
 }
 
