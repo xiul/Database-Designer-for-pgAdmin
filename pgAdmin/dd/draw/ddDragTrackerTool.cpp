@@ -32,6 +32,8 @@ ddDragTrackerTool::~ddDragTrackerTool(){
 }
 
 void ddDragTrackerTool::setLastCoords(int x, int y){
+	lastX=x;
+	lastY=y;
 }
 
 void ddDragTrackerTool::mouseDown(wxMouseEvent& event){
@@ -42,7 +44,7 @@ void ddDragTrackerTool::mouseDown(wxMouseEvent& event){
 
 	//TODO: shift pressed and toggle selection
 
-	if(view->isFigureSelected(anchorFigure)){
+	if(!view->isFigureSelected(anchorFigure)){
 		view->clearSelection();
 		view->addToSelection(anchorFigure);
 	}

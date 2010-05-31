@@ -39,10 +39,11 @@ public:
 	virtual ddIteratorBase* selectionFigures();
 	wxSize canvasSize;
 
-	virtual void onDoubleClick(wxMouseEvent& event);
-	virtual void onRightClick(wxMouseEvent& event);
+	virtual void onMouseDown(wxMouseEvent& event);
+	virtual void onMouseUp(wxMouseEvent& event);
+	//virtual void onRightClick(wxMouseEvent& event);
 	virtual void onMotion(wxMouseEvent& event);
-	virtual void OnKeyDown(wxKeyEvent& event);
+	//virtual void OnKeyDown(wxKeyEvent& event);
 
 
 	/*

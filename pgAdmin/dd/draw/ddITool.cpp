@@ -29,15 +29,33 @@ ddITool::~ddITool(){
 }
 
 void ddITool::mouseDown(wxMouseEvent& event){
+/*
+EVT_LEFT_DOWN(func)
+EVT_MIDDLE_DOWN(func)
+EVT_RIGHT_DOWN(func)
+EVT_LEFT_DCLICK(func)
+*/
 }
 
 void ddITool::mouseUp(wxMouseEvent& event){
+/*
+EVT_LEFT_UP(func)
+EVT_MIDDLE_UP(func)
+EVT_RIGHT_UP(func)
+EVT_RIGHT_DCLICK(func)
+*/
 }
 
 void ddITool::mouseMove(wxMouseEvent& event){
+/*
+EVT_MOTION(func)
+*/
 }
 
 void ddITool::mouseDrag(wxMouseEvent& event){
+/*
+When a mouse is dragged this returns true: event.Dragging()
+*/
 }
 
 void ddITool::keyDown(wxKeyEvent& event){

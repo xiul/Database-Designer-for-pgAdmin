@@ -26,7 +26,10 @@
 
 
 ddIFigure::ddIFigure(){
-
+	figures=new ddCollection(new ddArrayCollection());;
+	handles=new ddCollection(new ddArrayCollection());;
+	dependentFigures=new ddCollection(new ddArrayCollection());;
+	//DD-TODO: this should be initialize here
 }
 
 ddIFigure::~ddIFigure(){
