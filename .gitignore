@@ -41,6 +41,7 @@
 /pgAdmin/ui/.svn/*
 /pgAdmin/include/ctl/.svn/*
 /pgAdmin/Debug/*
+/enc_temp_folder/*
 /pgAdmin/utils/.svn
 /pgAdmin/db/.svn
 /pgAdmin/slony/.svn
@@ -83,4 +84,6 @@
 /pgAdmin/ui/.svn
 /pgAdmin/include/ctl/.svn
 /pgAdmin/Debug
+/enc_temp_folder
 /DatabaseDesignerpgAdmin3.ncb
+/DatabaseDesignerpgAdmin3.suo

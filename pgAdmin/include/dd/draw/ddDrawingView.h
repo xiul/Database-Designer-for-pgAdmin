@@ -32,16 +32,17 @@ public:
 	virtual void clearSelection();
 	virtual void ScrollToMakeVisible(wxPoint p);
 	virtual void ScrollToMakeVisible (ddRect r);
+	virtual ddIHandle* findHandle(double x, double y);
+	virtual bool isFigureSelected(ddIFigure *figure);
 	void onPaint(wxPaintEvent& event);
+	virtual ddIteratorBase* selectionFigures();
 	wxSize canvasSize;
+
 	/*
-	virtual bool isFigureSelected(ddIFigure figure);
 	virtual wxPoint drawingToView(double x, double y);
 	virtual wxPoint viewToDrawing(double x, double y);
-	virtual ddIHandle* findHandle(double x, double y);
 	virtual ddIDrawing* drawing();
 	virtual ddIDrawing* editor();   //DD-TODO: debe retornar un editor
-	virtual ddCollection* selectionFigures();
 	virtual int selectionCount();
 	virtual ddRect visibleArea();
 	*/
@@ -50,6 +51,7 @@ protected:
 
 private:
 	DECLARE_EVENT_TABLE()
+	ddCollection *selection;
 	ddDrawing *drawing;
 
 };

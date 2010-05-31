@@ -9,6 +9,7 @@
 
 // Designer headers
 #include "dd/draw/ddAbstractFigure.h"
+#include "dd/draw/ddDrawingEditor.h"
 
 // Icons
 #include "images/sql-32.xpm"
@@ -26,14 +27,14 @@ END_EVENT_TABLE()
 {
 	mainForm=form;
 	SetMinSize(wxSize(450,300));
-	view = new ddDrawingView(this,wxSize(800,600),new ddDrawing());
-	view->add(new ddAbstractFigure());
+//	view = new ddDrawingView(this,wxSize(800,600),new ddDrawing());
+	editor = new ddDrawingEditor(this);
+	editor->view()->add(new ddAbstractFigure());
 	//SetIcon(wxIcon(sql_32_xpm));
 }
 
  frmDatabaseDesigner::~frmDatabaseDesigner(){
-	 int i=1; //delete this only for test
-	 i++;
+//DD-TODO: free memory objects
  }
 
 void frmDatabaseDesigner::Go()

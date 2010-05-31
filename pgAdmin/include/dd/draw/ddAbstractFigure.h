@@ -14,6 +14,7 @@
 #include "dd/draw/ddRect.h"
 #include "dd/draw/ddIFigure.h"
 #include "dd/draw/ddITool.h"
+#include "dd/draw/ddIHandle.h"
 #include "dd/draw/ddCollection.h"
 
 
@@ -33,8 +34,7 @@ public:
 	virtual void moveBy(int x, int y);
 	virtual void moveTo(int x, int y);
 	virtual bool containsPoint(int x, int y);
-	virtual void addDependentFigure (ddIFigure *figure);
-	virtual void removeDependentFigure (ddIFigure *figure);
+
 //DD-TODO: public virtual IConnector ConnectorAt (double x, double y)
 //DD-TODO: public void Visit (IFigureVisitor visitor) 
 //DD-TODO: public event EventHandler <FigureEventArgs> FigureInvalidated;

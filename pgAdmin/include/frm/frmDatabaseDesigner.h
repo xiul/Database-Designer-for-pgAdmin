@@ -3,6 +3,7 @@
 #define __FRM_DATABASEDESIGNER_H
 
 #include "dd/draw/ddDrawingView.h"
+#include "dd/draw/ddDrawingEditor.h"
 
 class frmDatabaseDesigner : public pgFrame
 {
@@ -12,7 +13,8 @@ public:
 	void Go();
 private:
 	frmMain *mainForm;
-	ddDrawingView *view;
+	//ddDrawingView *view;
+	ddDrawingEditor *editor;
 	void OnClose(wxCloseEvent& event);
 };
 

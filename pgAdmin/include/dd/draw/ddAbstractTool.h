@@ -9,34 +9,38 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDITOOL_H
-#define DDITOOL_H
+#ifndef DDABSTRACTTOOL_H
+#define DDABSTRACTTOOL_H
 
 #include "dd/draw/ddObject.h"
+#include "dd/draw/ddITool.h"
+#include "dd/draw/ddDrawingEditor.h"
 
 
-class ddITool : public ddObject
+class ddAbstractTool : public ddITool
 {
 public:
-	ddITool();
-    ~ddITool();
+	ddAbstractTool(ddDrawingEditor *editor);
+    ~ddAbstractTool();
+
+	void setAnchorCoords(int x, int y);
+	
 	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
 	virtual void mouseUp(wxMouseEvent& event);
 	virtual void mouseMove(wxMouseEvent& event);
 	virtual void mouseDrag(wxMouseEvent& event);
 	virtual void keyDown(wxKeyEvent& event);
 	virtual void keyUp(wxKeyEvent& event);
-	virtual void activate();
-	virtual void deactivate();
-
-	virtual bool activated();
-	//DD-TODO: add this virtual IDrawingEditor editor and undoactivity
-	virtual bool undoable();
+	ddDrawingEditor* getDrawingEditor();
 
 protected:
+	ddDrawingEditor *ownerEditor;
+	ddDrawingView *view;
+	int anchorX, anchorY;
+private:
 
-	bool activatedValue;
-	bool undoableValue;
+	
+
 
 };
 #endif

@@ -69,6 +69,7 @@ ddIFigure ddDrawing::findFigure(wxPoint point){
 		 tmp=(ddIFigure *)iterator->Next();
 		 if(tmp->containsPoint(point)){
 			out=tmp;
+			break;
 		 }
 	}
 	return *out;

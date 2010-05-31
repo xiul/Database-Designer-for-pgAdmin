@@ -17,17 +17,48 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/ddITool.h"
+#include "dd/draw/ddAbstractTool.h"
 
 
-ddITool::ddITool(){
-	activatedValue=false;
-	undoableValue=false;
+ddAbstractTool::ddAbstractTool(ddDrawingEditor *editor){
+	anchorX=0;
+	anchorY=0;
+	ownerEditor=editor;
 }
 
-ddITool::~ddITool(){
+ddAbstractTool::~ddAbstractTool(){
 }
 
+void ddAbstractTool::mouseDown(wxMouseEvent& event){
+}
+
+void ddAbstractTool::mouseUp(wxMouseEvent& event){
+}
+
+void ddAbstractTool::mouseMove(wxMouseEvent& event){
+}
+
+void ddAbstractTool::mouseDrag(wxMouseEvent& event){
+}
+
+void ddAbstractTool::keyDown(wxKeyEvent& event){
+	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
+}
+
+void ddAbstractTool::keyUp(wxKeyEvent& event)
+{
+}
+
+void ddAbstractTool::setAnchorCoords(int x, int y){
+	anchorX=x;
+	anchorY=y;
+}
+
+ddDrawingEditor* ddAbstractTool::getDrawingEditor(){
+	return ownerEditor;
+}
+
+/*
 void ddITool::mouseDown(wxMouseEvent& event){
 }
 
@@ -41,7 +72,7 @@ void ddITool::mouseDrag(wxMouseEvent& event){
 }
 
 void ddITool::keyDown(wxKeyEvent& event){
-	//setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
+	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
 }
 
 void ddITool::keyUp(wxKeyEvent& event)
@@ -67,3 +98,7 @@ bool ddITool::undoable(){
 	return undoableValue;
 }
 
+void ddITool::setAnchorCoords(int x, int y){
+	anchorX=x;
+	anchorY=y;
+}*/

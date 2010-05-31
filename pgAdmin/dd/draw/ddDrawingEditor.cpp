@@ -15,55 +15,27 @@
 
 // wxWindows headers
 #include <wx/wx.h>
+#include <wx/dcbuffer.h>
 
 // App headers
+#include "dd/draw/ddDrawingEditor.h"
+#include "dd/draw/ddDrawingView.h"
 #include "dd/draw/ddITool.h"
 
+ddDrawingEditor::ddDrawingEditor(pgFrame *owner){
+	_model=new ddDrawing();
+	_view = new ddDrawingView(owner,wxSize(800,600),_model);
 
-ddITool::ddITool(){
-	activatedValue=false;
-	undoableValue=false;
 }
 
-ddITool::~ddITool(){
+ddDrawingEditor::~ddDrawingEditor(){
 }
 
-void ddITool::mouseDown(wxMouseEvent& event){
+ddDrawingView* ddDrawingEditor::view(){
+	return _view;
 }
 
-void ddITool::mouseUp(wxMouseEvent& event){
-}
-
-void ddITool::mouseMove(wxMouseEvent& event){
-}
-
-void ddITool::mouseDrag(wxMouseEvent& event){
-}
-
-void ddITool::keyDown(wxKeyEvent& event){
-	//setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
-}
-
-void ddITool::keyUp(wxKeyEvent& event)
-{
-}
-
-void ddITool::activate()
-{
-	activatedValue=true;
-}
-
-void ddITool::deactivate()
-{
-	activatedValue=false;
-}
-
-bool ddITool::activated()
-{
-	return activatedValue;
-}
-
-bool ddITool::undoable(){
-	return undoableValue;
+ddITool* ddDrawingEditor::tool(){
+	return _tool;
 }
 

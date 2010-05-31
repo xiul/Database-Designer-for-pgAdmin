@@ -14,7 +14,7 @@
 
 #include "dd/draw/ddObject.h"
 #include "dd/draw/ddRect.h"
-#include "dd/draw/ddIFigure.h"
+
 
 
 // Create Array Objects used as base for gqbCollections
@@ -40,7 +40,7 @@ public:
 protected:
 
 private:
-	ddIFigure owner;
+	ddObject figureOwner; //DD-TODO: change for IFigure but avoid circular reference
 	ddRect displayBox;
 	double lineWidth;
 	int index;

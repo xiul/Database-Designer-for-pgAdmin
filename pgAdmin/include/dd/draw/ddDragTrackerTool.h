@@ -9,34 +9,40 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDITOOL_H
-#define DDITOOL_H
+#ifndef DDDRAGTRACKERTOOL_H
+#define DDDRAGTRACKERTOOL_H
 
 #include "dd/draw/ddObject.h"
+#include "dd/draw/ddITool.h"
+#include "dd/draw/ddIFigure.h"
+#include "dd/draw/ddDrawingEditor.h"
+#include "dd/draw/ddAbstractTool.h"
 
 
-class ddITool : public ddObject
+class ddDragTrackerTool : public ddAbstractTool
 {
 public:
-	ddITool();
-    ~ddITool();
+	ddDragTrackerTool(ddDrawingEditor *editor, ddIFigure *anchor);
+    ~ddDragTrackerTool();
+
+	void setLastCoords(int x, int y);
+	bool hasMoved();
 	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
 	virtual void mouseUp(wxMouseEvent& event);
-	virtual void mouseMove(wxMouseEvent& event);
 	virtual void mouseDrag(wxMouseEvent& event);
-	virtual void keyDown(wxKeyEvent& event);
-	virtual void keyUp(wxKeyEvent& event);
-	virtual void activate();
-	virtual void deactivate();
-
-	virtual bool activated();
-	//DD-TODO: add this virtual IDrawingEditor editor and undoactivity
-	virtual bool undoable();
 
 protected:
+	ddIFigure *anchorFigure;
+	int lastX, lastY;
+	bool hasMovedValue;
 
-	bool activatedValue;
-	bool undoableValue;
+private:
+
+	ddDrawingView *view;
+
+
+	
+
 
 };
 #endif

@@ -14,6 +14,8 @@
 #include "dd/draw/ddRect.h"
 #include "dd/draw/ddObject.h"
 #include "dd/draw/ddCollection.h"
+#include "dd/draw/ddIHandle.h"
+
 
 // Create Array Objects used as base for gqbCollections
 class ddIFigure : public ddObject
@@ -26,7 +28,14 @@ public:
 	virtual bool containsPoint (wxPoint point);
 	virtual void draw (wxBufferedDC& context);
 	virtual void drawSelected (wxBufferedDC& context);
-
+	virtual ddCollection* handlesEnumerator();
+	virtual void addDependentFigure (ddIFigure *figure);
+	virtual void removeDependentFigure (ddIFigure *figure);
+	virtual void addHandle (ddIHandle *handle);
+	virtual void removeHandle (ddIHandle *handle);
+	virtual void moveBy(int x, int y);
+	virtual void moveTo(int x, int y);
+	virtual bool containsPoint(int x, int y);
 	/*
 		virtual void AddDependentFigure (ddIFigure figure);
 		bool ContainsPoint (double x, double y);
@@ -37,7 +46,7 @@ public:
 		object GetAttribute (FigureAttribute attribute);
 		bool Includes (IFigure figure);
 		void Invalidate ();		
-		void MoveBy (double x, double y);
+		
 		void MoveTo (double x, double y);
 		void RemoveDependentFigure (IFigure figure);
 		void SetAttribute (FigureAttribute attribute, object value);
