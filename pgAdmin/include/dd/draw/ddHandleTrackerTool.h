@@ -9,8 +9,8 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDDRAGTRACKERTOOL_H
-#define DDDRAGTRACKERTOOL_H
+#ifndef DDHANDLETRACKERTOOL_H
+#define DDHANDLETRACKERTOOL_H
 
 #include "dd/draw/ddObject.h"
 #include "dd/draw/ddITool.h"

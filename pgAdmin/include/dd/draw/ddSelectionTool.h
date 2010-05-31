@@ -14,8 +14,6 @@
 
 #include "dd/draw/ddITool.h"
 #include "dd/draw/ddAbstractTool.h"
-#include "dd/draw/ddDrawingView.h"
-#include "dd/draw/ddDrawingEditor.h"
 
 class ddSelectionTool : public ddAbstractTool
 {
@@ -31,23 +29,10 @@ public:
 	void setDelegateTool(ddITool *tool);
 	ddITool* getDelegateTool();
 
-/*	virtual void activate();
-	virtual void deactivate();
-
-	virtual bool activated();
-	//DD-TODO: add this virtual IDrawingEditor editor and undoactivity
-	virtual bool undoable();
-
-	bool activatedValue;
-	bool undoableValue;
-	int anchorX, anchorY;
-	void setAnchorCoords(int x, int y);
-*/
 protected:
 	ddITool *_delegateTool;
 private:
 	
 	void deleteFigures(ddDrawingView *view);
-	//ddDrawingEditor *_editorOwner; //DD-TODO: pass needed info inside modified event of mouse
 };
 #endif

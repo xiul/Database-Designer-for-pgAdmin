@@ -17,6 +17,9 @@
 #include "dd/draw/ddIHandle.h"
 
 
+class ddITool;			// HACK-FIX circular reference
+class ddDrawingEditor;
+
 // Create Array Objects used as base for gqbCollections
 class ddIFigure : public ddObject
 {
@@ -25,7 +28,6 @@ public:
     ~ddIFigure();
 
 	virtual ddRect* DisplayBox() {return new ddRect();};
-	virtual bool containsPoint (wxPoint point);
 	virtual void draw (wxBufferedDC& context);
 	virtual void drawSelected (wxBufferedDC& context);
 	virtual ddCollection* handlesEnumerator();
@@ -36,11 +38,12 @@ public:
 	virtual void moveBy(int x, int y);
 	virtual void moveTo(int x, int y);
 	virtual bool containsPoint(int x, int y);
+	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 	/*
 		virtual void AddDependentFigure (ddIFigure figure);
 		bool ContainsPoint (double x, double y);
 		IConnector ConnectorAt (double x, double y);
-		ITool CreateFigureTool (IDrawingEditor editor, ITool defaultTool);
+		
 		
 		
 		object GetAttribute (FigureAttribute attribute);

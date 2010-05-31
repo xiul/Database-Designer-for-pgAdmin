@@ -26,7 +26,7 @@ public:
 	virtual void draw(wxBufferedDC& context)=0;
 	*/
 	virtual bool includes(ddIFigure figure);
-	virtual ddIFigure findFigure(wxPoint point);
+	virtual ddIFigure* findFigure(int x, int y);
 	virtual void recalculateDisplayBox();
 	virtual void bringToFront(ddIFigure figure);
 	virtual void sendToBack(ddIFigure figure);

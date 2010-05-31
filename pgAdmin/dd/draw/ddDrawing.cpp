@@ -62,17 +62,17 @@ bool ddDrawing::includes(ddIFigure figure){
 	return true;
 }
 
-ddIFigure ddDrawing::findFigure(wxPoint point){
+ddIFigure* ddDrawing::findFigure(int x, int y){
 	ddIFigure *tmp=NULL, *out=NULL;
 	ddIteratorBase *iterator=figures->createIterator();
 	while(iterator->HasNext()){
 		 tmp=(ddIFigure *)iterator->Next();
-		 if(tmp->containsPoint(point)){
+		 if(tmp->containsPoint(x,y)){
 			out=tmp;
 			break;
 		 }
 	}
-	return *out;
+	return out;
 }
 
 void ddDrawing::recalculateDisplayBox(){

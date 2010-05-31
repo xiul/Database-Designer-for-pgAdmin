@@ -15,9 +15,8 @@
 #include "dd/draw/ddObject.h"
 #include "dd/draw/ddRect.h"
 
+class ddDrawingView;  //Hack-Fix to avoid circular reference
 
-
-// Create Array Objects used as base for gqbCollections
 class ddIHandle : public ddObject
 {
 public:
@@ -27,14 +26,10 @@ public:
 	virtual bool containsPoint(double x, double y)=0;
 	virtual void draw(wxBufferedDC& context);
 	virtual wxPoint locate();
-
-
-	/* DD-TODO: add this methods
-		void InvokeStart (double x, double y, IDrawingView view);
-		void InvokeStep (double x, double y, IDrawingView view);
-		void InvokeEnd (double x, double y, IDrawingView view);
-		Gdk.Cursor CreateCursor ();
-		*/
+	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
+	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
+	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
+	virtual wxCursor createCursor()=0;
 	virtual int getIndex() { return index; };
 	virtual void setIndex(int indx) { index=indx; };
 protected:

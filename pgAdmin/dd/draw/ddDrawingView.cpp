@@ -127,6 +127,9 @@ ddIteratorBase* ddDrawingView::selectionFigures(){
 	return selection->createIterator();
 }
 
+ddDrawing* ddDrawingView::getDrawing(){
+	return drawing;
+}
 
 /*
 

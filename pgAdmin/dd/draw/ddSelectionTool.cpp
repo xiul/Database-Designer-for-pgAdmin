@@ -21,9 +21,16 @@
 #include "dd/draw/ddSelectionTool.h"
 #include "dd/draw/ddDrawingView.h"
 #include "dd/draw/ddDrawingEditor.h"
+#include "dd/draw/ddHandleTrackerTool.h"
+#include "dd/draw/ddDragTrackerTool.h"
+
+
+class ddDrawingView;
+class ddDrawingEditor;
 
 ddSelectionTool::ddSelectionTool(ddDrawingEditor *owner):
 ddAbstractTool(owner){
+	_delegateTool=NULL;
 }
 
 ddSelectionTool::~ddSelectionTool(){
@@ -31,28 +38,27 @@ ddSelectionTool::~ddSelectionTool(){
 
 void ddSelectionTool::mouseDown(wxMouseEvent& event){
 	ddITool::mouseDown(event);
-	
+
 	ddDrawingView *view=getDrawingEditor()->view();
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 
 	ddIHandle *handle = view->findHandle(x,y);
 	if(handle){
-		//DD-TODO: finish this after finish ddHandleTrackerTool
-		//delegateTool = new ddHandleTrackerTool(owner,handle);
+		setDelegateTool(new ddHandleTrackerTool(ownerEditor,handle));
 	}
-	/* DD-TODO: selection and createfiguretool
-			if (handle != null) {
-				DelegateTool = new HandleTracker (Editor, handle);
-			}
-			else {
-				IFigure figure = view.Drawing.FindFigure (ev.X, ev.Y);
-				if (figure != null) {
-					DelegateTool = figure.CreateFigureTool (Editor, new DragTracker (Editor, figure));
-				} else {
-					DelegateTool = new SelectAreaTracker (Editor);
-				}
-			}
-	*/
+	else
+	{
+		ddIFigure *figure = view->getDrawing()->findFigure(x,y);
+		if(figure)
+		{
+			setDelegateTool(figure->CreateFigureTool(ownerEditor,new ddDragTrackerTool(getDrawingEditor(),figure)));
+		}
+		else
+		{
+			//DD-TODO: implement select tracker area
+		}
+	}
+
 	ddITool *delegateTool = getDelegateTool();
 	if (delegateTool) { 
 			delegateTool->mouseDown(event);
@@ -60,20 +66,55 @@ void ddSelectionTool::mouseDown(wxMouseEvent& event){
 }
 
 void ddSelectionTool::mouseUp(wxMouseEvent& event){
+	ddITool *delegateTool = getDelegateTool();
+	if (delegateTool) { 
+			delegateTool->mouseUp(event);
+	}
 }
 
 void ddSelectionTool::mouseMove(wxMouseEvent& event){
+	
+	ddDrawingView *view=getDrawingEditor()->view();
+	int x=event.GetPosition().x, y=event.GetPosition().y;
+	ddIHandle *handle = view->findHandle(x,y);
+
+	if(handle){
+		//DD-TODO: widget.GdkWindow.Cursor = handle.CreateCursor ();
+	}
+	else
+	{
+		ddIFigure *figure = view->getDrawing()->findFigure(x,y);
+		if(figure)
+		{
+			//DD-TODO: widget.GdkWindow.Cursor = CursorFactory.GetCursorFromType (Gdk.CursorType.Fleur);
+		}
+		else
+		{
+			//DD-TODO: widget.GdkWindow.Cursor = null;
+		}
+	}
 }
 
 void ddSelectionTool::mouseDrag(wxMouseEvent& event){
+	ddITool *delegateTool = getDelegateTool();
+	if (delegateTool) { 
+			delegateTool->mouseDrag(event);
+	}
 }
 
 void ddSelectionTool::keyDown(wxKeyEvent& event){
-	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
+	if(getDelegateTool()){
+		getDelegateTool()->keyDown(event);
+	}
+
+	//DD-TODO: if (ev.Key == Gdk.Key.Delete) call deleteFigures
 }
 
 void ddSelectionTool::keyUp(wxKeyEvent& event)
 {
+	if(getDelegateTool()){
+		getDelegateTool()->keyUp(event);
+	}
 }
 
 void ddSelectionTool::setDelegateTool(ddITool *tool){

@@ -13,8 +13,8 @@
 #define DDIDRAWINGVIEW_H
 
 #include "dd/draw/ddIFigure.h"
-#include "dd/draw/ddIHandle.h"
 #include "dd/draw/ddDrawing.h"
+#include "dd/draw/ddIHandle.h"
 
 // Create Array Objects used as base for gqbCollections
 class ddDrawingView : public wxScrolledWindow
@@ -33,6 +33,7 @@ public:
 	virtual void ScrollToMakeVisible(wxPoint p);
 	virtual void ScrollToMakeVisible (ddRect r);
 	virtual ddIHandle* findHandle(double x, double y);
+	virtual ddDrawing* getDrawing();
 	virtual bool isFigureSelected(ddIFigure *figure);
 	void onPaint(wxPaintEvent& event);
 	virtual ddIteratorBase* selectionFigures();

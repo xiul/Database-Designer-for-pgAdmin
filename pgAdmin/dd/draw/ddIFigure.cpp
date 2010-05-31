@@ -21,7 +21,7 @@
 #include "dd/draw/ddIFigure.h"
 #include "dd/draw/ddIHandle.h"
 #include "dd/draw/ddArrayCollection.h"
-
+#include "dd/draw/ddITool.h"
 
 
 
@@ -33,7 +33,7 @@ ddIFigure::~ddIFigure(){
 
 }
 
-bool ddIFigure::containsPoint (wxPoint point){
+bool ddIFigure::containsPoint (int x, int y){
 	return false;
 }
 
@@ -81,8 +81,8 @@ void ddIFigure::moveBy (int x, int y){
 void ddIFigure::moveTo(int x, int y){
 }
 
-bool ddIFigure::containsPoint(int x, int y){
-	return false;
+ddITool* ddIFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool){
+	return defaultTool;
 }
 
 /*
