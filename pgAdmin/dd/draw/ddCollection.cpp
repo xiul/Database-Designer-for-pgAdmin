@@ -46,12 +46,16 @@ void ddCollection::removeItem(ddObject *item)
 
 ddIteratorBase* ddCollection::createIterator()
 {
-    return collection->createIterator();
+    if(collection)
+		return collection->createIterator();
+	return NULL;
 }
 
 ddIteratorBase* ddCollection::createDownIterator()
 {
-    return collection->createDownIterator();
+    if(collection)
+		return collection->createDownIterator();
+	return NULL;
 }
 
 

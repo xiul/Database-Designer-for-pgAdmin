@@ -20,7 +20,7 @@
 class ddDrawingView : public wxScrolledWindow
 {
 public:
-	ddDrawingView(wxWindow *ddParent, wxSize size, ddDrawing *drawing);
+	ddDrawingView(wxWindow *ddParent, ddDrawingEditor *editor ,wxSize size, ddDrawing *drawing);
 	~ddDrawingView();
 	virtual void add(ddIFigure *figure);
 	virtual void remove(ddIFigure *figure);
@@ -39,6 +39,12 @@ public:
 	virtual ddIteratorBase* selectionFigures();
 	wxSize canvasSize;
 
+	virtual void onDoubleClick(wxMouseEvent& event);
+	virtual void onRightClick(wxMouseEvent& event);
+	virtual void onMotion(wxMouseEvent& event);
+	virtual void OnKeyDown(wxKeyEvent& event);
+
+
 	/*
 	virtual wxPoint drawingToView(double x, double y);
 	virtual wxPoint viewToDrawing(double x, double y);
@@ -54,6 +60,7 @@ private:
 	DECLARE_EVENT_TABLE()
 	ddCollection *selection;
 	ddDrawing *drawing;
+	ddDrawingEditor *drawingEditor;
 
 };
 #endif

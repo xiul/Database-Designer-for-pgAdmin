@@ -24,6 +24,7 @@ public:
     ~ddDrawingEditor();
 	ddDrawingView* view();
 	ddITool* tool();
+	void setTool(ddITool* tool);
 
 protected:
 

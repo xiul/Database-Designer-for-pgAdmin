@@ -10,6 +10,7 @@
 // Designer headers
 #include "dd/draw/ddAbstractFigure.h"
 #include "dd/draw/ddDrawingEditor.h"
+#include "dd/draw/ddSelectionTool.h"
 
 // Icons
 #include "images/sql-32.xpm"
@@ -29,7 +30,10 @@ END_EVENT_TABLE()
 	SetMinSize(wxSize(450,300));
 //	view = new ddDrawingView(this,wxSize(800,600),new ddDrawing());
 	editor = new ddDrawingEditor(this);
+	ddITool *tool = new ddSelectionTool(editor);
+	editor->setTool(tool);
 	editor->view()->add(new ddAbstractFigure());
+
 	//SetIcon(wxIcon(sql_32_xpm));
 }
 
