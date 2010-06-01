@@ -38,14 +38,16 @@ public:
 	void onPaint(wxPaintEvent& event);
 	void onEraseBackGround(wxEraseEvent& event);
 	virtual ddIteratorBase* selectionFigures();
-	wxSize canvasSize;
-
 	virtual void onMouseDown(wxMouseEvent& event);
 	virtual void onMouseUp(wxMouseEvent& event);
 	//virtual void onRightClick(wxMouseEvent& event);
 	virtual void onMotion(wxMouseEvent& event);
 	//virtual void OnKeyDown(wxKeyEvent& event);
-
+	wxSize canvasSize;
+	
+	//Hack to avoid selection rectangle drawing bug
+	void setSelRect(ddRect& selectionRect);
+	void disableSelRectDraw();
 
 	/*
 	virtual wxPoint drawingToView(double x, double y);
@@ -63,6 +65,11 @@ private:
 	ddCollection *selection;
 	ddDrawing *drawing;
 	ddDrawingEditor *drawingEditor;
+
+	//Hack to avoid selection rectangle drawing bug
+	ddRect selRect;  
+	wxPoint selPoints[5];
+	bool drawSelRect;
 
 };
 #endif

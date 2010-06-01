@@ -87,6 +87,7 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 	canvasSize=size;
 	SetVirtualSizeHints(size);
 	selection =  new ddCollection(new ddArrayCollection());
+	drawSelRect = false;
 }
 
 ddDrawingView::~ddDrawingView()
@@ -99,7 +100,6 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 {
 	wxPaintDC dcc(this);                          // Prepare Context for Buffered Draw
     wxBufferedDC dc(&dcc, canvasSize);
-	//dc.DrawRectangle(wxRect(wxPoint(5,5), wxSize(100,100)));
 	dc.Clear();
 	ddIFigure *toDraw;
 	ddIteratorBase *iterator=drawing->figuresEnumerator();
@@ -107,7 +107,39 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 		 toDraw=(ddIFigure *)iterator->Next();
 		 toDraw->draw(dc);
 	}
+	
+	
+	if( drawSelRect ){  //Hack to avoid selection rectangle drawing bug
+		wxPen* pen = wxThePenList->FindOrCreatePen(*wxRED, 1, wxDOT);
+		dc.SetPen(*pen);
+		wxBrush* brush = wxTheBrushList->FindOrCreateBrush(*wxRED,wxTRANSPARENT);
+		dc.SetBackground(*brush);
+		dc.SetBackgroundMode(wxTRANSPARENT);	
+		dc.DrawLines(5, selPoints, 0, 0);
+		drawSelRect = false;
+	}
+}
 
+
+//Hack to avoid selection rectangle drawing bug
+void ddDrawingView::disableSelRectDraw(){
+	drawSelRect = false;
+}
+
+//Hack to avoid selection rectangle drawing bug
+void ddDrawingView::setSelRect(ddRect& selectionRect){
+	//Create rectangle lines to avoid non transparent brush for filling bug in wxwidgets
+	selPoints[0].x=selectionRect.x;
+	selPoints[0].y=selectionRect.y;
+	selPoints[1].x=selectionRect.x+selectionRect.width;
+	selPoints[1].y=selectionRect.y;
+	selPoints[2].x=selectionRect.x+selectionRect.width;
+	selPoints[2].y=selectionRect.y+selectionRect.height;
+	selPoints[3].x=selectionRect.x;
+	selPoints[3].y=selectionRect.y+selectionRect.height;
+	selPoints[4].x=selectionRect.x;
+	selPoints[4].y=selectionRect.y;
+	drawSelRect = true;
 }
 
 // Overwrite and disable onEraseBackground Event to avoid Flicker
@@ -202,14 +234,17 @@ void ddDrawingView::onMotion(wxMouseEvent& event)
 	{
 		drawingEditor->tool()->mouseMove(event);
 	}
+	this->Refresh();
 }
 
 void ddDrawingView::onMouseDown(wxMouseEvent& event){
 	drawingEditor->tool()->mouseDown(event);
+	this->Refresh();
 }
 
 void ddDrawingView::onMouseUp(wxMouseEvent& event){
 	drawingEditor->tool()->mouseUp(event);
+	this->Refresh();
 }
 
 
