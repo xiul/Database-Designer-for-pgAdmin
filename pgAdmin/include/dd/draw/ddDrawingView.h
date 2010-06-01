@@ -36,6 +36,7 @@ public:
 	virtual ddDrawing* getDrawing();
 	virtual bool isFigureSelected(ddIFigure *figure);
 	void onPaint(wxPaintEvent& event);
+	void onEraseBackGround(wxEraseEvent& event);
 	virtual ddIteratorBase* selectionFigures();
 	wxSize canvasSize;
 

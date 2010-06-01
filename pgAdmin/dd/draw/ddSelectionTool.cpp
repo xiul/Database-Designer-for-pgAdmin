@@ -23,6 +23,7 @@
 #include "dd/draw/ddDrawingEditor.h"
 #include "dd/draw/ddHandleTrackerTool.h"
 #include "dd/draw/ddDragTrackerTool.h"
+#include "dd/draw/ddSelectAreaTool.h"
 
 
 class ddDrawingView;
@@ -55,7 +56,7 @@ void ddSelectionTool::mouseDown(wxMouseEvent& event){
 		}
 		else
 		{
-			//DD-TODO: implement select tracker area
+			setDelegateTool(new ddSelectAreaTool(ownerEditor));
 		}
 	}
 

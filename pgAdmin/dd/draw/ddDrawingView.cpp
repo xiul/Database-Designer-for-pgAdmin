@@ -27,6 +27,7 @@ EVT_PAINT(ddDrawingView::onPaint)
 EVT_MOTION(ddDrawingView::onMotion)
 EVT_LEFT_DOWN(ddDrawingView::onMouseDown)
 EVT_LEFT_UP(ddDrawingView::onMouseUp)
+EVT_ERASE_BACKGROUND(gqbView::onEraseBackGround)  //This erase flicker
 END_EVENT_TABLE()
 
 /*
@@ -96,9 +97,10 @@ ddDrawingView::~ddDrawingView()
 
 void ddDrawingView::onPaint(wxPaintEvent& event)
 {
-    wxPaintDC dcc(this);                          // Prepare Context for Buffered Draw
+	wxPaintDC dcc(this);                          // Prepare Context for Buffered Draw
     wxBufferedDC dc(&dcc, canvasSize);
 	//dc.DrawRectangle(wxRect(wxPoint(5,5), wxSize(100,100)));
+	dc.Clear();
 	ddIFigure *toDraw;
 	ddIteratorBase *iterator=drawing->figuresEnumerator();
 	while(iterator->HasNext()){
@@ -106,6 +108,11 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 		 toDraw->draw(dc);
 	}
 
+}
+
+// Overwrite and disable onEraseBackground Event to avoid Flicker
+void ddDrawingView::onEraseBackGround(wxEraseEvent& event)
+{
 }
 
 void ddDrawingView::add(ddIFigure *figure){

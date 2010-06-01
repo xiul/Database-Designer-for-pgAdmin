@@ -3679,6 +3679,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\include\dd\draw\ddSelectAreaTool.h"
+						>
+					</File>
+					<File
 						RelativePath=".\include\dd\draw\ddSelectionTool.h"
 						>
 					</File>
@@ -5129,6 +5133,10 @@
 				</File>
 				<File
 					RelativePath=".\dd\draw\ddRect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\dd\draw\ddSelectAreaTool.cpp"
 					>
 				</File>
 				<File

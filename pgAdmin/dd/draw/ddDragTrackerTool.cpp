@@ -69,6 +69,7 @@ void ddDragTrackerTool::mouseDrag(wxMouseEvent& event){
 				}
 			}
 			setLastCoords (x, y);
+			view->Refresh(); //666
 }
 
 bool ddDragTrackerTool::hasMoved(){

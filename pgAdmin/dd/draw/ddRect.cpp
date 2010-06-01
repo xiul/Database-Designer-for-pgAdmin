@@ -20,7 +20,14 @@
 #include "dd/draw/ddRect.h"
 
 ddRect::ddRect(){
+}
 
+ddRect::ddRect(int xx, int yy, int ww, int hh):
+wxRect(xx,yy,ww,hh){
+}
+
+ddRect::ddRect(wxPoint topLeft, wxPoint bottomRight):
+wxRect(topLeft, bottomRight){
 }
 
 void ddRect::add (ddRect *newRect) {
