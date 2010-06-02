@@ -32,7 +32,6 @@ public:
 protected:
 	ddITool *_delegateTool;
 private:
-	
 	void deleteFigures(ddDrawingView *view);
 };
 #endif

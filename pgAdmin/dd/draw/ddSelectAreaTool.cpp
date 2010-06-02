@@ -57,14 +57,27 @@ void ddSelectAreaTool::mouseDrag(wxMouseEvent& event){
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	selectionRect.x=anchorX;
 	selectionRect.y=anchorY;
-	//selectionRect.width=abs(anchorX-x);
-	//selectionRect.height=(anchorY-y);
 	selectionRect.SetBottomRight(wxPoint(x,y));
 	drawSelectionRect();
 }
 
 void ddSelectAreaTool::selectFiguresOnRect(bool shiftPressed){
-	//DD-TODO: implement this function
+	ddIFigure *figure;
+	ddIteratorBase *iterator = getDrawingEditor()->model()->figuresInverseEnumerator();
+	while(iterator->HasNext())
+	{
+		figure=(ddIFigure *)iterator->Next();
+		if(selectionRect.Contains(figure->displayBox())){
+			if(shiftPressed){
+				view->toggleSelection(figure);
+			}
+			else
+			{
+				view->addToSelection(figure);
+			}
+		}
+	}
+
 }
 
 void ddSelectAreaTool::drawSelectionRect(){

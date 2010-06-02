@@ -88,11 +88,12 @@ void ddSelectionTool::mouseMove(wxMouseEvent& event){
 		ddIFigure *figure = view->getDrawing()->findFigure(x,y);
 		if(figure)
 		{
-			//DD-TODO: widget.GdkWindow.Cursor = CursorFactory.GetCursorFromType (Gdk.CursorType.Fleur);
+			//DD-TODO: change cursor for a nice one
+			view->SetCursor(wxCursor(wxCURSOR_HAND));
 		}
 		else
 		{
-			//DD-TODO: widget.GdkWindow.Cursor = null;
+			view->SetCursor(wxCursor(wxCURSOR_ARROW));
 		}
 	}
 }
@@ -109,7 +110,9 @@ void ddSelectionTool::keyDown(wxKeyEvent& event){
 	if(getDelegateTool()){
 		getDelegateTool()->keyDown(event);
 	}
-	//DD-TODO: if (ev.Key == Gdk.Key.Delete) call deleteFigures
+	if(event.GetKeyCode() == WXK_DELETE){
+		deleteFigures(getDrawingEditor()->view());
+	}
 }
 
 void ddSelectionTool::keyUp(wxKeyEvent& event)

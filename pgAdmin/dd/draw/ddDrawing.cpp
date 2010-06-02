@@ -57,9 +57,10 @@ void ddDrawing::remove(ddIFigure *figure){
 	virtual void draw(wxBufferedDC& context)=0;
 	*/
 
-bool ddDrawing::includes(ddIFigure figure){
-	//DD-TODO: add composite figures functionality
-	return true;
+bool ddDrawing::includes(ddIFigure *figure){
+	if(figures)
+		return figures->existsObject(figure);
+	return false;
 }
 
 ddIFigure* ddDrawing::findFigure(int x, int y){
@@ -116,7 +117,12 @@ ddRect& ddDrawing::DisplayBox(){
 }
 
 ddIteratorBase* ddDrawing::figuresEnumerator(){
-return figures->createIterator();
+	return figures->createIterator();
+}
+
+
+ddIteratorBase* ddDrawing::figuresInverseEnumerator(){
+	return figures->createDownIterator();
 }
 
 //DD-TODO: need to do this delete to handles too?

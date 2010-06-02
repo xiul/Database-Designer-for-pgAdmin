@@ -34,6 +34,11 @@ ddDrawingView* ddDrawingEditor::view(){
 	return _view;
 }
 
+ddDrawing* ddDrawingEditor::model(){
+	return _model;
+}
+
+
 ddITool* ddDrawingEditor::tool(){
 	return _tool;
 }

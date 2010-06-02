@@ -42,9 +42,11 @@ void ddDragTrackerTool::mouseDown(wxMouseEvent& event){
 
 	setLastCoords(x,y);
 
-	//TODO: shift pressed and toggle selection
-
-	if(!view->isFigureSelected(anchorFigure)){
+	if(event.m_shiftDown){
+			view->toggleSelection(anchorFigure);
+	}
+	else if(!view->isFigureSelected(anchorFigure))
+	{
 		view->clearSelection();
 		view->addToSelection(anchorFigure);
 	}
@@ -52,7 +54,6 @@ void ddDragTrackerTool::mouseDown(wxMouseEvent& event){
 
 void ddDragTrackerTool::mouseUp(wxMouseEvent& event){
 	ddAbstractTool::mouseUp(event);
-	//DD-TODO: need this?
 }
 
 void ddDragTrackerTool::mouseDrag(wxMouseEvent& event){
@@ -76,43 +77,3 @@ void ddDragTrackerTool::mouseDrag(wxMouseEvent& event){
 bool ddDragTrackerTool::hasMoved(){
 	return hasMovedValue;
 }
-
-/*
-ddAbstractTool::ddAbstractTool(ddDrawingEditor *editor){
-	anchorX=0;
-	anchorY=0;
-	ownerEditor=editor;
-}
-
-ddAbstractTool::~ddAbstractTool(){
-}
-
-void ddAbstractTool::mouseDown(wxMouseEvent& event){
-}
-
-void ddAbstractTool::mouseUp(wxMouseEvent& event){
-}
-
-void ddAbstractTool::mouseMove(wxMouseEvent& event){
-}
-
-void ddAbstractTool::mouseDrag(wxMouseEvent& event){
-}
-
-void ddAbstractTool::keyDown(wxKeyEvent& event){
-	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
-}
-
-void ddAbstractTool::keyUp(wxKeyEvent& event)
-{
-}
-
-void ddAbstractTool::setAnchorCoords(int x, int y){
-	anchorX=x;
-	anchorY=y;
-}
-
-ddDrawingEditor* ddAbstractTool::getDrawingEditor(){
-	return ownerEditor;
-}
-*/

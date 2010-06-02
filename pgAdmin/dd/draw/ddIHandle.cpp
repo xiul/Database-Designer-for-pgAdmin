@@ -20,26 +20,4 @@
 #include "dd/draw/ddIHandle.h"
 
 
-// Overwrite and disable onEraseBackground Event to avoid Flicker
-
-/*
-		#region Properties
-		
-		IFigure Owner { get; }
-		RectangleD DisplayBox { get; }
-		double LineWidth { get; set; }
-		Cairo.Color FillColor { get; set; }
-		Cairo.Color LineColor { get; set; }
-		
-		#endregion
-		
-		#region Methods
-
-		bool ContainsPoint (double x, double y);
-		void Draw (Context context);
-		PointD Locate ();
-		void InvokeStart (double x, double y, IDrawingView view);
-		void InvokeStep (double x, double y, IDrawingView view);
-		void InvokeEnd (double x, double y, IDrawingView view);
-		Gdk.Cursor CreateCursor ();
-*/
+//Al methods and properties at ddIHandle.h

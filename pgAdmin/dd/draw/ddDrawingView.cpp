@@ -169,8 +169,10 @@ void ddDrawingView::addToSelection(ddIFigure *figure){
 	if(!selection){
 		selection = new ddCollection(new ddArrayCollection());
 	}
-	figure->setSelected(true);
-	selection->addItem(figure);	
+	if(figure){
+		figure->setSelected(true);
+		selection->addItem(figure);	
+	}
 }
 
 void ddDrawingView::addToSelection(ddCollection *figures){
@@ -183,11 +185,27 @@ void ddDrawingView::removeFromSelection(ddIFigure *figure){
 	}
 }
 
+
 void ddDrawingView::toggleSelection(ddIFigure *figure){
+	if(figure->isSelected() &&	selection->existsObject(figure)){
+		selection->removeItem(figure);
+	}
+	else if(!figure->isSelected() && drawing->includes(figure))
+	{
+		selection->addItem(figure);
+	}
+	
+	figure->setSelected(!figure->isSelected());
 }
 
 void ddDrawingView::clearSelection(){
-	selection->removeAll();
+	ddIFigure *tmp=NULL;
+	ddIteratorBase *iterator=selection->createIterator();
+	while(iterator->HasNext()){
+		 tmp=(ddIFigure *)iterator->Next();
+		 tmp->setSelected(false);
+		 }
+	selection->removeAll(); 
 }
 
 void ddDrawingView::ScrollToMakeVisible(wxPoint p){

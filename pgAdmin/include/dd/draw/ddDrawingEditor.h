@@ -23,6 +23,7 @@ public:
 	ddDrawingEditor(pgFrame *owner);
     ~ddDrawingEditor();
 	ddDrawingView* view();
+	ddDrawing* model();
 	ddITool* tool();
 	void setTool(ddITool* tool);
 

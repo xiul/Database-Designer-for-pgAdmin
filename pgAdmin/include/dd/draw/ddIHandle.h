@@ -30,15 +30,12 @@ public:
 	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
 	virtual wxCursor createCursor()=0;
-	virtual int getIndex() { return index; };
-	virtual void setIndex(int indx) { index=indx; };
 protected:
 
 private:
 	ddObject figureOwner; //DD-TODO: change for IFigure but avoid circular reference
 	ddRect displayBox;
 	double lineWidth;
-	int index;
 	//DD-TODO: Add	fillColor and addColor
 
 
