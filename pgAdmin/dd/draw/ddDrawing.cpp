@@ -77,8 +77,6 @@ ddIFigure* ddDrawing::findFigure(int x, int y){
 
 void ddDrawing::recalculateDisplayBox(){
 	//DD-TODO: do it
-	if(displayBox)
-		delete displayBox;
 	
 	//displayBox = new ddRect();
 	bool first=true;
@@ -90,12 +88,12 @@ void ddDrawing::recalculateDisplayBox(){
 		figure=(ddIFigure *)iterator->Next();
 		if(first)
 		{
-			displayBox=figure->DisplayBox();
+			displayBox=figure->displayBox();
 			first=false;
 		}
 		else
 		{
-			displayBox->add(figure->DisplayBox());
+			displayBox.add(figure->displayBox());
 		}
 	}
 			/*
@@ -113,7 +111,7 @@ void ddDrawing::sendToBack(ddIFigure figure){
 }
 
 
-ddRect* ddDrawing::DisplayBox(){
+ddRect& ddDrawing::DisplayBox(){
 	return displayBox;
 }
 
@@ -121,3 +119,7 @@ ddIteratorBase* ddDrawing::figuresEnumerator(){
 return figures->createIterator();
 }
 
+//DD-TODO: need to do this delete to handles too?
+void ddDrawing::deleteFigures(){
+	figures->deleteAll();
+}

@@ -31,8 +31,6 @@ ddSelectAreaTool::ddSelectAreaTool(ddDrawingEditor *editor)
 ddSelectAreaTool::~ddSelectAreaTool(){
 }
 
-//DD-TODO: avoid memory leaks with all that new
-
 void ddSelectAreaTool::mouseDown(wxMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
 	if(!event.ShiftDown()){
@@ -47,20 +45,21 @@ void ddSelectAreaTool::mouseDown(wxMouseEvent& event){
 }
 
 void ddSelectAreaTool::mouseUp(wxMouseEvent& event){
+	ddAbstractTool::mouseUp(event);
 	drawSelectionRect();
 	selectFiguresOnRect(event.ShiftDown());
 	view->disableSelRectDraw();
 }
 
 void ddSelectAreaTool::mouseDrag(wxMouseEvent& event){
+	ddAbstractTool::mouseDrag(event);
 	drawSelectionRect();
 	int x=event.GetPosition().x, y=event.GetPosition().y;
-	//DD-TODO: anchors always in 0
-	//selectionRect = new ddRect(wxPoint(anchorX,anchorY),wxPoint(x,y));
 	selectionRect.x=anchorX;
 	selectionRect.y=anchorY;
-	selectionRect.width=x;
-	selectionRect.height=y;
+	//selectionRect.width=abs(anchorX-x);
+	//selectionRect.height=(anchorY-y);
+	selectionRect.SetBottomRight(wxPoint(x,y));
 	drawSelectionRect();
 }
 

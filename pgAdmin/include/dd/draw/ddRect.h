@@ -19,7 +19,7 @@ public:
 	ddRect();
 	ddRect(int xx, int yy, int ww, int hh);
 	ddRect(wxPoint topLeft, wxPoint bottomRight);
-	void add (ddRect *newRect);
+	void add (ddRect& newRect);
 protected:
 
 private:

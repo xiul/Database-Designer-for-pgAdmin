@@ -30,6 +30,7 @@ ddAbstractTool::~ddAbstractTool(){
 }
 
 void ddAbstractTool::mouseDown(wxMouseEvent& event){
+	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
 }
 
 void ddAbstractTool::mouseUp(wxMouseEvent& event){

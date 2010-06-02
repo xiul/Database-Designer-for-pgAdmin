@@ -51,10 +51,12 @@ void ddDragTrackerTool::mouseDown(wxMouseEvent& event){
 }
 
 void ddDragTrackerTool::mouseUp(wxMouseEvent& event){
+	ddAbstractTool::mouseUp(event);
 	//DD-TODO: need this?
 }
 
 void ddDragTrackerTool::mouseDrag(wxMouseEvent& event){
+	ddAbstractTool::mouseDrag(event);
 	int x=event.GetPosition().x, y=event.GetPosition().y;	
 
 	hasMovedValue = (abs (x - anchorX) > 4 || abs (y - anchorX) > 4);

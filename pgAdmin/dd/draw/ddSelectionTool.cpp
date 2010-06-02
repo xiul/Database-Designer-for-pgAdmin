@@ -67,6 +67,7 @@ void ddSelectionTool::mouseDown(wxMouseEvent& event){
 }
 
 void ddSelectionTool::mouseUp(wxMouseEvent& event){
+	ddAbstractTool::mouseUp(event);
 	ddITool *delegateTool = getDelegateTool();
 	if (delegateTool) { 
 			delegateTool->mouseUp(event);
@@ -74,7 +75,7 @@ void ddSelectionTool::mouseUp(wxMouseEvent& event){
 }
 
 void ddSelectionTool::mouseMove(wxMouseEvent& event){
-	
+	ddAbstractTool::mouseMove(event);
 	ddDrawingView *view=getDrawingEditor()->view();
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	ddIHandle *handle = view->findHandle(x,y);
@@ -97,6 +98,7 @@ void ddSelectionTool::mouseMove(wxMouseEvent& event){
 }
 
 void ddSelectionTool::mouseDrag(wxMouseEvent& event){
+	ddAbstractTool::mouseDrag(event);
 	ddITool *delegateTool = getDelegateTool();
 	if (delegateTool) { 
 			delegateTool->mouseDrag(event);
@@ -107,7 +109,6 @@ void ddSelectionTool::keyDown(wxKeyEvent& event){
 	if(getDelegateTool()){
 		getDelegateTool()->keyDown(event);
 	}
-
 	//DD-TODO: if (ev.Key == Gdk.Key.Delete) call deleteFigures
 }
 
@@ -134,5 +135,6 @@ ddITool* ddSelectionTool::getDelegateTool(){
 }
 
 void ddSelectionTool::deleteFigures(ddDrawingView *view){
-//DD-TODO: implement this
+	view->clearSelection();
+	view->getDrawing()->deleteFigures();
 }

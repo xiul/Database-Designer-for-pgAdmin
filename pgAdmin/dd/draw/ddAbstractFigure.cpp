@@ -24,9 +24,7 @@
 #include "dd/draw/ddArrayCollection.h"
 
 ddAbstractFigure::ddAbstractFigure(){
-	displayBox.SetPosition(wxPoint(5,5));
-	displayBox.width=100;
-	displayBox.height=100;
+
 }
 
 ddAbstractFigure::~ddAbstractFigure(){
@@ -49,7 +47,7 @@ void ddAbstractFigure::draw(wxBufferedDC& context){
 void ddAbstractFigure::basicDraw(wxBufferedDC& context){
 	context.SetPen(*wxGREEN_PEN);
 	context.SetBrush(wxBrush (wxColour(208, 208, 208),wxSOLID));
-	context.DrawRectangle(displayBox);
+	context.DrawRectangle(baseDisplayBox);
 }
 
 void ddAbstractFigure::drawSelected(wxBufferedDC& context){
@@ -57,6 +55,9 @@ void ddAbstractFigure::drawSelected(wxBufferedDC& context){
 }
 
 void ddAbstractFigure::basicDrawSelected(wxBufferedDC& context){
+	context.SetPen(*wxRED_PEN);
+	context.SetBrush(wxBrush (wxColour(133, 133, 133),wxSOLID));
+	context.DrawRectangle(baseDisplayBox);
 }
 
 
@@ -67,19 +68,19 @@ return *defaultTool;
 
 void ddAbstractFigure::moveBy(int x, int y){
 	willChange();
-		ddRect r = displayBox;
+		ddRect r = baseDisplayBox;
 		r.x += x;
 		r.y += y;
-		displayBox = r;
+		baseDisplayBox = r;
 	changed();
 }
 
 
 void ddAbstractFigure::moveTo(int x, int y){
-		ddRect r = displayBox;
+		ddRect r = baseDisplayBox;
 		r.x = x;
 		r.y = y;
-		displayBox = r;
+		baseDisplayBox = r;
 }
 
 void ddAbstractFigure::willChange(){
@@ -95,7 +96,7 @@ void ddAbstractFigure::invalidate(){
 }
 
 bool ddAbstractFigure::containsPoint(int x, int y){
-	return displayBox.Contains(x,y);
+	return baseDisplayBox.Contains(x,y);
 }
 
 

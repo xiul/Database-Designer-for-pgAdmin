@@ -39,8 +39,5 @@ protected:
 	int anchorX, anchorY;
 private:
 
-	
-
-
 };
 #endif

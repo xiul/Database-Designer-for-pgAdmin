@@ -30,11 +30,11 @@ ddRect::ddRect(wxPoint topLeft, wxPoint bottomRight):
 wxRect(topLeft, bottomRight){
 }
 
-void ddRect::add (ddRect *newRect) {
-	int x1 = min(this->x,newRect->x);
-	int x2 = max(this->x+this->width,newRect->x);
-	int y1 = min(this->y,newRect->y);
-	int y2 = max(this->y+this->height,newRect->y);
+void ddRect::add (ddRect& newRect) {
+	int x1 = min(this->x,newRect.x);
+	int x2 = max(this->x+this->width,newRect.x);
+	int y1 = min(this->y,newRect.y);
+	int y2 = max(this->y+this->height,newRect.y);
 
 	this->SetX(x1);
 	this->SetWidth(x2-x1);

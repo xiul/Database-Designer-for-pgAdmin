@@ -30,8 +30,9 @@ public:
 	virtual void recalculateDisplayBox();
 	virtual void bringToFront(ddIFigure figure);
 	virtual void sendToBack(ddIFigure figure);
-	virtual ddRect* DisplayBox();
+	virtual ddRect& DisplayBox();
 	virtual ddIteratorBase* figuresEnumerator();
+	virtual void deleteFigures();
 
 /* DD-TODO: agregar estos manejadores de eventos
 		event EventHandler <DrawingEventArgs> DrawingInvalidated;
@@ -43,7 +44,7 @@ protected:
 private:
 	ddCollection *figures;
 	ddCollection *handles;
-	ddRect *displayBox;
+	ddRect displayBox;
 	//DD-TODO: inicializasr listas
 
 };

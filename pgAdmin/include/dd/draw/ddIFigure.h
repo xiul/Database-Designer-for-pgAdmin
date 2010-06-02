@@ -27,7 +27,7 @@ public:
 	ddIFigure();
     ~ddIFigure();
 
-	virtual ddRect* DisplayBox() {return new ddRect();};
+	virtual ddRect& displayBox();
 	virtual void draw (wxBufferedDC& context);
 	virtual void drawSelected (wxBufferedDC& context);
 	virtual ddCollection* handlesEnumerator();
@@ -38,6 +38,9 @@ public:
 	virtual void moveBy(int x, int y);
 	virtual void moveTo(int x, int y);
 	virtual bool containsPoint(int x, int y);
+	virtual bool isSelected();
+	virtual void setSelected(bool value);
+	
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 	/*
 		virtual void AddDependentFigure (ddIFigure figure);
@@ -65,11 +68,11 @@ public:
 
 */	
 protected:
-	ddRect displayBox;
+	ddRect baseDisplayBox;
 	ddCollection *figures;
 	ddCollection *handles;
 	ddCollection *dependentFigures;
 private:
-
+	bool selected;
 };
 #endif

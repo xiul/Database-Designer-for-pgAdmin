@@ -26,14 +26,20 @@
 
 
 ddIFigure::ddIFigure(){
-	figures=new ddCollection(new ddArrayCollection());;
-	handles=new ddCollection(new ddArrayCollection());;
-	dependentFigures=new ddCollection(new ddArrayCollection());;
+	figures=new ddCollection(new ddArrayCollection());
+	handles=new ddCollection(new ddArrayCollection());
+	dependentFigures=new ddCollection(new ddArrayCollection());
+	selected=false;
 	//DD-TODO: this should be initialize here
 }
 
 ddIFigure::~ddIFigure(){
 
+}
+
+
+ddRect& ddIFigure::displayBox() {
+	return baseDisplayBox;
 }
 
 bool ddIFigure::containsPoint (int x, int y){
@@ -86,6 +92,14 @@ void ddIFigure::moveTo(int x, int y){
 
 ddITool* ddIFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool){
 	return defaultTool;
+}
+
+bool ddIFigure::isSelected(){
+	return selected;
+}
+
+void ddIFigure::setSelected(bool value){
+	selected=value;
 }
 
 /*

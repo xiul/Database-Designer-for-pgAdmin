@@ -32,7 +32,20 @@ END_EVENT_TABLE()
 	editor = new ddDrawingEditor(this);
 	ddITool *tool = new ddSelectionTool(editor);
 	editor->setTool(tool);
-	editor->view()->add(new ddAbstractFigure());
+	ddAbstractFigure *f=new ddAbstractFigure();
+	f->displayBox().SetPosition(wxPoint(5,5));
+	f->displayBox().width=100;
+	f->displayBox().height=100;
+	f->setSelected(false);
+	editor->view()->add(f);
+
+	ddAbstractFigure *f2=new ddAbstractFigure();
+	f2->displayBox().SetPosition(wxPoint(50,50));
+	f2->displayBox().width=130;
+	f2->displayBox().height=130;
+	f2->setSelected(true);
+	editor->view()->add(f2);
+
 
 	//SetIcon(wxIcon(sql_32_xpm));
 }

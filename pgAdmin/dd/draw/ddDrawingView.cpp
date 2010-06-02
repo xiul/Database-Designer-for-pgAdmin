@@ -105,7 +105,11 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 	ddIteratorBase *iterator=drawing->figuresEnumerator();
 	while(iterator->HasNext()){
 		 toDraw=(ddIFigure *)iterator->Next();
-		 toDraw->draw(dc);
+		 if(toDraw->isSelected())
+			toDraw->drawSelected(dc);	
+		 else
+			toDraw->draw(dc);			
+		 
 	}
 	
 	
@@ -165,6 +169,7 @@ void ddDrawingView::addToSelection(ddIFigure *figure){
 	if(!selection){
 		selection = new ddCollection(new ddArrayCollection());
 	}
+	figure->setSelected(true);
 	selection->addItem(figure);	
 }
 
@@ -172,6 +177,7 @@ void ddDrawingView::addToSelection(ddCollection *figures){
 }
 
 void ddDrawingView::removeFromSelection(ddIFigure *figure){
+	figure->setSelected(false);
 	if(selection){
 		selection->removeItem(figure);		
 	}
