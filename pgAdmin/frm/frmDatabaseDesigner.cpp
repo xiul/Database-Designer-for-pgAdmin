@@ -8,10 +8,10 @@
 #include "ctl/ctlMenuToolbar.h"
 
 // Designer headers
-#include "dd/draw/ddAbstractFigure.h"
-#include "dd/draw/ddDrawingEditor.h"
-#include "dd/draw/ddSelectionTool.h"
-#include "dd/draw/ddDragCreationTool.h"
+#include "dd/draw/figures/ddAbstractFigure.h"
+#include "dd/draw/main/ddDrawingEditor.h"
+#include "dd/draw/tools/ddSelectionTool.h"
+#include "dd/draw/tools/ddDragCreationTool.h"
 
 // Icons
 #include "images/sql-32.xpm"

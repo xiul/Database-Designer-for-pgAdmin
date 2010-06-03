@@ -2,8 +2,8 @@
 #ifndef __FRM_DATABASEDESIGNER_H
 #define __FRM_DATABASEDESIGNER_H
 
-#include "dd/draw/ddDrawingView.h"
-#include "dd/draw/ddDrawingEditor.h"
+#include "dd/draw/main/ddDrawingView.h"
+#include "dd/draw/main/ddDrawingEditor.h"
 
 class frmDatabaseDesigner : public pgFrame
 {
