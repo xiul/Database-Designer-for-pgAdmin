@@ -112,7 +112,6 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 		 
 	}
 	
-	
 	if( drawSelRect ){  //Hack to avoid selection rectangle drawing bug
 		wxPen* pen = wxThePenList->FindOrCreatePen(*wxRED, 1, wxDOT);
 		dc.SetPen(*pen);

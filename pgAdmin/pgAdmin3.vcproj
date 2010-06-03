@@ -3629,6 +3629,10 @@
 							RelativePath=".\include\dd\draw\figures\ddIFigure.h"
 							>
 						</File>
+						<File
+							RelativePath=".\include\dd\draw\figures\ddPolyLineFigure.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="handles"
@@ -5120,6 +5124,10 @@
 					</File>
 					<File
 						RelativePath=".\dd\draw\figures\ddIFigure.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\figures\ddPolyLineFigure.cpp"
 						>
 					</File>
 				</Filter>
