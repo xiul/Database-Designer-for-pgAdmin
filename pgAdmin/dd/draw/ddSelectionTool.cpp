@@ -45,18 +45,18 @@ void ddSelectionTool::mouseDown(wxMouseEvent& event){
 
 	ddIHandle *handle = view->findHandle(x,y);
 	if(handle){
-		setDelegateTool(new ddHandleTrackerTool(ownerEditor,handle));
+		setDelegateTool(new ddHandleTrackerTool(getDrawingEditor(),handle));
 	}
 	else
 	{
 		ddIFigure *figure = view->getDrawing()->findFigure(x,y);
 		if(figure)
 		{
-			setDelegateTool(figure->CreateFigureTool(ownerEditor,new ddDragTrackerTool(getDrawingEditor(),figure)));
+			setDelegateTool(figure->CreateFigureTool(getDrawingEditor(),new ddDragTrackerTool(getDrawingEditor(),figure)));
 		}
 		else
 		{
-			setDelegateTool(new ddSelectAreaTool(ownerEditor));
+			setDelegateTool(new ddSelectAreaTool(getDrawingEditor()));
 		}
 	}
 

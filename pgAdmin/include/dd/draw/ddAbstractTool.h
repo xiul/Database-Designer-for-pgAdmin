@@ -34,10 +34,9 @@ public:
 	ddDrawingEditor* getDrawingEditor();
 
 protected:
-	ddDrawingEditor *ownerEditor;
-	ddDrawingView *view;
 	int anchorX, anchorY;
 private:
+	ddDrawingEditor *ownerEditor;
 
 };
 #endif

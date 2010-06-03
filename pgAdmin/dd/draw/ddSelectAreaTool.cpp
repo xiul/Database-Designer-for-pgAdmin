@@ -31,6 +31,7 @@ ddSelectAreaTool::ddSelectAreaTool(ddDrawingEditor *editor)
 ddSelectAreaTool::~ddSelectAreaTool(){
 }
 
+//DD-TODO: fix bug select good from left to righ but no from right to left
 void ddSelectAreaTool::mouseDown(wxMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
 	if(!event.ShiftDown()){

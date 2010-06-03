@@ -3639,6 +3639,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\include\dd\draw\ddCreationTool.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\dd\draw\ddDragCreationTool.h"
+						>
+					</File>
+					<File
 						RelativePath=".\include\dd\draw\ddDragTrackerTool.h"
 						>
 					</File>
@@ -5097,6 +5105,14 @@
 				</File>
 				<File
 					RelativePath=".\dd\draw\ddCollection.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\dd\draw\ddCreationTool.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\dd\draw\ddDragCreationTool.cpp"
 					>
 				</File>
 				<File

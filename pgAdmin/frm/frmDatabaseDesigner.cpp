@@ -11,6 +11,7 @@
 #include "dd/draw/ddAbstractFigure.h"
 #include "dd/draw/ddDrawingEditor.h"
 #include "dd/draw/ddSelectionTool.h"
+#include "dd/draw/ddDragCreationTool.h"
 
 // Icons
 #include "images/sql-32.xpm"
@@ -36,15 +37,22 @@ END_EVENT_TABLE()
 	f->displayBox().SetPosition(wxPoint(5,5));
 	f->displayBox().width=100;
 	f->displayBox().height=100;
-	f->setSelected(false);
+	//f->setSelected(false);
 	editor->view()->add(f);
 
 	ddAbstractFigure *f2=new ddAbstractFigure();
 	f2->displayBox().SetPosition(wxPoint(50,50));
 	f2->displayBox().width=130;
 	f2->displayBox().height=130;
-	f2->setSelected(true);
+	//f2->setSelected(true);
 	editor->view()->add(f2);
+
+	ddAbstractFigure *f3=new ddAbstractFigure();
+	f3->displayBox().width=65;
+	f3->displayBox().height=65;
+
+
+	editor->setTool(new ddDragCreationTool(editor,f3)); 
 
 
 	//SetIcon(wxIcon(sql_32_xpm));
