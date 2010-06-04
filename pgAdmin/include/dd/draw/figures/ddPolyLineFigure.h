@@ -12,22 +12,36 @@
 #ifndef DDPOLYLINEFIGURE_H
 #define DDPOLYLINEFIGURE_H
 
-#include "dd/draw/utilities/ddAbstracFigure.h"
+#include "dd/draw/figures/ddAbstractFigure.h"
+#include "dd/draw/utilities/ddArrayCollection.h"
+#include "dd/draw/figures/ddLineTerminal.h"
 
-/*
-class ddITool;			// HACK-FIX circular reference
-class ddDrawingEditor;
-*/
+//DD-TODO: Hack to allow use of ddArrayCollection class, should be fixed in a future
+class ddPoint : public wxPoint{
+};
 
 // Create Array Objects used as base for gqbCollections
-class ddPolyLineFigue : public ddAbstractFigure
+class ddPolyLineFigure : public ddAbstractFigure
 {
 public:
-	ddPolyLineFigue();
-    ~ddPolyLineFigue();
+	ddPolyLineFigure();
+    ~ddPolyLineFigure();
 
-/*	virtual ddRect& displayBox();
-	virtual void draw (wxBufferedDC& context);
+	virtual ddRect& basicDisplayBox();
+	virtual void basicDraw (wxBufferedDC& context);
+	virtual int pointCount();
+	virtual ddPoint* getStartPoint();
+	virtual void setStartPoint(ddPoint *point);
+	virtual ddPoint* getEndPoint();
+	virtual void setEndPoint(ddPoint *point);
+	virtual void setStartTerminal(ddLineTerminal *terminal);
+	virtual ddLineTerminal* getStartTerminal();
+	virtual void setEndTerminal(ddLineTerminal *terminal);
+	virtual ddLineTerminal* getEndTerminal();
+
+	virtual void addPoint (int x, int y);
+
+/*	
 	virtual void drawSelected (wxBufferedDC& context);
 	virtual ddCollection* handlesEnumerator();
 	virtual void addDependentFigure (ddIFigure *figure);
@@ -43,13 +57,10 @@ public:
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 */
 protected:
-/*	ddRect baseDisplayBox;
-	ddCollection *figures;
-	ddCollection *handles;
-	ddCollection *dependentFigures;*/
+	ddRect basicDisplayBoxRect;
+	//DD-TODO: need to store dashes?
 private:
-	//bool selected;
-	
-	//due to deprecated don't use wxlist instead used a fixed maximum of points in a vector
+	ddArrayCollection *points;
+	ddLineTerminal *startTerminal, *endTerminal;
 };
 #endif

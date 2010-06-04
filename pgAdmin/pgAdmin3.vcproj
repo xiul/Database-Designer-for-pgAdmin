@@ -3630,6 +3630,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\figures\ddLineTerminal.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\figures\ddPolyLineFigure.h"
 							>
 						</File>
@@ -5124,6 +5128,10 @@
 					</File>
 					<File
 						RelativePath=".\dd\draw\figures\ddIFigure.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\figures\ddLineTerminal.cpp"
 						>
 					</File>
 					<File
