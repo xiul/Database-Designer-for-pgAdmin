@@ -14,26 +14,29 @@
 
 #include "dd/draw/main/ddObject.h"
 #include "dd/draw/utilities/ddRect.h"
+#include "dd/draw/utilities/ddPoint.h"
 
 class ddDrawingView;  //Hack-Fix to avoid circular reference
+class ddIFigure;
 
 class ddIHandle : public ddObject
 {
 public:
-	ddIHandle();
+	ddIHandle(ddIFigure *owner);
     ~ddIHandle();
 
-	virtual bool containsPoint(double x, double y)=0;
-	virtual void draw(wxBufferedDC& context);
-	virtual wxPoint locate();
+	virtual bool containsPoint(int x, int y)=0;
+	virtual void draw(wxBufferedDC& context)=0;
+	virtual ddPoint* locate()=0;
 	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
-	virtual wxCursor createCursor()=0;
+	virtual wxCursor& createCursor()=0;
 protected:
-
+	virtual ddIFigure* getOwner();
+	virtual ddRect& getDisplayBox();
 private:
-	ddObject figureOwner; //DD-TODO: change for IFigure but avoid circular reference
+	ddIFigure *figureOwner; //DD-TODO: change for IFigure but avoid circular reference
 	ddRect displayBox;
 	double lineWidth;
 	//DD-TODO: Add	fillColor and addColor

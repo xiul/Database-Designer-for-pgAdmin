@@ -13,12 +13,9 @@
 #define DDPOLYLINEFIGURE_H
 
 #include "dd/draw/figures/ddAbstractFigure.h"
-#include "dd/draw/utilities/ddArrayCollection.h"
 #include "dd/draw/figures/ddLineTerminal.h"
-
-//DD-TODO: Hack to allow use of ddArrayCollection class, should be fixed in a future
-class ddPoint : public wxPoint{
-};
+#include "dd/draw/utilities/ddArrayCollection.h"
+#include "dd/draw/utilities/ddPoint.h"
 
 // Create Array Objects used as base for gqbCollections
 class ddPolyLineFigure : public ddAbstractFigure
@@ -38,8 +35,14 @@ public:
 	virtual ddLineTerminal* getStartTerminal();
 	virtual void setEndTerminal(ddLineTerminal *terminal);
 	virtual ddLineTerminal* getEndTerminal();
+	ddCollection* handlesEnumerator();
 
 	virtual void addPoint (int x, int y);
+	virtual void moveBy(int x, int y);
+	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
+
+	virtual ddPoint* pointAt(int index);
+
 
 /*	
 	virtual void drawSelected (wxBufferedDC& context);
@@ -48,13 +51,13 @@ public:
 	virtual void removeDependentFigure (ddIFigure *figure);
 	virtual void addHandle (ddIHandle *handle);
 	virtual void removeHandle (ddIHandle *handle);
-	virtual void moveBy(int x, int y);
+	virtual bool containsPoint(int x, int y)=0;
 	virtual void moveTo(int x, int y);
-	virtual bool containsPoint(int x, int y);
+	
 	virtual bool isSelected();
 	virtual void setSelected(bool value);
 	
-	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
+	
 */
 protected:
 	ddRect basicDisplayBoxRect;

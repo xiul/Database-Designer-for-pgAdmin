@@ -9,20 +9,13 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDRECT_H
-#define DDRECT_H
+#ifndef DDPOINT_H
+#define DDPOINT_H
 
-class ddRect : public wxRect
-{
+class ddPoint : public wxPoint{
 public:
-	ddRect();
-	ddRect(int xx, int yy, int ww, int hh);
-	ddRect(wxPoint topLeft, wxPoint bottomRight);
-	void add (ddRect& newRect);
-protected:
-
-private:
-	int min(int a, int b);
-	int max(int a, int b);
+	ddPoint();
+	ddPoint(int x, int y);
 };
+
 #endif

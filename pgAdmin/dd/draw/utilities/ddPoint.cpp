@@ -17,21 +17,14 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/utilities/ddPoint.h"
 
-ddIHandle::ddIHandle(ddIFigure *owner){
-	figureOwner=owner;
-}
-ddIHandle::~ddIHandle(){
-
+ddPoint::ddPoint():
+wxPoint()
+{
 }
 
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
+ddPoint::ddPoint(int x, int y):
+wxPoint(x,y)
+{
 }
-
-ddRect& ddIHandle::getDisplayBox(){
-	return displayBox;
-}
-
-//Al methods and properties at ddIHandle.h

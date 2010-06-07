@@ -17,21 +17,28 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/tools/ddPolyLineFigureTool.h"
+#include "dd/draw/tools/ddFigureTool.h"
+#include "dd/draw/figures/ddPolyLineFigure.h"
 
-ddIHandle::ddIHandle(ddIFigure *owner){
-	figureOwner=owner;
-}
-ddIHandle::~ddIHandle(){
 
-}
+ddPolyLineFigureTool::ddPolyLineFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
+ddFigureTool(editor,fig,dt)
+{
 
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
 }
 
-ddRect& ddIHandle::getDisplayBox(){
-	return displayBox;
+ddPolyLineFigureTool::~ddPolyLineFigureTool(){
 }
 
-//Al methods and properties at ddIHandle.h
+void ddPolyLineFigureTool::mouseDown(wxMouseEvent& event){
+	int x=event.GetPosition().x, y=event.GetPosition().y;
+	setAnchorCoords(x,y);
+	//getDrawingEditor()->view();
+	//DD-TODO: middle down or right and left down?
+	if(event.MiddleDown()){
+		ddPolyLineFigure *connection = (ddPolyLineFigure*) figure;
+		//HIGH-PRIORITY-FINISH-THIS finalizar
+	}
+
+}

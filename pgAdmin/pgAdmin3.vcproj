@@ -3645,6 +3645,14 @@
 							RelativePath=".\include\dd\draw\handles\ddIHandle.h"
 							>
 						</File>
+						<File
+							RelativePath=".\include\dd\draw\handles\ddLocatorHandle.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\draw\handles\ddPolyLineHandle.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="main"
@@ -3682,6 +3690,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\utilities\ddPoint.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\utilities\ddRect.h"
 							>
 						</File>
@@ -3706,6 +3718,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\tools\ddFigureTool.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\tools\ddHandleTrackerTool.h"
 							>
 						</File>
@@ -3714,11 +3730,27 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\tools\ddPolyLineFigureTool.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\tools\ddSelectAreaTool.h"
 							>
 						</File>
 						<File
 							RelativePath=".\include\dd\draw\tools\ddSelectionTool.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="locator"
+						>
+						<File
+							RelativePath=".\include\dd\draw\locators\ddILocator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\draw\locators\ddPolyLineLocator.h"
 							>
 						</File>
 					</Filter>
@@ -5159,11 +5191,19 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\draw\tools\ddFigureTool.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\draw\tools\ddHandleTrackerTool.cpp"
 						>
 					</File>
 					<File
 						RelativePath=".\dd\draw\tools\ddITool.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\tools\ddPolyLineFigureTool.cpp"
 						>
 					</File>
 					<File
@@ -5180,6 +5220,14 @@
 					>
 					<File
 						RelativePath=".\dd\draw\handles\ddIHandle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\handles\ddLocatorHandle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\handles\ddPolyLineHandle.cpp"
 						>
 					</File>
 				</Filter>
@@ -5211,7 +5259,23 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\draw\utilities\ddPoint.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\draw\utilities\ddRect.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="locators"
+					>
+					<File
+						RelativePath=".\dd\draw\locator\ddILocator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\locator\ddPolyLineLocator.cpp"
 						>
 					</File>
 				</Filter>

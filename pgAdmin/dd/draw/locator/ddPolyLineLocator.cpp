@@ -17,21 +17,27 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/locators/ddPolyLineLocator.h"
+#include "dd/draw/figures/ddIFigure.h"
+#include "dd/draw/utilities/ddRect.h"
+#include "dd/draw/figures/ddPolyLineFigure.h"
 
-ddIHandle::ddIHandle(ddIFigure *owner){
-	figureOwner=owner;
-}
-ddIHandle::~ddIHandle(){
-
-}
-
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
+ddPolyLineLocator::ddPolyLineLocator(int index){
+	indx=index;
 }
 
-ddRect& ddIHandle::getDisplayBox(){
-	return displayBox;
+ddPolyLineLocator::~ddPolyLineLocator(){
 }
 
-//Al methods and properties at ddIHandle.h
+ddPoint* ddPolyLineLocator::locate(ddIFigure *owner){
+	//DD-TODO: HIGH-PRIORITY-FINISH-THIS finish this
+	if(owner)
+	{
+		ddPolyLineFigure *figure = (ddPolyLineFigure *) owner;
+		return figure->pointAt(indx);
+	}
+	else
+	{
+		return new ddPoint();
+	}
+}

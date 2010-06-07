@@ -15,23 +15,23 @@
 
 // wxWindows headers
 #include <wx/wx.h>
+#include <wx/dcbuffer.h>
 
 // App headers
-#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/figures/ddLineTerminal.h"
+#include "dd/draw/utilities/ddPoint.h"
+#include "dd/draw/utilities/ddRect.h"
 
-ddIHandle::ddIHandle(ddIFigure *owner){
-	figureOwner=owner;
-}
-ddIHandle::~ddIHandle(){
-
-}
-
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
+ddLineTerminal::ddLineTerminal(){
+	
 }
 
-ddRect& ddIHandle::getDisplayBox(){
-	return displayBox;
+ddLineTerminal::~ddLineTerminal(){
+
 }
 
-//Al methods and properties at ddIHandle.h
+ddPoint* ddLineTerminal::draw (wxBufferedDC& context, ddPoint *a, ddPoint *b){
+	context.DrawLine(*a, *b);
+	return NULL;
+}
+

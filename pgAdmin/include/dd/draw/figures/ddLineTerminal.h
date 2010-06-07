@@ -9,20 +9,23 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDRECT_H
-#define DDRECT_H
+#ifndef DDLINETERMINAL_H
+#define DDLINETERMINAL_H
+#include "dd/draw/figures/ddIFigure.h"
+#include "dd/draw/utilities/ddPoint.h"
 
-class ddRect : public wxRect
+
+
+// Create Array Objects used as base for gqbCollections
+class ddLineTerminal : public ddObject
 {
 public:
-	ddRect();
-	ddRect(int xx, int yy, int ww, int hh);
-	ddRect(wxPoint topLeft, wxPoint bottomRight);
-	void add (ddRect& newRect);
-protected:
+	ddLineTerminal();
+    ~ddLineTerminal();
 
+	virtual ddPoint* draw (wxBufferedDC& context, ddPoint *a, ddPoint *b);
+
+protected:
 private:
-	int min(int a, int b);
-	int max(int a, int b);
 };
 #endif

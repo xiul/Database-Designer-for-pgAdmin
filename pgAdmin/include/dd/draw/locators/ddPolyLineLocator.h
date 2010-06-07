@@ -9,20 +9,22 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDRECT_H
-#define DDRECT_H
+#ifndef DDPOLYLINELOCATOR_H
+#define DDPOLYLINELOCATOR_H
 
-class ddRect : public wxRect
+#include "dd/draw/locators/ddILocator.h"
+
+class ddPolyLineLocator : public ddILocator
 {
 public:
-	ddRect();
-	ddRect(int xx, int yy, int ww, int hh);
-	ddRect(wxPoint topLeft, wxPoint bottomRight);
-	void add (ddRect& newRect);
+	ddPolyLineLocator(int index);
+    ~ddPolyLineLocator();
+
+	virtual ddPoint* locate(ddIFigure *owner);
+
 protected:
 
 private:
-	int min(int a, int b);
-	int max(int a, int b);
+	int indx;
 };
 #endif

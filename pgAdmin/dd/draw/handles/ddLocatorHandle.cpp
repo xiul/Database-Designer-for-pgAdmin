@@ -17,21 +17,26 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/handles/ddLocatorHandle.h"
 
-ddIHandle::ddIHandle(ddIFigure *owner){
-	figureOwner=owner;
+ddLocatorHandle::ddLocatorHandle(ddIFigure *owner, ddILocator *locator):
+ddIHandle(owner)
+{
+	loc=locator;
 }
-ddIHandle::~ddIHandle(){
-
-}
-
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
+ddLocatorHandle::~ddLocatorHandle(){
 }
 
-ddRect& ddIHandle::getDisplayBox(){
-	return displayBox;
+ddPoint* ddLocatorHandle::locate(){
+	return loc==NULL ? new ddPoint() : loc->locate(getOwner()) ;
+	//DD-TODO: HIGH-PRIORITY-FINISH-THIS this default behavior is fine?
 }
 
-//Al methods and properties at ddIHandle.h
+void ddLocatorHandle::invokeStart(int x, int y, ddDrawingView *view){
+}
+
+void ddLocatorHandle::invokeStep(int x, int y, ddDrawingView *view){
+}
+
+void ddLocatorHandle::invokeEnd(int x, int y, ddDrawingView *view){
+}

@@ -9,20 +9,19 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDRECT_H
-#define DDRECT_H
+#ifndef DDPOLYLINEFIGURETOOL_H
+#define DDPOLYLINEFIGURETOOL_H
 
-class ddRect : public wxRect
+#include "dd/draw/tools/ddFigureTool.h"
+
+
+class ddPolyLineFigureTool : public ddFigureTool
 {
 public:
-	ddRect();
-	ddRect(int xx, int yy, int ww, int hh);
-	ddRect(wxPoint topLeft, wxPoint bottomRight);
-	void add (ddRect& newRect);
+	ddPolyLineFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
+    ~ddPolyLineFigureTool();
+	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
 protected:
-
 private:
-	int min(int a, int b);
-	int max(int a, int b);
 };
 #endif

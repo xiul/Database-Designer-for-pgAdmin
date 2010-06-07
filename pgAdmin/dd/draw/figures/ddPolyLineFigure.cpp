@@ -20,6 +20,11 @@
 // App headers
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/utilities/ddArrayCollection.h"
+#include "dd/draw/locators/ddILocator.h"
+#include "dd/draw/handles/ddPolyLineHandle.h"
+#include "dd/draw/figures/ddLineTerminal.h"
+#include "dd/draw/locators/ddPolyLineLocator.h"
+#include "dd/draw/tools/ddPolyLineFigureTool.h"
 
 
 ddPolyLineFigure::ddPolyLineFigure(){
@@ -79,7 +84,7 @@ void ddPolyLineFigure::setEndPoint(ddPoint *point){
 	else
 		points->insertAtIndex((ddObject *)point, points->count()-1);
 	changed();
-	//DD-TODO: need to delete start point if overwrite it
+	//DD-TODO: need to delete start point if overwrite it??
 }
 
 void ddPolyLineFigure::setStartTerminal(ddLineTerminal *terminal){
@@ -98,23 +103,79 @@ ddLineTerminal* ddPolyLineFigure::getEndTerminal(){
 	return endTerminal;
 }
 
+ddCollection* ddPolyLineFigure::handlesEnumerator(){
+	//DD-TODO: HIGH-PRIORITY-FINISH-THIS optimize this, not create a new instance everytime invoke function
+	handles->deleteAll();
+	for(int i=0;i<points->count();i++){
+		handles->addItem(new ddPolyLineHandle(this, new ddPolyLineLocator(i), i));
+	}
+
+	return handles;
+}
+
+void ddPolyLineFigure::addPoint (int x, int y){
+	willChange();
+	points->addItem((ddObject *) new ddPoint(x,y) );
+	changed();
+}
 
 void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 	if(points->count() < 2)
 	{
 		return;
 	}
-	//DD-TODO: set context attributes: width, round join, color, dashes
+	//DD-TODO: HIGH-PRIORITY-FINISH-THIS set context attributes: width, round join, color, dashes
 
-	ddPoint start;
-	ddPoint end;
+	ddPoint *start, *end;
+
+	if(startTerminal)
+	{
+		start = startTerminal->draw(context, getStartPoint(), pointAt(1));
+	}
+	else
+	{
+		start = getStartPoint();
+	}
+
+	if(endTerminal)
+	{
+		end = endTerminal->draw(context, getEndPoint(), pointAt(pointCount() - 2));
+	}
+	else
+	{
+		end = getEndPoint();
+	}
+
+	//DD-TODO: Are There any way of use DrawLines instead of DrawLine?
+	for(int i=0;i<points->count()-1;i++){
+		ddPoint *p1 = (ddPoint *) points->getItemAt(i);
+		ddPoint *p2 = (ddPoint *) points->getItemAt(i+1);
+
+		context.DrawLine(*p1,*p2);
+	}
 }
 
-
-
-void ddPolyLineFigure::addPoint (int x, int y){
-
+void ddPolyLineFigure::moveBy(int x, int y){
+	ddPoint *newPoint;
+	for(int i=0 ; i<points->count() ; i++){
+		newPoint = (ddPoint *) points->getItemAt(i);
+		newPoint->x += x;
+		newPoint->y += y;
+		points->insertAtIndex((ddObject *) newPoint,i); //DD-TODO: this is neede because I'm working with pointers??
+	}
 }
+
+ddITool* ddPolyLineFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+{
+	return new ddPolyLineFigureTool(editor,this,defaultTool);
+	//DD-TODO: check what is done with all new objects return from function because they should be destroyed/delete
+}
+
+ddPoint* ddPolyLineFigure::pointAt(int index)
+{
+	return (ddPoint *)points->getItemAt(index);
+}
+
 
 
 

@@ -9,20 +9,23 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDRECT_H
-#define DDRECT_H
+#ifndef DDILOCATOR_H
+#define DDILOCATOR_H
 
-class ddRect : public wxRect
+#include "dd/draw/main/ddObject.h"
+#include "dd/draw/utilities/ddRect.h"
+#include "dd/draw/figures/ddIFigure.h"
+
+class ddILocator : public ddObject
 {
 public:
-	ddRect();
-	ddRect(int xx, int yy, int ww, int hh);
-	ddRect(wxPoint topLeft, wxPoint bottomRight);
-	void add (ddRect& newRect);
+	ddILocator();
+    ~ddILocator();
+
+	virtual ddPoint* locate(ddIFigure *owner)=0;
+
 protected:
 
 private:
-	int min(int a, int b);
-	int max(int a, int b);
 };
 #endif

@@ -17,21 +17,7 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/locators/ddILocator.h"
 
-ddIHandle::ddIHandle(ddIFigure *owner){
-	figureOwner=owner;
-}
-ddIHandle::~ddIHandle(){
 
-}
-
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
-}
-
-ddRect& ddIHandle::getDisplayBox(){
-	return displayBox;
-}
-
-//Al methods and properties at ddIHandle.h
+//Al methods and properties at ddILocator.h
