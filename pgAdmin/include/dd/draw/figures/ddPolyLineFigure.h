@@ -36,6 +36,7 @@ public:
 	virtual void setEndTerminal(ddLineTerminal *terminal);
 	virtual ddLineTerminal* getEndTerminal();
 	ddCollection* handlesEnumerator();
+	virtual int findSegment (double x, double y);
 
 	virtual void addPoint (int x, int y);
 	virtual void moveBy(int x, int y);

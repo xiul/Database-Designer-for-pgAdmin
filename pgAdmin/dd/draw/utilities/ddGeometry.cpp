@@ -17,25 +17,42 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/utilities/ddGeometry.h"
+#include "dd/draw/utilities/ddRect.h"
+#include "dd/draw/utilities/ddPoint.h"
 
-ddIHandle::ddIHandle(ddIFigure *owner){
-	figureOwner=owner;
+bool ddGeometry::lineContainsPoint(int x1, int y1, int x2, int y2, int px, int py){
+	ddRect r = ddRect(ddPoint(x1,y1));
+	r.add(x2,y2);
+	r.Inflate(2,2);
+	if(!r.Contains(px,py)){
+		return false;
+	}
+
+	int a, b, x, y;
+
+	if( x1 == x2 )
+	{
+		return (abs(px - x1) < 3);
+	}
+
+	if( y1 == y2 )
+	{
+		return (abs(py - y1) < 3);
+	}
+
+	a = (y1 - y2) / (x1 - x2);
+	b = y1 - a * x1;
+	x = (py - b) / a;
+	y = a * px + b;
+
+	return (min( abs(x-px), abs(y-py)) < 4);
 }
-ddIHandle::~ddIHandle(){
 
+int ddGeometry::min(int a, int b){
+	return(a<=b)?a:b;
 }
 
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
+int ddGeometry::max(int a, int b){
+	return(a>=b)?a:b;
 }
-
-ddRect& ddIHandle::getDisplayBox(){
-	return displayBox;
-}
-
-ddIHandle::containsPoint(int x, int y){
-	return displayBox.Contains(x,y);
-}
-
-//Al methods and properties at ddIHandle.h

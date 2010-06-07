@@ -19,30 +19,57 @@
 // App headers
 #include "dd/draw/utilities/ddRect.h"
 
-ddRect::ddRect(){
+ddRect::ddRect()
+{
 }
 
 ddRect::ddRect(int xx, int yy, int ww, int hh):
-wxRect(xx,yy,ww,hh){
+wxRect(xx,yy,ww,hh)
+{
 }
 
-ddRect::ddRect(wxPoint topLeft, wxPoint bottomRight):
-wxRect(topLeft, bottomRight){
+ddRect::ddRect(ddPoint *topLeft, ddPoint *bottomRight):
+wxRect(*topLeft, *bottomRight)
+{
 }
 
-void ddRect::add (ddRect& newRect) {
-	int x1 = min(this->x,newRect.x);
-	int x2 = max(this->x+this->width,newRect.x);
-	int y1 = min(this->y,newRect.y);
-	int y2 = max(this->y+this->height,newRect.y);
-
-	this->SetX(x1);
-	this->SetWidth(x2-x1);
-	this->SetY(y1);
-	this->SetHeight(y2-y1);
-	//DD-TODO: check this operations are well done
+ddRect::ddRect(ddPoint *point):
+wxRect(point->x,point->y,0,0)
+{
 }
 
+ddRect::ddRect(ddPoint& point):
+wxRect(point.x,point.y,0,0)
+{
+}
+
+void ddRect::add (int newX, int newY) {
+
+	int x1 = min(x , newX);
+	int x2 = max(x+width , newX);
+	int y1 = min(y , newY);
+	int y2 = max(y+height , newY);
+
+	SetX(x1);
+	SetWidth(x2-x1);
+	SetY(y1);
+	SetHeight(y2-y1);
+}
+
+
+void ddRect::add (ddRect *newRect){
+	add(newRect->GetTopLeft().x , newRect->GetTopLeft().y);
+	add(newRect->GetBottomRight().x , newRect->GetBottomRight().y);
+}
+
+void ddRect::add (ddRect& newRect){
+	add(newRect.GetTopLeft().x , newRect.GetTopLeft().y);
+	add(newRect.GetBottomRight().x , newRect.GetBottomRight().y);
+}
+
+void ddRect::add(ddPoint *p){
+	add(p->x,p->y);
+}
  
 int ddRect::min(int a, int b){
 	return(a<=b)?a:b;

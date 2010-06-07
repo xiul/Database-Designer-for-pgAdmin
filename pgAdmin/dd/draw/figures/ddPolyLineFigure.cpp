@@ -24,8 +24,8 @@
 #include "dd/draw/handles/ddPolyLineHandle.h"
 #include "dd/draw/figures/ddLineTerminal.h"
 #include "dd/draw/locators/ddPolyLineLocator.h"
+#include "dd/draw/utilities/ddGeometry.h"
 #include "dd/draw/tools/ddPolyLineFigureTool.h"
-
 
 ddPolyLineFigure::ddPolyLineFigure(){
 	points = new ddArrayCollection();
@@ -171,11 +171,25 @@ ddITool* ddPolyLineFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *de
 	//DD-TODO: check what is done with all new objects return from function because they should be destroyed/delete
 }
 
+int ddPolyLineFigure::findSegment (double x, double y){
+	for(int i=0 ; i<points->count()-1 ; i++){
+		ddPoint *p1 = pointAt(i);
+		ddPoint *p2 = pointAt(i+1);
+		ddGeometry g;
+		if(g.lineContainsPoint(p1->x, p1->y, p2->x, p2->y, x, y)){
+			return i+1;
+		}
+	}
+	return -1;
+}
+
 ddPoint* ddPolyLineFigure::pointAt(int index)
 {
 	return (ddPoint *)points->getItemAt(index);
 }
 
+
+public virtual void RemovePointAt (int i)
 
 
 

@@ -11,14 +11,20 @@
 
 #ifndef DDRECT_H
 #define DDRECT_H
+#include "dd/draw/utilities/ddPoint.h"
 
 class ddRect : public wxRect
 {
 public:
 	ddRect();
 	ddRect(int xx, int yy, int ww, int hh);
-	ddRect(wxPoint topLeft, wxPoint bottomRight);
+	ddRect(ddPoint *topLeft, ddPoint *bottomRight);
+	ddRect(ddPoint *point);
+	ddRect(ddPoint &point);
+	void add (int newX, int netY);
+	void add (ddRect *newRect);
 	void add (ddRect& newRect);
+	void add (ddPoint *p);
 protected:
 
 private:

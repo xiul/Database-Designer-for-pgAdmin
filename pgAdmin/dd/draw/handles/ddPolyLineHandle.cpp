@@ -21,7 +21,7 @@
 #include "dd/draw/handles/ddPolyLineHandle.h"
 
 ddPolyLineHandle::ddPolyLineHandle(ddPolyLineFigure *figure, ddILocator *loc, int index):
-ddIHandle((ddIFigure *)figure)
+ddLocatorHandle((ddIFigure *)figure,loc)
 {
 	indx=index;
 }
@@ -64,7 +64,8 @@ void ddPolyLineHandle::invokeEnd(int x, int y, ddDrawingView *view)
 
 wxCursor& ddPolyLineHandle::createCursor()
 {
-	return wxCursor(wxCURSOR_CROSS);
+	return NULL;
+		//wxCursor(wxCURSOR_CROSS);
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS Should I use reference or a pointer here?
 }
 

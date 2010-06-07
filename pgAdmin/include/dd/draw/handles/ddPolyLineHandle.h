@@ -18,13 +18,12 @@
 class ddDrawingView;  //Hack-Fix to avoid circular reference
 class ddPolyLineFigure;
 
-class ddPolyLineHandle : public ddIHandle
+class ddPolyLineHandle : public ddLocatorHandle
 {
 public:
 	ddPolyLineHandle(ddPolyLineFigure *figure, ddILocator *loc, int index);
     ~ddPolyLineHandle();
 
-	virtual bool containsPoint(double x, double y);
 	virtual void draw(wxBufferedDC& context);
 	virtual ddPoint* locate();
 	virtual void invokeStart(int x, int y, ddDrawingView *view);

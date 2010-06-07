@@ -25,7 +25,7 @@ public:
 	ddIHandle(ddIFigure *owner);
     ~ddIHandle();
 
-	virtual bool containsPoint(int x, int y)=0;
+	virtual bool containsPoint(int x, int y);
 	virtual void draw(wxBufferedDC& context)=0;
 	virtual ddPoint* locate()=0;
 	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
