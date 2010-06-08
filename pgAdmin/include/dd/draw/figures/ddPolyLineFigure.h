@@ -36,13 +36,14 @@ public:
 	virtual void setEndTerminal(ddLineTerminal *terminal);
 	virtual ddLineTerminal* getEndTerminal();
 	ddCollection* handlesEnumerator();
-	virtual int findSegment (double x, double y);
+	virtual int findSegment (int x, int y);
 
 	virtual void addPoint (int x, int y);
-	virtual void moveBy(int x, int y);
+	virtual void basicMoveBy(int x, int y);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 
 	virtual ddPoint* pointAt(int index);
+	virtual bool containsPoint (int x, int y);
 
 
 /*	

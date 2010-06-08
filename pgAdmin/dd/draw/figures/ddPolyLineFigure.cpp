@@ -155,10 +155,10 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 	}
 }
 
-void ddPolyLineFigure::moveBy(int x, int y){
+void ddPolyLineFigure::basicMoveBy(int x, int y){
 	ddPoint *newPoint;
 	for(int i=0 ; i<points->count() ; i++){
-		newPoint = (ddPoint *) points->getItemAt(i);
+		newPoint = (ddPoint *) points->getItemAt(i);  //DD-TODO: replace and test with pointAt
 		newPoint->x += x;
 		newPoint->y += y;
 		points->insertAtIndex((ddObject *) newPoint,i); //DD-TODO: this is neede because I'm working with pointers??
@@ -171,7 +171,7 @@ ddITool* ddPolyLineFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *de
 	//DD-TODO: check what is done with all new objects return from function because they should be destroyed/delete
 }
 
-int ddPolyLineFigure::findSegment (double x, double y){
+int ddPolyLineFigure::findSegment (int x, int y){
 	for(int i=0 ; i<points->count()-1 ; i++){
 		ddPoint *p1 = pointAt(i);
 		ddPoint *p2 = pointAt(i+1);
@@ -188,15 +188,31 @@ ddPoint* ddPolyLineFigure::pointAt(int index)
 	return (ddPoint *)points->getItemAt(index);
 }
 
+bool ddPolyLineFigure::containsPoint (int x, int y){
+	//DD-TODO: HIGH-PRIORITY-FINISH-THIS  Search in all inflate references value pass using value not reference to not modify value
+	ddRect rect = ddRect(this->displayBox());
+	rect.Inflate(4,4);
+	if(!rect.Contains(x,y)){
+		return false;
+	}
 
-public virtual void RemovePointAt (int i)
+	for(int i=0 ; i<points->count()-1 ; i++){
+		ddPoint *p1 = pointAt(i);
+		ddPoint *p2 = pointAt(i+1);
+		ddGeometry g;
+		if(g.lineContainsPoint(p1->x, p1->y, p2->x, p2->y, x, y)){
+			return true;
+		}
+	}
+	return false;
+}
+
+
 
 
 
 /*
-bool ddIFigure::containsPoint (int x, int y){
-	return false;
-}
+
 
 
 
