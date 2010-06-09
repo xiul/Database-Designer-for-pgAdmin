@@ -23,6 +23,7 @@ public:
     virtual ~ddCollection();
     void addItem(ddObject *item);
     void removeItem(ddObject *item);
+	void removeItemAt(int index);
     void deleteAll();
     void removeAll();
     int count();

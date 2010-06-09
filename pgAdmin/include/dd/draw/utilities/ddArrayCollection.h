@@ -52,6 +52,7 @@ public:
     ~ddArrayCollection();
     void addItem(ddObject *item);
     void removeItem(ddObject *item);
+	virtual void removeItemAt(int index);
     ddIteratorBase* createIterator();
 	ddIteratorBase* createDownIterator();
     ddObject* getItemAt(int index);

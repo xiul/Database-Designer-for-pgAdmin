@@ -76,6 +76,10 @@ ddObject* ddCollection::getItemAt(int index)
     return collection->getItemAt(index);
 }
 
+void ddCollection::removeItemAt(int index)
+{
+	collection->removeItemAt(index);
+}
 
 // Remove all items from collection without deleting each one.
 void ddCollection::removeAll()
@@ -100,3 +104,5 @@ void ddCollection::insertAtIndex(ddObject *item, int index)
 {
     collection->insertAtIndex(item,index);
 }
+
+virtual void removeItemAt(int index

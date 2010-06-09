@@ -37,8 +37,11 @@ public:
 	virtual ddLineTerminal* getEndTerminal();
 	ddCollection* handlesEnumerator();
 	virtual int findSegment (int x, int y);
+	virtual void splitSegment(int x, int y);
 
 	virtual void addPoint (int x, int y);
+	virtual void removePoint (int i);
+	virtual void clearPoints ();
 	virtual void basicMoveBy(int x, int y);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 

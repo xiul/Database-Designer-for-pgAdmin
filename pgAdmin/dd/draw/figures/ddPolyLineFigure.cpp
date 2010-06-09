@@ -119,6 +119,12 @@ void ddPolyLineFigure::addPoint (int x, int y){
 	changed();
 }
 
+void ddPolyLineFigure::removePoint (int i){
+	willChange();
+	points->removeItemAt(i);
+	changed();
+}
+
 void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 	if(points->count() < 2)
 	{
@@ -207,7 +213,21 @@ bool ddPolyLineFigure::containsPoint (int x, int y){
 	return false;
 }
 
+void ddPolyLineFigure::clearPoints()
+{
+	points->deleteAll();
+}
 
+
+void ddPolyLineFigure::splitSegment(int x, int y) 
+{
+	int index = findSegment(x,y);
+
+	if(index!=-1)
+	{
+		insertPointAt( hacer esto
+	}
+}
 
 
 

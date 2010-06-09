@@ -38,6 +38,11 @@ void ddArrayCollection::removeItem(ddObject *item)
     ddArray.Remove(item);
 }
 
+void ddArrayCollection::removeItemAt(int index)
+{
+	ddArray.RemoveAt(index);
+}
+
 
 // Create an iterator for the objects inside the array
 ddIteratorBase* ddArrayCollection::createIterator()
