@@ -40,8 +40,11 @@ public:
 	virtual void splitSegment(int x, int y);
 
 	virtual void addPoint (int x, int y);
-	virtual void removePoint (int i);
+	virtual void removePoint (int index);
 	virtual void clearPoints ();
+	virtual void insertPointAt (int index, int x, int y);
+	virtual void setPointAt (int index, int x, int y);
+	virtual void removePointAt (int index);
 	virtual void basicMoveBy(int x, int y);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 

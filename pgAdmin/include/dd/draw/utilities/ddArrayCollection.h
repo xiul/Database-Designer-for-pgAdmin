@@ -60,6 +60,7 @@ public:
     bool existsObject(ddObject *item);
     int getIndex(ddObject *item);
     void insertAtIndex(ddObject *item, int index);
+	void replaceAtIndex(ddObject *item, int index);
     void deleteAll();
     void removeAll();
     ddObject *& operator[](size_t index) { return ddArray[index]; }

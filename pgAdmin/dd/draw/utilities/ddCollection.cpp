@@ -105,4 +105,6 @@ void ddCollection::insertAtIndex(ddObject *item, int index)
     collection->insertAtIndex(item,index);
 }
 
-virtual void removeItemAt(int index
+void ddCollection::replaceAtIndex(ddObject *item, int index){
+	collection->replaceAtIndex(item,index);
+}

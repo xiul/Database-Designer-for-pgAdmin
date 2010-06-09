@@ -119,9 +119,18 @@ void ddPolyLineFigure::addPoint (int x, int y){
 	changed();
 }
 
-void ddPolyLineFigure::removePoint (int i){
+//DD-TODO: HIGH-PRIORITY-FINISH-THIS difference between this and below one
+void ddPolyLineFigure::removePoint (int index)
+{
 	willChange();
-	points->removeItemAt(i);
+	points->removeItemAt(index);
+	changed();
+}
+
+void ddPolyLineFigure::removePointAt (int index)
+{
+	willChange();
+	points->removeItemAt(index);
 	changed();
 }
 
@@ -218,6 +227,20 @@ void ddPolyLineFigure::clearPoints()
 	points->deleteAll();
 }
 
+void ddPolyLineFigure::insertPointAt (int index, int x, int y)
+{
+	willChange();
+	points->insertAtIndex((ddObject*) new ddPoint(x,y), index);
+	changed();
+}
+
+//DD-TODO: HIGH-PRIORITY-FINISH-THIS: possible source of bug between set and insert search for everyone at this project and solved it
+void ddPolyLineFigure::setPointAt (int index, int x, int y)
+{
+	willChange();
+	points->replaceAtIndex((ddObject*) new ddPoint(x,y),index);
+	changed();
+}
 
 void ddPolyLineFigure::splitSegment(int x, int y) 
 {
@@ -225,9 +248,11 @@ void ddPolyLineFigure::splitSegment(int x, int y)
 
 	if(index!=-1)
 	{
-		insertPointAt( hacer esto
+		insertPointAt(index,x,y);
 	}
 }
+
+
 
 
 

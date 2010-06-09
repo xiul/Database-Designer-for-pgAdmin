@@ -113,9 +113,16 @@ int ddArrayCollection::getIndex(ddObject *item)
 
 
 // Insert item into the array before the index
-void ddArrayCollection:: insertAtIndex(ddObject *item, int index)
+void ddArrayCollection::insertAtIndex(ddObject *item, int index)
 {
     ddArray.Insert(item,index);
+}
+
+// Replace item into the array at index (if overwrite user should delete manually previous object at index)
+void ddArrayCollection::replaceAtIndex(ddObject *item, int index)
+{
+	ddArray.Insert(item,index);
+	ddArray.RemoveAt(index+1);
 }
 
 

@@ -31,6 +31,7 @@ public:
     int getIndex(ddObject *item);
     ddObject* getItemAt(int index);
     void insertAtIndex(ddObject *item, int index);
+	void replaceAtIndex(ddObject *item, int index);
     ddIteratorBase* createIterator();
 	ddIteratorBase* createDownIterator();
 

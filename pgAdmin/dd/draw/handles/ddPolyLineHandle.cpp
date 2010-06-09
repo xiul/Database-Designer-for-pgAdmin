@@ -64,8 +64,7 @@ void ddPolyLineHandle::invokeEnd(int x, int y, ddDrawingView *view)
 
 wxCursor& ddPolyLineHandle::createCursor()
 {
-	return NULL;
-		//wxCursor(wxCURSOR_CROSS);
+	return wxCursor(wxCURSOR_CROSS);
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS Should I use reference or a pointer here?
 }
 

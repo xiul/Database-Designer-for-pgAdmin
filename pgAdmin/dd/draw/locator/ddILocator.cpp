@@ -18,6 +18,12 @@
 
 // App headers
 #include "dd/draw/locators/ddILocator.h"
+ddILocator::ddILocator()
+{
+}
 
+ddILocator::~ddILocator()
+{
+}
 
 //Al methods and properties at ddILocator.h

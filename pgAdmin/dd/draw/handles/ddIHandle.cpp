@@ -34,7 +34,7 @@ ddRect& ddIHandle::getDisplayBox(){
 	return displayBox;
 }
 
-ddIHandle::containsPoint(int x, int y){
+bool ddIHandle::containsPoint(int x, int y){
 	return displayBox.Contains(x,y);
 }
 
