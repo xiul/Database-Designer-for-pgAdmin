@@ -16,6 +16,7 @@
 // wxWindows headers
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
+#include <wx/pen.h>
 
 // App headers
 #include "dd/draw/figures/ddPolyLineFigure.h"
@@ -29,19 +30,33 @@
 
 ddPolyLineFigure::ddPolyLineFigure(){
 	points = new ddArrayCollection();
+	startTerminal = NULL;
+	endTerminal = NULL;
 }
 
 ddPolyLineFigure::~ddPolyLineFigure(){
 	//DD-TODO: delete points
 }
 
+//DD-TODO: HIGH-PRIORITY-FINISH-THIS 666 fix mess displaybox and basicdiscplaybox
+
 ddRect& ddPolyLineFigure::basicDisplayBox() {
+	
+	//basicDisplayBoxRect.
+	basicDisplayBoxRect.height=0;
+	basicDisplayBoxRect.width=0;
 	if(points->count() < 2)
 	{
-		basicDisplayBoxRect.SetPosition(wxPoint(0,0));
-		basicDisplayBoxRect.height=0;
-		basicDisplayBoxRect.width=0;
+		
 		return basicDisplayBoxRect;
+	}
+	if(points->count()>=1)
+	{
+		basicDisplayBoxRect.SetPosition(*(pointAt(0)));
+	}
+	else
+	{
+		basicDisplayBoxRect.SetPosition(wxPoint(0,0));
 	}
 
 	ddIteratorBase *iterator=points->createIterator();
@@ -162,6 +177,13 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 	}
 
 	//DD-TODO: Are There any way of use DrawLines instead of DrawLine?
+	//DD-TODO: Draw when selected???
+	context.SetPen(wxPen(wxColour(100, 100, 100),1,wxSOLID));
+	//666
+	ddRect rect = ddRect(this->basicDisplayBox());
+	//rect.Inflate(4,4);
+	context.DrawRectangle(rect);
+
 	for(int i=0;i<points->count()-1;i++){
 		ddPoint *p1 = (ddPoint *) points->getItemAt(i);
 		ddPoint *p2 = (ddPoint *) points->getItemAt(i+1);
@@ -252,85 +274,3 @@ void ddPolyLineFigure::splitSegment(int x, int y)
 	}
 }
 
-
-
-
-
-/*
-
-
-
-
-void ddIFigure::drawSelected (wxBufferedDC& context){
-}
-
-ddCollection* ddIFigure::handlesEnumerator(){
-	return handles;
-}
-
-
-void ddIFigure::addDependentFigure (ddIFigure *figure){
-	if(!dependentFigures){
-		dependentFigures = new ddCollection(new ddArrayCollection());
-	}
-	dependentFigures->addItem(figure);	
-}
-
-
-void ddIFigure::removeDependentFigure (ddIFigure *figure){
-	if(dependentFigures){
-		dependentFigures->removeItem(figure);		
-	}
-}
-
-void ddIFigure::addHandle (ddIHandle *handle){
-	if(!handles){
-		handles  = new ddCollection(new ddArrayCollection());
-	}
-	handles->addItem(handle);	
-}
-
-void ddIFigure::removeHandle (ddIHandle *handle){
-	if(handles){
-		handles->removeItem(handle);		
-	}
-}
-
-void ddIFigure::moveBy (int x, int y){
-}
-
-void ddIFigure::moveTo(int x, int y){
-}
-
-ddITool* ddIFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool){
-	return defaultTool;
-}
-
-bool ddIFigure::isSelected(){
-	return selected;
-}
-
-void ddIFigure::setSelected(bool value){
-	selected=value;
-}
-
-/*
-
-		RectangleD DisplayBox { get; set; }
-		IEnumerable <IFigure> FiguresEnumerator { get; }
-		IEnumerable <IHandle> HandlesEnumerator { get; }
-		IEnumerable <IFigure> DependentFiguresEnumerator { get;	}
-		bool CanConnect { get; }
-
-
-
-
-//http://juanobligado.wordpress.com/2007/11/05/interfaces-con-c/
-/*ddAbstractFigure::ddAbstractFigure()
-{
-}
-
-ddAbstractFigure::~ddAbstractFigure()
-{
-}
-*/

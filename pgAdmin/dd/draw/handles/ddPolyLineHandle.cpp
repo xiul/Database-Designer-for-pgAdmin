@@ -19,6 +19,7 @@
 
 // App headers
 #include "dd/draw/handles/ddPolyLineHandle.h"
+#include "dd/draw/figures/ddPolyLineFigure.h"
 
 ddPolyLineHandle::ddPolyLineHandle(ddPolyLineFigure *figure, ddILocator *loc, int index):
 ddLocatorHandle((ddIFigure *)figure,loc)
@@ -32,6 +33,7 @@ ddPolyLineHandle::~ddPolyLineHandle()
 
 void ddPolyLineHandle::draw(wxBufferedDC& context)
 {
+	//DD-TODO: set graphic style
 	double middle=getDisplayBox().width/2;
 	context.DrawCircle(
 						wxPoint(getDisplayBox().x+middle,getDisplayBox().y+middle),
@@ -40,31 +42,30 @@ void ddPolyLineHandle::draw(wxBufferedDC& context)
 	//DD-TODO: improve this draw
 }
 
-//HIGH-PRIORITY-FINISH-THIS finish this
 
 ddPoint* ddPolyLineHandle::locate()
 {
 	return NULL;
 }
 
-
-
-void ddPolyLineHandle::invokeStart(int x, int y, ddDrawingView *view)
-{
-}
-
 void ddPolyLineHandle::invokeStep(int x, int y, ddDrawingView *view)
 {
-	//DD-TODO: HIGH-PRIORITY-FINISH-THIS add code here
+	((ddPolyLineFigure*) getOwner())->setPointAt(indx,x,y);
 }
 
-void ddPolyLineHandle::invokeEnd(int x, int y, ddDrawingView *view)
-{
-}
 
 wxCursor& ddPolyLineHandle::createCursor()
 {
 	return wxCursor(wxCURSOR_CROSS);
-	//DD-TODO: HIGH-PRIORITY-FINISH-THIS Should I use reference or a pointer here?
+	//DD-TODO:  Should I use reference or a pointer here?
 }
 
+int ddPolyLineHandle::getIndex()
+{
+	return indx;
+}
+
+void ddPolyLineHandle::setIndex(int index)
+{
+	indx=index;
+}

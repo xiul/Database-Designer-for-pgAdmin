@@ -28,8 +28,7 @@ ddLocatorHandle::~ddLocatorHandle(){
 }
 
 ddPoint* ddLocatorHandle::locate(){
-	return loc==NULL ? new ddPoint() : loc->locate(getOwner()) ;
-	//DD-TODO: HIGH-PRIORITY-FINISH-THIS this default behavior is fine?
+	return loc==NULL ? new ddPoint(0,0) : loc->locate(getOwner()) ;
 }
 
 void ddLocatorHandle::invokeStart(int x, int y, ddDrawingView *view){

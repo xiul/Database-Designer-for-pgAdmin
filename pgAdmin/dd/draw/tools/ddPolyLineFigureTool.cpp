@@ -19,8 +19,9 @@
 // App headers
 #include "dd/draw/tools/ddPolyLineFigureTool.h"
 #include "dd/draw/tools/ddFigureTool.h"
+#include "dd/draw/tools/ddHandleTrackerTool.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
-
+#include "dd/draw/handles/ddIHandle.h"
 
 ddPolyLineFigureTool::ddPolyLineFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddFigureTool(editor,fig,dt)
@@ -34,11 +35,17 @@ ddPolyLineFigureTool::~ddPolyLineFigureTool(){
 void ddPolyLineFigureTool::mouseDown(wxMouseEvent& event){
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	setAnchorCoords(x,y);
-	//getDrawingEditor()->view();
+
 	//DD-TODO: middle down or right and left down?
 	if(event.MiddleDown()){
 		ddPolyLineFigure *connection = (ddPolyLineFigure*) figure;
-		//HIGH-PRIORITY-FINISH-THIS finalizar
+		connection->splitSegment(x,y);
+		getDrawingEditor()->view()->clearSelection();
+		getDrawingEditor()->view()->addToSelection(figure);
+		ddIHandle *handle = getDrawingEditor()->view()->findHandle(x,y);
+		//DD-TODO: set cursor to handle cursor
+		getDrawingEditor()->view()->SetCursor(wxCURSOR_CROSS);//Temporary fix delete and change this.
+		defaultTool = new ddHandleTrackerTool(getDrawingEditor(), handle);
 	}
-
+	defaultTool->mouseDown(event);
 }

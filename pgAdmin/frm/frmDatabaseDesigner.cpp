@@ -9,6 +9,7 @@
 
 // Designer headers
 #include "dd/draw/figures/ddAbstractFigure.h"
+#include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/tools/ddSelectionTool.h"
 #include "dd/draw/tools/ddDragCreationTool.h"
@@ -47,9 +48,30 @@ END_EVENT_TABLE()
 	//f2->setSelected(true);
 	editor->view()->add(f2);
 
-	ddAbstractFigure *f3=new ddAbstractFigure();
+/*	ddAbstractFigure *f3=new ddAbstractFigure();
 	f3->displayBox().width=65;
 	f3->displayBox().height=65;
+
+*/
+	ddPolyLineFigure *f3 = new ddPolyLineFigure();
+
+			f3->addPoint (10, 10);
+			f3->addPoint (60, 10);
+			f3->addPoint (60, 60);
+			f3->addPoint (10, 60);
+			f3->addPoint (10, 10);
+
+/*	f3->setStartPoint(f3->pointAt(0));
+	f3->setEndPoint(f3->pointAt(1));
+*/
+			/*
+						// Simple triangle
+			triangle = new PolyLineFigure ();
+			triangle.AddPoint (35, 15);
+			triangle.AddPoint (55, 55);
+			triangle.AddPoint (15, 55);
+			triangle.AddPoint (35, 15);
+			*/
 
 
 	editor->setTool(new ddDragCreationTool(editor,f3)); 
