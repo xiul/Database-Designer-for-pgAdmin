@@ -28,6 +28,7 @@ public:
     ~ddIFigure();
 
 	virtual ddRect& displayBox();
+	virtual ddRect& getBasicDisplayBox();
 	virtual void draw (wxBufferedDC& context);
 	virtual void drawSelected (wxBufferedDC& context);
 	virtual ddCollection* handlesEnumerator();
@@ -42,33 +43,9 @@ public:
 	virtual void setSelected(bool value);
 	
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
-	/*
-		virtual void AddDependentFigure (ddIFigure figure);
-		bool ContainsPoint (double x, double y);
-		IConnector ConnectorAt (double x, double y);
-		
-		
-		
-		object GetAttribute (FigureAttribute attribute);
-		bool Includes (IFigure figure);
-		void Invalidate ();		
-		
-		void MoveTo (double x, double y);
-		void RemoveDependentFigure (IFigure figure);
-		void SetAttribute (FigureAttribute attribute, object value);
-		void Visit (IFigureVisitor visitor);	
-*/
-	
-/*
-		RectangleD DisplayBox { get; set; }
-		IEnumerable <IFigure> FiguresEnumerator { get; }
-		IEnumerable <IHandle> HandlesEnumerator { get; }
-		IEnumerable <IFigure> DependentFiguresEnumerator { get;	}
-		bool CanConnect { get; }
 
-*/	
 protected:
-	ddRect baseDisplayBox;
+	ddRect basicDisplayBox;
 	ddCollection *figures;
 	ddCollection *handles;
 	ddCollection *dependentFigures;

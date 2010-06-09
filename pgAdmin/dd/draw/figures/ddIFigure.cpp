@@ -39,7 +39,12 @@ ddIFigure::~ddIFigure(){
 
 
 ddRect& ddIFigure::displayBox() {
-	return baseDisplayBox;
+	return getBasicDisplayBox();
+}
+
+ddRect& ddIFigure::getBasicDisplayBox()
+{
+	return basicDisplayBox;
 }
 
 bool ddIFigure::containsPoint (int x, int y){

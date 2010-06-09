@@ -38,34 +38,32 @@ ddPolyLineFigure::~ddPolyLineFigure(){
 	//DD-TODO: delete points
 }
 
-//DD-TODO: HIGH-PRIORITY-FINISH-THIS 666 fix mess displaybox and basicdiscplaybox
-
-ddRect& ddPolyLineFigure::basicDisplayBox() {
+ddRect& ddPolyLineFigure::getBasicDisplayBox() {
 	
-	//basicDisplayBoxRect.
-	basicDisplayBoxRect.height=0;
-	basicDisplayBoxRect.width=0;
+	//basicDisplayBox.
+	basicDisplayBox.height=0;
+	basicDisplayBox.width=0;
 	if(points->count() < 2)
 	{
 		
-		return basicDisplayBoxRect;
+		return basicDisplayBox;
 	}
 	if(points->count()>=1)
 	{
-		basicDisplayBoxRect.SetPosition(*(pointAt(0)));
+		basicDisplayBox.SetPosition(*(pointAt(0)));
 	}
 	else
 	{
-		basicDisplayBoxRect.SetPosition(wxPoint(0,0));
+		basicDisplayBox.SetPosition(wxPoint(0,0));
 	}
 
 	ddIteratorBase *iterator=points->createIterator();
 	while(iterator->HasNext()){
 		ddPoint *p = (ddPoint *) iterator->Next();
-		basicDisplayBoxRect.add(ddRect(p->x,p->y,0,0));
+		basicDisplayBox.add(ddRect(p->x,p->y,0,0));
 	}
 
-	return basicDisplayBoxRect;
+	return basicDisplayBox;
 }
 
 int ddPolyLineFigure::pointCount(){
@@ -179,11 +177,12 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 	//DD-TODO: Are There any way of use DrawLines instead of DrawLine?
 	//DD-TODO: Draw when selected???
 	context.SetPen(wxPen(wxColour(100, 100, 100),1,wxSOLID));
-	//666
-	ddRect rect = ddRect(this->basicDisplayBox());
+	/*
+	ddRect rect = ddRect(this->displayBox());
 	//rect.Inflate(4,4);
 	context.DrawRectangle(rect);
-
+	just for testing
+*/
 	for(int i=0;i<points->count()-1;i++){
 		ddPoint *p1 = (ddPoint *) points->getItemAt(i);
 		ddPoint *p2 = (ddPoint *) points->getItemAt(i+1);

@@ -47,7 +47,7 @@ void ddAbstractFigure::draw(wxBufferedDC& context){
 void ddAbstractFigure::basicDraw(wxBufferedDC& context){
 	context.SetPen(*wxGREEN_PEN);
 	context.SetBrush(wxBrush (wxColour(208, 208, 208),wxSOLID));
-	context.DrawRectangle(baseDisplayBox);
+	context.DrawRectangle(basicDisplayBox);
 }
 
 void ddAbstractFigure::drawSelected(wxBufferedDC& context){
@@ -57,7 +57,7 @@ void ddAbstractFigure::drawSelected(wxBufferedDC& context){
 void ddAbstractFigure::basicDrawSelected(wxBufferedDC& context){
 	context.SetPen(*wxRED_PEN);
 	context.SetBrush(wxBrush (wxColour(133, 133, 133),wxSOLID));
-	context.DrawRectangle(baseDisplayBox);
+	context.DrawRectangle(basicDisplayBox);
 }
 
 
@@ -66,21 +66,23 @@ return *defaultTool;
 //DD-TODO: need IDrawingEditor as parameter?
 }
 
+//DD-TODO: HIGH-PRIORITY-FINISH-THIS: Add connection methods and others
+
 void ddAbstractFigure::moveBy(int x, int y){
 	willChange();
-		ddRect r = baseDisplayBox;
+		ddRect r = basicDisplayBox;
 		r.x += x;
 		r.y += y;
-		baseDisplayBox = r;
+		basicDisplayBox = r;
 	changed();
 }
 
 
 void ddAbstractFigure::moveTo(int x, int y){
-		ddRect r = baseDisplayBox;
+		ddRect r = basicDisplayBox;
 		r.x = x;
 		r.y = y;
-		baseDisplayBox = r;
+		basicDisplayBox = r;
 }
 
 void ddAbstractFigure::willChange(){
@@ -96,7 +98,7 @@ void ddAbstractFigure::invalidate(){
 }
 
 bool ddAbstractFigure::containsPoint(int x, int y){
-	return baseDisplayBox.Contains(x,y);
+	return basicDisplayBox.Contains(x,y);
 }
 
 

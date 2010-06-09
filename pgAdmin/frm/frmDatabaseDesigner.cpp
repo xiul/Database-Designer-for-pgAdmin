@@ -54,24 +54,23 @@ END_EVENT_TABLE()
 
 */
 	ddPolyLineFigure *f3 = new ddPolyLineFigure();
-
-			f3->addPoint (10, 10);
+/*
+	//Rectangle	
+		f3->addPoint (10, 10);
 			f3->addPoint (60, 10);
 			f3->addPoint (60, 60);
 			f3->addPoint (10, 60);
 			f3->addPoint (10, 10);
+*/
+		//Trianglw
+			f3->addPoint (35, 15);
+			f3->addPoint (55, 55);
+			f3->addPoint (15, 55);
+			f3->addPoint (35, 15);
 
 /*	f3->setStartPoint(f3->pointAt(0));
 	f3->setEndPoint(f3->pointAt(1));
 */
-			/*
-						// Simple triangle
-			triangle = new PolyLineFigure ();
-			triangle.AddPoint (35, 15);
-			triangle.AddPoint (55, 55);
-			triangle.AddPoint (15, 55);
-			triangle.AddPoint (35, 15);
-			*/
 
 
 	editor->setTool(new ddDragCreationTool(editor,f3)); 

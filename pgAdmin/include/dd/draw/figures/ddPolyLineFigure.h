@@ -24,7 +24,7 @@ public:
 	ddPolyLineFigure();
     ~ddPolyLineFigure();
 
-	virtual ddRect& basicDisplayBox();
+	virtual ddRect& getBasicDisplayBox();
 	virtual void basicDraw (wxBufferedDC& context);
 	virtual int pointCount();
 	virtual ddPoint* getStartPoint();
@@ -68,7 +68,7 @@ public:
 	
 */
 protected:
-	ddRect basicDisplayBoxRect;
+//	ddRect basicDisplayBoxRect;
 	//DD-TODO: need to store dashes?
 private:
 	ddArrayCollection *points;
