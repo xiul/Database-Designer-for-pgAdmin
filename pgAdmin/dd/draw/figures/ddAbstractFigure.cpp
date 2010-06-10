@@ -70,11 +70,15 @@ return *defaultTool;
 
 void ddAbstractFigure::moveBy(int x, int y){
 	willChange();
+	basicMoveBy(x,y);
+	changed();
+}
+
+void ddAbstractFigure::basicMoveBy(int x, int y){
 		ddRect r = basicDisplayBox;
 		r.x += x;
 		r.y += y;
 		basicDisplayBox = r;
-	changed();
 }
 
 

@@ -16,9 +16,9 @@
 class ddGeometry : public ddObject
 {
 public:
-	static bool lineContainsPoint(int x1, int y1, int x2, int y2, int px, int py);
-	static int min(int a, int b);
-	static int max(int a, int b);
+	static bool lineContainsPoint(double x1, double y1, double x2, double y2, double px, double py);
+	static int min(double a, double b);
+	static int max(double a, double b);
 };
 
 #endif

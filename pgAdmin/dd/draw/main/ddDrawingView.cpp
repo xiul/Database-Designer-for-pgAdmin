@@ -26,6 +26,7 @@ BEGIN_EVENT_TABLE(ddDrawingView, wxScrolledWindow)
 EVT_PAINT(ddDrawingView::onPaint)
 EVT_MOTION(ddDrawingView::onMotion)
 EVT_LEFT_DOWN(ddDrawingView::onMouseDown)
+EVT_LEFT_DCLICK(ddDrawingView::onMouseDown)
 EVT_LEFT_UP(ddDrawingView::onMouseUp)
 EVT_ERASE_BACKGROUND(gqbView::onEraseBackGround)  //This erase flicker
 END_EVENT_TABLE()

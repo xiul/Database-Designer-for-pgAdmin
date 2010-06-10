@@ -29,6 +29,6 @@ protected:
 
 private:
 	int min(int a, int b);
-	int max(int a, int b);
+	int max(int a, int b);  //DD-TODO: delete this functions use ddGeometry instead of.
 };
 #endif

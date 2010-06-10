@@ -24,6 +24,8 @@ class ddIHandle : public ddObject
 public:
 	ddIHandle(ddIFigure *owner);
     ~ddIHandle();
+	
+	static const int size = 4;
 
 	virtual bool containsPoint(int x, int y);
 	virtual void draw(wxBufferedDC& context)=0;

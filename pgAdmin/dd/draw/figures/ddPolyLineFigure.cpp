@@ -147,6 +147,10 @@ void ddPolyLineFigure::removePointAt (int index)
 	changed();
 }
 
+void ddPolyLineFigure::basicDrawSelected(wxBufferedDC& context){
+	basicDraw(context); //DD-TODO: HIGH-PRIORITY-FINISH-THIS: what to do when selected?
+}
+
 void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 	if(points->count() < 2)
 	{
@@ -197,7 +201,7 @@ void ddPolyLineFigure::basicMoveBy(int x, int y){
 		newPoint = (ddPoint *) points->getItemAt(i);  //DD-TODO: replace and test with pointAt
 		newPoint->x += x;
 		newPoint->y += y;
-		points->insertAtIndex((ddObject *) newPoint,i); //DD-TODO: this is neede because I'm working with pointers??
+		points->replaceAtIndex((ddObject *) newPoint,i); //DD-TODO: this is neede because I'm working with pointers??
 	}
 }
 
@@ -226,7 +230,7 @@ ddPoint* ddPolyLineFigure::pointAt(int index)
 
 bool ddPolyLineFigure::containsPoint (int x, int y){
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS  Search in all inflate references value pass using value not reference to not modify value
-	ddRect rect = ddRect(this->displayBox());
+	ddRect rect = ddRect(this->displayBox()); //DD-TODO: verify some displaybox returned here with incorrect values sometimes
 	rect.Inflate(4,4);
 	if(!rect.Contains(x,y)){
 		return false;

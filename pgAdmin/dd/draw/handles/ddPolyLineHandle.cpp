@@ -43,10 +43,11 @@ void ddPolyLineHandle::draw(wxBufferedDC& context)
 }
 
 
-ddPoint* ddPolyLineHandle::locate()
+/*ddPoint* ddPolyLineHandle::locate()
 {
 	return NULL;
 }
+*/
 
 void ddPolyLineHandle::invokeStep(int x, int y, ddDrawingView *view)
 {

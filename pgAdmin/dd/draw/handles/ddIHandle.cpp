@@ -18,6 +18,7 @@
 
 // App headers
 #include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/utilities/ddPoint.h"
 
 ddIHandle::ddIHandle(ddIFigure *owner){
 	figureOwner=owner;
@@ -31,11 +32,24 @@ ddIFigure* ddIHandle::getOwner(){
 }
 
 ddRect& ddIHandle::getDisplayBox(){
+	ddPoint *p = locate();
+	displayBox.width=0;
+	displayBox.height=0;
+	displayBox.SetPosition(*p);
+	displayBox.Inflate(size,size);
 	return displayBox;
+/*
+				PointD p = Locate ();
+				RectangleD rect = new RectangleD (p, p);
+				rect.Inflate (Size, Size);
+				rect.OffsetDot5 ();
+				return rect;
+*/
+
 }
 
 bool ddIHandle::containsPoint(int x, int y){
-	return displayBox.Contains(x,y);
+	return getDisplayBox().Contains(x,y);
 }
 
 //Al methods and properties at ddIHandle.h

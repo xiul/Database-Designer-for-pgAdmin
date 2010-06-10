@@ -37,7 +37,7 @@ void ddPolyLineFigureTool::mouseDown(wxMouseEvent& event){
 	setAnchorCoords(x,y);
 
 	//DD-TODO: middle down or right and left down?
-	if(event.MiddleDown()){
+	if(event.LeftDClick()){
 		ddPolyLineFigure *connection = (ddPolyLineFigure*) figure;
 		connection->splitSegment(x,y);
 		getDrawingEditor()->view()->clearSelection();

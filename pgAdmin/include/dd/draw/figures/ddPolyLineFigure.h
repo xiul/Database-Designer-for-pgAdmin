@@ -26,6 +26,7 @@ public:
 
 	virtual ddRect& getBasicDisplayBox();
 	virtual void basicDraw (wxBufferedDC& context);
+	virtual void basicDrawSelected(wxBufferedDC& context);
 	virtual int pointCount();
 	virtual ddPoint* getStartPoint();
 	virtual void setStartPoint(ddPoint *point);

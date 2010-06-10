@@ -70,7 +70,7 @@ void ddRect::add (ddRect& newRect){
 void ddRect::add(ddPoint *p){
 	add(p->x,p->y);
 }
- 
+
 int ddRect::min(int a, int b){
 	return(a<=b)?a:b;
 }

@@ -21,7 +21,9 @@
 #include "dd/draw/utilities/ddRect.h"
 #include "dd/draw/utilities/ddPoint.h"
 
-bool ddGeometry::lineContainsPoint(int x1, int y1, int x2, int y2, int px, int py){
+//typecasting to avoid miscalculations, here need double values not int
+bool ddGeometry::lineContainsPoint(double x1, double y1, double x2, double y2, double px, double py){
+
 	ddRect r = ddRect(ddPoint(x1,y1));
 	r.add(x2,y2);
 	r.Inflate(2,2);
@@ -29,7 +31,7 @@ bool ddGeometry::lineContainsPoint(int x1, int y1, int x2, int y2, int px, int p
 		return false;
 	}
 
-	int a, b, x, y;
+	double a, b, x, y;
 
 	if( x1 == x2 )
 	{
@@ -49,10 +51,10 @@ bool ddGeometry::lineContainsPoint(int x1, int y1, int x2, int y2, int px, int p
 	return (min( abs(x-px), abs(y-py)) < 4);
 }
 
-int ddGeometry::min(int a, int b){
+int ddGeometry::min(double a, double b){
 	return(a<=b)?a:b;
 }
 
-int ddGeometry::max(int a, int b){
+int ddGeometry::max(double a, double b){
 	return(a>=b)?a:b;
 }

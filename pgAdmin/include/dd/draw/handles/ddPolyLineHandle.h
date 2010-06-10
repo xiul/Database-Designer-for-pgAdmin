@@ -25,7 +25,7 @@ public:
     ~ddPolyLineHandle();
 
 	virtual void draw(wxBufferedDC& context);
-	virtual ddPoint* locate();
+	//virtual ddPoint* locate();
 	virtual void invokeStep(int x, int y, ddDrawingView *view);
 	virtual wxCursor& createCursor();
 	virtual int getIndex();
