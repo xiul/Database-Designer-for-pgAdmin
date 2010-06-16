@@ -25,6 +25,8 @@ public:
 	void add (ddRect *newRect);
 	void add (ddRect& newRect);
 	void add (ddPoint *p);
+	ddPoint center();
+
 protected:
 
 private:

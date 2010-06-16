@@ -35,9 +35,8 @@ bool ddAbstractFigure::canConnect (){
 return true;
 }
 
-bool ddAbstractFigure::includes(ddIFigure figure){
-	return false;	
-	//DD-TODO: implement this return (this==figure);
+bool ddAbstractFigure::includes(ddIFigure *figure){
+	return (this==figure);	
 }
 
 void ddAbstractFigure::draw(wxBufferedDC& context){

@@ -58,3 +58,48 @@ int ddGeometry::min(double a, double b){
 int ddGeometry::max(double a, double b){
 	return(a>=b)?a:b;
 }
+
+double ddGeometry::angleFromPoint(ddRect r, ddPoint point)
+{
+	double rx = point.x - r.center().x;
+	double ry = point.y - r.center().y;
+	return atan2 (ry * r.width, rx * r.height);
+}
+
+ddPoint ddGeometry::edgePointFromAngle(ddRect r, double angle)
+{
+	double sinv = sin(angle);
+	double cosv = cos(angle);
+	double e = 0.0001;
+	double x = 0.0;
+	double y = 0.0;
+
+	if( abs(sinv) > e )
+	{
+		x = (1.0 + cosv / abs (sinv)) / 2.0 * r.width;
+		x = range(0.0,r.width,x);
+	}
+	else if ( cosv >= 0.0 )
+	{
+		x = r.width;
+	}
+
+	if ( abs(cosv) > e )
+	{
+		y = (1.0 + sinv / abs (cosv)) / 2.0 * r.height;
+		y = range (0.0, r.height, y);
+	}
+	else if ( sinv >= 0.0 )
+	{
+		y = r.height;
+	}
+
+	return ddPoint(r.x + x, r.y + y);
+}
+
+double ddGeometry::range(double min, double max, double num)
+{
+	return num < min ? min : (num > max ? max: num);
+}
+
+

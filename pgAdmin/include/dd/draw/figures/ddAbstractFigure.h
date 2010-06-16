@@ -29,7 +29,7 @@ public:
 	virtual bool canConnect ();
 	virtual void draw(wxBufferedDC& context);
 	virtual void basicDrawSelected(wxBufferedDC& context);
-	virtual bool includes(ddIFigure figure);
+	virtual bool includes(ddIFigure *figure);
 	virtual ddITool CreateFigureTool(ddITool *defaultTool);
 	virtual void moveBy(int x, int y);
 	virtual void basicMoveBy(int x, int y);

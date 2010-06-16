@@ -15,10 +15,12 @@
 #include "dd/draw/main/ddObject.h"
 #include "dd/draw/utilities/ddCollection.h"
 #include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/connectors/ddIConnector.h"
 
 
 class ddITool;			// HACK-FIX circular reference
 class ddDrawingEditor;
+class ddIConnector;
 
 // Create Array Objects used as base for gqbCollections
 class ddIFigure : public ddObject
@@ -36,11 +38,14 @@ public:
 	virtual void removeDependentFigure (ddIFigure *figure);
 	virtual void addHandle (ddIHandle *handle);
 	virtual void removeHandle (ddIHandle *handle);
+	ddIConnector* connectorAt (int x, int y);
 	virtual void moveBy(int x, int y);
 	virtual void moveTo(int x, int y);
 	virtual bool containsPoint(int x, int y);
 	virtual bool isSelected();
 	virtual void setSelected(bool value);
+	virtual bool includes(ddIFigure *figure);
+	virtual bool canConnect()=0;
 	
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 

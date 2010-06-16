@@ -38,7 +38,7 @@ protected:
 	virtual ddIFigure* getOwner();
 	virtual ddRect& getDisplayBox();
 private:
-	ddIFigure *figureOwner; //DD-TODO: change for IFigure but avoid circular reference
+	ddIFigure *figureOwner;
 	ddRect displayBox;
 	double lineWidth;
 	//DD-TODO: Add	fillColor and addColor

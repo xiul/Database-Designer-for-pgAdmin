@@ -103,11 +103,11 @@ void ddDrawing::recalculateDisplayBox(){
 			*/
 }
 
-void ddDrawing::bringToFront(ddIFigure figure){
+void ddDrawing::bringToFront(ddIFigure *figure){
 	//DD-TODO: do it
 }
 
-void ddDrawing::sendToBack(ddIFigure figure){
+void ddDrawing::sendToBack(ddIFigure *figure){
 	//DD-TODO: do it
 }
 

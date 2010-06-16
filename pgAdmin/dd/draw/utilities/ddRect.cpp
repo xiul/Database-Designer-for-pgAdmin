@@ -79,4 +79,7 @@ int ddRect::max(int a, int b){
 	return(a>=b)?a:b;
 }
 
+ddPoint ddRect::center(){
+	return ddPoint(x+(width/2) , y+(height/2)); 
+}
 

@@ -52,27 +52,11 @@ public:
 	virtual ddPoint* pointAt(int index);
 	virtual bool containsPoint (int x, int y);
 
-
-/*	
-	virtual void drawSelected (wxBufferedDC& context);
-	virtual ddCollection* handlesEnumerator();
-	virtual void addDependentFigure (ddIFigure *figure);
-	virtual void removeDependentFigure (ddIFigure *figure);
-	virtual void addHandle (ddIHandle *handle);
-	virtual void removeHandle (ddIHandle *handle);
-	virtual bool containsPoint(int x, int y)=0;
-	virtual void moveTo(int x, int y);
-	
-	virtual bool isSelected();
-	virtual void setSelected(bool value);
-	
-	
-*/
 protected:
-//	ddRect basicDisplayBoxRect;
+	//	ddRect basicDisplayBoxRect;
 	//DD-TODO: need to store dashes?
-private:
 	ddArrayCollection *points;
+private:
 	ddLineTerminal *startTerminal, *endTerminal;
 };
 #endif

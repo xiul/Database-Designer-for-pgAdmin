@@ -28,8 +28,8 @@ public:
 	virtual bool includes(ddIFigure *figure);
 	virtual ddIFigure* findFigure(int x, int y);
 	virtual void recalculateDisplayBox();
-	virtual void bringToFront(ddIFigure figure);
-	virtual void sendToBack(ddIFigure figure);
+	virtual void bringToFront(ddIFigure *figure);
+	virtual void sendToBack(ddIFigure *figure);
 	virtual ddRect& DisplayBox();
 	virtual ddIteratorBase* figuresEnumerator();
 	virtual ddIteratorBase* ddDrawing::figuresInverseEnumerator();

@@ -22,6 +22,8 @@
 #include "dd/draw/handles/ddIHandle.h"
 #include "dd/draw/utilities/ddArrayCollection.h"
 #include "dd/draw/tools/ddITool.h"
+#include "dd/draw/connectors/ddIConnector.h"
+#include "dd/draw/connectors/ddChopBoxConnector.h"
 
 
 
@@ -105,6 +107,17 @@ bool ddIFigure::isSelected(){
 
 void ddIFigure::setSelected(bool value){
 	selected=value;
+}
+
+ddIConnector* ddIFigure::connectorAt (int x, int y)
+{
+	return new ddChopBoxConnector(this);
+	//DD-TODO: HIGH-PRIORITY-FINISH-THIS avoid this memory leak
+}
+
+bool ddIFigure::includes(ddIFigure *figure)
+{
+	return (this == figure);
 }
 
 /*
