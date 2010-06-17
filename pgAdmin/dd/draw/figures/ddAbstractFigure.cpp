@@ -89,11 +89,14 @@ void ddAbstractFigure::moveTo(int x, int y){
 }
 
 void ddAbstractFigure::willChange(){
+	invalidate();
+
 }
 
 void ddAbstractFigure::changed(){
 			invalidate();
-			//DD-TODO: OnFigureChanged (new FigureEventArgs (this, DisplayBox));
+			onFigureChanged(this);
+			//DD-TODO: this is really needed
 }
 
 void ddAbstractFigure::invalidate(){
@@ -104,8 +107,10 @@ bool ddAbstractFigure::containsPoint(int x, int y){
 	return basicDisplayBox.Contains(x,y);
 }
 
-
-
+void ddAbstractFigure::onFigureChanged(ddIFigure *figure)
+{
+	//do something with figure, usually is the same "figure" than "this"
+}
 
 /*
 ConnectorAt

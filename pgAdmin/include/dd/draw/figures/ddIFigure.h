@@ -46,6 +46,7 @@ public:
 	virtual void setSelected(bool value);
 	virtual bool includes(ddIFigure *figure);
 	virtual bool canConnect()=0;
+	virtual void onFigureChanged(ddIFigure *figure)=0;
 	
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 

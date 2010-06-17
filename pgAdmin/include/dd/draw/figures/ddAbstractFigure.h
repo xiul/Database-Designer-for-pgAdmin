@@ -35,6 +35,7 @@ public:
 	virtual void basicMoveBy(int x, int y);
 	virtual void moveTo(int x, int y);
 	virtual bool containsPoint(int x, int y);
+	virtual void onFigureChanged(ddIFigure *figure);
 
 //DD-TODO: public virtual IConnector ConnectorAt (double x, double y)
 //DD-TODO: public void Visit (IFigureVisitor visitor) 

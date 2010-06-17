@@ -13,6 +13,8 @@
 #include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/tools/ddSelectionTool.h"
 #include "dd/draw/tools/ddDragCreationTool.h"
+#include "dd/draw/tools/ddConnectionCreationTool.h"
+#include "dd/draw/figures/ddLineConnection.h"
 
 // Icons
 #include "images/sql-32.xpm"
@@ -52,29 +54,31 @@ END_EVENT_TABLE()
 	f3->displayBox().width=65;
 	f3->displayBox().height=65;
 
-*/
 	ddPolyLineFigure *f3 = new ddPolyLineFigure();
-/*
+
 	//Rectangle	
 		f3->addPoint (10, 10);
 			f3->addPoint (60, 10);
 			f3->addPoint (60, 60);
 			f3->addPoint (10, 60);
 			f3->addPoint (10, 10);
-*/
+//OR
 		//Trianglw
 			f3->addPoint (35, 15);
 			f3->addPoint (55, 55);
 			f3->addPoint (15, 55);
 			f3->addPoint (35, 15);
 
-/*	f3->setStartPoint(f3->pointAt(0));
+	f3->setStartPoint(f3->pointAt(0));
 	f3->setEndPoint(f3->pointAt(1));
 */
 
 
-	editor->setTool(new ddDragCreationTool(editor,f3)); 
+//antes	editor->setTool(new ddDragCreationTool(editor,f3)); 
 
+ddLineConnection *f3 = new ddLineConnection();
+
+	editor->setTool(new ddConnectionCreationTool(editor,f3));
 
 	//SetIcon(wxIcon(sql_32_xpm));
 }

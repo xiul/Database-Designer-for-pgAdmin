@@ -120,6 +120,10 @@ bool ddIFigure::includes(ddIFigure *figure)
 	return (this == figure);
 }
 
+void ddIFigure::onFigureChanged(ddIFigure *figure)
+{
+}
+
 /*
 
 		RectangleD DisplayBox { get; set; }

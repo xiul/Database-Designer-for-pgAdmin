@@ -121,7 +121,7 @@ bool ddLineConnection::canConnectEnd(ddIFigure *figure)
 	return true;
 }
 
-ddIFigure* ddLineConnection::getConnStartFigure()
+ddIFigure* ddLineConnection::getStartFigure()
 {
 	if(startConnector)
 	{
@@ -131,7 +131,7 @@ ddIFigure* ddLineConnection::getConnStartFigure()
 	return NULL;
 }
 
-ddIFigure* ddLineConnection::getConnEndFigure()
+ddIFigure* ddLineConnection::getEndFigure()
 {
 	if(endConnector)
 	{
@@ -145,20 +145,20 @@ void ddLineConnection::updateConnection(){
 	//DD-TODO: avoid memory leak from thiw new ddPoint
 	if(startConnector)
 	{
-		setConnStartPoint(new ddPoint(startConnector->findStart(this)));
+		setStartPoint(new ddPoint(startConnector->findStart(this)));
 	}
 	if(endConnector)
 	{
-		setConnEndPoint(new ddPoint(endConnector->findEnd(this)));
+		setEndPoint(new ddPoint(endConnector->findEnd(this)));
 	}
 }
 
-ddIHandle* ddLineConnection::getConnStartHandle()
+ddIHandle* ddLineConnection::getStartHandle()
 {
 	return new ddChangeConnectionStartHandle(this);
 }
 
-ddIHandle* ddLineConnection::getConnEndHandle()
+ddIHandle* ddLineConnection::getEndHandle()
 {
 	return new ddChangeConnectionEndHandle(this);
 }
@@ -197,11 +197,11 @@ ddCollection* ddLineConnection::handlesEnumerator(){
 	if( points->count()< 2 )
 		return connectionHandles;  //return empty handle
 	
-	connectionHandles->addItem(getConnStartHandle());
+	connectionHandles->addItem(getStartHandle());
 	for(int i=0;i<points->count();i++){
 		connectionHandles->addItem(new ddLineConnectionHandle(this, new ddPolyLineLocator(i), i));
 	}
-	connectionHandles->addItem(getConnEndHandle());
+	connectionHandles->addItem(getEndHandle());
 
 	return connectionHandles;
 }
@@ -213,8 +213,8 @@ void ddLineConnection::connectFigure (ddIConnector *connector)
 	{
 		//connector->getOwner()->figureChangedEvent ADD handler (observer pattern)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
+		connector->getOwner()->onFigureChanged(reinterpret_cast<ddIFigure*>(this));
 		connector->getOwner()->addDependentFigure(reinterpret_cast<ddIFigure*>(this));
-		//DD-TODO: is there any other option to reinterpret_cast?
 	}
 }
 
@@ -222,16 +222,51 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 {
 	if(connector)
 	{
-		//connector->getOwner()->figureChangedEvent REMOVE handler (observer pattern)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
+		connector->getOwner()->onFigureChanged(reinterpret_cast<ddIFigure*>(this));
 		connector->getOwner()->removeDependentFigure(reinterpret_cast<ddIFigure*>(this));
 		//DD-TODO: is there any other option to reinterpret_cast?
 	}
 }
 
-/*
 //DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
-void FigureChangedHandler (object sender, FigureEventArgs args)	{
-			UpdateConnection ();
-		}
-*/
+void ddLineConnection::onFigureChanged(ddIFigure *figure)
+{
+		ddIConnectionFigure::onFigureChanged(figure);
+		//666 BUGSISIMO updateConnection();
+}
+
+ddPoint* ddLineConnection::getStartPoint()
+{
+	return ddPolyLineFigure::getStartPoint();
+}
+
+void ddLineConnection::setStartPoint(ddPoint *point)
+{
+	ddPolyLineFigure::setStartPoint(point);
+}
+
+ddPoint* ddLineConnection::getEndPoint()
+{
+	return ddPolyLineFigure::getEndPoint();
+}
+
+void ddLineConnection::setEndPoint(ddPoint *point)
+{
+	ddPolyLineFigure::setEndPoint(point);
+}
+
+ddPoint* ddLineConnection::pointAt(int index)
+{
+	return ddPolyLineFigure::pointAt(index);
+}
+
+void ddLineConnection::splitSegment(int x, int y)
+{
+	ddPolyLineFigure::splitSegment(x,y);
+}
+
+int ddLineConnection::pointCount()
+{
+	return ddPolyLineFigure::pointCount();
+}

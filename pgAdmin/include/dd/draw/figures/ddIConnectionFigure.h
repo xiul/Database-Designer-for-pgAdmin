@@ -30,23 +30,22 @@ public:
 	virtual void disconnectEnd()=0;
 	virtual bool canConnectStart(ddIFigure *figure)=0;
 	virtual bool canConnectEnd(ddIFigure *figure)=0;
-	virtual ddPoint connPointAt(int index)=0;
+	virtual ddPoint* pointAt(int index)=0;
 	virtual void splitSegment(int x, int y)=0;
 
-	
 	virtual int pointCount()=0;
 	virtual ddIConnector* getStartConnector()=0;
 	virtual ddIConnector* getEndConnector()=0;
 	virtual void setStartConnector(ddIConnector* connector)=0;
 	virtual void setEndConnector(ddIConnector* connector)=0;
-	virtual ddPoint* getConnStartPoint()=0;
-	virtual void setConnStartPoint(ddPoint *point)=0;
-	virtual ddPoint* getConnEndPoint()=0;
-	virtual void setConnEndPoint(ddPoint *point)=0;
-	virtual ddIFigure* getConnStartFigure()=0;
-	virtual ddIFigure* getConnEndFigure()=0;
-	virtual ddIHandle* getConnStartHandle()=0;
-	virtual ddIHandle* getConnEndHandle()=0;
+	virtual ddPoint* getStartPoint()=0;
+	virtual void setStartPoint(ddPoint *point)=0;
+	virtual ddPoint* getEndPoint()=0;
+	virtual void setEndPoint(ddPoint *point)=0;
+	virtual ddIFigure* getStartFigure()=0;
+	virtual ddIFigure* getEndFigure()=0;
+	virtual ddIHandle* getStartHandle()=0;
+	virtual ddIHandle* getEndHandle()=0;
 
 protected:
 

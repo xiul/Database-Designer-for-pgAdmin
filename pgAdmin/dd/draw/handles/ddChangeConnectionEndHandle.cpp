@@ -31,7 +31,7 @@ ddChangeConnectionEndHandle::~ddChangeConnectionEndHandle()
 
 ddPoint* ddChangeConnectionEndHandle::locate()
 {
-	return connection->getConnEndPoint();
+	return connection->getEndPoint();
 }
 
 ddIConnector* ddChangeConnectionEndHandle::target()
@@ -63,6 +63,6 @@ bool ddChangeConnectionEndHandle::isConnectionPossible(ddIFigure *figure)
 
 void ddChangeConnectionEndHandle::setPoint(ddPoint* p)
 {
-	connection->setConnEndPoint(p);
+	connection->setEndPoint(p);
 	//DD-TODO: avoid this memory leak when a point have been overwritten
 }

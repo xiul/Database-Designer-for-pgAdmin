@@ -102,7 +102,7 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 	wxPaintDC dcc(this);                          // Prepare Context for Buffered Draw
     wxBufferedDC dc(&dcc, canvasSize);
 	dc.Clear();
-	ddIFigure *toDraw;
+	ddIFigure *toDraw=NULL;
 	ddIteratorBase *iterator=drawing->figuresEnumerator();
 	while(iterator->HasNext()){
 		 toDraw=(ddIFigure *)iterator->Next();
@@ -112,7 +112,31 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 			toDraw->draw(dc);			
 		 
 	}
-	
+
+	//DD-TODO: Delete all iterators after use it
+
+	//ddIteratorBase *iterator2=this->selectionH
+/*
+				foreach (IFigure figure in SelectionEnumerator) {					
+					figure.DrawSelected (context);
+				}
+				
+				foreach (IHandle handle in SelectionHandles) {
+					handle.Draw (context);
+				}
+*/
+	ddIHandle *tmpHandle=NULL;
+	ddIteratorBase *selectionIterator=selection->createIterator();
+	while(selectionIterator->HasNext()){
+		 toDraw=(ddIFigure *)selectionIterator->Next();
+		 ddIteratorBase *handlesIterator = toDraw->handlesEnumerator()->createIterator();
+		 while(handlesIterator->HasNext()){
+			 tmpHandle= (ddIHandle *)handlesIterator->Next();
+				 tmpHandle->draw(dc);
+		 }
+	}
+
+
 	if( drawSelRect ){  //Hack to avoid selection rectangle drawing bug
 		wxPen* pen = wxThePenList->FindOrCreatePen(*wxRED, 1, wxDOT);
 		dc.SetPen(*pen);

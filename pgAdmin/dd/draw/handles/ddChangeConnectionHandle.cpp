@@ -50,6 +50,8 @@ void ddChangeConnectionHandle::draw(wxBufferedDC& context)
 	points[4].x = getDisplayBox().center().x;
 	points[4].y = getDisplayBox().GetTop();
 
+	context.DrawLine(points[0],points[4]); //666
+
 	context.DrawPolygon(5,points,0,0);
 }
 

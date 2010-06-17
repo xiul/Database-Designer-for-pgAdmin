@@ -32,29 +32,45 @@ public:
 	virtual void updateConnection();
 	virtual bool canConnectStart(ddIFigure *figure);
 	virtual bool canConnectEnd(ddIFigure *figure);
-	virtual ddPoint connPointAt(int index)=0;
-	virtual void splitSegment(int x, int y)=0;
+	//ddPolyLineFigure virtual ddPoint PointAt(int index)=0;
+	//virtual void splitSegment(int x, int y)=0;
 	virtual bool canConnect();
 	virtual void setPointAt (int index, int x, int y);
 	virtual ddCollection* handlesEnumerator();
 	virtual void basicMoveBy(int x, int y);
 	
-	virtual int pointCount()=0;
+	virtual void onFigureChanged(ddIFigure *figure);
+
+	//ddPolyLineFigure virtual int pointCount()=0;
 	virtual ddIConnector* getStartConnector();
 	virtual ddIConnector* getEndConnector();
 	virtual void setStartConnector(ddIConnector* connector);
 	virtual void setEndConnector(ddIConnector* connector);
-	virtual ddPoint* getConnStartPoint()=0;
-	virtual void setConnStartPoint(ddPoint *point)=0;
-	virtual ddPoint* getConnEndPoint()=0;
-	virtual void setConnEndPoint(ddPoint *point)=0;
-	virtual ddIFigure* getConnStartFigure();
-	virtual ddIFigure* getConnEndFigure();
-	virtual ddIHandle* getConnStartHandle();
-	virtual ddIHandle* getConnEndHandle();
-//DD-TODO: HIGH-PRIORITY-FINISH-THIS fix los metodos repetidos para que hagan lo mismo
-protected:
+	virtual ddIFigure* getStartFigure();
+	virtual ddIFigure* getEndFigure();
+	virtual ddIHandle* getStartHandle();
+	virtual ddIHandle* getEndHandle();
+	using ddPolyLineFigure::pointAt;
 
+	//Fix which ambiguos function declared in ddPolyLineFigure and ddIConnectionFigure is going to be used
+	using ddPolyLineFigure::getStartPoint;
+	using ddPolyLineFigure::getEndPoint;
+	using ddPolyLineFigure::setStartPoint;
+	using ddPolyLineFigure::setEndPoint;
+	using ddPolyLineFigure::splitSegment;
+	using ddPolyLineFigure::pointCount;
+	//Fix for some reason I need to declare this again to avoid declaration of this class as abstract
+	virtual ddPoint* getStartPoint();
+	virtual void setStartPoint(ddPoint *point);
+	virtual ddPoint* getEndPoint();
+	virtual void setEndPoint(ddPoint *point);
+	virtual ddPoint* pointAt(int index);
+	virtual void splitSegment(int x, int y);
+	virtual int pointCount();
+
+//DD-TODO: HIGH-PRIORITY-FINISH-THIS fix los metodos repetidos para que hagan lo mismo si existen
+protected:
+	
 private:
 	void connectFigure (ddIConnector *connector);
 	void disconnectFigure (ddIConnector *connector);

@@ -3734,6 +3734,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\tools\ddConnectionCreationTool.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\tools\ddCreationTool.h"
 							>
 						</File>
@@ -5224,6 +5228,10 @@
 					>
 					<File
 						RelativePath=".\dd\draw\tools\ddAbstractTool.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\tools\ddConnectionCreationTool.cpp"
 						>
 					</File>
 					<File
