@@ -22,7 +22,7 @@
 #include "dd/draw/main/ddDrawingView.h"
 
 
-ddConnectionCreationTool::ddConnectionCreationTool(ddDrawingEditor *editor, ddIConnectionFigure *figure):
+ddConnectionCreationTool::ddConnectionCreationTool(ddDrawingEditor *editor, ddLineConnection *figure):
 ddAbstractTool(editor)
 {
 	toolConnection=figure;

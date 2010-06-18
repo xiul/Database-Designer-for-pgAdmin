@@ -5370,6 +5370,10 @@
 			</Filter>
 		</Filter>
 		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
+		<File
 			RelativePath=".\ctl\ctlColourPicker.cpp"
 			>
 		</File>

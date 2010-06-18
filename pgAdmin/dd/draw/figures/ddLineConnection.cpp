@@ -187,12 +187,6 @@ void ddLineConnection::setPointAt (int index, int x, int y)
 
 ddCollection* ddLineConnection::handlesEnumerator(){
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS optimize this, not create a new instance everytime invoke function
-	
-	ddPolyLineFigure::handles;
-	ddIConnectionFigure::handles;
-
-		//, public ddIConnectionFigure
-
 	connectionHandles->deleteAll();
 	if( points->count()< 2 )
 		return connectionHandles;  //return empty handle
@@ -223,8 +217,8 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 	if(connector)
 	{
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
-		connector->getOwner()->onFigureChanged(reinterpret_cast<ddIFigure*>(this));
-		connector->getOwner()->removeDependentFigure(reinterpret_cast<ddIFigure*>(this));
+		connector->getOwner()->onFigureChanged(this);
+		connector->getOwner()->removeDependentFigure(this);
 		//DD-TODO: is there any other option to reinterpret_cast?
 	}
 }
@@ -232,7 +226,7 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 //DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
 void ddLineConnection::onFigureChanged(ddIFigure *figure)
 {
-		ddIConnectionFigure::onFigureChanged(figure);
+//		ddIConnectionFigure::onFigureChanged(figure);
 		//666 BUGSISIMO updateConnection();
 }
 

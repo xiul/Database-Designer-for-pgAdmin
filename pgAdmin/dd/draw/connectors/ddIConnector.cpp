@@ -17,11 +17,12 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/figures/ddIFigure.h"
-#include "dd/draw/figures/ddIConnectionFigure.h"
+//#include "dd/draw/figures/ddIFigure.h"
+#include "dd/draw/figures/ddLineConnection.h"
 #include "dd/draw/connectors/ddIConnector.h"
 
-class ddIConnectionFigure;  //HACK-FIX to circular reference
+class ddLineConnection;  //HACK-FIX to circular reference
+class ddIFigure;
 
 ddIConnector::ddIConnector(ddIFigure *owner):
 ddObject()
@@ -59,12 +60,12 @@ bool ddIConnector::containsPoint(int x, int y)
 	return figureOwner->containsPoint(x,y);
 }
 
-ddPoint ddIConnector::findStart(ddIConnectionFigure *connection)
+ddPoint ddIConnector::findStart(ddLineConnection *connection)
 {
 	return getDisplayBox().center();
 }
 
-ddPoint ddIConnector::findEnd(ddIConnectionFigure *connection)
+ddPoint ddIConnector::findEnd(ddLineConnection *connection)
 {
 	return getDisplayBox().center();
 }

@@ -109,6 +109,7 @@ void ddIFigure::setSelected(bool value){
 	selected=value;
 }
 
+
 ddIConnector* ddIFigure::connectorAt (int x, int y)
 {
 	return new ddChopBoxConnector(this);

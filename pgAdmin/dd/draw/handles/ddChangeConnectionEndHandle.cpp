@@ -20,7 +20,7 @@
 #include "dd/draw/handles/ddChangeConnectionEndHandle.h"
 #include "dd/draw/utilities/ddPoint.h"
 
-ddChangeConnectionEndHandle::ddChangeConnectionEndHandle(ddIConnectionFigure *owner):
+ddChangeConnectionEndHandle::ddChangeConnectionEndHandle(ddLineConnection *owner):
 ddChangeConnectionHandle(owner)
 {
 }

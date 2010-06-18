@@ -13,7 +13,7 @@
 #define DDCHANGECONNECTIONHANDLE_H
 
 #include "dd/draw/handles/ddIHandle.h"
-#include "dd/draw/figures/ddIConnectionFigure.h"
+#include "dd/draw/figures/ddLineConnection.h"
 #include "dd/draw/connectors/ddIConnector.h"
 #include "dd/draw/main/ddDrawing.h"
 
@@ -24,7 +24,7 @@ class ddIFigure;
 class ddChangeConnectionHandle : public ddIHandle
 {
 public:
-	ddChangeConnectionHandle(ddIConnectionFigure *owner);
+	ddChangeConnectionHandle(ddLineConnection *owner);
     ~ddChangeConnectionHandle();
 	
 	virtual void draw(wxBufferedDC& context);
@@ -40,7 +40,7 @@ public:
 	ddIFigure* findConnectableFigure(int x, int y, ddDrawing *drawing);
 	ddIConnector* findConnectionTarget(int x, int y, ddDrawing *drawing);
 protected:
-	ddIConnectionFigure *connection;
+	ddLineConnection *connection;
 	ddIFigure *targetFigure;
 private:
 	ddIConnector *originalTarget;

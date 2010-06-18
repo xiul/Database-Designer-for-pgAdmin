@@ -20,7 +20,7 @@
 #include "dd/draw/handles/ddChangeConnectionStartHandle.h"
 #include "dd/draw/utilities/ddPoint.h"
 
-ddChangeConnectionStartHandle::ddChangeConnectionStartHandle(ddIConnectionFigure *owner):
+ddChangeConnectionStartHandle::ddChangeConnectionStartHandle(ddLineConnection *owner):
 ddChangeConnectionHandle(owner)
 {
 }

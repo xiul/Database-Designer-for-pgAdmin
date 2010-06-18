@@ -13,12 +13,12 @@
 #define DDCHANGECONNECTIONENDHANDLE_H
 
 #include "dd/draw/handles/ddChangeConnectionHandle.h"
-#include "dd/draw/figures/ddIConnectionFigure.h"
+#include "dd/draw/figures/ddLineConnection.h"
 
 class ddChangeConnectionEndHandle : public ddChangeConnectionHandle
 {
 public:
-	ddChangeConnectionEndHandle(ddIConnectionFigure *owner);
+	ddChangeConnectionEndHandle(ddLineConnection *owner);
     ~ddChangeConnectionEndHandle();
 	virtual ddPoint* locate();
 	virtual ddIConnector* target();

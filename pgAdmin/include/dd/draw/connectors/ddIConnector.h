@@ -13,20 +13,21 @@
 #define DDICONNECTOR_H
 
 #include "dd/draw/main/ddObject.h"
-#include "dd/draw/figures/ddIFigure.h"
-//#include "dd/draw/figures/ddIConnectionFigure.h"
+//#include "dd/draw/figures/ddIFigure.h"
+#include "dd/draw/figures/ddLineConnection.h"
 #include "dd/draw/utilities/ddPoint.h"
 #include "dd/draw/utilities/ddRect.h"
 
-class ddIConnectionFigure;  //HACK-FIX to circular reference
+class ddLineConnection;  //HACK-FIX to circular reference
+class ddIFigure;
 
 class ddIConnector : public ddObject
 {
 public:
 	ddIConnector(ddIFigure *owner);
     ~ddIConnector();
-	virtual ddPoint findStart(ddIConnectionFigure *connection);
-	virtual ddPoint findEnd(ddIConnectionFigure *connection);
+	virtual ddPoint findStart(ddLineConnection *connection);
+	virtual ddPoint findEnd(ddLineConnection *connection);
 	virtual bool containsPoint(int x, int y);
 	virtual void draw(wxBufferedDC& context);
 	virtual ddIFigure* getOwner();

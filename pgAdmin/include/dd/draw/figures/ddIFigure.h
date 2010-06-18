@@ -15,12 +15,14 @@
 #include "dd/draw/main/ddObject.h"
 #include "dd/draw/utilities/ddCollection.h"
 #include "dd/draw/handles/ddIHandle.h"
-#include "dd/draw/connectors/ddIConnector.h"
+//#include "dd/draw/connectors/ddIConnector.h"
 
 
 class ddITool;			// HACK-FIX circular reference
 class ddDrawingEditor;
 class ddIConnector;
+class ddITool;
+
 
 // Create Array Objects used as base for gqbCollections
 class ddIFigure : public ddObject

@@ -19,11 +19,11 @@
 
 // App headers
 #include "dd/draw/handles/ddChangeConnectionHandle.h"
-#include "dd/draw/figures/ddIConnectionFigure.h"
+#include "dd/draw/figures/ddLineConnection.h"
 #include "dd/draw/utilities/ddPoint.h"
 #include "dd/draw/main/ddDrawingView.h"
 
-ddChangeConnectionHandle::ddChangeConnectionHandle(ddIConnectionFigure *owner):
+ddChangeConnectionHandle::ddChangeConnectionHandle(ddLineConnection *owner):
 ddIHandle(owner)
 {
 	connection = owner;

@@ -12,13 +12,13 @@
 #ifndef DDLINECONNECTION_H
 #define DDLINECONNECTION_H
 #include "dd/draw/figures/ddPolyLineFigure.h"
-#include "dd/draw/figures/ddIConnectionFigure.h"
+//#include "dd/draw/figures/ddIConnectionFigure.h"
 #include "dd/draw/connectors/ddIConnector.h"
 #include "dd/draw/utilities/ddPoint.h"
 #include "dd/draw/handles/ddIHandle.h"
 
 //Multiple Hierarchy used here
-class ddLineConnection : public ddPolyLineFigure, public ddIConnectionFigure
+class ddLineConnection : public ddPolyLineFigure//, public ddIConnectionFigure
 {
 public:
 	ddLineConnection();

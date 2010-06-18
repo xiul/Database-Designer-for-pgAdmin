@@ -14,12 +14,12 @@
 
 #include "dd/draw/tools/ddAbstractTool.h"
 #include "dd/draw/main/ddDrawingEditor.h"
-#include "dd/draw/figures/ddIConnectionFigure.h"
+#include "dd/draw/figures/ddLineConnection.h"
 
 class ddConnectionCreationTool : public ddAbstractTool
 {
 public:
-	ddConnectionCreationTool(ddDrawingEditor *editor, ddIConnectionFigure *figure);
+	ddConnectionCreationTool(ddDrawingEditor *editor, ddLineConnection *figure);
     ~ddConnectionCreationTool();
 
 	virtual void mouseDrag(wxMouseEvent& event);
@@ -41,7 +41,7 @@ protected:
 //	int anchorX, anchorY;
 private:
 //	ddDrawingEditor *ownerEditor;
-	ddIConnectionFigure *toolConnection;
+	ddLineConnection *toolConnection;
 	ddIHandle *handle;
 
 };
