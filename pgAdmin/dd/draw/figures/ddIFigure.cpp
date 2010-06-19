@@ -126,14 +126,12 @@ bool ddIFigure::includes(ddIFigure *figure)
 
 void ddIFigure::onFigureChanged(ddIFigure *figure)
 {
-//666  999 
-/*
+
 	ddIteratorBase *iterator=observers->createIterator();
 	while(iterator->HasNext()){
 		ddIFigure *o = (ddIFigure*) iterator->Next();
-		o->onFigureChanged(figure);
+		o->onFigureChanged(this);
 	}
-*/
 }
 
 
@@ -150,7 +148,8 @@ void ddIFigure::addObserver(ddIFigure *observer)
 void ddIFigure::removeObserver(ddIFigure *observer)
 {
 	if(observers){
-		observers->removeItem(observer);		
+		observers->removeItem(observer);
+		//DD-TODO: this delete the figure???? wxwidgets api is very bad documented
 	}
 }
 

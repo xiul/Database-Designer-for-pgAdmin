@@ -109,7 +109,8 @@ bool ddAbstractFigure::containsPoint(int x, int y){
 
 void ddAbstractFigure::onFigureChanged(ddIFigure *figure)
 {
-	//do something with figure, usually is the same "figure" than "this"
+	//go to ifigure procedure to alert observers of changes on this figure
+	ddIFigure::onFigureChanged(figure);
 }
 
 /*

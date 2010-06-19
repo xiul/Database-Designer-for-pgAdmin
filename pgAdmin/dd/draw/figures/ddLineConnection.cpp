@@ -147,7 +147,7 @@ void ddLineConnection::updateConnection(){
 	//DD-TODO: avoid memory leak from thiw new ddPoint
 	if(startConnector)
 	{
-		setStartPoint(startConnector->findStart(this));  //666Error aqui
+		setStartPoint(startConnector->findStart(this));  
 	}
 	if(endConnector)
 	{
@@ -215,7 +215,7 @@ void ddLineConnection::connectFigure (ddIConnector *connector)
 	{
 		//connector->getOwner()->figureChangedEvent ADD handler (observer pattern)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
-		//666 connector->getOwner()->onFigureChanged((ddIFigure*)this);
+		//connector->getOwner()->onFigureChanged((ddIFigure*)this);
 		connector->getOwner()->addObserver(this);
 		connector->getOwner()->addDependentFigure((ddIFigure*)this);
 	}
@@ -236,7 +236,8 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 void ddLineConnection::onFigureChanged(ddIFigure *figure)
 {
 //		ddIConnectionFigure::onFigureChanged(figure);
-		//BUGSISIMO  ver si debe ir aqui pq da un super error updateConnection();
+		//BUGSISIMO  ver si debe ir aqui pq da un super error 
+	updateConnection();
 }
 
 void ddLineConnection::resetHandles()
