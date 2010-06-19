@@ -23,14 +23,6 @@ class ddDrawingEditor;
 class ddIConnector;
 class ddITool;
 
-
-class ddIFigureObserver : public ddObject
-{
-	public:
-	virtual void onFigureChanged(ddIFigure *figure);
-};
-
-
 class ddIFigure : public ddObject
 {
 public:
@@ -55,8 +47,8 @@ public:
 	virtual bool includes(ddIFigure *figure);
 	virtual bool canConnect()=0;
 	virtual void onFigureChanged(ddIFigure *figure)=0;
-	virtual void addObserver (ddIFigureObserver *observer);
-	virtual void removeObserver (ddIFigureObserver *observer);	
+	virtual void addObserver (ddIFigure *observer);
+	virtual void removeObserver (ddIFigure *observer);	
 
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 

@@ -34,7 +34,7 @@ public:
 	virtual ddIConnector* target()=0;
 	virtual void disconnect()=0;
 	virtual void connect(ddIConnector *connector)=0;
-	virtual void setPoint(ddPoint *p)=0;
+	virtual void setPoint(ddPoint p)=0;
 	virtual bool isConnectionPossible(ddIFigure *figure)=0;
 	ddIFigure* findConnectableFigure(int x, int y, ddDrawing *drawing);
 	ddIConnector* findConnectionTarget(int x, int y, ddDrawing *drawing);

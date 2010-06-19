@@ -29,9 +29,9 @@ public:
 	virtual void basicDrawSelected(wxBufferedDC& context);
 	virtual int pointCount();
 	virtual ddPoint* getStartPoint();
-	virtual void setStartPoint(ddPoint *point);
+	virtual void setStartPoint(ddPoint point);
 	virtual ddPoint* getEndPoint();
-	virtual void setEndPoint(ddPoint *point);
+	virtual void setEndPoint(ddPoint point);
 	virtual void setStartTerminal(ddLineTerminal *terminal);
 	virtual ddLineTerminal* getStartTerminal();
 	virtual void setEndTerminal(ddLineTerminal *terminal);

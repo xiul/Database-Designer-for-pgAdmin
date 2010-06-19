@@ -122,16 +122,24 @@ bool ddIFigure::includes(ddIFigure *figure)
 	return (this == figure);
 }
 
+
+
 void ddIFigure::onFigureChanged(ddIFigure *figure)
 {
+//666  999 
+/*
 	ddIteratorBase *iterator=observers->createIterator();
 	while(iterator->HasNext()){
-		ddIFigureObserver *o = (ddIFigureObserver *) iterator->Next();
+		ddIFigure *o = (ddIFigure*) iterator->Next();
 		o->onFigureChanged(figure);
 	}
+*/
 }
 
-void ddIFigure::addObserver(ddIFigureObserver *observer)
+
+
+
+void ddIFigure::addObserver(ddIFigure *observer)
 {
 	if(!observers){
 		observers  = new ddCollection(new ddArrayCollection());
@@ -139,24 +147,12 @@ void ddIFigure::addObserver(ddIFigureObserver *observer)
 	observers->addItem(observer);	
 }
 
-void ddIFigure::removeObserver(ddIFigureObserver *observer)
+void ddIFigure::removeObserver(ddIFigure *observer)
 {
 	if(observers){
 		observers->removeItem(observer);		
 	}
 }
-
-
-/****
-ddIFigureObserver class
-
-*****/
-
-void ddIFigureObserver::onFigureChanged(ddIFigure *figure)
-{
-
-}
-
 
 
 /*

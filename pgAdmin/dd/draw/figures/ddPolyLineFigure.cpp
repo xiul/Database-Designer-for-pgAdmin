@@ -77,16 +77,16 @@ ddPoint* ddPolyLineFigure::getStartPoint(){
 	return (ddPoint *) points->getItemAt(0);
 }
 
-void ddPolyLineFigure::setStartPoint(ddPoint *point){
+void ddPolyLineFigure::setStartPoint(ddPoint point){
 	willChange();
 	if(points->count()==0)
-		addPoint(point->x,point->y);
+		addPoint(point.x,point.y);
 	else
 	{
 		//points->replaceAtIndex((ddObject *)point,0);
 		ddPoint *p = (ddPoint *) points->getItemAt(0);
-		p->x = point->x;
-		p->y = point->y;
+		p->x = point.x;
+		p->y = point.y;
 	}
 		
 	changed();
@@ -98,15 +98,15 @@ ddPoint* ddPolyLineFigure::getEndPoint(){
 	return (ddPoint *) points->getItemAt(points->count()-1);
 }
 
-void ddPolyLineFigure::setEndPoint(ddPoint *point){
+void ddPolyLineFigure::setEndPoint(ddPoint point){
 	willChange();
 	if(points->count() < 2)
-		addPoint(point->x,point->y);
+		addPoint(point.x,point.y);
 	else{
 		//points->insertAtIndex((ddObject *)point, points->count()-1); CREO que deberia ser replaceAtIndex de paso
 		ddPoint *p = (ddPoint *) points->getItemAt(points->count()-1);
-		p->x = point->x;
-		p->y = point->y;
+		p->x = point.x;
+		p->y = point.y;
 	}
 	changed();
 	//DD-TODO: need to delete start point if overwrite it??

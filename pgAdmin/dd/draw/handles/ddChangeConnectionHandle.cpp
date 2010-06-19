@@ -67,15 +67,15 @@ void ddChangeConnectionHandle::invokeStart(int x, int y, ddDrawingView *view)
 void ddChangeConnectionHandle::invokeStep(int x, int y, ddDrawingView *view)
 {
 	//DD-TODO: fix memory leaks from new points
-	ddPoint *p = new ddPoint(x,y);
+	ddPoint p;
 	ddIFigure *figure = findConnectableFigure(x,y,view->getDrawing());
 	targetFigure = figure;
 	ddIConnector *target = findConnectionTarget(x,y,view->getDrawing());
 	if(target)
 	{
-		p = new ddPoint(target->getDisplayBox().center());
+		p = target->getDisplayBox().center();
 	}
-	setPoint(p);
+	setPoint(p); 
 	connection->updateConnection();
 }
 

@@ -147,11 +147,11 @@ void ddLineConnection::updateConnection(){
 	//DD-TODO: avoid memory leak from thiw new ddPoint
 	if(startConnector)
 	{
-		setStartPoint(new ddPoint(startConnector->findStart(this)));
+		setStartPoint(startConnector->findStart(this));  //666Error aqui
 	}
 	if(endConnector)
 	{
-		setEndPoint(new ddPoint(endConnector->findEnd(this)));
+		setEndPoint(endConnector->findEnd(this));
 	}
 }
 
@@ -174,13 +174,14 @@ ddIHandle* ddLineConnection::getEndHandle()
 }
 
 void ddLineConnection::basicMoveBy(int x, int y){
-	ddPoint *newPoint;
+	/*ddPoint *newPoint;
 	for(int i=1 ; i<points->count()-1 ; i++){
 		newPoint = (ddPoint *) points->getItemAt(i);  //DD-TODO: replace and test with pointAt
 		newPoint->x += x;
 		newPoint->y += y;
 		points->replaceAtIndex((ddObject *) newPoint,i); //DD-TODO: this is neede because I'm working with pointers??
-	}
+	}*/
+	ddPolyLineFigure::basicMoveBy(x,y);
 	updateConnection();
 }
 
@@ -198,18 +199,12 @@ void ddLineConnection::setPointAt (int index, int x, int y)
 ddCollection* ddLineConnection::handlesEnumerator(){
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS optimize this, not create a new instance everytime invoke function
 	
-	connectionHandles->deleteAll(); //ARREGLAR ESTO PQ SI HAGO ESTO DARA PROBLEMAS CUANDO ELIMINE O AGREGUE COSAS
+	// //ARREGLAR ESTO PQ SI HAGO ESTO DARA PROBLEMAS CUANDO ELIMINE O AGREGUE COSAS
 	//connectionHandles->removeAll(); //
 
 	if( points->count()< 2 )
 		return connectionHandles;  //return empty handle
 	
-	connectionHandles->addItem(getStartHandle());
-	for(int i=0;i<points->count();i++){
-		connectionHandles->addItem(new ddLineConnectionHandle(this, new ddPolyLineLocator(i), i));
-	}
-	connectionHandles->addItem(getEndHandle());
-
 	return connectionHandles;
 }
 
@@ -220,7 +215,8 @@ void ddLineConnection::connectFigure (ddIConnector *connector)
 	{
 		//connector->getOwner()->figureChangedEvent ADD handler (observer pattern)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
-		connector->getOwner()->onFigureChanged((ddIFigure*)this);
+		//666 connector->getOwner()->onFigureChanged((ddIFigure*)this);
+		connector->getOwner()->addObserver(this);
 		connector->getOwner()->addDependentFigure((ddIFigure*)this);
 	}
 }
@@ -230,7 +226,8 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 	if(connector)
 	{
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
-		connector->getOwner()->onFigureChanged(this);
+		//connector->getOwner()->onFigureChanged(this);
+		connector->getOwner()->removeObserver(this);
 		connector->getOwner()->removeDependentFigure(this);
 	}
 }
@@ -241,6 +238,23 @@ void ddLineConnection::onFigureChanged(ddIFigure *figure)
 //		ddIConnectionFigure::onFigureChanged(figure);
 		//BUGSISIMO  ver si debe ir aqui pq da un super error updateConnection();
 }
+
+void ddLineConnection::resetHandles()
+{
+	for(int i=0;i<points->count()-1;i++)  //not include start and end handles
+	{
+		connectionHandles->removeItemAt(i);
+	}
+	connectionHandles->removeAll();  //don't delete because it cause start & end handle to be loss
+	
+	connectionHandles->addItem(getStartHandle());
+	for(int i=0;i<points->count();i++){
+		connectionHandles->addItem(new ddLineConnectionHandle(this, new ddPolyLineLocator(i), i));
+	}
+	connectionHandles->addItem(getEndHandle());	
+}
+
+/*
 
 ddPoint* ddLineConnection::getStartPoint()
 {
@@ -276,3 +290,4 @@ int ddLineConnection::pointCount()
 {
 	return ddPolyLineFigure::pointCount();
 }
+*/

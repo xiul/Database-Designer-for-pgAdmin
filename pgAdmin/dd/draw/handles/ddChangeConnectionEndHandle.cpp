@@ -61,7 +61,7 @@ bool ddChangeConnectionEndHandle::isConnectionPossible(ddIFigure *figure)
 	}
 }
 
-void ddChangeConnectionEndHandle::setPoint(ddPoint* p)
+void ddChangeConnectionEndHandle::setPoint(ddPoint p)
 {
 	connection->setEndPoint(p);
 	//DD-TODO: avoid this memory leak when a point have been overwritten

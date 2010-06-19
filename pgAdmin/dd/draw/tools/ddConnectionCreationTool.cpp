@@ -52,8 +52,8 @@ void ddConnectionCreationTool::mouseDown(wxMouseEvent& event)
 
 	if(figure)
 	{
-		toolConnection->setEndPoint(new ddPoint(x,y));
-		toolConnection->setStartPoint(new ddPoint(x,y));
+		toolConnection->setEndPoint(ddPoint(x,y));
+		toolConnection->setStartPoint(ddPoint(x,y));
 		toolConnection->connectStart(figure->connectorAt(x,y));
 		toolConnection->updateConnection();
 		view->add(toolConnection);

@@ -25,6 +25,6 @@ public:
 	virtual void disconnect();
 	virtual void connect(ddIConnector *connector);
 	virtual bool isConnectionPossible(ddIFigure *figure);
-	virtual void setPoint(ddPoint *p);
+	virtual void setPoint(ddPoint p);
 };
 #endif
