@@ -66,8 +66,7 @@ void ddChangeConnectionHandle::invokeStart(int x, int y, ddDrawingView *view)
 
 void ddChangeConnectionHandle::invokeStep(int x, int y, ddDrawingView *view)
 {
-	//DD-TODO: fix memory leaks from new points
-	ddPoint p;
+	ddPoint p = ddPoint(x,y);
 	ddIFigure *figure = findConnectableFigure(x,y,view->getDrawing());
 	targetFigure = figure;
 	ddIConnector *target = findConnectionTarget(x,y,view->getDrawing());
