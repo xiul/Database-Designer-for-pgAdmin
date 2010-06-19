@@ -39,9 +39,10 @@ public:
 	ddCollection* handlesEnumerator();
 	virtual int findSegment (int x, int y);
 	virtual void splitSegment(int x, int y);
+	virtual void changed();
 
 	virtual void addPoint (int x, int y);
-	virtual void removePoint (int index);
+//	virtual void removePoint (int index);
 	virtual void clearPoints ();
 	virtual void insertPointAt (int index, int x, int y);
 	virtual void setPointAt (int index, int x, int y);
@@ -53,10 +54,12 @@ public:
 	virtual bool containsPoint (int x, int y);
 
 protected:
-	//	ddRect basicDisplayBoxRect;
 	//DD-TODO: need to store dashes?
+	virtual void resetHandles();
 	ddArrayCollection *points;
 private:
 	ddLineTerminal *startTerminal, *endTerminal;
+	bool handlesChanged;//, primero;
+
 };
 #endif

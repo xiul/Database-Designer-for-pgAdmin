@@ -100,7 +100,8 @@ void ddArrayCollection::removeAll()
 ddObject* ddArrayCollection::getItemAt(int index)
 {
     if(!ddArray.IsEmpty())
-        return ddArray.Item(index);
+        //return ddArray.Item(index);
+		return ddArray[index];
     else
         return NULL;
 }
@@ -121,10 +122,9 @@ void ddArrayCollection::insertAtIndex(ddObject *item, int index)
 // Replace item into the array at index (if overwrite user should delete manually previous object at index)
 void ddArrayCollection::replaceAtIndex(ddObject *item, int index)
 {
+	ddArray.RemoveAt(index);
 	ddArray.Insert(item,index);
-	ddArray.RemoveAt(index+1);
 }
-
 
 //
 // ddArrayIterator - Manages iterator for the array collection concrete class, from first to last element

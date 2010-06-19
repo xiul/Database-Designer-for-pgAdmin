@@ -75,6 +75,9 @@ private:
 	void connectFigure (ddIConnector *connector);
 	void disconnectFigure (ddIConnector *connector);
 
+	ddIHandle *changeConnStartHandle;
+	ddIHandle *changeConnEndHandle;  //666
+
 	ddIConnector *startConnector;
 	ddIConnector *endConnector;
 	ddCollection *connectionHandles;

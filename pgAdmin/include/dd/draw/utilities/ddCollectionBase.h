@@ -36,7 +36,7 @@ public:
     virtual ~ddCollectionBase() {};
     virtual void addItem(ddObject *item) = 0;
     virtual void removeItem(ddObject *item) = 0;
-	virtual void removeItemAt(int index)=0;
+	virtual void removeItemAt(int index) = 0;
     virtual ddObject* getItemAt(int index) = 0;
     virtual ddIteratorBase* createIterator() = 0;
 	virtual ddIteratorBase* createDownIterator() = 0;

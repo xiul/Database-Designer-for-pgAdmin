@@ -31,6 +31,7 @@ ddIFigure::ddIFigure(){
 	figures=new ddCollection(new ddArrayCollection());
 	handles=new ddCollection(new ddArrayCollection());
 	dependentFigures=new ddCollection(new ddArrayCollection());
+	observers=new ddCollection(new ddArrayCollection());
 	selected=false;
 	//DD-TODO: this should be initialize here
 }
@@ -123,7 +124,40 @@ bool ddIFigure::includes(ddIFigure *figure)
 
 void ddIFigure::onFigureChanged(ddIFigure *figure)
 {
+	ddIteratorBase *iterator=observers->createIterator();
+	while(iterator->HasNext()){
+		ddIFigureObserver *o = (ddIFigureObserver *) iterator->Next();
+		o->onFigureChanged(figure);
+	}
 }
+
+void ddIFigure::addObserver(ddIFigureObserver *observer)
+{
+	if(!observers){
+		observers  = new ddCollection(new ddArrayCollection());
+	}
+	observers->addItem(observer);	
+}
+
+void ddIFigure::removeObserver(ddIFigureObserver *observer)
+{
+	if(observers){
+		observers->removeItem(observer);		
+	}
+}
+
+
+/****
+ddIFigureObserver class
+
+*****/
+
+void ddIFigureObserver::onFigureChanged(ddIFigure *figure)
+{
+
+}
+
+
 
 /*
 

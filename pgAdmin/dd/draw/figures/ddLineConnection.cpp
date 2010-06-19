@@ -30,6 +30,8 @@ ddPolyLineFigure()
 {
 	startConnector = NULL;
 	endConnector = NULL;
+	changeConnStartHandle = NULL;
+	changeConnEndHandle = NULL; 
 	connectionHandles = new ddCollection(new ddArrayCollection());
 }
 
@@ -155,12 +157,20 @@ void ddLineConnection::updateConnection(){
 
 ddIHandle* ddLineConnection::getStartHandle()
 {
-	return new ddChangeConnectionStartHandle(this);
+	if(!changeConnStartHandle)
+	{
+		changeConnStartHandle =  new ddChangeConnectionStartHandle(this);
+	}
+	return changeConnStartHandle;
 }
 
 ddIHandle* ddLineConnection::getEndHandle()
 {
-	return new ddChangeConnectionEndHandle(this);
+	if(!changeConnEndHandle)
+	{
+		changeConnEndHandle =  new ddChangeConnectionEndHandle(this);
+	}
+	return changeConnEndHandle;
 }
 
 void ddLineConnection::basicMoveBy(int x, int y){
@@ -187,7 +197,10 @@ void ddLineConnection::setPointAt (int index, int x, int y)
 
 ddCollection* ddLineConnection::handlesEnumerator(){
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS optimize this, not create a new instance everytime invoke function
-	connectionHandles->deleteAll();
+	
+	connectionHandles->deleteAll(); //ARREGLAR ESTO PQ SI HAGO ESTO DARA PROBLEMAS CUANDO ELIMINE O AGREGUE COSAS
+	//connectionHandles->removeAll(); //
+
 	if( points->count()< 2 )
 		return connectionHandles;  //return empty handle
 	
@@ -207,8 +220,8 @@ void ddLineConnection::connectFigure (ddIConnector *connector)
 	{
 		//connector->getOwner()->figureChangedEvent ADD handler (observer pattern)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
-		connector->getOwner()->onFigureChanged(reinterpret_cast<ddIFigure*>(this));
-		connector->getOwner()->addDependentFigure(reinterpret_cast<ddIFigure*>(this));
+		connector->getOwner()->onFigureChanged((ddIFigure*)this);
+		connector->getOwner()->addDependentFigure((ddIFigure*)this);
 	}
 }
 
@@ -219,7 +232,6 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
 		connector->getOwner()->onFigureChanged(this);
 		connector->getOwner()->removeDependentFigure(this);
-		//DD-TODO: is there any other option to reinterpret_cast?
 	}
 }
 
@@ -227,7 +239,7 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 void ddLineConnection::onFigureChanged(ddIFigure *figure)
 {
 //		ddIConnectionFigure::onFigureChanged(figure);
-		//666 BUGSISIMO updateConnection();
+		//BUGSISIMO  ver si debe ir aqui pq da un super error updateConnection();
 }
 
 ddPoint* ddLineConnection::getStartPoint()

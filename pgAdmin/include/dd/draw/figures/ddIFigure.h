@@ -24,7 +24,13 @@ class ddIConnector;
 class ddITool;
 
 
-// Create Array Objects used as base for gqbCollections
+class ddIFigureObserver : public ddObject
+{
+	public:
+	virtual void onFigureChanged(ddIFigure *figure);
+};
+
+
 class ddIFigure : public ddObject
 {
 public:
@@ -49,7 +55,9 @@ public:
 	virtual bool includes(ddIFigure *figure);
 	virtual bool canConnect()=0;
 	virtual void onFigureChanged(ddIFigure *figure)=0;
-	
+	virtual void addObserver (ddIFigureObserver *observer);
+	virtual void removeObserver (ddIFigureObserver *observer);	
+
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 
 protected:
@@ -57,6 +65,7 @@ protected:
 	ddCollection *figures;
 	ddCollection *handles;
 	ddCollection *dependentFigures;
+	ddCollection *observers;
 private:
 	bool selected;
 };

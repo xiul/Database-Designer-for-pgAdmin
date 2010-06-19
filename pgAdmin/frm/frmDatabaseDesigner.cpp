@@ -44,42 +44,38 @@ END_EVENT_TABLE()
 	editor->view()->add(f);
 
 	ddAbstractFigure *f2=new ddAbstractFigure();
-	f2->displayBox().SetPosition(wxPoint(50,50));
+	f2->displayBox().SetPosition(wxPoint(150,150));
 	f2->displayBox().width=130;
 	f2->displayBox().height=130;
 	//f2->setSelected(true);
 	editor->view()->add(f2);
 
-/*	ddAbstractFigure *f3=new ddAbstractFigure();
-	f3->displayBox().width=65;
-	f3->displayBox().height=65;
 
-	ddPolyLineFigure *f3 = new ddPolyLineFigure();
+/*
 
-	//Rectangle	
-		f3->addPoint (10, 10);
+ddPolyLineFigure *f3 = new ddPolyLineFigure();
+
+//Rectangle	
+/*		f3->addPoint (10, 10);
 			f3->addPoint (60, 10);
 			f3->addPoint (60, 60);
 			f3->addPoint (10, 60);
 			f3->addPoint (10, 10);
 //OR
-		//Trianglw
-			f3->addPoint (35, 15);
+*/	
+//Trianglw
+			/*f3->addPoint (15, 15);
 			f3->addPoint (55, 55);
 			f3->addPoint (15, 55);
-			f3->addPoint (35, 15);
+			f3->addPoint (45, 75);
 
-	f3->setStartPoint(f3->pointAt(0));
-	f3->setEndPoint(f3->pointAt(1));
+editor->view()->add(f3);
 */
-
 
 //antes	editor->setTool(new ddDragCreationTool(editor,f3)); 
 
 ddLineConnection *f3 = new ddLineConnection();
-
-	editor->setTool(new ddConnectionCreationTool(editor,f3));
-
+editor->setTool(new ddConnectionCreationTool(editor,f3));
 	//SetIcon(wxIcon(sql_32_xpm));
 }
 

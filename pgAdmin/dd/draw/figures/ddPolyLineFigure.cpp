@@ -32,6 +32,8 @@ ddPolyLineFigure::ddPolyLineFigure(){
 	points = new ddArrayCollection();
 	startTerminal = NULL;
 	endTerminal = NULL;
+	handlesChanged = false;
+	//primero=true;
 }
 
 ddPolyLineFigure::~ddPolyLineFigure(){
@@ -80,7 +82,13 @@ void ddPolyLineFigure::setStartPoint(ddPoint *point){
 	if(points->count()==0)
 		addPoint(point->x,point->y);
 	else
-		points->insertAtIndex((ddObject *)point,0);
+	{
+		//points->replaceAtIndex((ddObject *)point,0);
+		ddPoint *p = (ddPoint *) points->getItemAt(0);
+		p->x = point->x;
+		p->y = point->y;
+	}
+		
 	changed();
 	//DD-TODO: need to delete start point if overwrite it
 }
@@ -94,8 +102,12 @@ void ddPolyLineFigure::setEndPoint(ddPoint *point){
 	willChange();
 	if(points->count() < 2)
 		addPoint(point->x,point->y);
-	else
-		points->insertAtIndex((ddObject *)point, points->count()-1);
+	else{
+		//points->insertAtIndex((ddObject *)point, points->count()-1); CREO que deberia ser replaceAtIndex de paso
+		ddPoint *p = (ddPoint *) points->getItemAt(points->count()-1);
+		p->x = point->x;
+		p->y = point->y;
+	}
 	changed();
 	//DD-TODO: need to delete start point if overwrite it??
 }
@@ -118,32 +130,47 @@ ddLineTerminal* ddPolyLineFigure::getEndTerminal(){
 
 ddCollection* ddPolyLineFigure::handlesEnumerator(){
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS optimize this, not create a new instance everytime invoke function
-	handles->deleteAll();
-	for(int i=0;i<points->count();i++){
-		handles->addItem(new ddPolyLineHandle(this, new ddPolyLineLocator(i), i));
+/*	if(handlesChanged)
+	{
+		handles->deleteAll();
+		for(int i=0;i<points->count();i++){
+			handles->addItem(new ddPolyLineHandle(this, new ddPolyLineLocator(i), i));
+		}
+		handlesChanged = false;
+		//primero=false;
 	}
-
+*/
 	return handles;
 }
 
 void ddPolyLineFigure::addPoint (int x, int y){
 	willChange();
 	points->addItem((ddObject *) new ddPoint(x,y) );
+	resetHandles();
 	changed();
 }
 
+void ddPolyLineFigure::changed()
+{
+	//if(primero)
+	handlesChanged = true;
+}
+
 //DD-TODO: HIGH-PRIORITY-FINISH-THIS difference between this and below one
+/*
 void ddPolyLineFigure::removePoint (int index)
 {
 	willChange();
 	points->removeItemAt(index);
 	changed();
 }
+*/
 
 void ddPolyLineFigure::removePointAt (int index)
 {
 	willChange();
 	points->removeItemAt(index);
+	resetHandles();
 	changed();
 }
 
@@ -196,12 +223,12 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 }
 
 void ddPolyLineFigure::basicMoveBy(int x, int y){
-	ddPoint *newPoint;
+	ddPoint *movPoint;
 	for(int i=0 ; i<points->count() ; i++){
-		newPoint = (ddPoint *) points->getItemAt(i);  //DD-TODO: replace and test with pointAt
-		newPoint->x += x;
-		newPoint->y += y;
-		points->replaceAtIndex((ddObject *) newPoint,i); //DD-TODO: this is neede because I'm working with pointers??
+		movPoint = (ddPoint *) points->getItemAt(i);  //DD-TODO: replace and test with pointAt
+		movPoint->x += x;
+		movPoint->y += y;
+		//points->replaceAtIndex((ddObject *) newPoint,i); //DD-TODO: this is neede because I'm working with pointers??
 	}
 }
 
@@ -256,6 +283,7 @@ void ddPolyLineFigure::insertPointAt (int index, int x, int y)
 {
 	willChange();
 	points->insertAtIndex((ddObject*) new ddPoint(x,y), index);
+	resetHandles();
 	changed();
 }
 
@@ -263,7 +291,10 @@ void ddPolyLineFigure::insertPointAt (int index, int x, int y)
 void ddPolyLineFigure::setPointAt (int index, int x, int y)
 {
 	willChange();
-	points->replaceAtIndex((ddObject*) new ddPoint(x,y),index);
+	//points->replaceAtIndex((ddObject*) new ddPoint(x,y),index); 
+	ddPoint *p = (ddPoint *) points->getItemAt(index);
+	p->x = x;
+	p->y = y;
 	changed();
 }
 
@@ -277,3 +308,10 @@ void ddPolyLineFigure::splitSegment(int x, int y)
 	}
 }
 
+void ddPolyLineFigure::resetHandles()
+{
+handles->deleteAll();
+for(int i=0;i<points->count();i++){
+	handles->addItem(new ddPolyLineHandle(this, new ddPolyLineLocator(i), i));
+	}
+}

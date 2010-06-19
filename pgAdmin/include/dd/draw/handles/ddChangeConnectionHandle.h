@@ -19,7 +19,6 @@
 
 /*class ddDrawingView;  //Hack-Fix to avoid circular reference
 class ddIFigure;
-
 */
 class ddChangeConnectionHandle : public ddIHandle
 {

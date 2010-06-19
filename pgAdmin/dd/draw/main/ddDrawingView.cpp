@@ -115,16 +115,6 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 
 	//DD-TODO: Delete all iterators after use it
 
-	//ddIteratorBase *iterator2=this->selectionH
-/*
-				foreach (IFigure figure in SelectionEnumerator) {					
-					figure.DrawSelected (context);
-				}
-				
-				foreach (IHandle handle in SelectionHandles) {
-					handle.Draw (context);
-				}
-*/
 	ddIHandle *tmpHandle=NULL;
 	ddIteratorBase *selectionIterator=selection->createIterator();
 	while(selectionIterator->HasNext()){
@@ -135,7 +125,6 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 				 tmpHandle->draw(dc);
 		 }
 	}
-
 
 	if( drawSelRect ){  //Hack to avoid selection rectangle drawing bug
 		wxPen* pen = wxThePenList->FindOrCreatePen(*wxRED, 1, wxDOT);
