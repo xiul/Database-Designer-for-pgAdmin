@@ -37,6 +37,14 @@ ddIFigure::ddIFigure(){
 }
 
 ddIFigure::~ddIFigure(){
+	if(figures)
+		delete figures;
+	if(handles)
+		delete handles;
+	if(dependentFigures)
+		delete dependentFigures;
+	if(observers)
+		delete observers;
 
 }
 
@@ -132,6 +140,7 @@ void ddIFigure::onFigureChanged(ddIFigure *figure)
 		ddIFigure *o = (ddIFigure*) iterator->Next();
 		o->onFigureChanged(this);
 	}
+	delete iterator;
 }
 
 
@@ -152,25 +161,3 @@ void ddIFigure::removeObserver(ddIFigure *observer)
 		//DD-TODO: this delete the figure???? wxwidgets api is very bad documented
 	}
 }
-
-
-/*
-
-		RectangleD DisplayBox { get; set; }
-		IEnumerable <IFigure> FiguresEnumerator { get; }
-		IEnumerable <IHandle> HandlesEnumerator { get; }
-		IEnumerable <IFigure> DependentFiguresEnumerator { get;	}
-		bool CanConnect { get; }
-
-
-
-
-//http://juanobligado.wordpress.com/2007/11/05/interfaces-con-c/
-/*ddAbstractFigure::ddAbstractFigure()
-{
-}
-
-ddAbstractFigure::~ddAbstractFigure()
-{
-}
-*/

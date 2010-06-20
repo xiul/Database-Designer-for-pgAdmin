@@ -103,6 +103,7 @@ ddIFigure* ddChangeConnectionHandle::findConnectableFigure (int x, int y, ddDraw
 			return figure;
 		}
 	}
+	delete iterator;
 	return NULL;
 }
 ddIConnector* ddChangeConnectionHandle::findConnectionTarget(int x, int y, ddDrawing *drawing)
@@ -113,26 +114,3 @@ ddIConnector* ddChangeConnectionHandle::findConnectionTarget(int x, int y, ddDra
 	else
 		return NULL;
 }
-
-
-
-/*
-ddIFigure* ddIHandle::getOwner(){
-	return figureOwner;
-}
-
-ddRect& ddIHandle::getDisplayBox(){
-	ddPoint *p = locate();
-	displayBox.width=0;
-	displayBox.height=0;
-	displayBox.SetPosition(*p);
-	displayBox.Inflate(size,size);
-	return displayBox;
-}
-
-bool ddIHandle::containsPoint(int x, int y){
-	return getDisplayBox().Contains(x,y);
-}
-
-//Al methods and properties at ddIHandle.h
-*/

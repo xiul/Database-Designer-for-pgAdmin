@@ -1,0 +1,35 @@
+In VS-C++ 2008
+
+Including file and linenumber in the debug memory allocation (memory leak dump)
+
+wxWidgets has debug memory allocation turned on by default, if you use Microsoft Visual C++. If your program has a memory leak, it will dump all leaked memory blocks, when you close the program.
+
+    Dumping objects ->
+    {5641} normal block at 0x00BB30A0, 100 bytes long.
+     Data: <               > CD CD CD CD CD CD CD CD CD CD CD CD CD CD CD CD
+     
+
+This is nice, but you still have to find the exact location where this leak occurs. You can either call _CrtSetBreakAlloc(5641), where 5641 is the allocation index shown in brackets of the allocation dump (see example above).
+
+But there is a much easier way.
+
+   1. Include the following statements in your standard, precompiled headerfile:
+      #ifdef _DEBUG
+      #include <crtdbg.h>
+      #define DEBUG_NEW new(_NORMAL_BLOCK ,__FILE__, __LINE__)
+      #else
+      #define DEBUG_NEW new
+      #endif
+   2. In every CPP file, include these statements immediately after the last #include statement (before the first malloc/new statement):
+      #ifdef _DEBUG
+      #define new DEBUG_NEW
+      #endif
+
+The example above will now print:
+
+    Dumping objects ->
+    P:\SBKService\SBKMainFrame1.cpp(1036) : {5645} normal block at 0x00BB30F0
+     Data: <               > CD CD CD CD CD CD CD CD CD CD CD CD CD CD CD CD
+     
+
+The sourcefile and linenumber where the memory leak occurred are now included and you can double click on the line in the debug output window.

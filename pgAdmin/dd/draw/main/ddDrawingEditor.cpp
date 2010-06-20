@@ -28,6 +28,10 @@ ddDrawingEditor::ddDrawingEditor(pgFrame *owner){
 }
 
 ddDrawingEditor::~ddDrawingEditor(){
+	if(_view)
+		delete _view;
+	if(_model)
+		delete _model;
 }
 
 ddDrawingView* ddDrawingEditor::view(){

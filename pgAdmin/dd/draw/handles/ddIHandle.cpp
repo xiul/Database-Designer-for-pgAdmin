@@ -38,14 +38,6 @@ ddRect& ddIHandle::getDisplayBox(){
 	displayBox.SetPosition(*p);
 	displayBox.Inflate(size,size);
 	return displayBox;
-/*
-				PointD p = Locate ();
-				RectangleD rect = new RectangleD (p, p);
-				rect.Inflate (Size, Size);
-				rect.OffsetDot5 ();
-				return rect;
-*/
-
 }
 
 bool ddIHandle::containsPoint(int x, int y){

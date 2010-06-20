@@ -70,6 +70,7 @@ void ddDragTrackerTool::mouseDrag(wxMouseEvent& event){
 					tmp=(ddIFigure *)iterator->Next();
 					tmp->moveBy(x - lastX, y - lastY);
 				}
+				delete iterator;
 			}
 			setLastCoords (x, y);
 }

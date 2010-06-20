@@ -100,7 +100,7 @@ void ddAbstractFigure::changed(){
 }
 
 void ddAbstractFigure::invalidate(){
-//DD-TODO: OnFigureInvalidated (new FigureEventArgs (this, InvalidateDisplayBox));
+//DD-TODO: OnFigureInvalidated ( FigureEventArgs (this, InvalidateDisplayBox));
 }
 
 bool ddAbstractFigure::containsPoint(int x, int y){

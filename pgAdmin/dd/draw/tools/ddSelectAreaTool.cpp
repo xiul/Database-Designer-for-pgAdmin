@@ -78,7 +78,7 @@ void ddSelectAreaTool::selectFiguresOnRect(bool shiftPressed){
 			}
 		}
 	}
-
+	delete iterator;
 }
 
 void ddSelectAreaTool::drawSelectionRect(){

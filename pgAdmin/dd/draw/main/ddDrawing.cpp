@@ -73,6 +73,9 @@ ddIFigure* ddDrawing::findFigure(int x, int y){
 			break;
 		 }
 	}
+
+	delete iterator;;
+
 	return out;
 }
 
@@ -97,7 +100,9 @@ void ddDrawing::recalculateDisplayBox(){
 			displayBox.add(figure->displayBox());
 		}
 	}
-			/*
+
+	delete iterator;	
+	/*
 			//DD-TODO: generate this event
 			OnSizeAllocated ();
 			*/

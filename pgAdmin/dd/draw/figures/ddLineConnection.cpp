@@ -54,7 +54,8 @@ ddPolyLineFigure()
 
 ddLineConnection::~ddLineConnection()
 {
-	//DD-TODO: destroy here created objects from others classes
+	if(connectionHandles)
+		delete connectionHandles;
 }
 
 ddIConnector* ddLineConnection::getStartConnector()

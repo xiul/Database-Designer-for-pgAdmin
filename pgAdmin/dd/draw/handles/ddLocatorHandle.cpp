@@ -24,7 +24,10 @@ ddIHandle(owner)
 {
 	loc=locator;
 }
-ddLocatorHandle::~ddLocatorHandle(){
+ddLocatorHandle::~ddLocatorHandle()
+{
+	if(loc)
+		delete loc;
 }
 
 ddPoint* ddLocatorHandle::locate(){

@@ -126,7 +126,9 @@ void ddSelectionTool::keyUp(wxKeyEvent& event)
 void ddSelectionTool::setDelegateTool(ddITool *tool){
 	if(_delegateTool){
 		_delegateTool->deactivate();
+		delete _delegateTool;
 	}
+
 	_delegateTool = tool;
 	
 	if(_delegateTool){

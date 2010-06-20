@@ -64,6 +64,8 @@ ddRect& ddPolyLineFigure::getBasicDisplayBox() {
 		ddPoint *p = (ddPoint *) iterator->Next();
 		basicDisplayBox.add(ddRect(p->x,p->y,0,0));
 	}
+	
+	delete iterator;
 
 	return basicDisplayBox;
 }

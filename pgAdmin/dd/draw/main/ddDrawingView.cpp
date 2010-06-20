@@ -93,6 +93,10 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 
 ddDrawingView::~ddDrawingView()
 {
+	//this create bug why?
+/*	if(selection)
+		delete selection;
+		*/
 }
 
 //DD-TODO: set/get an Editor
@@ -113,6 +117,8 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 		 
 	}
 
+	delete iterator;
+
 	//DD-TODO: Delete all iterators after use it
 
 	ddIHandle *tmpHandle=NULL;
@@ -124,7 +130,10 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 			 tmpHandle= (ddIHandle *)handlesIterator->Next();
 				 tmpHandle->draw(dc);
 		 }
+		 delete handlesIterator;
 	}
+
+	delete selectionIterator;
 
 	if( drawSelRect ){  //Hack to avoid selection rectangle drawing bug
 		wxPen* pen = wxThePenList->FindOrCreatePen(*wxRED, 1, wxDOT);
@@ -219,6 +228,7 @@ void ddDrawingView::clearSelection(){
 		 tmp->setSelected(false);
 		 }
 	selection->removeAll(); 
+	delete iterator;
 }
 
 void ddDrawingView::ScrollToMakeVisible(wxPoint p){
@@ -237,14 +247,18 @@ ddIHandle* ddDrawingView::findHandle(double x, double y){
 	while(selectionIterator->HasNext()){
 		 tmpFigure=(ddIFigure *)selectionIterator->Next();
 		 ddIteratorBase *handlesIterator = tmpFigure->handlesEnumerator()->createIterator();
-		 while(handlesIterator->HasNext()){
-			 tmpHandle= (ddIHandle *)handlesIterator->Next();
-			 if(tmpHandle->containsPoint(x,y)){
+		 while(handlesIterator->HasNext())
+		 {
+			 tmpHandle = (ddIHandle *)handlesIterator->Next();
+			 if(tmpHandle->containsPoint(x,y))
+			 {
 				 out=tmpHandle;
 				 break;
 			 }
 		 }
+		 delete handlesIterator;
 	}
+	delete selectionIterator;
 	return out;
 }
 

@@ -21,7 +21,7 @@
 // Destructor
 ddArrayCollection::~ddArrayCollection()
 {
-    WX_CLEAR_ARRAY(ddArray);
+	WX_CLEAR_ARRAY(ddArray);
 }
 
 
