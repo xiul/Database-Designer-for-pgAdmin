@@ -34,6 +34,9 @@ ddPoint* ddLineTerminal::draw (wxBufferedDC& context, ddPoint *a, ddPoint *b){
 	context.DrawLine(*a, *b);
 	//DD-TODO: improve this function is bad just for testing, fix memory leak
 	ddPoint *middle = new ddPoint(a->x+abs(a->x - b->x),a->y+abs(a->y - b->y));
+	//context.DrawCircle(*middle,10);
+	context.DrawRectangle(wxRect(a->x,a->y,10,10));
+	context.DrawCircle(*b,10);
 	return middle;
 }
 

@@ -81,7 +81,7 @@ private:
 
 	ddIConnector *startConnector;
 	ddIConnector *endConnector;
-	ddCollection *connectionHandles;
+	//ddCollection *connectionHandles;
 
 };
 #endif

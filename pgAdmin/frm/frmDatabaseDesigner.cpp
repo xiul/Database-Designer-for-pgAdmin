@@ -50,6 +50,12 @@ END_EVENT_TABLE()
 	//f2->setSelected(true);
 	editor->view()->add(f2);
 
+	ddAbstractFigure *f3=new ddAbstractFigure();
+	f3->displayBox().SetPosition(wxPoint(290,290));
+	f3->displayBox().width=130;
+	f3->displayBox().height=130;
+	editor->view()->add(f3);
+
 
 /*
 
@@ -74,8 +80,10 @@ editor->view()->add(f3);
 
 //antes	editor->setTool(new ddDragCreationTool(editor,f3)); 
 
-ddLineConnection *f3 = new ddLineConnection();
-editor->setTool(new ddConnectionCreationTool(editor,f3));
+ddLineConnection *f4 = new ddLineConnection();
+f4->setStartTerminal(new ddLineTerminal());
+f4->setEndTerminal(new ddLineTerminal());
+editor->setTool(new ddConnectionCreationTool(editor,f4));
 	//SetIcon(wxIcon(sql_32_xpm));
 }
 

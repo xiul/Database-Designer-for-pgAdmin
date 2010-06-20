@@ -32,7 +32,7 @@ ddPolyLineFigure()
 	endConnector = NULL;
 	changeConnStartHandle = NULL;
 	changeConnEndHandle = NULL; 
-	connectionHandles = new ddCollection(new ddArrayCollection());
+	//connectionHandles = new ddCollection(new ddArrayCollection());
 }
 
 ddLineConnection::ddLineConnection(ddIFigure *figure1, ddIFigure *figure2):
@@ -54,8 +54,8 @@ ddPolyLineFigure()
 
 ddLineConnection::~ddLineConnection()
 {
-	if(connectionHandles)
-		delete connectionHandles;
+	if(handles)
+		delete handles;
 }
 
 ddIConnector* ddLineConnection::getStartConnector()
@@ -204,9 +204,9 @@ ddCollection* ddLineConnection::handlesEnumerator(){
 	//connectionHandles->removeAll(); //
 
 	if( points->count()< 2 )
-		return connectionHandles;  //return empty handle
+		return handles;  //return empty handle
 	
-	return connectionHandles;
+	return handles;
 }
 
 
@@ -245,15 +245,15 @@ void ddLineConnection::resetHandles()
 {
 	for(int i=0;i<points->count()-1;i++)  //not include start and end handles
 	{
-		connectionHandles->removeItemAt(i);
+		handles->removeItemAt(i);
 	}
-	connectionHandles->removeAll();  //don't delete because it cause start & end handle to be loss
+	handles->removeAll();  //don't delete because it cause start & end handle to be loss
 	
-	connectionHandles->addItem(getStartHandle());
-	for(int i=0;i<points->count();i++){
-		connectionHandles->addItem(new ddLineConnectionHandle(this, new ddPolyLineLocator(i), i));
+	handles->addItem(getStartHandle());
+	for(int i=1;i<points->count()-1;i++){
+		handles->addItem(new ddLineConnectionHandle(this, new ddPolyLineLocator(i), i));
 	}
-	connectionHandles->addItem(getEndHandle());	
+	handles->addItem(getEndHandle());	
 }
 
 /*
