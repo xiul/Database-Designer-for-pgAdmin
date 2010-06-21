@@ -47,6 +47,23 @@ void ddSelectAreaTool::mouseDown(wxMouseEvent& event){
 
 void ddSelectAreaTool::mouseUp(wxMouseEvent& event){
 	ddAbstractTool::mouseUp(event);
+	//hack-fix for bug when selecting figures from right to left
+	if( selectionRect.width < 0 ) 
+	{
+		int tmp;
+		tmp=selectionRect.width;
+		selectionRect.x += tmp;
+		selectionRect.width=abs(tmp);
+
+	}
+	if( selectionRect.height < 0 )
+	{
+		int tmp;
+		tmp=selectionRect.height;
+		selectionRect.y += tmp;
+		selectionRect.height=abs(tmp);
+	}
+	//end hack-fix 
 	drawSelectionRect();
 	selectFiguresOnRect(event.ShiftDown());
 	view->disableSelRectDraw();
