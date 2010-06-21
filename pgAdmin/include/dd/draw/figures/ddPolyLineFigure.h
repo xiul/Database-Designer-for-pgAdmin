@@ -55,7 +55,7 @@ public:
 
 protected:
 	//DD-TODO: need to store dashes?
-	virtual void resetHandles();
+	virtual void updateHandlesIndexes();
 	ddArrayCollection *points;
 private:
 	ddLineTerminal *startTerminal, *endTerminal;

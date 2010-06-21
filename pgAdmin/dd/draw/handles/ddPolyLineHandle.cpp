@@ -20,6 +20,7 @@
 // App headers
 #include "dd/draw/handles/ddPolyLineHandle.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
+#include "dd/draw/locators/ddPolyLineLocator.h"
 
 ddPolyLineHandle::ddPolyLineHandle(ddPolyLineFigure *figure, ddILocator *loc, int index):
 ddLocatorHandle((ddIFigure *)figure,loc)
@@ -29,6 +30,7 @@ ddLocatorHandle((ddIFigure *)figure,loc)
 
 ddPolyLineHandle::~ddPolyLineHandle()
 {
+	//DD-TODO: delete locator here?
 }
 
 void ddPolyLineHandle::draw(wxBufferedDC& context)
@@ -69,4 +71,6 @@ int ddPolyLineHandle::getIndex()
 void ddPolyLineHandle::setIndex(int index)
 {
 	indx=index;
+	ddPolyLineLocator *l = (ddPolyLineLocator*) locator();
+	l->setIndex(index);
 }

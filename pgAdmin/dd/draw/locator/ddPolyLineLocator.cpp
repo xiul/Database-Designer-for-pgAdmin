@@ -37,6 +37,11 @@ ddPoint* ddPolyLineLocator::locate(ddIFigure *owner){
 	}
 	else
 	{
-		return new ddPoint();
+		return new ddPoint();  //DD-TODO: avoid this memory leak, why to use this?
 	}
+}
+
+void ddPolyLineLocator::setIndex(int index)
+{
+	indx=index;
 }

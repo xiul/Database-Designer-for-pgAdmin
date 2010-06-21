@@ -34,6 +34,11 @@ ddPoint* ddLocatorHandle::locate(){
 	return loc==NULL ? new ddPoint(0,0) : loc->locate(getOwner()) ;
 }
 
+ddILocator* ddLocatorHandle::locator()
+{
+	return loc;
+}
+
 void ddLocatorHandle::invokeStart(int x, int y, ddDrawingView *view){
 }
 

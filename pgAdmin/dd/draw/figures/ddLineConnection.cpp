@@ -239,9 +239,67 @@ void ddLineConnection::onFigureChanged(ddIFigure *figure)
 	updateConnection();
 }
 
-void ddLineConnection::resetHandles()
+void ddLineConnection::addPoint (int x, int y){
+	willChange();
+	points->addItem((ddObject *) new ddPoint(x,y) );
+	//Update handles
+	if(points->count()==1)
+	{
+		//first point add start handle
+		handles->addItem(getStartHandle());
+	}
+	else if(points->count()==2)
+	{
+		//second point add end handle
+		handles->addItem(getEndHandle());
+	}
+	else if(points->count()>2)
+	{
+		//third and above point, add a polylinehandle before end handle
+		handles->insertAtIndex(new ddPolyLineHandle(this, new ddPolyLineLocator(0), 0),handles->count()-1);
+	}
+	updateHandlesIndexes();	
+	changed();
+}
+
+void ddLineConnection::insertPointAt (int index, int x, int y)
 {
-	for(int i=0;i<points->count()-1;i++)  //not include start and end handles
+	willChange();
+	points->insertAtIndex((ddObject*) new ddPoint(x,y), index);
+	//Update handles
+	if(index==0)
+	{
+		//add a new handle "normal" for a point in next position 0,1 in 1... in 0 startHandle is not moved
+		handles->insertAtIndex(new ddPolyLineHandle(this, new ddPolyLineLocator(index), index),1);
+	}
+	else if(index==(points->count()-1)) //last point
+	{
+		//add a new handle "normal" for a point in before last item position
+		handles->insertAtIndex(new ddPolyLineHandle(this, new ddPolyLineLocator(index), index),(points->count()-1));
+	}
+	else
+	{
+		//add handle at index
+		handles->insertAtIndex(new ddPolyLineHandle(this, new ddPolyLineLocator(index), index),index);
+	}
+	updateHandlesIndexes();
+	changed();
+}
+
+//DD-TODO: this functions is deprecated and should be delete in the future
+void ddLineConnection::updateHandlesIndexes()
+{
+	//DD-TODO: simplify this in the future, probably implementing locator in other way
+	//start and end don't have index
+	//update point between start and end
+	ddPolyLineHandle *h = NULL;
+	for(int i=1;i<handles->count()-1;i++)
+	{
+		h = (ddPolyLineHandle*) handles->getItemAt(i);
+		h->setIndex(i);
+	}
+
+/*	for(int i=0;i<points->count()-1;i++)  //not include start and end handles
 	{
 		handles->removeItemAt(i);
 	}
@@ -252,42 +310,5 @@ void ddLineConnection::resetHandles()
 		handles->addItem(new ddLineConnectionHandle(this, new ddPolyLineLocator(i), i));
 	}
 	handles->addItem(getEndHandle());	
-}
-
-/*
-
-ddPoint* ddLineConnection::getStartPoint()
-{
-	return ddPolyLineFigure::getStartPoint();
-}
-
-void ddLineConnection::setStartPoint(ddPoint *point)
-{
-	ddPolyLineFigure::setStartPoint(point);
-}
-
-ddPoint* ddLineConnection::getEndPoint()
-{
-	return ddPolyLineFigure::getEndPoint();
-}
-
-void ddLineConnection::setEndPoint(ddPoint *point)
-{
-	ddPolyLineFigure::setEndPoint(point);
-}
-
-ddPoint* ddLineConnection::pointAt(int index)
-{
-	return ddPolyLineFigure::pointAt(index);
-}
-
-void ddLineConnection::splitSegment(int x, int y)
-{
-	ddPolyLineFigure::splitSegment(x,y);
-}
-
-int ddLineConnection::pointCount()
-{
-	return ddPolyLineFigure::pointCount();
-}
 */
+}

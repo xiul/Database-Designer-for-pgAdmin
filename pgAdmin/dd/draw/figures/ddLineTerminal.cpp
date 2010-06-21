@@ -36,7 +36,7 @@ ddPoint* ddLineTerminal::draw (wxBufferedDC& context, ddPoint *a, ddPoint *b){
 	ddPoint *middle = new ddPoint(a->x+abs(a->x - b->x),a->y+abs(a->y - b->y));
 	//context.DrawCircle(*middle,10);
 	context.DrawRectangle(wxRect(a->x,a->y,10,10));
-	context.DrawCircle(*b,10);
+	context.DrawCircle(*a,10);
 	return middle;
 }
 

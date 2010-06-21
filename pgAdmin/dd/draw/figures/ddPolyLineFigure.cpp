@@ -156,7 +156,9 @@ ddCollection* ddPolyLineFigure::handlesEnumerator(){
 void ddPolyLineFigure::addPoint (int x, int y){
 	willChange();
 	points->addItem((ddObject *) new ddPoint(x,y) );
-	resetHandles();
+	//Update handles
+	handles->addItem(new ddPolyLineHandle(this, new ddPolyLineLocator(0), 0));
+	updateHandlesIndexes(); //DD-TODO: move this method to changed()???
 	changed();
 }
 
@@ -179,8 +181,15 @@ void ddPolyLineFigure::removePoint (int index)
 void ddPolyLineFigure::removePointAt (int index)
 {
 	willChange();
+	ddPoint *p = (ddPoint*) points->getItemAt(index);
 	points->removeItemAt(index);
-	resetHandles();
+	delete p;
+	//Update handles
+	ddIHandle *h = (ddIHandle*) handles->getItemAt(index);
+	handles->removeItemAt(index);
+//DD-TODO: avoid this memory leak without a memory fail---->	delete h;
+	//DD-TODO: delete all item after a getItemAt... research if this is need cause wxwidgets docs is not clear about this
+	updateHandlesIndexes();
 	changed();
 }
 
@@ -294,7 +303,9 @@ void ddPolyLineFigure::insertPointAt (int index, int x, int y)
 {
 	willChange();
 	points->insertAtIndex((ddObject*) new ddPoint(x,y), index);
-	resetHandles();
+	//Update handles
+	handles->insertAtIndex(new ddPolyLineHandle(this, new ddPolyLineLocator(index), index),index);
+	updateHandlesIndexes();
 	changed();
 }
 
@@ -319,10 +330,18 @@ void ddPolyLineFigure::splitSegment(int x, int y)
 	}
 }
 
-void ddPolyLineFigure::resetHandles()
+
+//DD-TODO: this functions is deprecated and should be delete in the future
+void ddPolyLineFigure::updateHandlesIndexes()
 {
-handles->deleteAll();
+ddPolyLineHandle *h = NULL;
+for(int i=0;i<points->count();i++){
+	h = (ddPolyLineHandle*) handles->getItemAt(i);
+	h->setIndex(i);
+	}
+/*handles->deleteAll();
 for(int i=0;i<points->count();i++){
 	handles->addItem(new ddPolyLineHandle(this, new ddPolyLineLocator(i), i));
 	}
+*/
 }

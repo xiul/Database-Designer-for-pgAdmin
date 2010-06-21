@@ -50,7 +50,10 @@ public:
 	virtual ddIFigure* getEndFigure();
 	virtual ddIHandle* getStartHandle();
 	virtual ddIHandle* getEndHandle();
-	using ddPolyLineFigure::pointAt;
+	virtual void addPoint (int x, int y);
+	virtual void insertPointAt (int index, int x, int y);
+
+	//using ddPolyLineFigure::pointAt;
 
 /*	//Fix which ambiguos function declared in ddPolyLineFigure and ddIConnectionFigure is going to be used
 	using ddPolyLineFigure::getStartPoint;
@@ -71,7 +74,7 @@ public:
 
 //DD-TODO: HIGH-PRIORITY-FINISH-THIS fix los metodos repetidos para que hagan lo mismo si existen
 protected:
-	virtual void resetHandles();
+	virtual void updateHandlesIndexes();
 private:
 	void connectFigure (ddIConnector *connector);
 	void disconnectFigure (ddIConnector *connector);
