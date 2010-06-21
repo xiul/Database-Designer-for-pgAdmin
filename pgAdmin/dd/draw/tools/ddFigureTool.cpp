@@ -28,6 +28,8 @@ ddAbstractTool(editor)
 }
 
 ddFigureTool::~ddFigureTool(){
+	if(defaultTool)
+		delete defaultTool;
 }
 
 void ddFigureTool::setDefaultTool(ddITool *dt)

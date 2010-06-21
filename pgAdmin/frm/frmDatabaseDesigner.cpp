@@ -34,23 +34,24 @@ END_EVENT_TABLE()
 	SetMinSize(wxSize(450,300));
 //	view = new ddDrawingView(this,wxSize(800,600),new ddDrawing());
 	editor = new ddDrawingEditor(this);
-	ddITool *tool = new ddSelectionTool(editor);
+	tool = new ddSelectionTool(editor);
+	//DD-TODO: initial tool should be a parameter for editor because it owns and should delete it
 	editor->setTool(tool);
-	ddAbstractFigure *f=new ddAbstractFigure();
+	f=new ddAbstractFigure();
 	f->displayBox().SetPosition(wxPoint(5,5));
 	f->displayBox().width=100;
 	f->displayBox().height=100;
 	//f->setSelected(false);
 	editor->view()->add(f);
 
-	ddAbstractFigure *f2=new ddAbstractFigure();
+	f2=new ddAbstractFigure();
 	f2->displayBox().SetPosition(wxPoint(150,150));
 	f2->displayBox().width=130;
 	f2->displayBox().height=130;
 	//f2->setSelected(true);
 	editor->view()->add(f2);
 
-	ddAbstractFigure *f3=new ddAbstractFigure();
+	f3=new ddAbstractFigure();
 	f3->displayBox().SetPosition(wxPoint(290,290));
 	f3->displayBox().width=130;
 	f3->displayBox().height=130;
@@ -85,10 +86,11 @@ f4->setStartTerminal(new ddLineTerminal());
 f4->setEndTerminal(new ddLineTerminal());
 editor->setTool(new ddConnectionCreationTool(editor,f4));
 	//SetIcon(wxIcon(sql_32_xpm));
-}
 
+}
  frmDatabaseDesigner::~frmDatabaseDesigner(){
 //DD-TODO: free memory objects
+	 delete editor;
  }
 
 void frmDatabaseDesigner::Go()

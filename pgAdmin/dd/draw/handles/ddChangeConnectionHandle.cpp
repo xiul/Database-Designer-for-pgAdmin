@@ -93,18 +93,19 @@ void ddChangeConnectionHandle::invokeEnd(int x, int y, ddDrawingView *view)
 
 ddIFigure* ddChangeConnectionHandle::findConnectableFigure (int x, int y, ddDrawing *drawing)
 {
-	//DD-TODO: fix memory leak at all iterators (after create and use delete iterator)
+	ddIFigure *out=NULL;
 	ddIteratorBase *iterator=drawing->figuresInverseEnumerator();
 	while(iterator->HasNext())
 	{
 		ddIFigure *figure = (ddIFigure*) iterator->Next();
 		if(figure->containsPoint(x,y) && isConnectionPossible(figure))
 		{
-			return figure;
+			out=figure;
+			break;
 		}
 	}
 	delete iterator;
-	return NULL;
+	return out;
 }
 ddIConnector* ddChangeConnectionHandle::findConnectionTarget(int x, int y, ddDrawing *drawing)
 {

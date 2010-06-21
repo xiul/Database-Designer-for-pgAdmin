@@ -33,21 +33,27 @@ ddIFigure::ddIFigure(){
 	dependentFigures=new ddCollection(new ddArrayCollection());
 	observers=new ddCollection(new ddArrayCollection());
 	selected=false;
+	connector=NULL;
 	//DD-TODO: this should be initialize here
 }
 
 ddIFigure::~ddIFigure(){
+	if(connector)
+		delete connector;
 	if(figures)
 		delete figures;
 	if(handles)
 		delete handles;
 	if(dependentFigures)
+	{
+		dependentFigures->removeAll();
 		delete dependentFigures;
-	if(observers)
+	}
+	if(observers){
+		observers->removeAll();
 		delete observers;
-
+	}
 }
-
 
 ddRect& ddIFigure::displayBox() {
 	return getBasicDisplayBox();
@@ -121,8 +127,9 @@ void ddIFigure::setSelected(bool value){
 
 ddIConnector* ddIFigure::connectorAt (int x, int y)
 {
-	return new ddChopBoxConnector(this);
-	//DD-TODO: HIGH-PRIORITY-FINISH-THIS avoid this memory leak
+	if(!connector)
+		connector = new ddChopBoxConnector(this);
+	return connector;
 }
 
 bool ddIFigure::includes(ddIFigure *figure)

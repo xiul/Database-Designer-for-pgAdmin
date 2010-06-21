@@ -60,5 +60,6 @@ protected:
 	ddCollection *observers;
 private:
 	bool selected;
+	ddIConnector *connector;
 };
 #endif

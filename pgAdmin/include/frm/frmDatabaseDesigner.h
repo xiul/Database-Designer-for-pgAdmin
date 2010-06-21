@@ -2,8 +2,16 @@
 #ifndef __FRM_DATABASEDESIGNER_H
 #define __FRM_DATABASEDESIGNER_H
 
+// Designer headers
 #include "dd/draw/main/ddDrawingView.h"
 #include "dd/draw/main/ddDrawingEditor.h"
+#include "dd/draw/figures/ddAbstractFigure.h"
+#include "dd/draw/figures/ddPolyLineFigure.h"
+#include "dd/draw/main/ddDrawingEditor.h"
+#include "dd/draw/tools/ddSelectionTool.h"
+#include "dd/draw/tools/ddDragCreationTool.h"
+#include "dd/draw/tools/ddConnectionCreationTool.h"
+#include "dd/draw/figures/ddLineConnection.h"
 
 class frmDatabaseDesigner : public pgFrame
 {
@@ -13,8 +21,10 @@ public:
 	void Go();
 private:
 	frmMain *mainForm;
-	//ddDrawingView *view;
 	ddDrawingEditor *editor;
+	ddLineConnection *f4;
+	ddAbstractFigure *f3,*f2,*f;
+	ddITool *tool;
 	void OnClose(wxCloseEvent& event);
 };
 

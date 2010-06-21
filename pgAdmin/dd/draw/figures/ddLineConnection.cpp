@@ -54,8 +54,6 @@ ddPolyLineFigure()
 
 ddLineConnection::~ddLineConnection()
 {
-	if(handles)
-		delete handles;
 }
 
 ddIConnector* ddLineConnection::getStartConnector()

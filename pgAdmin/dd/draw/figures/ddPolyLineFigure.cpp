@@ -37,7 +37,15 @@ ddPolyLineFigure::ddPolyLineFigure(){
 }
 
 ddPolyLineFigure::~ddPolyLineFigure(){
-	//DD-TODO: delete points
+	ddPoint *tmp; //Hack: If just delete points collection an error is raised.
+	while(points->count()>0)
+	{
+		tmp = (ddPoint*) points->getItemAt(0);
+		points->removeItemAt(0);
+		delete tmp;
+	}
+	if(points)
+		delete points;
 }
 
 ddRect& ddPolyLineFigure::getBasicDisplayBox() {
@@ -222,6 +230,8 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 
 		context.DrawLine(*p1,*p2);
 	}
+	delete start;
+	delete end;
 }
 
 void ddPolyLineFigure::basicMoveBy(int x, int y){
@@ -237,7 +247,6 @@ void ddPolyLineFigure::basicMoveBy(int x, int y){
 ddITool* ddPolyLineFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
 {
 	return new ddPolyLineFigureTool(editor,this,defaultTool);
-	//DD-TODO: check what is done with all new objects return from function because they should be destroyed/delete
 }
 
 int ddPolyLineFigure::findSegment (int x, int y){

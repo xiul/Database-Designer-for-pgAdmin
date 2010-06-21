@@ -29,6 +29,13 @@ ddDrawing::ddDrawing()
 
 ddDrawing::~ddDrawing()
 {
+	ddIFigure *tmp;
+	while(figures->count()>0)
+	{
+		tmp = (ddIFigure*) figures->getItemAt(0);
+		figures->removeItemAt(0);
+		delete tmp;
+	}
 	if(figures)
 		delete figures;
 }

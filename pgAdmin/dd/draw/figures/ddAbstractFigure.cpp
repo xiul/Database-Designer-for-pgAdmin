@@ -60,9 +60,9 @@ void ddAbstractFigure::basicDrawSelected(wxBufferedDC& context){
 }
 
 
-ddITool ddAbstractFigure::CreateFigureTool(ddITool *defaultTool){
-return *defaultTool;
-//DD-TODO: need IDrawingEditor as parameter?
+ddITool* ddAbstractFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+{
+	return defaultTool;
 }
 
 //DD-TODO: HIGH-PRIORITY-FINISH-THIS: Add connection methods and others

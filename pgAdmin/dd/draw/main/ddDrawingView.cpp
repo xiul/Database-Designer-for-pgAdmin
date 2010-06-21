@@ -93,10 +93,11 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 
 ddDrawingView::~ddDrawingView()
 {
-	//this create bug why?
-/*	if(selection)
+	if(selection)
+	{
+		selection->removeAll();
 		delete selection;
-		*/
+	}
 }
 
 //DD-TODO: set/get an Editor

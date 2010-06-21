@@ -25,6 +25,7 @@
 ddDrawingEditor::ddDrawingEditor(pgFrame *owner){
 	_model=new ddDrawing();
 	_view = new ddDrawingView(owner,this,wxSize(800,600),_model);
+	_tool=NULL;
 }
 
 ddDrawingEditor::~ddDrawingEditor(){
@@ -32,6 +33,8 @@ ddDrawingEditor::~ddDrawingEditor(){
 		delete _view;
 	if(_model)
 		delete _model;
+	if(_tool)
+		delete _tool;
 }
 
 ddDrawingView* ddDrawingEditor::view(){
@@ -42,11 +45,12 @@ ddDrawing* ddDrawingEditor::model(){
 	return _model;
 }
 
-
 ddITool* ddDrawingEditor::tool(){
 	return _tool;
 }
 
 void ddDrawingEditor::setTool(ddITool* tool){
+	if(_tool)
+		delete _tool;
 	_tool=tool;
 }

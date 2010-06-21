@@ -35,6 +35,8 @@ ddAbstractTool(owner){
 }
 
 ddSelectionTool::~ddSelectionTool(){
+	if(_delegateTool)
+		delete _delegateTool;
 }
 
 void ddSelectionTool::mouseDown(wxMouseEvent& event){
