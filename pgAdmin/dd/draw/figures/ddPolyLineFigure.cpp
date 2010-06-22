@@ -239,6 +239,7 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 
 		context.DrawLine(*p1,*p2);
 	}
+	//DD-TODO: this is really needed or I can change way end/startTerminal->draw works?
 	delete start;
 	delete end;
 }
