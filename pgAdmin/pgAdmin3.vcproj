@@ -3777,6 +3777,10 @@
 							RelativePath=".\include\dd\draw\tools\ddSelectionTool.h"
 							>
 						</File>
+						<File
+							RelativePath=".\include\dd\draw\tools\ddSimpleTextTool.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="locator"
@@ -5276,6 +5280,10 @@
 					</File>
 					<File
 						RelativePath=".\dd\draw\tools\ddSelectionTool.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\tools\ddSimpleTextTool.cpp"
 						>
 					</File>
 				</Filter>

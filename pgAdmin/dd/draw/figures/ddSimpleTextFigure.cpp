@@ -19,6 +19,7 @@
 
 // App headers
 #include "dd/draw/figures/ddSimpleTextFigure.h"
+#include "dd/draw/utilities/ddGeometry.h"
 /*
 #include "dd/draw/handles/ddIHandle.h"
 #include "dd/draw/utilities/ddArrayCollection.h"
@@ -35,7 +36,8 @@ ddSimpleTextFigure::ddSimpleTextFigure(wxString textString)
 	font = settings->GetSystemFont();
 	textForeground = *wxBLACK;
 	textBackground = wxBrush (wxColour(245, 245, 245),wxSOLID);
-
+	refreshDisplayBox = true;
+	padding = 2;
 }
 
 ddSimpleTextFigure::~ddSimpleTextFigure()
@@ -45,32 +47,98 @@ ddSimpleTextFigure::~ddSimpleTextFigure()
 void ddSimpleTextFigure::setText(wxString textString)
 {
 	text = textString;
+	refreshDisplayBox = true;
 	//DD-TODO: update displaybox size
+}
+wxString& ddSimpleTextFigure::getText()
+{
+	return text;
 }
 
 void ddSimpleTextFigure::setFont(wxFont textFont)
 {
 	font = textFont;
+	refreshDisplayBox = true;
 }
 
 void ddSimpleTextFigure::setForeground(wxColour colour)
 {
 	textForeground = colour;
+	refreshDisplayBox = true;
 }
 
 void ddSimpleTextFigure::setBackground(wxBrush background)
 {
 	textBackground = background;
+	refreshDisplayBox = true;
 }
 
-long ddSimpleTextFigure::getHeightFontMetrics(wxBufferedDC& context)
+void ddSimpleTextFigure::getFontMetrics(int &width, int &height, wxBufferedDC& context)
 {
-	long  height=0,width=0;
 	context.SetFont(font);
 	context.GetTextExtent(wxT("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxtz"),&width,&height);
-	return height;
 }
 
+
+
+void ddSimpleTextFigure::recalculateDisplayBox(wxBufferedDC& context)
+{
+	int w,h;
+	
+	getFontMetrics(w,h,context);
+
+	wxRect r = displayBox();
+	
+	ddGeometry g;
+	r.width = g.max(w,10);
+	r.height= g.max(h,10);
+}
+
+/*
+ddRect& ddSimpleTextFigure::getBasicDisplayBox()
+{
+	return ddAbstractFigure::getBasicDisplayBox();
+}
+*/
+
+void ddSimpleTextFigure::basicDraw(wxBufferedDC& context)
+{
+	if(refreshDisplayBox)
+		recalculateDisplayBox(context);
+	
+	setupLayout(context);
+	context.DrawText(text,getBasicDisplayBox().GetPosition());
+}
+
+void ddSimpleTextFigure::setupLayout(wxBufferedDC& context)
+{
+	context.SetFont(font);
+	context.SetTextForeground(textForeground);
+	context.SetBrush(textBackground);
+}
+
+//DD-TODO: Add event onTextChanged
+
+void ddSimpleTextFigure::basicMoveBy(int x, int y)
+{
+	displayBox().x += x;
+	displayBox().y += y;
+}
+
+//CreateFigureTool 
+
+
+
+/*
+
+			
+			w = Math.Max (w, 10);
+			h = Math.Max (h, 10);
+			RectangleD r = new RectangleD (DisplayBox.X + Padding, DisplayBox.Y + Padding, 
+									(double) w, (double) h);
+
+			r.Inflate (Padding, Padding);
+			_displayBox = r; 
 
 /*
     // Get Value for row Height
@@ -239,3 +307,5 @@ void ddIFigure::removeObserver(ddIFigure *observer)
 	}
 }
 */
+
+
