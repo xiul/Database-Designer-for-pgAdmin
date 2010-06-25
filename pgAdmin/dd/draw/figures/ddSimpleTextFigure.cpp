@@ -77,7 +77,10 @@ void ddSimpleTextFigure::setBackground(wxBrush background)
 void ddSimpleTextFigure::getFontMetrics(int &width, int &height, wxBufferedDC& context)
 {
 	context.SetFont(font);
-	context.GetTextExtent(wxT("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxtz"),&width,&height);
+	if(text.length()>5)
+		context.GetTextExtent(text,&width,&height);
+	else
+	context.GetTextExtent(wxT("EMPTY"),&width,&height);
 }
 
 
@@ -88,11 +91,10 @@ void ddSimpleTextFigure::recalculateDisplayBox(wxBufferedDC& context)
 	
 	getFontMetrics(w,h,context);
 
-	wxRect r = displayBox();
-	
 	ddGeometry g;
-	r.width = g.max(w,10);
-	r.height= g.max(h,10);
+	displayBox().width = g.max(w,10);
+	displayBox().height= g.max(h,10);
+	refreshDisplayBox = false;
 }
 
 /*
@@ -108,6 +110,10 @@ void ddSimpleTextFigure::basicDraw(wxBufferedDC& context)
 		recalculateDisplayBox(context);
 	
 	setupLayout(context);
+
+	context.DrawRectangle(this->displayBox()); //666
+
+
 	context.DrawText(text,getBasicDisplayBox().GetPosition());
 }
 
