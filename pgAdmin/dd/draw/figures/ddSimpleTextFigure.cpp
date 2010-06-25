@@ -21,14 +21,6 @@
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 #include "dd/draw/tools/ddSimpleTextTool.h"
 #include "dd/draw/utilities/ddGeometry.h"
-/*
-#include "dd/draw/handles/ddIHandle.h"
-#include "dd/draw/utilities/ddArrayCollection.h"
-#include "dd/draw/tools/ddITool.h"
-#include "dd/draw/connectors/ddIConnector.h"
-#include "dd/draw/connectors/ddChopBoxConnector.h"
-*/
-
 
 ddSimpleTextFigure::ddSimpleTextFigure(wxString textString)
 {
@@ -80,7 +72,8 @@ void ddSimpleTextFigure::getFontMetrics(int &width, int &height, wxBufferedDC& c
 	if(text.length()>5)
 		context.GetTextExtent(text,&width,&height);
 	else
-	context.GetTextExtent(wxT("EMPTY"),&width,&height);
+		context.GetTextExtent(wxT("EMPTY"),&width,&height);
+	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
 }
 
 
@@ -92,17 +85,11 @@ void ddSimpleTextFigure::recalculateDisplayBox(wxBufferedDC& context)
 	getFontMetrics(w,h,context);
 
 	ddGeometry g;
-	displayBox().width = g.max(w,10);
-	displayBox().height= g.max(h,10);
+	displayBox().width = g.max(w,10)+padding;
+	displayBox().height= g.max(h,10)+padding;
 	refreshDisplayBox = false;
+	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
 }
-
-/*
-ddRect& ddSimpleTextFigure::getBasicDisplayBox()
-{
-	return ddAbstractFigure::getBasicDisplayBox();
-}
-*/
 
 void ddSimpleTextFigure::basicDraw(wxBufferedDC& context)
 {
@@ -111,9 +98,7 @@ void ddSimpleTextFigure::basicDraw(wxBufferedDC& context)
 	
 	setupLayout(context);
 
-	context.DrawRectangle(this->displayBox()); //666
-
-
+	context.DrawRectangle(this->displayBox()); 
 	context.DrawText(text,getBasicDisplayBox().GetPosition());
 }
 
@@ -142,182 +127,8 @@ void ddSimpleTextFigure::setEditable(bool value)
 	textEditable = value;
 }
 
-
-
-/*
-			w = Math.Max (w, 10);
-			h = Math.Max (h, 10);
-			RectangleD r = new RectangleD (DisplayBox.X + Padding, DisplayBox.Y + Padding, 
-									(double) w, (double) h);
-			r.Inflate (Padding, Padding);
-			_displayBox = r; 
-
-/*
-    // Get Value for row Height
-    if(!rowHeight)
-    {
-        bdc.SetFont(TableTitleFont);
-        bdc.GetTextExtent(wxT("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxtz"),&w,&h);
-        rowHeight=h;
-    }
-
-    // Get Title Metrics
-    bdc.SetFont(TableTitleFont);
-    height+= rowHeight + rowTopMargin;
-
-    // Calculate font metrics for table title with/without alias
-    if(queryTable->getAlias().length()>0)
-        bdc.GetTextExtent(queryTable->getName()+wxT(" (")+queryTable->getAlias()+wxT(")"),&w,&h);
-    else
-        bdc.GetTextExtent(queryTable->getName(),&w,&h);
-    width= rowLeftMargin + w + rowRightMargin;
-
-
-
-
-/*
-
-ddIFigure::ddIFigure(){
-	figures=new ddCollection(new ddArrayCollection());
-	handles=new ddCollection(new ddArrayCollection());
-	dependentFigures=new ddCollection(new ddArrayCollection());
-	observers=new ddCollection(new ddArrayCollection());
-	selected=false;
-	connector=NULL;
-	//DD-TODO: this should be initialize here
-}
-
-ddIFigure::~ddIFigure(){
-	if(connector)
-		delete connector;
-	if(figures)
-		delete figures;
-	if(handles)
-		delete handles;
-	if(dependentFigures)
-	{
-		dependentFigures->removeAll();
-		delete dependentFigures;
-	}
-	if(observers){
-		observers->removeAll();
-		delete observers;
-	}
-}
-
-ddRect& ddIFigure::displayBox() {
-	return getBasicDisplayBox();
-}
-
-ddRect& ddIFigure::getBasicDisplayBox()
+int ddSimpleTextFigure::getPadding()
 {
-	return basicDisplayBox;
+	return padding;
 }
-
-bool ddIFigure::containsPoint (int x, int y){
-	return false;
-}
-
-void ddIFigure::draw (wxBufferedDC& context){
-}
-
-void ddIFigure::drawSelected (wxBufferedDC& context){
-}
-
-ddCollection* ddIFigure::handlesEnumerator(){
-	return handles;
-}
-
-
-void ddIFigure::addDependentFigure (ddIFigure *figure){
-	if(!dependentFigures){
-		dependentFigures = new ddCollection(new ddArrayCollection());
-	}
-	dependentFigures->addItem(figure);	
-}
-
-
-void ddIFigure::removeDependentFigure (ddIFigure *figure){
-	if(dependentFigures){
-		dependentFigures->removeItem(figure);		
-	}
-}
-
-void ddIFigure::addHandle (ddIHandle *handle){
-	if(!handles){
-		handles  = new ddCollection(new ddArrayCollection());
-	}
-	handles->addItem(handle);	
-}
-
-void ddIFigure::removeHandle (ddIHandle *handle){
-	if(handles){
-		handles->removeItem(handle);		
-	}
-}
-
-void ddIFigure::moveBy (int x, int y){
-}
-
-void ddIFigure::moveTo(int x, int y){
-}
-
-ddITool* ddIFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool){
-	return defaultTool;
-}
-
-bool ddIFigure::isSelected(){
-	return selected;
-}
-
-void ddIFigure::setSelected(bool value){
-	selected=value;
-}
-
-
-ddIConnector* ddIFigure::connectorAt (int x, int y)
-{
-	if(!connector)
-		connector = new ddChopBoxConnector(this);
-	return connector;
-}
-
-bool ddIFigure::includes(ddIFigure *figure)
-{
-	return (this == figure);
-}
-
-
-
-void ddIFigure::onFigureChanged(ddIFigure *figure)
-{
-
-	ddIteratorBase *iterator=observers->createIterator();
-	while(iterator->HasNext()){
-		ddIFigure *o = (ddIFigure*) iterator->Next();
-		o->onFigureChanged(this);
-	}
-	delete iterator;
-}
-
-
-
-
-void ddIFigure::addObserver(ddIFigure *observer)
-{
-	if(!observers){
-		observers  = new ddCollection(new ddArrayCollection());
-	}
-	observers->addItem(observer);	
-}
-
-void ddIFigure::removeObserver(ddIFigure *observer)
-{
-	if(observers){
-		observers->removeItem(observer);
-		//DD-TODO: this delete the figure???? wxwidgets api is very bad documented
-	}
-}
-*/
-
 

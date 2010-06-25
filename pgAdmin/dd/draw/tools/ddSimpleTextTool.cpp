@@ -19,56 +19,74 @@
 
 // App headers
 #include "dd/draw/tools/ddSimpleTextTool.h"
+#include "dd/draw/figures/ddSimpleTextFigure.h"
 
+class ddDrawingEditor;
 
 ddSimpleTextTool::ddSimpleTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddFigureTool(editor,fig,dt)
 {
 	showEdit = false;
 	//DD-TODO: set this value: edit.SetFont();  and fix layout and fix ID of edit because it should be a constant
-	edit = new wxTextCtrl(editor->view(),24062010,wxT(""),wxPoint(0,0),wxSize(10,10));
-	edit->Connect(24062010,wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &ddSimpleTextTool::changeHandler);
-	calculateSizeEntry ();
+	txtFigure = ((ddSimpleTextFigure *)this->getFigure());
+	editor->view()->setSimpleTextToolFigure(NULL);
+	edit = getDrawingEditor()->view()->getSimpleTextToolEdit();
+	calculateSizeEntry();
+	
 }
 
 ddSimpleTextTool::~ddSimpleTextTool()
 {
-	if(edit)
-		delete edit;
 }
 
 void ddSimpleTextTool::calculateSizeEntry()
 {
-	int padding = -666; //666 hacer esto ((ddSimpleTextFigure *)this->getFigure())
-	ddRect r = figure->displayBox();
-	r.Inflate(-padding,-padding);
-	//TODO: Translate position when scrolled
-	
-	edit->SetPosition(r.GetPosition());
-	edit->SetSize(r.GetSize());
-}
-
-void ddSimpleTextTool::changeHandler(wxCommandEvent& event)
-{
-/*	ddSimpleTextFigure *txtfigure = (ddSimpleTextFigure *)this->getFigure();
-	txtfigure->setText(edit->getValue());
-	*/
+	if(edit)
+	{
+		edit->SetPosition(txtFigure->displayBox().GetPosition());
+		edit->SetSize(txtFigure->displayBox().GetSize());
+		//DD-TODO: avoid in a future twin function in DrawingView because tool hack
+	}
 }
 
 void ddSimpleTextTool::mouseDown(wxMouseEvent& event)
-{
+{	
+	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
+	if(event.LeftDClick())
+	{
+		getDrawingEditor()->view()->setSimpleTextToolFigure(txtFigure);
+		showEdit = true;
+		edit->ChangeValue(txtFigure->getText()); //Same as SetValue but don't generated wxEVT_COMMAND_TEXT_UPDATED event
+		calculateSizeEntry();
+		edit->SetFocus();
+		edit->Show();
+		return;
+	}
+	getDefaultTool()->mouseDown(event);
 }
 
 void ddSimpleTextTool::activate()
 {
+	showEdit = false;
+	ddFigureTool::activate();
 }
 
 void ddSimpleTextTool::deactivate()
 {
+	if(edit)
+	{
+		edit->Hide();  //I can't delete it because view is the owner of this object
+		getDrawingEditor()->view()->setSimpleTextToolFigure(NULL);
+	}
+	ddFigureTool::deactivate();
 }
 
 void ddSimpleTextTool::mouseDrag(wxMouseEvent& event)
 {
+	if(!showEdit)
+	{
+		getDefaultTool()->mouseDrag(event);
+	}
 }
 
 /*

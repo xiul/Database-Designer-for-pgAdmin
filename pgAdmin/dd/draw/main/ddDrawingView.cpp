@@ -21,6 +21,7 @@
 #include "dd/draw/main/ddDrawingView.h"
 #include "dd/draw/utilities/ddArrayCollection.h"
 #include "dd/draw/main/ddDrawingEditor.h"
+#include "dd/draw/utilities/ddGeometry.h"
 
 BEGIN_EVENT_TABLE(ddDrawingView, wxScrolledWindow)
 EVT_PAINT(ddDrawingView::onPaint)
@@ -28,13 +29,11 @@ EVT_MOTION(ddDrawingView::onMotion)
 EVT_LEFT_DOWN(ddDrawingView::onMouseDown)
 EVT_LEFT_DCLICK(ddDrawingView::onMouseDown)
 EVT_LEFT_UP(ddDrawingView::onMouseUp)
-EVT_ERASE_BACKGROUND(gqbView::onEraseBackGround)  //This erase flicker
+EVT_ERASE_BACKGROUND(ddDrawingView::onEraseBackGround)  //This erase flicker
+EVT_TEXT(1979,ddDrawingView::simpleTextToolChangeHandler)
 END_EVENT_TABLE()
 
-/*
-EVT_RIGHT_DOWN(ddDrawingView::onRightClick)
-EVT_LEFT_DCLICK(ddDrawingView::onDoubleClick)
-EVT_KEY_DOWN(ddDrawingView::OnKeyDown)
+//DD-TODO replace numeric constants in events id for alphanumeric constants id
 
 /*
     * EVT_LEFT_DOWN(func):
@@ -88,7 +87,12 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 	canvasSize=size;
 	SetVirtualSizeHints(size);
 	selection =  new ddCollection(new ddArrayCollection());
+	//Hack to avoid selection rectangle drawing bug
 	drawSelRect = false;
+	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+	simpleTextToolEdit = new wxTextCtrl(this,1979,wxT(""));
+	simpleTextToolEdit->Hide();
+	simpleTextFigure = NULL;
 }
 
 ddDrawingView::~ddDrawingView()
@@ -98,9 +102,9 @@ ddDrawingView::~ddDrawingView()
 		selection->removeAll();
 		delete selection;
 	}
+	if(simpleTextToolEdit)
+		delete simpleTextToolEdit;
 }
-
-//DD-TODO: set/get an Editor
 
 void ddDrawingView::onPaint(wxPaintEvent& event)
 {
@@ -298,6 +302,57 @@ void ddDrawingView::onMouseUp(wxMouseEvent& event){
 	drawingEditor->tool()->mouseUp(event);
 	this->Refresh();
 }
+
+
+//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+void ddDrawingView::setSimpleTextToolFigure(ddSimpleTextFigure *figure)
+{
+	simpleTextFigure=figure;
+	if(simpleTextFigure)
+	{
+		simpleTextToolEdit->SetValue(simpleTextFigure->getText());
+	}
+}
+
+//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+void ddDrawingView::simpleTextToolChangeHandler(wxCommandEvent& event)
+{
+	if(simpleTextFigure)
+	{
+		simpleTextFigure->setText(simpleTextToolEdit->GetValue());
+		//getFontMetrics
+		int width, height;
+		wxWindowDC dc(this);
+		dc.SetFont(GetFont());
+		if(simpleTextFigure->getText().length()>5)
+			dc.GetTextExtent(simpleTextFigure->getText(),&width,&height);
+		else
+			dc.GetTextExtent(wxT("EMPTY"),&width,&height);
+		//recalculateDisplayBox
+		ddGeometry g;
+		simpleTextFigure->displayBox().width = g.max(width,10)+simpleTextFigure->getPadding();
+		simpleTextFigure->displayBox().height= g.max(height,10)+simpleTextFigure->getPadding();
+		//calculateSizeEntry
+		simpleTextToolEdit->SetPosition(simpleTextFigure->displayBox().GetPosition());
+		simpleTextToolEdit->SetSize(simpleTextFigure->displayBox().GetSize());
+	}
+	else
+	{
+		wxMessageDialog *error = new wxMessageDialog(NULL, wxT("Error locating ddSimpleTextTool figure"), wxT("Error!"), wxOK | wxICON_ERROR);
+		error->ShowModal();
+		delete error;
+	}
+	event.Skip();
+}
+
+//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+wxTextCtrl* ddDrawingView::getSimpleTextToolEdit()
+{
+	return simpleTextToolEdit;
+}
+
+
+
 
 
 /*void ddDrawingView::OnKeyDown(wxKeyEvent& event)

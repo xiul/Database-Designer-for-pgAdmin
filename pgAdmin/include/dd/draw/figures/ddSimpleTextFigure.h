@@ -33,7 +33,7 @@ public:
 	virtual void setFont(wxFont textFont);
 	virtual void setForeground(wxColour colour);
 	virtual void setBackground(wxBrush background);
-	//virtual ddRect& getBasicDisplayBox();
+	virtual int getPadding();
 	void basicMoveBy(int x, int y);
 	virtual void basicDraw(wxBufferedDC& context);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
@@ -50,39 +50,5 @@ private:
 	wxColour textForeground;
 	wxBrush textBackground;
 
-
-/*	virtual ddRect& displayBox();
-	virtual ddRect& getBasicDisplayBox();
-	virtual void draw (wxBufferedDC& context);
-	virtual void drawSelected (wxBufferedDC& context);
-	virtual ddCollection* handlesEnumerator();
-	virtual void addDependentFigure (ddIFigure *figure);
-	virtual void removeDependentFigure (ddIFigure *figure);
-	virtual void addHandle (ddIHandle *handle);
-	virtual void removeHandle (ddIHandle *handle);
-	ddIConnector* connectorAt (int x, int y);
-	virtual void moveBy(int x, int y);
-	virtual void moveTo(int x, int y);
-	virtual bool containsPoint(int x, int y);
-	virtual bool isSelected();
-	virtual void setSelected(bool value);
-	virtual bool includes(ddIFigure *figure);
-	virtual bool canConnect()=0;
-	virtual void onFigureChanged(ddIFigure *figure)=0;
-	virtual void addObserver (ddIFigure *observer);
-	virtual void removeObserver (ddIFigure *observer);	
-
-	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
-
-protected:
-	ddRect basicDisplayBox;
-	ddCollection *figures;
-	ddCollection *handles;
-	ddCollection *dependentFigures;
-	ddCollection *observers;
-private:
-	bool selected;
-	ddIConnector *connector;
-	*/
 };
 #endif

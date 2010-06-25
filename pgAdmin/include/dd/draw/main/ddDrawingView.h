@@ -15,8 +15,11 @@
 #include "dd/draw/figures/ddIFigure.h"
 #include "dd/draw/main/ddDrawing.h"
 #include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/figures/ddSimpleTextFigure.h"
+// Create View Class for MVC pattern of graphic library of pgAdmin
 
-// Create Array Objects used as base for gqbCollections
+//class ddSimpleTextFigure;   //FIX-HACK to avoid circular references
+
 class ddDrawingView : public wxScrolledWindow
 {
 public:
@@ -48,6 +51,15 @@ public:
 	//Hack to avoid selection rectangle drawing bug
 	void setSelRect(ddRect& selectionRect);
 	void disableSelRectDraw();
+	//End Hack to avoid selection rectangle drawing bug
+
+	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+	void simpleTextToolChangeHandler(wxCommandEvent& event);
+	void setSimpleTextToolFigure(ddSimpleTextFigure *figure);
+	wxTextCtrl* getSimpleTextToolEdit();
+
+	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+
 
 	/*
 	virtual wxPoint drawingToView(double x, double y);
@@ -70,6 +82,12 @@ private:
 	ddRect selRect;  
 	wxPoint selPoints[5];
 	bool drawSelRect;
+	//End Hack to avoid selection rectangle drawing bug
+
+	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+	wxTextCtrl *simpleTextToolEdit;
+	ddSimpleTextFigure *simpleTextFigure;
+	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
 
 };
 #endif

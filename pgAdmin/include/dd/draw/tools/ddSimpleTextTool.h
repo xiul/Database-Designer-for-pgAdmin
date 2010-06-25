@@ -13,6 +13,7 @@
 #define DDSIMPLETEXTTOOL_H
 
 #include "dd/draw/tools/ddFigureTool.h"
+#include "dd/draw/figures/ddSimpleTextFigure.h"
 
 
 class ddSimpleTextTool : public ddFigureTool
@@ -25,28 +26,13 @@ public:
 	virtual void activate();
 	virtual void deactivate();
 	virtual void mouseDrag(wxMouseEvent& event);
-	virtual void changeHandler(wxCommandEvent& event);
+	//Because a bug it was move to main View class as a hack. virtual void changeHandler(wxCommandEvent& event);
 protected:
 private:
 	void calculateSizeEntry();
 	bool showEdit;
+	ddSimpleTextFigure *txtFigure;
 	wxTextCtrl *edit;
-/*
-	void setDefaultTool(ddITool *dt);
-	ddITool* getDefaultTool();
-	void setFigure(ddIFigure *fig);
-	ddIFigure* getFigure();
-
-	virtual void mouseUp(wxMouseEvent& event);
-
-
-	virtual void keyDown(wxKeyEvent& event);
-	virtual void keyUp(wxKeyEvent& event);
-protected:
-	ddITool *defaultTool;
-	ddIFigure *figure;
-private:
-	*/
-
+	//Because a bug in the way wxwidgets connect events I can't declare it here, wxTextCtrl *edit, instead I do it on the view.
 };
 #endif
