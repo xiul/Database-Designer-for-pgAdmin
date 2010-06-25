@@ -15,9 +15,61 @@
 
 // wxWindows headers
 #include <wx/wx.h>
+#include <wx/textctrl.h>
 
 // App headers
 #include "dd/draw/tools/ddSimpleTextTool.h"
+
+
+ddSimpleTextTool::ddSimpleTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
+ddFigureTool(editor,fig,dt)
+{
+	showEdit = false;
+	//DD-TODO: set this value: edit.SetFont();  and fix layout and fix ID of edit because it should be a constant
+	edit = new wxTextCtrl(editor->view(),24062010,wxT(""),wxPoint(0,0),wxSize(10,10));
+	edit->Connect(24062010,wxEVT_COMMAND_TEXT_UPDATED, (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &ddSimpleTextTool::changeHandler);
+	calculateSizeEntry ();
+}
+
+ddSimpleTextTool::~ddSimpleTextTool()
+{
+	if(edit)
+		delete edit;
+}
+
+void ddSimpleTextTool::calculateSizeEntry()
+{
+	int padding = -666; //666 hacer esto ((ddSimpleTextFigure *)this->getFigure())
+	ddRect r = figure->displayBox();
+	r.Inflate(-padding,-padding);
+	//TODO: Translate position when scrolled
+	
+	edit->SetPosition(r.GetPosition());
+	edit->SetSize(r.GetSize());
+}
+
+void ddSimpleTextTool::changeHandler(wxCommandEvent& event)
+{
+/*	ddSimpleTextFigure *txtfigure = (ddSimpleTextFigure *)this->getFigure();
+	txtfigure->setText(edit->getValue());
+	*/
+}
+
+void ddSimpleTextTool::mouseDown(wxMouseEvent& event)
+{
+}
+
+void ddSimpleTextTool::activate()
+{
+}
+
+void ddSimpleTextTool::deactivate()
+{
+}
+
+void ddSimpleTextTool::mouseDrag(wxMouseEvent& event)
+{
+}
 
 /*
 ddFigureTool::ddFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):

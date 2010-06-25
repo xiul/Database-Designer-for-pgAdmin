@@ -10,6 +10,7 @@
 // Designer headers
 #include "dd/draw/figures/ddAbstractFigure.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
+#include "dd/draw/figures/ddSimpleTextFigure.h"
 #include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/tools/ddSelectionTool.h"
 #include "dd/draw/tools/ddDragCreationTool.h"
@@ -56,8 +57,7 @@ END_EVENT_TABLE()
 	f3->displayBox().width=130;
 	f3->displayBox().height=130;
 	editor->view()->add(f3);
-
-
+	
 /*
 
 ddPolyLineFigure *f3 = new ddPolyLineFigure();
@@ -86,6 +86,12 @@ f4->setStartTerminal(new ddLineTerminal());
 f4->setEndTerminal(new ddLineTerminal());
 editor->setTool(new ddConnectionCreationTool(editor,f4));
 	//SetIcon(wxIcon(sql_32_xpm));
+
+ddSimpleTextFigure *f5 = new ddSimpleTextFigure(wxT("preuba"));
+f5->displayBox().SetPosition(wxPoint(260,260));
+f5->setEditable(true);
+editor->view()->add(f5);
+
 
 }
  frmDatabaseDesigner::~frmDatabaseDesigner(){

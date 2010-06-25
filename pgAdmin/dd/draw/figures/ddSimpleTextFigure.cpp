@@ -19,6 +19,7 @@
 
 // App headers
 #include "dd/draw/figures/ddSimpleTextFigure.h"
+#include "dd/draw/tools/ddSimpleTextTool.h"
 #include "dd/draw/utilities/ddGeometry.h"
 /*
 #include "dd/draw/handles/ddIHandle.h"
@@ -125,18 +126,23 @@ void ddSimpleTextFigure::basicMoveBy(int x, int y)
 	displayBox().y += y;
 }
 
-//CreateFigureTool 
+ddITool* ddSimpleTextFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+{
+	return textEditable ? new ddSimpleTextTool(editor,this,defaultTool) : defaultTool;
+}
+
+void ddSimpleTextFigure::setEditable(bool value)
+{
+	textEditable = value;
+}
 
 
 
 /*
-
-			
 			w = Math.Max (w, 10);
 			h = Math.Max (h, 10);
 			RectangleD r = new RectangleD (DisplayBox.X + Padding, DisplayBox.Y + Padding, 
 									(double) w, (double) h);
-
 			r.Inflate (Padding, Padding);
 			_displayBox = r; 
 

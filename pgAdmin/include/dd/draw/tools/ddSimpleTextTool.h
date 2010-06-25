@@ -17,24 +17,36 @@
 
 class ddSimpleTextTool : public ddFigureTool
 {
-/*
+
 public:
-	ddFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
-    ~ddFigureTool();
+	ddSimpleTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
+    ~ddSimpleTextTool();
+	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
+	virtual void activate();
+	virtual void deactivate();
+	virtual void mouseDrag(wxMouseEvent& event);
+	virtual void changeHandler(wxCommandEvent& event);
+protected:
+private:
+	void calculateSizeEntry();
+	bool showEdit;
+	wxTextCtrl *edit;
+/*
 	void setDefaultTool(ddITool *dt);
 	ddITool* getDefaultTool();
 	void setFigure(ddIFigure *fig);
 	ddIFigure* getFigure();
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
+
 	virtual void mouseUp(wxMouseEvent& event);
-	virtual void mouseMove(wxMouseEvent& event);
-	virtual void mouseDrag(wxMouseEvent& event);
+
+
 	virtual void keyDown(wxKeyEvent& event);
 	virtual void keyUp(wxKeyEvent& event);
 protected:
 	ddITool *defaultTool;
 	ddIFigure *figure;
-	*/
 private:
+	*/
+
 };
 #endif

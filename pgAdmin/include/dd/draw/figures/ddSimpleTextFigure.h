@@ -29,12 +29,14 @@ public:
     ~ddSimpleTextFigure();
 	virtual void setText(wxString textString);
 	virtual wxString& getText();
+	virtual void setEditable(bool value);
 	virtual void setFont(wxFont textFont);
 	virtual void setForeground(wxColour colour);
 	virtual void setBackground(wxBrush background);
 	//virtual ddRect& getBasicDisplayBox();
 	void basicMoveBy(int x, int y);
 	virtual void basicDraw(wxBufferedDC& context);
+	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 protected:
 	virtual void getFontMetrics(int &width, int &height, wxBufferedDC& context);
 	virtual void recalculateDisplayBox(wxBufferedDC& context);
