@@ -3626,6 +3626,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\figures\ddCompositeFigure.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\figures\ddIConnectionFigure.h"
 							>
 						</File>
@@ -3735,6 +3739,10 @@
 						>
 						<File
 							RelativePath=".\include\dd\draw\tools\ddAbstractTool.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\draw\tools\ddCompositeFigureTool.h"
 							>
 						</File>
 						<File
@@ -5211,6 +5219,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\draw\figures\ddCompositeFigure.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\draw\figures\ddIConnectionFigure.cpp"
 						>
 					</File>
@@ -5240,6 +5252,10 @@
 					>
 					<File
 						RelativePath=".\dd\draw\tools\ddAbstractTool.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\tools\ddCompositeFigureTool.cpp"
 						>
 					</File>
 					<File
