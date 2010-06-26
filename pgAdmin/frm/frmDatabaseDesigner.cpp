@@ -11,6 +11,7 @@
 #include "dd/draw/figures/ddAbstractFigure.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
+#include "dd/draw/figures/ddCompositeFigure.h"
 #include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/tools/ddSelectionTool.h"
 #include "dd/draw/tools/ddDragCreationTool.h"
@@ -87,12 +88,28 @@ f4->setEndTerminal(new ddLineTerminal());
 editor->setTool(new ddConnectionCreationTool(editor,f4));
 	//SetIcon(wxIcon(sql_32_xpm));
 
-ddSimpleTextFigure *f5 = new ddSimpleTextFigure(wxT("preuba"));
-f5->displayBox().SetPosition(wxPoint(260,260));
+ddSimpleTextFigure *f5 = new ddSimpleTextFigure(wxT("Texto Solito"));
+f5->displayBox().SetPosition(wxPoint(60,60));
 f5->setEditable(true);
 editor->view()->add(f5);
 
 
+//Composite Figure (3) figures inside
+ddSimpleTextFigure *f61 = new ddSimpleTextFigure(wxT("preuba111"));
+f61->displayBox().SetPosition(wxPoint(260,270));
+f61->setEditable(true);
+ddSimpleTextFigure *f62 = new ddSimpleTextFigure(wxT("preuba222"));
+f62->displayBox().SetPosition(wxPoint(260,290));
+f62->setEditable(true);
+ddAbstractFigure *f63=new ddAbstractFigure();
+f63->displayBox().SetPosition(wxPoint(250,250));
+f63->displayBox().width=130;
+f63->displayBox().height=130;
+ddCompositeFigure *f6 = new ddCompositeFigure();
+f6->add(f63);
+f6->add(f62);
+f6->add(f61);
+editor->view()->add(f6);
 }
  frmDatabaseDesigner::~frmDatabaseDesigner(){
 //DD-TODO: free memory objects

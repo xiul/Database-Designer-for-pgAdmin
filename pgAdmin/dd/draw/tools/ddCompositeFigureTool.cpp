@@ -17,19 +17,92 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/tools/ddFigureTool.h"
+#include "dd/draw/tools/ddCompositeFigureTool.h"
+#include "dd/draw/figures/ddCompositeFigure.h"
 
 
-ddFigureTool::ddFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
-ddAbstractTool(editor)
+ddCompositeFigureTool::ddCompositeFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
+ddFigureTool(editor,fig,dt)
 {
-	defaultTool=dt;
-	figure=fig;
+	delegateTool = NULL;
 }
 
-ddFigureTool::~ddFigureTool(){
-	if(defaultTool)
-		delete defaultTool;
+ddCompositeFigureTool::~ddCompositeFigureTool()
+{
+}
+
+void ddCompositeFigureTool::setDefaultTool(ddITool *dt)
+{
+	ddFigureTool::setDefaultTool(dt);
+}
+
+ddITool* ddCompositeFigureTool::getDefaultTool()
+{
+	if(delegateTool)
+	{
+		return delegateTool;
+	}
+	else
+	{
+		return ddFigureTool::getDefaultTool();
+	}
+}
+
+void ddCompositeFigureTool::mouseDown(wxMouseEvent& event)
+{
+	int x=event.GetPosition().x, y=event.GetPosition().y;
+	ddCompositeFigure *cfigure = (ddCompositeFigure*) getFigure();
+	ddIFigure *figure = cfigure->findFigure(x,y);
+	
+	if(figure)
+	{
+		setDelegateTool(figure->CreateFigureTool(getDrawingEditor(),getDefaultTool()));
+	}
+	else
+	{
+		setDelegateTool(getDefaultTool());
+	}
+
+	if(delegateTool)
+	{
+		delegateTool->mouseDown(event);
+	}
+}
+
+void ddCompositeFigureTool::activate()
+{
+	if(delegateTool)
+	{
+		delegateTool->activate();
+	}
+}
+
+void ddCompositeFigureTool::deactivate()
+{
+	if(delegateTool)
+	{
+		delegateTool->deactivate();
+	}
+}
+
+void ddCompositeFigureTool::setDelegateTool(ddITool *tool)
+{
+	if(delegateTool)
+	{
+		delegateTool->deactivate();
+		delete delegateTool;
+	}
+	
+	delegateTool=tool;
+	if(delegateTool)
+	{
+		delegateTool->activate();
+	}
+}
+
+ddITool* ddCompositeFigureTool::getDelegateTool()
+{
+	return delegateTool;
 }
 
 /*

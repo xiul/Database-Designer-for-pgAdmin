@@ -20,13 +20,16 @@ class ddCompositeFigureTool : public ddFigureTool
 public:
 	ddCompositeFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
     ~ddCompositeFigureTool();
-	void setDefaultTool(ddITool *dt);
-	ddITool* getDefaultTool();
+	virtual void setDefaultTool(ddITool *dt);
+	virtual ddITool* getDefaultTool();
 	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
 	virtual void activate();
 	virtual void deactivate();
-	void setDelegateTool(ddITool *tool);
-	ddITool* getDelegateTool();
+	virtual void setDelegateTool(ddITool *tool);
+	virtual ddITool* getDelegateTool();
+protected:
+	ddITool *delegateTool;
+private:
 
 /*
 	void setFigure(ddIFigure *fig);
@@ -37,10 +40,7 @@ public:
 	virtual void mouseDrag(wxMouseEvent& event);
 	virtual void keyDown(wxKeyEvent& event);
 	virtual void keyUp(wxKeyEvent& event);
-protected:
-	ddITool *defaultTool;
-	ddIFigure *figure;
-private:
+
 */
 };
 #endif
