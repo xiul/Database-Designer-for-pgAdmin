@@ -22,6 +22,13 @@
 #include "dd/draw/utilities/ddRect.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddPolyLineLocator::~ddPolyLineLocator(){
 }
 

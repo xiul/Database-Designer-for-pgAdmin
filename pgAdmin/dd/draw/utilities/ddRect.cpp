@@ -19,6 +19,13 @@
 // App headers
 #include "dd/draw/utilities/ddRect.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddRect::ddRect()
 {
 }

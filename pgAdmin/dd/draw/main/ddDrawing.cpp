@@ -22,6 +22,13 @@
 #include "dd/draw/utilities/ddRect.h"
 #include "dd/draw/figures/ddIFigure.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddDrawing::ddDrawing()
 {
 	figures = new ddCollection(new ddArrayCollection());

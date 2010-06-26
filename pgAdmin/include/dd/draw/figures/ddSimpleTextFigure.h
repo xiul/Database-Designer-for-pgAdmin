@@ -12,7 +12,8 @@
 #ifndef DDSIMPLETEXTFIGURE_H
 #define DDSIMPLETEXTFIGURE_H
 #include "dd/draw/figures/ddAbstractFigure.h"
-/*#include "dd/draw/main/ddObject.h"
+/*
+#include "dd/draw/main/ddObject.h"
 #include "dd/draw/utilities/ddCollection.h"
 #include "dd/draw/handles/ddIHandle.h"
 //#include "dd/draw/connectors/ddIConnector.h"
@@ -30,6 +31,7 @@ public:
 	virtual void setText(wxString textString);
 	virtual wxString& getText();
 	virtual void setEditable(bool value);
+	virtual bool getEditable();
 	virtual void setFont(wxFont textFont);
 	virtual void setForeground(wxColour colour);
 	virtual void setBackground(wxBrush background);

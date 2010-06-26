@@ -20,6 +20,12 @@
 #include "dd/draw/connectors/ddChopBoxConnector.h"
 #include "dd/draw/utilities/ddGeometry.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
 ddChopBoxConnector::ddChopBoxConnector(ddIFigure *owner):
 ddIConnector(owner)
 {

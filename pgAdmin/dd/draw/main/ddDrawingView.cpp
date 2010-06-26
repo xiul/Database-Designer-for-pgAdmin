@@ -23,6 +23,13 @@
 #include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/utilities/ddGeometry.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 BEGIN_EVENT_TABLE(ddDrawingView, wxScrolledWindow)
 EVT_PAINT(ddDrawingView::onPaint)
 EVT_MOTION(ddDrawingView::onMotion)

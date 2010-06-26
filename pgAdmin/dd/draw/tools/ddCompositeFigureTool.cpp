@@ -20,6 +20,13 @@
 #include "dd/draw/tools/ddCompositeFigureTool.h"
 #include "dd/draw/figures/ddCompositeFigure.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 
 ddCompositeFigureTool::ddCompositeFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddFigureTool(editor,fig,dt)
@@ -29,6 +36,18 @@ ddFigureTool(editor,fig,dt)
 
 ddCompositeFigureTool::~ddCompositeFigureTool()
 {
+	
+/* Memory leak here, but if I enable it, an error is raised when for example, the CreateFigureTool at
+ddSimpleTextTool return the default tool instead of new tool
+"return textEditable ? new ddSimpleTextTool(editor,this,defaultTool) : defaultTool;"
+reason delegate tool is duplicate at this tool and in owner tool. This apply for other clases
+
+//DD-TODO: fix this error & memory leak
+if(delegateTool)
+	{
+		delete delegateTool;
+	}
+*/
 }
 
 void ddCompositeFigureTool::setDefaultTool(ddITool *dt)
@@ -91,6 +110,7 @@ void ddCompositeFigureTool::setDelegateTool(ddITool *tool)
 	{
 		delegateTool->deactivate();
 		delete delegateTool;
+		delegateTool = NULL;
 	}
 	
 	delegateTool=tool;

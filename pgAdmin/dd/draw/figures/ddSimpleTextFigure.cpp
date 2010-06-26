@@ -22,6 +22,13 @@
 #include "dd/draw/tools/ddSimpleTextTool.h"
 #include "dd/draw/utilities/ddGeometry.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddSimpleTextFigure::ddSimpleTextFigure(wxString textString)
 {
 	text = textString;
@@ -125,6 +132,11 @@ ddITool* ddSimpleTextFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *
 void ddSimpleTextFigure::setEditable(bool value)
 {
 	textEditable = value;
+}
+
+bool ddSimpleTextFigure::getEditable()
+{
+	return textEditable;
 }
 
 int ddSimpleTextFigure::getPadding()

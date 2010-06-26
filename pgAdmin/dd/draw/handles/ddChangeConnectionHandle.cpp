@@ -23,6 +23,13 @@
 #include "dd/draw/utilities/ddPoint.h"
 #include "dd/draw/main/ddDrawingView.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddChangeConnectionHandle::ddChangeConnectionHandle(ddLineConnection *owner):
 ddIHandle(owner)
 {

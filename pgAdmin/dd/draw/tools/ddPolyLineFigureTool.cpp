@@ -23,6 +23,13 @@
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/handles/ddIHandle.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddPolyLineFigureTool::ddPolyLineFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddFigureTool(editor,fig,dt)
 {

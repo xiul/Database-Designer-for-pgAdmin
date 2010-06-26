@@ -23,6 +23,13 @@
 #include "dd/draw/tools/ddAbstractTool.h"
 
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddSelectAreaTool::ddSelectAreaTool(ddDrawingEditor *editor)
 :ddAbstractTool(editor){
 	view = editor->view();

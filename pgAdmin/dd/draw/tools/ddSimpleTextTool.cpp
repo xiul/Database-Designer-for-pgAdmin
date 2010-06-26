@@ -21,6 +21,13 @@
 #include "dd/draw/tools/ddSimpleTextTool.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 class ddDrawingEditor;
 
 ddSimpleTextTool::ddSimpleTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):

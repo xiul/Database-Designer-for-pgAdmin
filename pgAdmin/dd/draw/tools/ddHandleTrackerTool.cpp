@@ -20,6 +20,12 @@
 #include "dd/draw/tools/ddHandleTrackerTool.h"
 #include "dd/draw/tools/ddAbstractTool.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
 
 ddHandleTrackerTool::ddHandleTrackerTool(ddDrawingEditor *editor, ddIHandle *anchor)
 :ddAbstractTool(editor){

@@ -21,6 +21,13 @@
 #include "dd/draw/figures/ddLineConnection.h"
 #include "dd/draw/connectors/ddIConnector.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 class ddLineConnection;  //HACK-FIX to circular reference
 class ddIFigure;
 

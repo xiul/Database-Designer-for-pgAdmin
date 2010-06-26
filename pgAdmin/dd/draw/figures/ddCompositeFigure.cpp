@@ -24,16 +24,33 @@
 #include "dd/draw/utilities/ddArrayCollection.h"
 #include "dd/draw/tools/ddCompositeFigureTool.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddCompositeFigure::ddCompositeFigure(){
 	figureFigures = new ddCollection(new ddArrayCollection());
 	figureHandles = new ddCollection(new ddArrayCollection());
 }
 
 ddCompositeFigure::~ddCompositeFigure(){
+
+	figureHandles->removeAll();  //Handles should be delete by their owner (figure)
+	if(figureHandles)
+		delete figureHandles;  
+
+	ddIFigure *tmp;
+	while(figureFigures->count()>0)
+	{
+		tmp = (ddIFigure*) figureFigures->getItemAt(0);
+		figureFigures->removeItemAt(0);
+		delete tmp;
+	}
 	if(figureFigures)
 		delete figureFigures;
-	if(figureHandles)
-		delete figureHandles;
 }
 
 void ddCompositeFigure::basicMoveBy(int x, int y)
@@ -48,16 +65,17 @@ void ddCompositeFigure::basicMoveBy(int x, int y)
 
 bool ddCompositeFigure::containsPoint(int x, int y)
 {
+	bool out = false;
 	ddIteratorBase *iterator=figuresEnumerator();
 	while(iterator->HasNext()){
 		ddIFigure *f = (ddIFigure *) iterator->Next();
 		if(f->containsPoint(x,y))
 		{
-			return true;
+			out=true;  //avoid memory leak
 		}
 	}
 	delete iterator;
-	return false;
+	return out;
 }
 
 ddIteratorBase* ddCompositeFigure::figuresEnumerator()
@@ -141,14 +159,17 @@ bool ddCompositeFigure::includes(ddIFigure *figure)
 	if(ddAbstractFigure::includes(figure))
 		return true;
 	
+	bool out = false;
+
 	ddIteratorBase *iterator=figuresEnumerator();
 	while(iterator->HasNext()){
 		ddIFigure *f = (ddIFigure *) iterator->Next();
 		if(f->includes(figure))
-			return true;
+			out = true;
 	}
 	
-	return false;
+	delete iterator;
+	return out;
 }
 
 void ddCompositeFigure::draw(wxBufferedDC& context)
@@ -158,6 +179,7 @@ void ddCompositeFigure::draw(wxBufferedDC& context)
 		ddIFigure *f = (ddIFigure *) iterator->Next();
 		f->draw(context);
 	}
+	delete iterator;
 }
 
 void ddCompositeFigure::drawSelected(wxBufferedDC& context)
@@ -167,6 +189,7 @@ void ddCompositeFigure::drawSelected(wxBufferedDC& context)
 		ddIFigure *f = (ddIFigure *) iterator->Next();
 		f->drawSelected(context);
 	}
+	delete iterator;
 }
 
 ddIFigure* ddCompositeFigure::findFigure(int x, int y)

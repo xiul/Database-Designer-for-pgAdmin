@@ -19,6 +19,13 @@
 // App headers
 #include "dd/draw/tools/ddAbstractTool.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 
 ddAbstractTool::ddAbstractTool(ddDrawingEditor *editor){
 	anchorX=0;

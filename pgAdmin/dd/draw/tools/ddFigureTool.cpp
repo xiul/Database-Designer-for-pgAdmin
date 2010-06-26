@@ -20,6 +20,13 @@
 #include "dd/draw/tools/ddFigureTool.h"
 
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddFigureTool::ddFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddAbstractTool(editor)
 {

@@ -1,0 +1,3 @@
+Because this is a developing version of pgAdmin Database Designer, I decide to always use a special header in all files that allow to find in a easier way memory leaks as explained at "How to find memory leaks.txt" document, for this reason you need always to use modified version of wx.h instead of original one, which can be located at: MODIFIED WX HEADER
+
+For final release this header will be removed and the project will work with original wx.h header, but for now this SHOULD BE USED OR COMPILATION ERRORS WILL BE RAISED.

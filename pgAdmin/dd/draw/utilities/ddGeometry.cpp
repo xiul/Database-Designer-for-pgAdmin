@@ -21,6 +21,13 @@
 #include "dd/draw/utilities/ddRect.h"
 #include "dd/draw/utilities/ddPoint.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 //typecasting to avoid miscalculations, here need double values not int
 bool ddGeometry::lineContainsPoint(double x1, double y1, double x2, double y2, double px, double py){
 

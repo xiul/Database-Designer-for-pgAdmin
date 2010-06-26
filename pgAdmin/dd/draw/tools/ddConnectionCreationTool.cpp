@@ -21,6 +21,12 @@
 #include "dd/draw/tools/ddSelectionTool.h"
 #include "dd/draw/main/ddDrawingView.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
 
 ddConnectionCreationTool::ddConnectionCreationTool(ddDrawingEditor *editor, ddLineConnection *figure):
 ddAbstractTool(editor)

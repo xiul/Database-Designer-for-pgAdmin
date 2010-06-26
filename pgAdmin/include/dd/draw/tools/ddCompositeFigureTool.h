@@ -31,6 +31,7 @@ protected:
 	ddITool *delegateTool;
 private:
 
+
 /*
 	void setFigure(ddIFigure *fig);
 	ddIFigure* getFigure();

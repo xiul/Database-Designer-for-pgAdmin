@@ -20,6 +20,13 @@
 #include "dd/draw/handles/ddIHandle.h"
 #include "dd/draw/utilities/ddPoint.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddIHandle::ddIHandle(ddIFigure *owner){
 	figureOwner=owner;
 }

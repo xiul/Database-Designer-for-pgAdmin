@@ -19,6 +19,13 @@
 #include "dd/draw/utilities/ddCollection.h"
 #include "dd/draw/main/ddObject.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddCollection::ddCollection(ddCollectionBase *collectionBase)
 {
     collection=collectionBase;

@@ -22,6 +22,13 @@
 #include "dd/draw/main/ddDrawingView.h"
 #include "dd/draw/tools/ddITool.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddDrawingEditor::ddDrawingEditor(pgFrame *owner){
 	_model=new ddDrawing();
 	_view = new ddDrawingView(owner,this,wxSize(800,600),_model);

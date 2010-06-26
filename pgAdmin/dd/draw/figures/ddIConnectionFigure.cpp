@@ -20,5 +20,11 @@
 // App headers
 #include "dd/draw/figures/ddIConnectionFigure.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
 
 //All functions abstract prototypes inside ddIConnectionFigure.h this is just a base class

@@ -20,6 +20,13 @@
 #include "dd/draw/tools/ddDragCreationTool.h"
 
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddDragCreationTool::ddDragCreationTool(ddDrawingEditor *editor, ddIFigure *prototype):
 ddCreationTool(editor, prototype)
 {

@@ -28,6 +28,13 @@
 #include "dd/draw/utilities/ddGeometry.h"
 #include "dd/draw/tools/ddPolyLineFigureTool.h"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddPolyLineFigure::ddPolyLineFigure(){
 	points = new ddArrayCollection();
 	startTerminal = NULL;

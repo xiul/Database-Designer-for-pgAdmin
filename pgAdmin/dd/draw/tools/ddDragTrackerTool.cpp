@@ -21,6 +21,13 @@
 #include "dd/draw/tools/ddAbstractTool.h"
 
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
+
+
 ddDragTrackerTool::ddDragTrackerTool(ddDrawingEditor *editor, ddIFigure *anchor)
 :ddAbstractTool(editor){
 	hasMovedValue=false;
