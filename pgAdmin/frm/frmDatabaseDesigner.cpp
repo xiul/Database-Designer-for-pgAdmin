@@ -20,6 +20,8 @@
 
 // Icons
 #include "images/sql-32.xpm"
+#include "images/file_new.xpm"
+#include "images/help.xpm"
 
 
 /* TODO-DD Fix this and bug when you run this form and close pgAdmin
@@ -32,13 +34,78 @@ END_EVENT_TABLE()
  frmDatabaseDesigner::frmDatabaseDesigner(frmMain *form, const wxString& _title) //DD-TODO: pgConn *_conn, const wxString& query, const wxString& file)
 :pgFrame(NULL, _title)
 {
+
+//DD-todo: this is just a development window and SHOULD BE FINISHED IN A FUTURE BUT THIS IS NOT PRIORITY RIGHT NOW
 	mainForm=form;
+
+	//RestorePosition(100, 100, 600, 500, 450, 300);
+    // notify wxAUI which frame to use
+    manager.SetManagedWindow(this);
+    manager.SetFlags(wxAUI_MGR_DEFAULT | wxAUI_MGR_TRANSPARENT_DRAG);
+
+
 	SetMinSize(wxSize(450,300));
-//	view = new ddDrawingView(this,wxSize(800,600),new ddDrawing());
-	editor = new ddDrawingEditor(this);
+	SetSize(wxSize(1024,768));
+	wxWindowBase::SetFont(settings->GetSystemFont());
+
+	menuBar = new wxMenuBar();
+	wxMenu *helpMenu=new wxMenu();
+    helpMenu->Append(MNU_CONTENTS, _("&Help"),                 _("Open the helpfile."));
+    helpMenu->Append(MNU_HELP, _("&SQL Help\tF1"),                _("Display help on SQL commands."));
+
+    menuBar->Append(helpMenu, _("&Help"));
+
+	SetMenuBar(menuBar);
+
+
+	int iWidths[6] = {0, -1, 40, 150, 80, 80};
+	wxStatusBar *statusBar =CreateStatusBar(6);
+    SetStatusBarPane(-1);
+    SetStatusWidths(6, iWidths);
+    SetStatusText(_("ready"), STATUSPOS_MSGS);
+
+	
+    toolBar = new ctlMenuToolbar(this, -1, wxDefaultPosition, wxDefaultSize, wxTB_FLAT | wxTB_NODIVIDER);
+
+    toolBar->SetToolBitmapSize(wxSize(16, 16));
+
+	toolBar->AddTool(MNU_NEW, _("New"), wxBitmap(file_new_xpm), _("New window"), wxITEM_NORMAL);
+	toolBar->AddSeparator();
+    toolBar->AddTool(MNU_HELP, _("Help"), wxBitmap(help_xpm), _("Display help on SQL commands."), wxITEM_NORMAL);
+    toolBar->Realize();
+
+	wxNotebook *notebook = new wxNotebook(this, CTL_NTBKCENTER, wxDefaultPosition, wxDefaultSize);
+	wxSplitterWindow *ddMainContainer = new wxSplitterWindow(notebook,GQB_HORZ_SASH,wxDefaultPosition,wxDefaultSize,wxSP_3D);	
+	wxPanel *pnlQuery = new wxPanel(ddMainContainer);
+	wxPanel *pnlQuery2 = new wxPanel(notebook);
+
+	editor = NULL;
+	editor = new ddDrawingEditor(ddMainContainer);
 	tool = new ddSelectionTool(editor);
-	//DD-TODO: initial tool should be a parameter for editor because it owns and should delete it
 	editor->setTool(tool);
+
+	ddMainContainer->SplitVertically(pnlQuery,editor->view());
+    ddMainContainer->UpdateSize();
+    ddMainContainer->SetSashPosition(50,true);
+    ddMainContainer->SetMinimumPaneSize(10);
+    ddMainContainer->UpdateSize();
+
+	notebook->AddPage(ddMainContainer, _("Database Designer"));
+	notebook->AddPage(pnlQuery2, _("Empty"));
+	notebook->SetSelection(0);
+
+	manager.AddPane(notebook, wxAuiPaneInfo().Name(wxT("sqlQuery")).Caption(_("Database Designer")).Center().CaptionVisible(false).CloseButton(false).MinSize(wxSize(200,100)).BestSize(wxSize(350,200)));
+	manager.AddPane(toolBar, wxAuiPaneInfo().Name(wxT("toolBar")).Caption(_("Tool bar")).ToolbarPane().Top().LeftDockable(false).RightDockable(false));
+
+	manager.Update();
+
+
+//*****************************************************************************************************
+//		TEST DATA
+//*****************************************************************************************************
+
+
+
 	f=new ddAbstractFigure();
 	f->displayBox().SetPosition(wxPoint(5,5));
 	f->displayBox().width=100;
@@ -59,27 +126,23 @@ END_EVENT_TABLE()
 	f3->displayBox().height=130;
 	editor->view()->add(f3);
 	
-/*
 
-ddPolyLineFigure *f3 = new ddPolyLineFigure();
-
+//ddPolyLineFigure *f3 = new ddPolyLineFigure();
 //Rectangle	
-/*		f3->addPoint (10, 10);
-			f3->addPoint (60, 10);
-			f3->addPoint (60, 60);
-			f3->addPoint (10, 60);
-			f3->addPoint (10, 10);
+//		f3->addPoint (10, 10);
+//			f3->addPoint (60, 10);
+//			f3->addPoint (60, 60);
+//			f3->addPoint (10, 60);
+//			f3->addPoint (10, 10);
 //OR
-*/	
+//	
 //Trianglw
-			/*f3->addPoint (15, 15);
-			f3->addPoint (55, 55);
-			f3->addPoint (15, 55);
-			f3->addPoint (45, 75);
-
-editor->view()->add(f3);
-*/
-
+//			f3->addPoint (15, 15);
+//			f3->addPoint (55, 55);
+//			f3->addPoint (15, 55);
+//			f3->addPoint (45, 75);
+//
+//editor->view()->add(f3);
 //antes	editor->setTool(new ddDragCreationTool(editor,f3)); 
 
 ddLineConnection *f4 = new ddLineConnection();
@@ -110,10 +173,21 @@ f6->add(f63);
 f6->add(f62);
 f6->add(f61);
 editor->view()->add(f6);
+/*
+end test data
+*/
 }
+
  frmDatabaseDesigner::~frmDatabaseDesigner(){
-//DD-TODO: free memory objects
-	 delete editor;
+	//DD-TODO: free memory objects
+	//closing = true;
+	// Uninitialize wxAUIManager
+	manager.UnInit();
+	
+	if(editor)
+		delete editor;
+	if (mainForm)
+		mainForm->RemoveFrame(this);
  }
 
 void frmDatabaseDesigner::Go()

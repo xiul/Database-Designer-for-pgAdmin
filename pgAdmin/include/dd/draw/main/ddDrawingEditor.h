@@ -20,7 +20,7 @@
 class ddDrawingEditor : public ddObject
 {
 public:
-	ddDrawingEditor(pgFrame *owner);
+	ddDrawingEditor(wxWindow *owner);
     ~ddDrawingEditor();
 	ddDrawingView* view();
 	ddDrawing* model();

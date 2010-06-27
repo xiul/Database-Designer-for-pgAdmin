@@ -5400,6 +5400,14 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="ddgraphics"
+				>
+			</Filter>
+			<Filter
+				Name="ddmodel"
+				>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ClassDiagram1.cd"

@@ -26,6 +26,9 @@ private:
 	ddAbstractFigure *f3,*f2,*f;
 	ddITool *tool;
 	void OnClose(wxCloseEvent& event);
+
+
+	wxAuiManager manager;
 };
 
 ///////////////////////////////////////////////////////

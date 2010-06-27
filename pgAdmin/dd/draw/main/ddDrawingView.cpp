@@ -86,13 +86,13 @@ END_EVENT_TABLE()
 */
 
 ddDrawingView::ddDrawingView(wxWindow *ddParent, ddDrawingEditor *editor, wxSize size, ddDrawing *initialDrawing)// gqbController *controller, gqbModel *model)
-: wxScrolledWindow(ddParent, wxID_ANY, wxPoint(201,0), size,
+: wxScrolledWindow(ddParent, wxID_ANY, wxPoint(0,0), size,
 wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 {
 	drawing=initialDrawing;
 	drawingEditor=editor;
 	canvasSize=size;
-	SetVirtualSizeHints(size);
+	SetVirtualSizeHints(canvasSize);
 	selection =  new ddCollection(new ddArrayCollection());
 	//Hack to avoid selection rectangle drawing bug
 	drawSelRect = false;

@@ -29,9 +29,13 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddDrawingEditor::ddDrawingEditor(pgFrame *owner){
+ddDrawingEditor::ddDrawingEditor(wxWindow *owner){
 	_model=new ddDrawing();
-	_view = new ddDrawingView(owner,this,wxSize(800,600),_model);
+	_view = new ddDrawingView(owner,this,wxSize(1200, 1200),_model);
+    // Set Scroll Bar & split
+    _view->SetScrollbars( 10, 10, 127, 80 );
+	_view->EnableScrolling(true,true);
+	_view->AdjustScrollbars();
 	_tool=NULL;
 }
 
