@@ -27,8 +27,8 @@ public:
     ~ddAbstractFigure();
 	
 	virtual bool canConnect ();
-	virtual void draw(wxBufferedDC& context);
-	virtual void drawSelected(wxBufferedDC& context);
+	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
+	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
 	virtual bool includes(ddIFigure *figure);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 	virtual void moveBy(int x, int y);
@@ -43,8 +43,8 @@ public:
 //DD-TODO: public event EventHandler <FigureEventArgs> FigureChanged;
 
 protected:
-	virtual void basicDraw(wxBufferedDC& context);
-	virtual void basicDrawSelected(wxBufferedDC& context);		
+	virtual void basicDraw(wxBufferedDC& context, ddDrawingView *view);
+	virtual void basicDrawSelected(wxBufferedDC& context, ddDrawingView *view);		
 	void willChange();
 	void changed();
 	void invalidate();

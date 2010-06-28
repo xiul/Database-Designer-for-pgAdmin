@@ -21,6 +21,7 @@
 #include "dd/draw/handles/ddPolyLineHandle.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/locators/ddPolyLineLocator.h"
+#include "dd/draw/main/ddDrawingView.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -40,12 +41,15 @@ ddPolyLineHandle::~ddPolyLineHandle()
 	//DD-TODO: delete locator here?
 }
 
-void ddPolyLineHandle::draw(wxBufferedDC& context)
+void ddPolyLineHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
 	//DD-TODO: set graphic style
-	double middle=getDisplayBox().width/2;
+	ddRect copy = getDisplayBox();
+	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+
+	double middle=copy.width/2;
 	context.DrawCircle(
-						wxPoint(getDisplayBox().x+middle,getDisplayBox().y+middle),
+						wxPoint(copy.x+middle,copy.y+middle),
 						wxCoord(middle)
 						);
 	//DD-TODO: improve this draw

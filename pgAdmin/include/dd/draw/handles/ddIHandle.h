@@ -28,15 +28,15 @@ public:
 	static const int size = 4;
 
 	virtual bool containsPoint(int x, int y);
-	virtual void draw(wxBufferedDC& context)=0;
+	virtual void draw(wxBufferedDC& context, ddDrawingView *view)=0;
 	virtual ddPoint* locate()=0;
 	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
 	virtual wxCursor& createCursor()=0;
+	virtual ddRect& getDisplayBox();
 protected:
 	virtual ddIFigure* getOwner();
-	virtual ddRect& getDisplayBox();
 private:
 	ddIFigure *figureOwner;
 	ddRect displayBox;

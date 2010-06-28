@@ -74,10 +74,10 @@ bool ddIFigure::containsPoint (int x, int y){
 	return false;
 }
 
-void ddIFigure::draw (wxBufferedDC& context){
+void ddIFigure::draw (wxBufferedDC& context, ddDrawingView *view){
 }
 
-void ddIFigure::drawSelected (wxBufferedDC& context){
+void ddIFigure::drawSelected (wxBufferedDC& context, ddDrawingView *view){
 }
 
 ddCollection* ddIFigure::handlesEnumerator(){

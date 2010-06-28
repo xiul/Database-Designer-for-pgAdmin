@@ -31,8 +31,8 @@ public:
 
 	virtual ddRect& displayBox();
 	virtual ddRect& getBasicDisplayBox();
-	virtual void draw (wxBufferedDC& context);
-	virtual void drawSelected (wxBufferedDC& context);
+	virtual void draw (wxBufferedDC& context, ddDrawingView *view);
+	virtual void drawSelected (wxBufferedDC& context, ddDrawingView *view);
 	virtual ddCollection* handlesEnumerator();
 	virtual void addDependentFigure (ddIFigure *figure);
 	virtual void removeDependentFigure (ddIFigure *figure);

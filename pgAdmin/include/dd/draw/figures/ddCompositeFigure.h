@@ -34,8 +34,8 @@ public:
 	virtual void add(ddIFigure *figure);
 	virtual void remove(ddIFigure *figure);
 	virtual bool includes(ddIFigure *figure);
-	virtual void draw(wxBufferedDC& context);
-	virtual void drawSelected(wxBufferedDC& context);
+	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
+	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
 	virtual ddIFigure* findFigure(int x, int y);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 	virtual void sendToBack(ddIFigure *figure);

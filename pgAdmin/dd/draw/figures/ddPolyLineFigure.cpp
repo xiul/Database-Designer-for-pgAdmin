@@ -200,11 +200,11 @@ void ddPolyLineFigure::removePointAt (int index)
 	changed();
 }
 
-void ddPolyLineFigure::basicDrawSelected(wxBufferedDC& context){
-	basicDraw(context); //DD-TODO: HIGH-PRIORITY-FINISH-THIS: what to do when selected?
+void ddPolyLineFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view){
+	basicDraw(context,view); //DD-TODO: HIGH-PRIORITY-FINISH-THIS: what to do when selected?
 }
 
-void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
+void ddPolyLineFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
 	if(points->count() < 2)
 	{
 		return;
@@ -215,7 +215,7 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 
 	if(startTerminal)
 	{
-		start = startTerminal->draw(context, getStartPoint(), pointAt(1));
+		start = startTerminal->draw(context, getStartPoint(), pointAt(1),view);
 	}
 	else
 	{
@@ -224,7 +224,7 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 
 	if(endTerminal)
 	{
-		end = endTerminal->draw(context, getEndPoint(), pointAt(pointCount() - 2));
+		end = endTerminal->draw(context, getEndPoint(), pointAt(pointCount() - 2),view);
 	}
 	else
 	{
@@ -244,7 +244,12 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context){
 		ddPoint *p1 = (ddPoint *) points->getItemAt(i);
 		ddPoint *p2 = (ddPoint *) points->getItemAt(i+1);
 
-		context.DrawLine(*p1,*p2);
+		ddPoint copyP1 = ddPoint (*p1);
+		view->CalcScrolledPosition(copyP1.x,copyP1.y,&copyP1.x,&copyP1.y);
+		ddPoint copyP2 = ddPoint (*p2);
+		view->CalcScrolledPosition(copyP2.x,copyP2.y,&copyP2.x,&copyP2.y);
+
+		context.DrawLine(copyP1,copyP2);
 	}
 	//DD-TODO: this is really needed or I can change way end/startTerminal->draw works?
 	delete start;

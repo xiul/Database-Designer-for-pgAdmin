@@ -172,22 +172,22 @@ bool ddCompositeFigure::includes(ddIFigure *figure)
 	return out;
 }
 
-void ddCompositeFigure::draw(wxBufferedDC& context)
+void ddCompositeFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 {
 	ddIteratorBase *iterator = figuresEnumerator();
 	while(iterator->HasNext()){
 		ddIFigure *f = (ddIFigure *) iterator->Next();
-		f->draw(context);
+		f->draw(context,view);
 	}
 	delete iterator;
 }
 
-void ddCompositeFigure::drawSelected(wxBufferedDC& context)
+void ddCompositeFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 {
 	ddIteratorBase *iterator = figuresEnumerator();
 	while(iterator->HasNext()){
 		ddIFigure *f = (ddIFigure *) iterator->Next();
-		f->drawSelected(context);
+		f->drawSelected(context,view);
 	}
 	delete iterator;
 }

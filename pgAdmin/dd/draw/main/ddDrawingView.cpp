@@ -121,12 +121,13 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 	ddIFigure *toDraw=NULL;
 	ddIteratorBase *iterator=drawing->figuresEnumerator();
 	while(iterator->HasNext()){
-		 toDraw=(ddIFigure *)iterator->Next();
+		 toDraw =(ddIFigure *)iterator->Next();
+		 //wxPoint ptOrigin = wxPoint(toDraw->displayBox().GetPosition());
+		 //this->CalcScrolledPosition(ptOrigin.x,ptOrigin.y,&ptOrigin.x,&ptOrigin.y);
 		 if(toDraw->isSelected())
-			toDraw->drawSelected(dc);	
+			toDraw->drawSelected(dc,this);	
 		 else
-			toDraw->draw(dc);			
-		 
+			toDraw->draw(dc,this);			
 	}
 
 	delete iterator;
@@ -139,8 +140,8 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 		 toDraw=(ddIFigure *)selectionIterator->Next();
 		 ddIteratorBase *handlesIterator = toDraw->handlesEnumerator()->createIterator();
 		 while(handlesIterator->HasNext()){
-			 tmpHandle= (ddIHandle *)handlesIterator->Next();
-				 tmpHandle->draw(dc);
+			 tmpHandle = (ddIHandle *)handlesIterator->Next();
+			 tmpHandle->draw(dc,this);
 		 }
 		 delete handlesIterator;
 	}
@@ -291,7 +292,7 @@ void ddDrawingView::onMotion(wxMouseEvent& event)
 	if(event.Dragging())
 	{
 		drawingEditor->tool()->mouseDrag(event);
-		//DD-TODO: need this ScrollToMakeVisible (point); 
+		//DD-TODO: need this ScrollToMakeVisible (point)??? 
 	}
 	else
 	{
@@ -357,9 +358,6 @@ wxTextCtrl* ddDrawingView::getSimpleTextToolEdit()
 {
 	return simpleTextToolEdit;
 }
-
-
-
 
 
 /*void ddDrawingView::OnKeyDown(wxKeyEvent& event)

@@ -22,6 +22,7 @@
 #include "dd/draw/figures/ddAbstractFigure.h"
 #include "dd/draw/figures/ddIFigure.h"
 #include "dd/draw/utilities/ddArrayCollection.h"
+#include "dd/draw/main/ddDrawingView.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -46,24 +47,30 @@ bool ddAbstractFigure::includes(ddIFigure *figure){
 	return (this==figure);	
 }
 
-void ddAbstractFigure::draw(wxBufferedDC& context){
-	basicDraw(context);
+void ddAbstractFigure::draw(wxBufferedDC& context, ddDrawingView *view){
+	basicDraw(context,view);
 }
 
-void ddAbstractFigure::basicDraw(wxBufferedDC& context){
+void ddAbstractFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
+	ddRect copy = displayBox();
+	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+
 	context.SetPen(*wxGREEN_PEN);
 	context.SetBrush(wxBrush (wxColour(208, 208, 208),wxSOLID));
-	context.DrawRectangle(basicDisplayBox);
+	context.DrawRectangle(copy);
 }
 
-void ddAbstractFigure::drawSelected(wxBufferedDC& context){
-		basicDrawSelected(context);
+void ddAbstractFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view){
+		basicDrawSelected(context,view);
 }
 
-void ddAbstractFigure::basicDrawSelected(wxBufferedDC& context){
+void ddAbstractFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view){
+	ddRect copy = displayBox();
+	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+	
 	context.SetPen(*wxRED_PEN);
 	context.SetBrush(wxBrush (wxColour(133, 133, 133),wxSOLID));
-	context.DrawRectangle(basicDisplayBox);
+	context.DrawRectangle(copy);
 }
 
 

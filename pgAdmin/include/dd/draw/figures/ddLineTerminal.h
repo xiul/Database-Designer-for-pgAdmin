@@ -23,7 +23,7 @@ public:
 	ddLineTerminal();
     ~ddLineTerminal();
 
-	virtual ddPoint* draw (wxBufferedDC& context, ddPoint *a, ddPoint *b);
+	virtual ddPoint* draw (wxBufferedDC& context, ddPoint *a, ddPoint *b, ddDrawingView *view);
 
 protected:
 private:

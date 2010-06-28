@@ -25,8 +25,8 @@ public:
     ~ddPolyLineFigure();
 
 	virtual ddRect& getBasicDisplayBox();
-	virtual void basicDraw (wxBufferedDC& context);
-	virtual void basicDrawSelected(wxBufferedDC& context);
+	virtual void basicDraw (wxBufferedDC& context, ddDrawingView *view);
+	virtual void basicDrawSelected(wxBufferedDC& context, ddDrawingView *view);
 	virtual int pointCount();
 	virtual ddPoint* getStartPoint();
 	virtual void setStartPoint(ddPoint point);

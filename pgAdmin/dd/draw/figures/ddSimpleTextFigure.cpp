@@ -98,15 +98,18 @@ void ddSimpleTextFigure::recalculateDisplayBox(wxBufferedDC& context)
 	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
 }
 
-void ddSimpleTextFigure::basicDraw(wxBufferedDC& context)
+void ddSimpleTextFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
 {
 	if(refreshDisplayBox)
 		recalculateDisplayBox(context);
 	
+	ddRect copy = displayBox();
+	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+
 	setupLayout(context);
 
-	context.DrawRectangle(this->displayBox()); 
-	context.DrawText(text,getBasicDisplayBox().GetPosition());
+	context.DrawRectangle(copy); 
+	context.DrawText(text,copy.GetPosition());
 }
 
 void ddSimpleTextFigure::setupLayout(wxBufferedDC& context)

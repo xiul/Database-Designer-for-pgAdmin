@@ -37,7 +37,7 @@ public:
 	virtual void setBackground(wxBrush background);
 	virtual int getPadding();
 	void basicMoveBy(int x, int y);
-	virtual void basicDraw(wxBufferedDC& context);
+	virtual void basicDraw(wxBufferedDC& context, ddDrawingView *view);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 protected:
 	virtual void getFontMetrics(int &width, int &height, wxBufferedDC& context);

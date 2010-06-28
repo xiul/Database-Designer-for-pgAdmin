@@ -42,20 +42,24 @@ ddChangeConnectionHandle::~ddChangeConnectionHandle(){
 	
 }
 
-void ddChangeConnectionHandle::draw(wxBufferedDC& context)
+void ddChangeConnectionHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
 
 	ddPoint points[5];
-	points[0].x = getDisplayBox().center().x;
-	points[0].y = getDisplayBox().GetTop();
-	points[1].x = getDisplayBox().GetRight();
-	points[1].y = getDisplayBox().center().y;
-	points[2].x = getDisplayBox().x;
-	points[2].y = getDisplayBox().GetBottom();
-	points[3].x = getDisplayBox().GetLeft();
-	points[3].y = getDisplayBox().center().y;
-	points[4].x = getDisplayBox().center().x;
-	points[4].y = getDisplayBox().GetTop();
+	ddRect copy = getDisplayBox();
+	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+
+
+	points[0].x = copy.center().x;
+	points[0].y = copy.GetTop();
+	points[1].x = copy.GetRight();
+	points[1].y = copy.center().y;
+	points[2].x = copy.x;
+	points[2].y = copy.GetBottom();
+	points[3].x = copy.GetLeft();
+	points[3].y = copy.center().y;
+	points[4].x = copy.center().x;
+	points[4].y = copy.GetTop();
 
 	context.DrawPolygon(5,points,0,0);
 }
