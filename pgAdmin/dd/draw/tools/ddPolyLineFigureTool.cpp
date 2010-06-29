@@ -39,7 +39,7 @@ ddFigureTool(editor,fig,dt)
 ddPolyLineFigureTool::~ddPolyLineFigureTool(){
 }
 
-void ddPolyLineFigureTool::mouseDown(wxMouseEvent& event){
+void ddPolyLineFigureTool::mouseDown(ddMouseEvent& event){
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	setAnchorCoords(x,y);
 

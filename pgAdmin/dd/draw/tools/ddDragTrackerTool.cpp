@@ -43,7 +43,7 @@ void ddDragTrackerTool::setLastCoords(int x, int y){
 	lastY=y;
 }
 
-void ddDragTrackerTool::mouseDown(wxMouseEvent& event){
+void ddDragTrackerTool::mouseDown(ddMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 
@@ -59,11 +59,11 @@ void ddDragTrackerTool::mouseDown(wxMouseEvent& event){
 	}
 }
 
-void ddDragTrackerTool::mouseUp(wxMouseEvent& event){
+void ddDragTrackerTool::mouseUp(ddMouseEvent& event){
 	ddAbstractTool::mouseUp(event);
 }
 
-void ddDragTrackerTool::mouseDrag(wxMouseEvent& event){
+void ddDragTrackerTool::mouseDrag(ddMouseEvent& event){
 	ddAbstractTool::mouseDrag(event);
 	int x=event.GetPosition().x, y=event.GetPosition().y;	
 

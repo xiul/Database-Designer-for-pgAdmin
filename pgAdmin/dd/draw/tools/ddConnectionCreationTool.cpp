@@ -40,7 +40,7 @@ ddAbstractTool(editor)
 ddConnectionCreationTool::~ddConnectionCreationTool(){
 }
 
-void ddConnectionCreationTool::mouseDrag(wxMouseEvent& event)
+void ddConnectionCreationTool::mouseDrag(ddMouseEvent& event)
 {
 	if(handle)
 	{
@@ -49,7 +49,7 @@ void ddConnectionCreationTool::mouseDrag(wxMouseEvent& event)
 	}
 }
 
-void ddConnectionCreationTool::mouseDown(wxMouseEvent& event)
+void ddConnectionCreationTool::mouseDown(ddMouseEvent& event)
 {
 	ddAbstractTool::mouseDown(event);
 	int x=event.GetPosition().x, y=event.GetPosition().y;
@@ -74,7 +74,7 @@ void ddConnectionCreationTool::mouseDown(wxMouseEvent& event)
 	}
 }
 
-void ddConnectionCreationTool::mouseUp(wxMouseEvent& event)
+void ddConnectionCreationTool::mouseUp(ddMouseEvent& event)
 {
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	if(handle)
@@ -94,7 +94,7 @@ void ddConnectionCreationTool::mouseUp(wxMouseEvent& event)
 	getDrawingEditor()->setTool(new ddSelectionTool(getDrawingEditor()));
 }
 
-void ddConnectionCreationTool::mouseMove(wxMouseEvent& event)
+void ddConnectionCreationTool::mouseMove(ddMouseEvent& event)
 {
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	ddDrawingView *view = getDrawingEditor()->view();

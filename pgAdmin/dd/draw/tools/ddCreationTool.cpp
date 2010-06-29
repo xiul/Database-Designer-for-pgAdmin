@@ -36,7 +36,7 @@ ddAbstractTool(editor){
 ddCreationTool::~ddCreationTool(){
 }
 
-void ddCreationTool::mouseDown(wxMouseEvent& event){
+void ddCreationTool::mouseDown(ddMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
 	getDrawingEditor()->view()->getDrawing()->add(figurePrototype);
 	int x=event.GetPosition().x, y=event.GetPosition().y;
@@ -45,7 +45,7 @@ void ddCreationTool::mouseDown(wxMouseEvent& event){
 	getDrawingEditor()->view()->addToSelection(figurePrototype);
 }
 
-void ddCreationTool::mouseUp(wxMouseEvent& event){
+void ddCreationTool::mouseUp(ddMouseEvent& event){
 	ddAbstractTool::mouseUp(event);
 	//DD-TODO: delete tool before overwrite??
 	getDrawingEditor()->setTool(new ddSelectionTool(getDrawingEditor()));

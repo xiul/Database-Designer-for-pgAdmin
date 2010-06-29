@@ -25,9 +25,9 @@ public:
 	ddSelectAreaTool(ddDrawingEditor *editor);
     ~ddSelectAreaTool();
 
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
-	virtual void mouseUp(wxMouseEvent& event);
-	virtual void mouseDrag(wxMouseEvent& event);
+	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
+	virtual void mouseUp(ddMouseEvent& event);
+	virtual void mouseDrag(ddMouseEvent& event);
 	void selectFiguresOnRect(bool shiftPressed);
 	
 

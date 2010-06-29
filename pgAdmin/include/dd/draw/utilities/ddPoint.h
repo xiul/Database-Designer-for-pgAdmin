@@ -16,6 +16,8 @@ class ddPoint : public wxPoint{
 public:
 	ddPoint();
 	ddPoint(int x, int y);
+	ddPoint(const ddPoint& p);
+	ddPoint(const wxPoint& p);
 };
 
 #endif

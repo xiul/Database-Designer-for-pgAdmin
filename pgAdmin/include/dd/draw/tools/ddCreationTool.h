@@ -21,8 +21,8 @@ class ddCreationTool : public ddAbstractTool
 public:
 	ddCreationTool(ddDrawingEditor *editor, ddIFigure *prototype);
     ~ddCreationTool();
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
-	virtual void mouseUp(wxMouseEvent& event);
+	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
+	virtual void mouseUp(ddMouseEvent& event);
 	virtual void activate();
 	virtual void deactivate();
 	virtual void setPrototype(ddIFigure *prototype);

@@ -25,10 +25,10 @@ public:
 
 	void setAnchorCoords(int x, int y);
 	
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
-	virtual void mouseUp(wxMouseEvent& event);
-	virtual void mouseMove(wxMouseEvent& event);
-	virtual void mouseDrag(wxMouseEvent& event);
+	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
+	virtual void mouseUp(ddMouseEvent& event);
+	virtual void mouseMove(ddMouseEvent& event);
+	virtual void mouseDrag(ddMouseEvent& event);
 	virtual void keyDown(wxKeyEvent& event);
 	virtual void keyUp(wxKeyEvent& event);
 	ddDrawingEditor* getDrawingEditor();

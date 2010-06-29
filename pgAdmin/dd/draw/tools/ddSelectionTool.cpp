@@ -46,7 +46,7 @@ ddSelectionTool::~ddSelectionTool(){
 		delete _delegateTool;
 }
 
-void ddSelectionTool::mouseDown(wxMouseEvent& event){
+void ddSelectionTool::mouseDown(ddMouseEvent& event){
 	ddITool::mouseDown(event);
 
 	ddDrawingView *view=getDrawingEditor()->view();
@@ -75,7 +75,7 @@ void ddSelectionTool::mouseDown(wxMouseEvent& event){
 	}
 }
 
-void ddSelectionTool::mouseUp(wxMouseEvent& event){
+void ddSelectionTool::mouseUp(ddMouseEvent& event){
 	ddAbstractTool::mouseUp(event);
 	ddITool *delegateTool = getDelegateTool();
 	if (delegateTool) { 
@@ -83,7 +83,7 @@ void ddSelectionTool::mouseUp(wxMouseEvent& event){
 	}
 }
 
-void ddSelectionTool::mouseMove(wxMouseEvent& event){
+void ddSelectionTool::mouseMove(ddMouseEvent& event){
 	ddAbstractTool::mouseMove(event);
 	ddDrawingView *view=getDrawingEditor()->view();
 	int x=event.GetPosition().x, y=event.GetPosition().y;
@@ -108,7 +108,7 @@ void ddSelectionTool::mouseMove(wxMouseEvent& event){
 	}
 }
 
-void ddSelectionTool::mouseDrag(wxMouseEvent& event){
+void ddSelectionTool::mouseDrag(ddMouseEvent& event){
 	ddAbstractTool::mouseDrag(event);
 	ddITool *delegateTool = getDelegateTool();
 	if (delegateTool) { 

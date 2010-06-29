@@ -21,6 +21,6 @@ class ddDragCreationTool : public ddCreationTool
 public:
 	ddDragCreationTool(ddDrawingEditor *editor, ddIFigure *prototype);
     ~ddDragCreationTool();
-	virtual void mouseDrag(wxMouseEvent& event);
+	virtual void mouseDrag(ddMouseEvent& event);
 };
 #endif

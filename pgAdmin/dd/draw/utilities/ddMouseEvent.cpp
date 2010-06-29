@@ -17,9 +17,8 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/draw/tools/ddITool.h"
 #include "dd/draw/utilities/ddMouseEvent.h"
-
+#include "dd/draw/main/ddDrawingView.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -28,69 +27,42 @@
 //*******************   End of special debug header to find memory leaks
 
 
-
-ddITool::ddITool(){
-	activatedValue=false;
-	undoableValue=false;
+//This allow only to use selected functions from event and for conversion reason as main goal (unscrolled points)
+ddMouseEvent::ddMouseEvent(wxMouseEvent& event, ddDrawingView *owner):
+mouseEvent(event)
+{  //mouseEvent is a private reference then should be initialize in constructor
+	view=owner;
+	m_shiftDown = event.m_shiftDown;
 }
 
-ddITool::~ddITool(){
-}
-
-void ddITool::mouseDown(ddMouseEvent& event){
-/*
-EVT_LEFT_DOWN(func)
-EVT_MIDDLE_DOWN(func)
-EVT_RIGHT_DOWN(func)
-EVT_LEFT_DCLICK(func)
-*/
-}
-
-void ddITool::mouseUp(ddMouseEvent& event){
-/*
-EVT_LEFT_UP(func)
-EVT_MIDDLE_UP(func)
-EVT_RIGHT_UP(func)
-EVT_RIGHT_DCLICK(func)
-*/
-}
-
-void ddITool::mouseMove(ddMouseEvent& event){
-/*
-EVT_MOTION(func)
-*/
-}
-
-void ddITool::mouseDrag(ddMouseEvent& event){
-/*
-When a mouse is dragged this returns true: event.Dragging()
-*/
-}
-
-void ddITool::keyDown(wxKeyEvent& event){
-	//setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
-}
-
-void ddITool::keyUp(wxKeyEvent& event)
+ddPoint& ddMouseEvent::GetPosition()
 {
+	return getUnScrolledPosition();
 }
 
-void ddITool::activate()
+ddPoint& ddMouseEvent::getUnScrolledPosition()
 {
-	activatedValue=true;
+	unScrolled = mouseEvent.GetPosition();
+	view->CalcUnscrolledPosition(unScrolled.x,unScrolled.y,&unScrolled.x,&unScrolled.y);
+	return unScrolled;
 }
 
-void ddITool::deactivate()
+int ddMouseEvent::getUnScrolledPosX()
 {
-	activatedValue=false;
+	return getUnScrolledPosition().x;
 }
 
-bool ddITool::activated()
+int ddMouseEvent::getUnScrolledPosY()
 {
-	return activatedValue;
+	return getUnScrolledPosition().y;
 }
 
-bool ddITool::undoable(){
-	return undoableValue;
+bool ddMouseEvent::LeftDClick()
+{
+	return mouseEvent.LeftDClick();
 }
 
+bool ddMouseEvent::ShiftDown()
+{
+	return mouseEvent.ShiftDown();
+}

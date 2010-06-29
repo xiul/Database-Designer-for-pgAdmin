@@ -20,7 +20,7 @@ class ddPolyLineFigureTool : public ddFigureTool
 public:
 	ddPolyLineFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
     ~ddPolyLineFigureTool();
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
+	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
 protected:
 private:
 };

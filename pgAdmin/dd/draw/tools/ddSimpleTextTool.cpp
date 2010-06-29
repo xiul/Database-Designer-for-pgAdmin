@@ -56,7 +56,7 @@ void ddSimpleTextTool::calculateSizeEntry()
 	}
 }
 
-void ddSimpleTextTool::mouseDown(wxMouseEvent& event)
+void ddSimpleTextTool::mouseDown(ddMouseEvent& event)
 {	
 	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
 	if(event.LeftDClick())
@@ -88,7 +88,7 @@ void ddSimpleTextTool::deactivate()
 	ddFigureTool::deactivate();
 }
 
-void ddSimpleTextTool::mouseDrag(wxMouseEvent& event)
+void ddSimpleTextTool::mouseDrag(ddMouseEvent& event)
 {
 	if(!showEdit)
 	{
@@ -129,28 +129,28 @@ ddIFigure* ddFigureTool::getFigure()
 	return figure;
 }
 
-void ddFigureTool::mouseDown(wxMouseEvent& event){
+void ddFigureTool::mouseDown(ddMouseEvent& event){
 	if(defaultTool)
 	{
 		defaultTool->mouseDown(event);
 	}
 }
 
-void ddFigureTool::mouseUp(wxMouseEvent& event){
+void ddFigureTool::mouseUp(ddMouseEvent& event){
 	if(defaultTool)
 	{
 		defaultTool->mouseUp(event);
 	}
 }
 
-void ddFigureTool::mouseMove(wxMouseEvent& event){
+void ddFigureTool::mouseMove(ddMouseEvent& event){
 	if(defaultTool)
 	{
 		defaultTool->mouseMove(event);
 	}
 }
 
-void ddFigureTool::mouseDrag(wxMouseEvent& event){
+void ddFigureTool::mouseDrag(ddMouseEvent& event){
 	if(defaultTool)
 	{
 		defaultTool->mouseDrag(event);

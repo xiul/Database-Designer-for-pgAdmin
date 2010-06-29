@@ -36,17 +36,17 @@ ddAbstractTool::ddAbstractTool(ddDrawingEditor *editor){
 ddAbstractTool::~ddAbstractTool(){
 }
 
-void ddAbstractTool::mouseDown(wxMouseEvent& event){
+void ddAbstractTool::mouseDown(ddMouseEvent& event){
 	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
 }
 
-void ddAbstractTool::mouseUp(wxMouseEvent& event){
+void ddAbstractTool::mouseUp(ddMouseEvent& event){
 }
 
-void ddAbstractTool::mouseMove(wxMouseEvent& event){
+void ddAbstractTool::mouseMove(ddMouseEvent& event){
 }
 
-void ddAbstractTool::mouseDrag(wxMouseEvent& event){
+void ddAbstractTool::mouseDrag(ddMouseEvent& event){
 }
 
 void ddAbstractTool::keyDown(wxKeyEvent& event){
@@ -67,16 +67,16 @@ ddDrawingEditor* ddAbstractTool::getDrawingEditor(){
 }
 
 /*
-void ddITool::mouseDown(wxMouseEvent& event){
+void ddITool::mouseDown(ddMouseEvent& event){
 }
 
-void ddITool::mouseUp(wxMouseEvent& event){
+void ddITool::mouseUp(ddMouseEvent& event){
 }
 
-void ddITool::mouseMove(wxMouseEvent& event){
+void ddITool::mouseMove(ddMouseEvent& event){
 }
 
-void ddITool::mouseDrag(wxMouseEvent& event){
+void ddITool::mouseDrag(ddMouseEvent& event){
 }
 
 void ddITool::keyDown(wxKeyEvent& event){

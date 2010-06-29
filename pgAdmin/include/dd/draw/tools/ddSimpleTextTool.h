@@ -22,10 +22,10 @@ class ddSimpleTextTool : public ddFigureTool
 public:
 	ddSimpleTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
     ~ddSimpleTextTool();
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
+	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
 	virtual void activate();
 	virtual void deactivate();
-	virtual void mouseDrag(wxMouseEvent& event);
+	virtual void mouseDrag(ddMouseEvent& event);
 	//Because a bug it was move to main View class as a hack. virtual void changeHandler(wxCommandEvent& event);
 protected:
 private:

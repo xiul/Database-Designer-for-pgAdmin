@@ -39,7 +39,7 @@ ddSelectAreaTool::~ddSelectAreaTool(){
 }
 
 //DD-TODO: fix bug select good from left to righ but no from right to left
-void ddSelectAreaTool::mouseDown(wxMouseEvent& event){
+void ddSelectAreaTool::mouseDown(ddMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
 	if(!event.ShiftDown()){
 		view->clearSelection();
@@ -52,7 +52,7 @@ void ddSelectAreaTool::mouseDown(wxMouseEvent& event){
 	drawSelectionRect();
 }
 
-void ddSelectAreaTool::mouseUp(wxMouseEvent& event){
+void ddSelectAreaTool::mouseUp(ddMouseEvent& event){
 	ddAbstractTool::mouseUp(event);
 	//hack-fix for bug when selecting figures from right to left
 	if( selectionRect.width < 0 ) 
@@ -76,7 +76,7 @@ void ddSelectAreaTool::mouseUp(wxMouseEvent& event){
 	view->disableSelRectDraw();
 }
 
-void ddSelectAreaTool::mouseDrag(wxMouseEvent& event){
+void ddSelectAreaTool::mouseDrag(ddMouseEvent& event){
 	ddAbstractTool::mouseDrag(event);
 	drawSelectionRect();
 	int x=event.GetPosition().x, y=event.GetPosition().y;

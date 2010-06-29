@@ -21,7 +21,9 @@ class ddITool;			// HACK-FIX circular reference
 class ddDrawingEditor;
 class ddIConnector;
 class ddITool;
+class ddITool;
 */
+
 
 class ddSimpleTextFigure : public ddAbstractFigure
 {

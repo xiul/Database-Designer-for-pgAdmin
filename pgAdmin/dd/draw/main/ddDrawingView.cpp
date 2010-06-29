@@ -22,6 +22,7 @@
 #include "dd/draw/utilities/ddArrayCollection.h"
 #include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/utilities/ddGeometry.h"
+#include "dd/draw/utilities/ddMouseEvent.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -289,25 +290,29 @@ ddDrawing* ddDrawingView::getDrawing(){
 
 void ddDrawingView::onMotion(wxMouseEvent& event)
 {
+	ddMouseEvent ddEvent = ddMouseEvent(event,this);	
 	if(event.Dragging())
 	{
-		drawingEditor->tool()->mouseDrag(event);
+		drawingEditor->tool()->mouseDrag(ddEvent);
 		//DD-TODO: need this ScrollToMakeVisible (point)??? 
 	}
 	else
 	{
-		drawingEditor->tool()->mouseMove(event);
+		drawingEditor->tool()->mouseMove(ddEvent);
 	}
 	this->Refresh();
 }
 
-void ddDrawingView::onMouseDown(wxMouseEvent& event){
-	drawingEditor->tool()->mouseDown(event);
+void ddDrawingView::onMouseDown(wxMouseEvent& event)
+{
+	ddMouseEvent ddEvent = ddMouseEvent(event,this);
+	drawingEditor->tool()->mouseDown(ddEvent);
 	this->Refresh();
 }
 
 void ddDrawingView::onMouseUp(wxMouseEvent& event){
-	drawingEditor->tool()->mouseUp(event);
+	ddMouseEvent ddEvent = ddMouseEvent(event,this);
+	drawingEditor->tool()->mouseUp(ddEvent);
 	this->Refresh();
 }
 

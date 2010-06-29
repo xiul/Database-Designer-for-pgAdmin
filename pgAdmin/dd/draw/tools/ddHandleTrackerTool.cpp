@@ -36,18 +36,18 @@ ddHandleTrackerTool::ddHandleTrackerTool(ddDrawingEditor *editor, ddIHandle *anc
 ddHandleTrackerTool::~ddHandleTrackerTool(){
 }
 
-void ddHandleTrackerTool::mouseDown(wxMouseEvent& event){
+void ddHandleTrackerTool::mouseDown(ddMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	anchorHandle->invokeStart(x,y,view);
 }
 
-void ddHandleTrackerTool::mouseUp(wxMouseEvent& event){
+void ddHandleTrackerTool::mouseUp(ddMouseEvent& event){
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	anchorHandle->invokeEnd(x,y,view);
 }
 
-void ddHandleTrackerTool::mouseDrag(wxMouseEvent& event){
+void ddHandleTrackerTool::mouseDrag(ddMouseEvent& event){
 	int x=event.GetPosition().x, y=event.GetPosition().y;
 	anchorHandle->invokeStep(x,y,view);
 }

@@ -35,3 +35,13 @@ ddPoint::ddPoint(int x, int y):
 wxPoint(x,y)
 {
 }
+
+ddPoint::ddPoint(const ddPoint& p):
+wxPoint(p.x,p.y)
+{
+}
+
+ddPoint::ddPoint(const wxPoint& p):
+wxPoint(p.x,p.y)
+{
+}

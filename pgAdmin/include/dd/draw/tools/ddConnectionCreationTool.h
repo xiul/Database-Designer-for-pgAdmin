@@ -22,10 +22,10 @@ public:
 	ddConnectionCreationTool(ddDrawingEditor *editor, ddLineConnection *figure);
     ~ddConnectionCreationTool();
 
-	virtual void mouseDrag(wxMouseEvent& event);
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
-	virtual void mouseUp(wxMouseEvent& event);
-	virtual void mouseMove(wxMouseEvent& event);
+	virtual void mouseDrag(ddMouseEvent& event);
+	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
+	virtual void mouseUp(ddMouseEvent& event);
+	virtual void mouseMove(ddMouseEvent& event);
 
 	/*
 	void setAnchorCoords(int x, int y);

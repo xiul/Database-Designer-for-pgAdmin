@@ -27,9 +27,9 @@ public:
 
 	void setLastCoords(int x, int y);
 	bool hasMoved();
-	virtual void mouseDown(wxMouseEvent& event);  //Mouse Right Click
-	virtual void mouseUp(wxMouseEvent& event);
-	virtual void mouseDrag(wxMouseEvent& event);
+	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
+	virtual void mouseUp(ddMouseEvent& event);
+	virtual void mouseDrag(ddMouseEvent& event);
 
 protected:
 	ddIFigure *anchorFigure;
