@@ -66,3 +66,23 @@ bool ddMouseEvent::ShiftDown()
 {
 	return mouseEvent.ShiftDown();
 }
+
+bool ddMouseEvent::RightDown()
+{
+	return mouseEvent.RightDown();
+}
+
+bool ddMouseEvent::LeftDown()
+{
+	return mouseEvent.LeftDown();
+}
+
+bool ddMouseEvent::LeftUp()
+{
+	return mouseEvent.LeftUp();
+}
+
+bool ddMouseEvent::LeftIsDown()
+{
+	return mouseEvent.LeftIsDown();
+}

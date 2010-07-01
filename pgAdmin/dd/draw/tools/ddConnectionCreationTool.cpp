@@ -42,7 +42,7 @@ ddConnectionCreationTool::~ddConnectionCreationTool(){
 
 void ddConnectionCreationTool::mouseDrag(ddMouseEvent& event)
 {
-	if(handle)
+	if(handle && event.LeftIsDown())
 	{
 		int x=event.GetPosition().x, y=event.GetPosition().y;
 		handle->invokeStep(x,y,getDrawingEditor()->view());
@@ -52,43 +52,49 @@ void ddConnectionCreationTool::mouseDrag(ddMouseEvent& event)
 void ddConnectionCreationTool::mouseDown(ddMouseEvent& event)
 {
 	ddAbstractTool::mouseDown(event);
-	int x=event.GetPosition().x, y=event.GetPosition().y;
-	ddDrawingView *view = getDrawingEditor()->view();
-	ddIFigure *figure = view->getDrawing()->findFigure(x,y);
+	if(event.LeftDown())
+	{
+		int x=event.GetPosition().x, y=event.GetPosition().y;
+		ddDrawingView *view = getDrawingEditor()->view();
+		ddIFigure *figure = view->getDrawing()->findFigure(x,y);
 
-	if(figure)
-	{
-		toolConnection->setEndPoint(ddPoint(x,y));
-		toolConnection->setStartPoint(ddPoint(x,y));
-		toolConnection->connectStart(figure->connectorAt(x,y));
-		toolConnection->updateConnection();
-		view->add(toolConnection);
-		view->clearSelection();
-		view->addToSelection(toolConnection);
-		handle = toolConnection->getEndHandle();
-	}
-	else
-	{
-		//DD-TODO: fix memory leaks when set a tool
-		getDrawingEditor()->setTool(new ddSelectionTool(getDrawingEditor()));
+		if(figure)
+		{
+			toolConnection->setEndPoint(ddPoint(x,y));
+			toolConnection->setStartPoint(ddPoint(x,y));
+			toolConnection->connectStart(figure->connectorAt(x,y));
+			toolConnection->updateConnection();
+			view->add(toolConnection);
+			view->clearSelection();
+			view->addToSelection(toolConnection);
+			handle = toolConnection->getEndHandle();
+		}
+		else
+		{
+			//DD-TODO: fix memory leaks when set a tool
+			getDrawingEditor()->setTool(new ddSelectionTool(getDrawingEditor()));
+		}
 	}
 }
 
 void ddConnectionCreationTool::mouseUp(ddMouseEvent& event)
 {
-	int x=event.GetPosition().x, y=event.GetPosition().y;
-	if(handle)
+	if(event.LeftUp())
 	{
-		handle->invokeEnd(x,y,getDrawingEditor()->view());
-	}
+		int x=event.GetPosition().x, y=event.GetPosition().y;
+		if(handle)
+		{
+			handle->invokeEnd(x,y,getDrawingEditor()->view());
+		}
 
-	if(toolConnection->getEndConnector()==NULL)
-	{
-		toolConnection->disconnectStart();
-		toolConnection->disconnectEnd();
-		getDrawingEditor()->view()->remove(toolConnection);
-		getDrawingEditor()->view()->clearSelection();
-		//DD-TODO: should I delete here toolConnection???
+		if(toolConnection->getEndConnector()==NULL)
+		{
+			toolConnection->disconnectStart();
+			toolConnection->disconnectEnd();
+			getDrawingEditor()->view()->remove(toolConnection);
+			getDrawingEditor()->view()->clearSelection();
+			//DD-TODO: should I delete here toolConnection???
+		}
 	}
 		//DD-TODO: fix memory leaks when set a tool
 	getDrawingEditor()->setTool(new ddSelectionTool(getDrawingEditor()));

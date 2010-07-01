@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////
+//////////////////	////////////////////////////////////////////////////////
 //
 // pgAdmin III - PostgreSQL Tools
 // RCS-ID:      $Id: gqbView.cpp 8268 2010-04-15 21:49:27Z xiul $
@@ -18,9 +18,11 @@
 #include <wx/dcbuffer.h>
 
 // App headers
+#include "dd/dditems/figures/ddColumnFigure.h"
+#include "dd/dditems/utilities/ddDataType.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
-#include "dd/draw/tools/ddSimpleTextTool.h"
-#include "dd/draw/utilities/ddGeometry.h"
+#include "dd/draw/main/ddDrawingView.h"
+
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -28,32 +30,103 @@
 #endif
 //*******************   End of special debug header to find memory leaks
 
-
-ddSimpleTextFigure::ddSimpleTextFigure(wxString textString)
+ddColumnFigure::ddColumnFigure(wxString& columnName, ddDataType dataType):
+ddSimpleTextFigure(columnName)
 {
-	text = textString;
-	textEditable = false;
-	font = settings->GetSystemFont();
-	textForeground = *wxBLACK;
-	textBackground = wxBrush (wxColour(245, 245, 245),wxSOLID);
-	refreshDisplayBox = true;
-	padding = 2;
-	showMenu = false;
+	columnType = dataType;
+	enablePopUp();
 }
 
-ddSimpleTextFigure::~ddSimpleTextFigure()
+
+
+ddColumnFigure::~ddColumnFigure()
 {
+
 }
 
+wxString& ddColumnFigure::getText(bool extended)
+{
+	if(extended)
+	{
+		wxString ddType = popupStrings()[columnType];
+		out = wxString( ddSimpleTextFigure::getText() + wxString(wxT(" : ")) + ddType );
+		return  out;
+	}
+	else
+	{
+		return ddSimpleTextFigure::getText();
+	}
+}
+
+//event ID must match enum ddDataType!!! this event was created on view
+void ddColumnFigure::OnTextPopupClick(wxCommandEvent& event)
+{
+	//DD-TODO: improve this
+	switch(event.GetId())
+	{
+		case 0:
+			columnType = dt_bigint;
+		break;
+		case 1:
+			columnType = dt_boolean;
+		break;
+		case 2:
+			columnType = dt_bool;
+		break;
+		case 3:
+			columnType = dt_integer;
+		break;
+		case 4:
+			columnType = dt_money;
+		break;
+		case 5:
+			columnType = dt_varchar_n;
+		break;
+	}		
+}
+
+//must match enum ddDataType!!!
+wxArrayString& ddColumnFigure::popupStrings()
+{
+	strings.Clear();
+	strings.Add(wxT("BIGINT"));
+	strings.Add(wxT("BOOLEAN"));
+	strings.Add(wxT("INTEGER"));
+	strings.Add(wxT("MONEY"));
+	strings.Add(wxT("VARCHAR("));
+	return strings;
+};
+
+/*
+ddITool* ddColumnFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+{
+	return textEditable ? new ddSimpleTextTool(editor,this,defaultTool) : defaultTool;
+}
+*/
+
+/*
+void ddColumnFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
+{
+	if(refreshDisplayBox)
+		recalculateDisplayBox(context);
+	
+	ddRect copy = displayBox();
+	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+
+	setupLayout(context);
+
+	context.DrawRectangle(copy); 
+	context.DrawText(getText(true),copy.GetPosition());
+}
+
+/*
 void ddSimpleTextFigure::setText(wxString textString)
 {
 	text = textString;
 	refreshDisplayBox = true;
 	//DD-TODO: update displaybox size
 }
-
-//extended is flag that inform about returning an extended version of text stored at figure
-wxString& ddSimpleTextFigure::getText(bool extended)
+wxString& ddSimpleTextFigure::getText()
 {
 	return text;
 }
@@ -79,8 +152,8 @@ void ddSimpleTextFigure::setBackground(wxBrush background)
 void ddSimpleTextFigure::getFontMetrics(int &width, int &height, wxBufferedDC& context)
 {
 	context.SetFont(font);
-	if(getText(true).length()>5)
-		context.GetTextExtent(getText(true),&width,&height);
+	if(text.length()>5)
+		context.GetTextExtent(text,&width,&height);
 	else
 		context.GetTextExtent(wxT("EMPTY"),&width,&height);
 	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
@@ -112,7 +185,7 @@ void ddSimpleTextFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
 	setupLayout(context);
 
 	context.DrawRectangle(copy); 
-	context.DrawText(getText(true),copy.GetPosition());
+	context.DrawText(text,copy.GetPosition());
 }
 
 void ddSimpleTextFigure::setupLayout(wxBufferedDC& context)
@@ -150,34 +223,4 @@ int ddSimpleTextFigure::getPadding()
 	return padding;
 }
 
-wxArrayString& ddSimpleTextFigure::popupStrings()
-{
-	strings.Clear();
-	strings.Add(wxT("MENU"));
-	return strings;
-};
-
-void ddSimpleTextFigure::setPopupStrings(wxArrayString& values)
-{
-	strings = values;
-}
-
-void ddSimpleTextFigure::enablePopUp()
-{
-	showMenu = true;
-}
-
-void ddSimpleTextFigure::disablePopUp()
-{
-	showMenu = false;
-}
-
-bool ddSimpleTextFigure::menuEnabled()
-{
-	return 	showMenu;
-}
-
-void ddSimpleTextFigure::OnTextPopupClick(wxCommandEvent& event)
-{
-	setText(strings[event.GetId()]);
-}
+*/

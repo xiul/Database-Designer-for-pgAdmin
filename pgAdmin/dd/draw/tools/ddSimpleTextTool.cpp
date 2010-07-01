@@ -16,6 +16,7 @@
 // wxWindows headers
 #include <wx/wx.h>
 #include <wx/textctrl.h>
+#include <wx/choicdlg.h>
 
 // App headers
 #include "dd/draw/tools/ddSimpleTextTool.h"
@@ -30,6 +31,7 @@
 
 class ddDrawingEditor;
 
+//Allow Edition of textTool (double click) or show a menu to modifiy in someway text (right click).
 ddSimpleTextTool::ddSimpleTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddFigureTool(editor,fig,dt)
 {
@@ -39,7 +41,6 @@ ddFigureTool(editor,fig,dt)
 	editor->view()->setSimpleTextToolFigure(NULL);
 	edit = getDrawingEditor()->view()->getSimpleTextToolEdit();
 	calculateSizeEntry();
-	
 }
 
 ddSimpleTextTool::~ddSimpleTextTool()
@@ -59,6 +60,19 @@ void ddSimpleTextTool::calculateSizeEntry()
 void ddSimpleTextTool::mouseDown(ddMouseEvent& event)
 {	
 	setAnchorCoords(event.GetPosition().x,event.GetPosition().y);
+
+	
+
+	if(txtFigure->menuEnabled() && event.RightDown())
+	{
+                wxMenu menu;
+				getDrawingEditor()->view()->setSimpleTextToolFigure(txtFigure);
+				getDrawingEditor()->view()->setTextPopUpList(txtFigure->popupStrings(),menu);
+				getDrawingEditor()->view()->PopupMenu(&menu, event.GetPosition());
+		return;
+	}
+
+
 	if(event.LeftDClick())
 	{
 		getDrawingEditor()->view()->setSimpleTextToolFigure(txtFigure);
@@ -96,79 +110,7 @@ void ddSimpleTextTool::mouseDrag(ddMouseEvent& event)
 	}
 }
 
-/*
-ddFigureTool::ddFigureTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
-ddAbstractTool(editor)
+void ddSimpleTextTool::OnTextPopupClick(wxCommandEvent& event)
 {
-	defaultTool=dt;
-	figure=fig;
+	txtFigure->OnTextPopupClick(event);
 }
-
-ddFigureTool::~ddFigureTool(){
-	if(defaultTool)
-		delete defaultTool;
-}
-
-void ddFigureTool::setDefaultTool(ddITool *dt)
-{
-	defaultTool=dt;
-}
-
-ddITool* ddFigureTool::getDefaultTool()
-{
-	return defaultTool;
-}
-
-void ddFigureTool::setFigure(ddIFigure *fig)
-{
-	figure=fig;
-}
-
-ddIFigure* ddFigureTool::getFigure()
-{
-	return figure;
-}
-
-void ddFigureTool::mouseDown(ddMouseEvent& event){
-	if(defaultTool)
-	{
-		defaultTool->mouseDown(event);
-	}
-}
-
-void ddFigureTool::mouseUp(ddMouseEvent& event){
-	if(defaultTool)
-	{
-		defaultTool->mouseUp(event);
-	}
-}
-
-void ddFigureTool::mouseMove(ddMouseEvent& event){
-	if(defaultTool)
-	{
-		defaultTool->mouseMove(event);
-	}
-}
-
-void ddFigureTool::mouseDrag(ddMouseEvent& event){
-	if(defaultTool)
-	{
-		defaultTool->mouseDrag(event);
-	}
-}
-
-void ddFigureTool::keyDown(wxKeyEvent& event){
-	if(defaultTool)
-	{
-		defaultTool->keyDown(event);
-	}
-}
-
-void ddFigureTool::keyUp(wxKeyEvent& event)
-{
-		if(defaultTool)
-	{
-		defaultTool->keyUp(event);
-	}
-}
-*/

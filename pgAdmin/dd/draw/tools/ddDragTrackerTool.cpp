@@ -45,17 +45,21 @@ void ddDragTrackerTool::setLastCoords(int x, int y){
 
 void ddDragTrackerTool::mouseDown(ddMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
-	int x=event.GetPosition().x, y=event.GetPosition().y;
 
-	setLastCoords(x,y);
-
-	if(event.m_shiftDown){
-			view->toggleSelection(anchorFigure);
-	}
-	else if(!view->isFigureSelected(anchorFigure))
+	if(event.LeftDown())
 	{
-		view->clearSelection();
-		view->addToSelection(anchorFigure);
+		int x=event.GetPosition().x, y=event.GetPosition().y;
+
+		setLastCoords(x,y);
+
+		if(event.m_shiftDown){
+				view->toggleSelection(anchorFigure);
+		}
+		else if(!view->isFigureSelected(anchorFigure))
+		{
+			view->clearSelection();
+			view->addToSelection(anchorFigure);
+		}
 	}
 }
 
@@ -65,21 +69,24 @@ void ddDragTrackerTool::mouseUp(ddMouseEvent& event){
 
 void ddDragTrackerTool::mouseDrag(ddMouseEvent& event){
 	ddAbstractTool::mouseDrag(event);
-	int x=event.GetPosition().x, y=event.GetPosition().y;	
 
-	hasMovedValue = (abs (x - anchorX) > 4 || abs (y - anchorX) > 4);
+	if(event.LeftIsDown())
+	{
+		int x=event.GetPosition().x, y=event.GetPosition().y;	
+		hasMovedValue = (abs (x - anchorX) > 4 || abs (y - anchorX) > 4);
 
-			if (hasMoved()) {
-				ddIFigure *tmp=NULL;
-				ddIteratorBase *iterator=view->selectionFigures();
-				while(iterator->HasNext())
-				{
-					tmp=(ddIFigure *)iterator->Next();
-					tmp->moveBy(x - lastX, y - lastY);
+				if (hasMoved()) {
+					ddIFigure *tmp=NULL;
+					ddIteratorBase *iterator=view->selectionFigures();
+					while(iterator->HasNext())
+					{
+						tmp=(ddIFigure *)iterator->Next();
+						tmp->moveBy(x - lastX, y - lastY);
+					}
+					delete iterator;
 				}
-				delete iterator;
-			}
-			setLastCoords (x, y);
+				setLastCoords (x, y);
+	}
 }
 
 bool ddDragTrackerTool::hasMoved(){

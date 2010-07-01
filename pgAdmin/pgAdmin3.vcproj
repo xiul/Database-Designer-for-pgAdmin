@@ -123,6 +123,110 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="3"
+				TypeLibraryName=".\Release/pgAdmin3.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)/include&quot;;&quot;$(WXWIN)/contrib/include&quot;;&quot;$(PGDIR)/include&quot;;&quot;$(PGBUILD)/libxml2/include/&quot;;&quot;$(PGBUILD)/libxslt/include/&quot;;&quot;$(PGBUILD)/iconv/include/&quot;;include/"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE=1;NDEBUG;WIN32;_WINDOWS;__WINDOWS__;__WIN95__;__WIN32__;WINVER=0x0400;STRICT;wxUSE_UNICODE=1;UNICODE;EMBED_XRC;SSL"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="pgadmin3.h"
+				PrecompiledHeaderFile=".\Release/pgAdmin3.pch"
+				AssemblerOutput="2"
+				AssemblerListingLocation=".\Release/"
+				ObjectFile=".\Release/"
+				ProgramDataBaseFileName=".\Release/"
+				BrowseInformation="1"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"
+				AdditionalIncludeDirectories="$(WXWIN)/include"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="wxbase28u.lib wxbase28u_xml.lib wxbase28u_net.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxmsw28u_aui.lib wxregexu.lib wxpng.lib wxzlib.lib wxjpeg.lib wxtiff.lib wxmsw28u_stc.lib wxmsw28u_ogl.lib wxmsw28u_xrc.lib wxexpat.lib libpq.lib libxml2.lib libxslt.lib iconv_a.lib comctl32.lib rpcrt4.lib wsock32.lib winmm.lib"
+				OutputFile=".\Release/pgAdmin3.exe"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;$(WXWIN)/lib/vc_lib&quot;;&quot;$(PGDIR)/lib&quot;;&quot;$(PGBUILD)/libxml2/lib&quot;;&quot;$(PGBUILD)/libxslt/lib&quot;;&quot;$(PGBUILD)/iconv/lib&quot;"
+				IgnoreDefaultLibraryNames="libcd.lib,libcid.lib,msvcrtd.lib"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Release/pgAdmin3.pdb"
+				GenerateMapFile="true"
+				MapFileName=".\Release/pgAdmin3.map"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\Release/pgAdmin3.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
@@ -218,110 +322,6 @@
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
 				OutputFile=".\Debug/pgAdmin3.bsc"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="3"
-				TypeLibraryName=".\Release/pgAdmin3.tlb"
-				HeaderFileName=""
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)/include&quot;;&quot;$(WXWIN)/contrib/include&quot;;&quot;$(PGDIR)/include&quot;;&quot;$(PGBUILD)/libxml2/include/&quot;;&quot;$(PGBUILD)/libxslt/include/&quot;;&quot;$(PGBUILD)/iconv/include/&quot;;include/"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE=1;NDEBUG;WIN32;_WINDOWS;__WINDOWS__;__WIN95__;__WIN32__;WINVER=0x0400;STRICT;wxUSE_UNICODE=1;UNICODE;EMBED_XRC;SSL"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="pgadmin3.h"
-				PrecompiledHeaderFile=".\Release/pgAdmin3.pch"
-				AssemblerOutput="2"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
-				BrowseInformation="1"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="2057"
-				AdditionalIncludeDirectories="$(WXWIN)/include"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28u.lib wxbase28u_xml.lib wxbase28u_net.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxmsw28u_aui.lib wxregexu.lib wxpng.lib wxzlib.lib wxjpeg.lib wxtiff.lib wxmsw28u_stc.lib wxmsw28u_ogl.lib wxmsw28u_xrc.lib wxexpat.lib libpq.lib libxml2.lib libxslt.lib iconv_a.lib comctl32.lib rpcrt4.lib wsock32.lib winmm.lib"
-				OutputFile=".\Release/pgAdmin3.exe"
-				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(WXWIN)/lib/vc_lib&quot;;&quot;$(PGDIR)/lib&quot;;&quot;$(PGBUILD)/libxml2/lib&quot;;&quot;$(PGBUILD)/libxslt/lib&quot;;&quot;$(PGBUILD)/iconv/lib&quot;"
-				IgnoreDefaultLibraryNames="libcd.lib,libcid.lib,msvcrtd.lib"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Release/pgAdmin3.pdb"
-				GenerateMapFile="true"
-				MapFileName=".\Release/pgAdmin3.map"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="17"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Release/pgAdmin3.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -461,7 +461,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -470,7 +470,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -501,7 +501,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -510,7 +510,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -541,7 +541,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -550,7 +550,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -585,7 +585,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -594,7 +594,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -625,7 +625,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -634,7 +634,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -665,7 +665,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -674,7 +674,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -806,7 +806,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -816,7 +816,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -853,7 +853,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -862,7 +862,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -897,7 +897,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -906,7 +906,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -3819,6 +3819,38 @@
 						</File>
 					</Filter>
 				</Filter>
+				<Filter
+					Name="dditems"
+					>
+					<Filter
+						Name="figures"
+						>
+						<File
+							RelativePath=".\include\dd\dditems\figures\ddColumnFigure.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="utilities"
+						>
+						<File
+							RelativePath=".\include\dd\dditems\utilities\ddDataType.h"
+							>
+						</File>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="rce"
+					>
+				</Filter>
+				<Filter
+					Name="ddmodel"
+					>
+					<File
+						RelativePath=".\include\dd\ddmodel\ddDatabaseDesign.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -4384,7 +4416,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -4392,7 +4424,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -4476,7 +4508,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -4484,7 +4516,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -5409,11 +5441,31 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="ddgraphics"
+				Name="dditems"
 				>
+				<Filter
+					Name="figures"
+					>
+					<File
+						RelativePath=".\dd\dditems\figures\ddColumnFigure.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="utilities"
+					>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="ddmodel"
+				>
+				<File
+					RelativePath=".\dd\ddmodel\ddDatabaseDesign.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="rce"
 				>
 			</Filter>
 		</Filter>
@@ -5447,7 +5499,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Debug|Win32"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -5457,7 +5509,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|x64"
+				Name="Debug|Win32"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -5499,7 +5551,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Debug|Win32"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -5509,7 +5561,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|x64"
+				Name="Debug|Win32"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

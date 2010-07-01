@@ -44,46 +44,55 @@ void ddSelectAreaTool::mouseDown(ddMouseEvent& event){
 	if(!event.ShiftDown()){
 		view->clearSelection();
 	}
-	int x=event.GetPosition().x, y=event.GetPosition().y;
-	selectionRect.x=x;
-	selectionRect.y=y;
-	selectionRect.width=0;
-	selectionRect.height=0;
-	drawSelectionRect();
+	if(event.LeftDown())
+	{
+		int x=event.GetPosition().x, y=event.GetPosition().y;
+		selectionRect.x=x;
+		selectionRect.y=y;
+		selectionRect.width=0;
+		selectionRect.height=0;
+		drawSelectionRect();
+	}
 }
 
 void ddSelectAreaTool::mouseUp(ddMouseEvent& event){
 	ddAbstractTool::mouseUp(event);
 	//hack-fix for bug when selecting figures from right to left
-	if( selectionRect.width < 0 ) 
+	if(event.LeftUp())
 	{
-		int tmp;
-		tmp=selectionRect.width;
-		selectionRect.x += tmp;
-		selectionRect.width=abs(tmp);
+		if( selectionRect.width < 0 ) 
+		{
+			int tmp;
+			tmp=selectionRect.width;
+			selectionRect.x += tmp;
+			selectionRect.width=abs(tmp);
 
+		}
+		if( selectionRect.height < 0 )
+		{
+			int tmp;
+			tmp=selectionRect.height;
+			selectionRect.y += tmp;
+			selectionRect.height=abs(tmp);
+		}
+		//end hack-fix 
+		drawSelectionRect();
+		selectFiguresOnRect(event.ShiftDown());
+		view->disableSelRectDraw();
 	}
-	if( selectionRect.height < 0 )
-	{
-		int tmp;
-		tmp=selectionRect.height;
-		selectionRect.y += tmp;
-		selectionRect.height=abs(tmp);
-	}
-	//end hack-fix 
-	drawSelectionRect();
-	selectFiguresOnRect(event.ShiftDown());
-	view->disableSelRectDraw();
 }
 
 void ddSelectAreaTool::mouseDrag(ddMouseEvent& event){
 	ddAbstractTool::mouseDrag(event);
-	drawSelectionRect();
-	int x=event.GetPosition().x, y=event.GetPosition().y;
-	selectionRect.x=anchorX;
-	selectionRect.y=anchorY;
-	selectionRect.SetBottomRight(wxPoint(x,y));
-	drawSelectionRect();
+	if(event.LeftIsDown())
+	{
+		drawSelectionRect();
+		int x=event.GetPosition().x, y=event.GetPosition().y;
+		selectionRect.x=anchorX;
+		selectionRect.y=anchorY;
+		selectionRect.SetBottomRight(wxPoint(x,y));
+		drawSelectionRect();
+	}
 }
 
 void ddSelectAreaTool::selectFiguresOnRect(bool shiftPressed){

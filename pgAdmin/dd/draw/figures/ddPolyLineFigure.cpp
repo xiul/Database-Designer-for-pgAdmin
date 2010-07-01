@@ -53,6 +53,10 @@ ddPolyLineFigure::~ddPolyLineFigure(){
 	}
 	if(points)
 		delete points;
+	if(startTerminal)
+		delete startTerminal;
+	if(endTerminal)
+		delete endTerminal;
 }
 
 ddRect& ddPolyLineFigure::getBasicDisplayBox() {

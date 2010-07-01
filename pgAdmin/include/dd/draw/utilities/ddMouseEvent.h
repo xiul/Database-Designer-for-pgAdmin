@@ -28,7 +28,12 @@ class ddMouseEvent : public ddObject
 		int getUnScrolledPosX();
 		int getUnScrolledPosY();
 		bool LeftDClick();
+		bool LeftDown();
+		bool LeftIsDown();
+		bool LeftUp();
 		bool ShiftDown();
+		bool RightDown();
+
 		bool m_shiftDown;
 private:
 		ddDrawingView *view;

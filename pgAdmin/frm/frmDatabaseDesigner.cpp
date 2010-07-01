@@ -8,21 +8,30 @@
 #include "ctl/ctlMenuToolbar.h"
 
 // Designer headers
+#include "dd/ddmodel/ddDatabaseDesign.h"
 #include "dd/draw/figures/ddAbstractFigure.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 #include "dd/draw/figures/ddCompositeFigure.h"
-#include "dd/draw/main/ddDrawingEditor.h"
-#include "dd/draw/tools/ddSelectionTool.h"
-#include "dd/draw/tools/ddDragCreationTool.h"
+//#include "dd/draw/main/ddDrawingEditor.h"
+//#include "dd/draw/tools/ddSelectionTool.h"
+//#include "dd/draw/tools/ddDragCreationTool.h"
 #include "dd/draw/tools/ddConnectionCreationTool.h"
-#include "dd/draw/figures/ddLineConnection.h"
+//#include "dd/draw/figures/ddLineConnection.h"
+#include "dd/dditems/figures/ddColumnFigure.h"
+//#include "dd/dditems/utilities/ddDataType.h"
+
 
 // Icons
 #include "images/sql-32.xpm"
 #include "images/file_new.xpm"
 #include "images/help.xpm"
 
+//*******************   Start of special debug header to find memory leaks
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+//*******************   End of special debug header to find memory leaks
 
 /* TODO-DD Fix this and bug when you run this form and close pgAdmin
 BEGIN_EVENT_TABLE(frmDatabaseDesigner, pgFrame)
@@ -79,12 +88,12 @@ END_EVENT_TABLE()
 	wxPanel *pnlQuery = new wxPanel(ddMainContainer);
 	wxPanel *pnlQuery2 = new wxPanel(notebook);
 
-	editor = NULL;
-	editor = new ddDrawingEditor(ddMainContainer);
-	tool = new ddSelectionTool(editor);
-	editor->setTool(tool);
+	design = NULL;
+	design = new ddDatabaseDesign(ddMainContainer);
+//	tool = new ddSelectionTool(editor);
+//	editor->setTool(tool);
 
-	ddMainContainer->SplitVertically(pnlQuery,editor->view());
+	ddMainContainer->SplitVertically(pnlQuery,design->getView());
     ddMainContainer->UpdateSize();
     ddMainContainer->SetSashPosition(50,true);
     ddMainContainer->SetMinimumPaneSize(10);
@@ -111,20 +120,20 @@ END_EVENT_TABLE()
 	f->displayBox().width=100;
 	f->displayBox().height=100;
 	//f->setSelected(false);
-	editor->view()->add(f);
+	design->addTable(f);
 
 	f2=new ddAbstractFigure();
 	f2->displayBox().SetPosition(wxPoint(150,150));
 	f2->displayBox().width=130;
 	f2->displayBox().height=130;
 	//f2->setSelected(true);
-	editor->view()->add(f2);
+	design->addTable(f2);
 
 	f3=new ddAbstractFigure();
 	f3->displayBox().SetPosition(wxPoint(290,290));
 	f3->displayBox().width=130;
 	f3->displayBox().height=130;
-	editor->view()->add(f3);
+	design->addTable(f3);
 	
 
 //ddPolyLineFigure *f3 = new ddPolyLineFigure();
@@ -148,13 +157,14 @@ END_EVENT_TABLE()
 ddLineConnection *f4 = new ddLineConnection();
 f4->setStartTerminal(new ddLineTerminal());
 f4->setEndTerminal(new ddLineTerminal());
-editor->setTool(new ddConnectionCreationTool(editor,f4));
+design->setTool(new ddConnectionCreationTool(design->getEditor(),f4));
 	//SetIcon(wxIcon(sql_32_xpm));
 
-ddSimpleTextFigure *f5 = new ddSimpleTextFigure(wxT("Texto Solito"));
+
+ddColumnFigure *f5 = new ddColumnFigure(wxString(wxT("Texto Solito")),dt_boolean);
 f5->displayBox().SetPosition(wxPoint(60,60));
 f5->setEditable(true);
-editor->view()->add(f5);
+design->addTable(f5);
 
 
 //Composite Figure (3) figures inside
@@ -172,7 +182,7 @@ ddCompositeFigure *f6 = new ddCompositeFigure();
 f6->add(f63);
 f6->add(f62);
 f6->add(f61);
-editor->view()->add(f6);
+design->addTable(f6);
 /*
 end test data
 */
@@ -184,8 +194,9 @@ end test data
 	// Uninitialize wxAUIManager
 	manager.UnInit();
 	
-	if(editor)
-		delete editor;
+	if(design)
+		delete design;
+		
 	if (mainForm)
 		mainForm->RemoveFrame(this);
  }

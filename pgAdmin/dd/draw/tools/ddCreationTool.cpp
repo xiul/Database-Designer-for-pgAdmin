@@ -38,12 +38,16 @@ ddCreationTool::~ddCreationTool(){
 
 void ddCreationTool::mouseDown(ddMouseEvent& event){
 	ddAbstractTool::mouseDown(event);
-	getDrawingEditor()->view()->getDrawing()->add(figurePrototype);
-	int x=event.GetPosition().x, y=event.GetPosition().y;
-	figurePrototype->moveTo(x,y);
-	getDrawingEditor()->view()->clearSelection();
-	getDrawingEditor()->view()->addToSelection(figurePrototype);
+	if(event.LeftDown())
+	{
+		getDrawingEditor()->view()->getDrawing()->add(figurePrototype);
+		int x=event.GetPosition().x, y=event.GetPosition().y;
+		figurePrototype->moveTo(x,y);
+		getDrawingEditor()->view()->clearSelection();
+		getDrawingEditor()->view()->addToSelection(figurePrototype);
+	}
 }
+
 
 void ddCreationTool::mouseUp(ddMouseEvent& event){
 	ddAbstractTool::mouseUp(event);

@@ -57,8 +57,12 @@ public:
 	void simpleTextToolChangeHandler(wxCommandEvent& event);
 	void setSimpleTextToolFigure(ddSimpleTextFigure *figure);
 	wxTextCtrl* getSimpleTextToolEdit();
-
 	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+
+	//Hack to allow use (events) of wxmenu inside a tool like simpletexttool
+	void OnTextPopupClick(wxCommandEvent& event);
+	void setTextPopUpList(wxArrayString &strings, wxMenu &mnu);
+	//End Hack to allow use (events) of wxmenu inside a tool like simpletexttool
 
 
 	/*
@@ -84,10 +88,9 @@ private:
 	bool drawSelRect;
 	//End Hack to avoid selection rectangle drawing bug
 
-	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event && POPUP EVENT
 	wxTextCtrl *simpleTextToolEdit;
 	ddSimpleTextFigure *simpleTextFigure;
-	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
-
+	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event && POPUP EVENT
 };
 #endif

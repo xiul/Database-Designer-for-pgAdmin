@@ -58,15 +58,22 @@ void ddSelectionTool::mouseDown(ddMouseEvent& event){
 	}
 	else
 	{
-		ddIFigure *figure = view->getDrawing()->findFigure(x,y);
-		if(figure)
+//		if(event.LeftDown())
+//		{
+			ddIFigure *figure = view->getDrawing()->findFigure(x,y);
+			if(figure)
+			{
+				setDelegateTool(figure->CreateFigureTool(getDrawingEditor(),new ddDragTrackerTool(getDrawingEditor(),figure)));
+			}
+			else
+			{
+				setDelegateTool(new ddSelectAreaTool(getDrawingEditor()));
+			}
+//		}
+/*		else
 		{
-			setDelegateTool(figure->CreateFigureTool(getDrawingEditor(),new ddDragTrackerTool(getDrawingEditor(),figure)));
-		}
-		else
-		{
-			setDelegateTool(new ddSelectAreaTool(getDrawingEditor()));
-		}
+			setDelegateTool(NULL);
+		}*/
 	}
 
 	ddITool *delegateTool = getDelegateTool();

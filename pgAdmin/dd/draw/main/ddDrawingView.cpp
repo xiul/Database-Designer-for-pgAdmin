@@ -34,6 +34,7 @@
 BEGIN_EVENT_TABLE(ddDrawingView, wxScrolledWindow)
 EVT_PAINT(ddDrawingView::onPaint)
 EVT_MOTION(ddDrawingView::onMotion)
+EVT_RIGHT_DOWN(ddDrawingView::onMouseDown)
 EVT_LEFT_DOWN(ddDrawingView::onMouseDown)
 EVT_LEFT_DCLICK(ddDrawingView::onMouseDown)
 EVT_LEFT_UP(ddDrawingView::onMouseUp)
@@ -98,9 +99,10 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 	//Hack to avoid selection rectangle drawing bug
 	drawSelRect = false;
 	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
-	simpleTextToolEdit = new wxTextCtrl(this,1979,wxT(""));
+	simpleTextToolEdit = new wxTextCtrl(this,1979,wxT(""),wxDefaultPosition,wxDefaultSize,wxBORDER_NONE);
 	simpleTextToolEdit->Hide();
 	simpleTextFigure = NULL;
+	//popTextUpItems=NULL;
 }
 
 ddDrawingView::~ddDrawingView()
@@ -112,6 +114,10 @@ ddDrawingView::~ddDrawingView()
 	}
 	if(simpleTextToolEdit)
 		delete simpleTextToolEdit;
+
+/*	if(popTextUpItems)
+		delete popTextUpItems;
+		*/
 }
 
 void ddDrawingView::onPaint(wxPaintEvent& event)
@@ -306,6 +312,10 @@ void ddDrawingView::onMotion(wxMouseEvent& event)
 void ddDrawingView::onMouseDown(wxMouseEvent& event)
 {
 	ddMouseEvent ddEvent = ddMouseEvent(event,this);
+bool ne=false;
+	if(event.LeftDClick())
+		ne=true;
+
 	drawingEditor->tool()->mouseDown(ddEvent);
 	this->Refresh();
 }
@@ -337,8 +347,8 @@ void ddDrawingView::simpleTextToolChangeHandler(wxCommandEvent& event)
 		int width, height;
 		wxWindowDC dc(this);
 		dc.SetFont(GetFont());
-		if(simpleTextFigure->getText().length()>5)
-			dc.GetTextExtent(simpleTextFigure->getText(),&width,&height);
+		if(simpleTextFigure->getText(true).length()>5)
+			dc.GetTextExtent(simpleTextFigure->getText(true),&width,&height);
 		else
 			dc.GetTextExtent(wxT("EMPTY"),&width,&height);
 		//recalculateDisplayBox
@@ -363,6 +373,29 @@ wxTextCtrl* ddDrawingView::getSimpleTextToolEdit()
 {
 	return simpleTextToolEdit;
 }
+
+
+//Hack to allow use (events) of wxmenu inside a tool like simpletexttool
+void ddDrawingView::OnTextPopupClick(wxCommandEvent& event)
+{
+	if(simpleTextFigure)
+		simpleTextFigure->OnTextPopupClick(event);
+	event.Skip();
+}
+
+//Hack to allow use (events) of wxmenu inside a tool like simpletexttool
+void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
+{
+	//DD-TODO: choose a better id for event
+	mnu.Disconnect(wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)(wxEventFunction) (wxCommandEventFunction) &ddDrawingView::OnTextPopupClick,NULL,this);
+	int sz = strings.size();  //to avoid warning
+	for(int i=0 ; i < sz ; i++){
+		wxMenuItem *item = mnu.Append(i, strings[i]);
+		}
+// Faltan Eventos
+	mnu.Connect(wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)(wxEventFunction) (wxCommandEventFunction) &ddDrawingView::OnTextPopupClick,NULL,this);
+}
+
 
 
 /*void ddDrawingView::OnKeyDown(wxKeyEvent& event)
