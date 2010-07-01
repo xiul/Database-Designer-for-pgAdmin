@@ -334,6 +334,7 @@ void ddDrawingView::setSimpleTextToolFigure(ddSimpleTextFigure *figure)
 	if(simpleTextFigure)
 	{
 		simpleTextToolEdit->SetValue(simpleTextFigure->getText());
+		simpleTextToolEdit->SelectAll();
 	}
 }
 

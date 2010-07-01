@@ -88,12 +88,16 @@ void ddColumnFigure::OnTextPopupClick(wxCommandEvent& event)
 //must match enum ddDataType!!!
 wxArrayString& ddColumnFigure::popupStrings()
 {
-	strings.Clear();
-	strings.Add(wxT("BIGINT"));
-	strings.Add(wxT("BOOLEAN"));
-	strings.Add(wxT("INTEGER"));
-	strings.Add(wxT("MONEY"));
-	strings.Add(wxT("VARCHAR("));
+	//fill popup strings only first time
+	if(strings.Count()<=0){
+		strings.Clear();
+		strings.Add(wxT("BIGINT"));
+		strings.Add(wxT("BOOLEAN"));
+		strings.Add(wxT("BOOL"));
+		strings.Add(wxT("INTEGER"));
+		strings.Add(wxT("MONEY"));
+		strings.Add(wxT("VARCHAR("));
+	}
 	return strings;
 };
 

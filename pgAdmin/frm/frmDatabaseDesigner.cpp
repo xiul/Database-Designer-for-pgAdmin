@@ -168,24 +168,28 @@ design->addTable(f5);
 
 
 //Composite Figure (3) figures inside
-ddSimpleTextFigure *f61 = new ddSimpleTextFigure(wxT("preuba111"));
+//ddSimpleTextFigure *f61 = new ddSimpleTextFigure(wxT("preuba111"));
+ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("preuba111")),dt_varchar_n);
 f61->displayBox().SetPosition(wxPoint(260,270));
 f61->setEditable(true);
-ddSimpleTextFigure *f62 = new ddSimpleTextFigure(wxT("preuba222"));
+
+//ddSimpleTextFigure *f62 = new ddSimpleTextFigure(wxT("preuba222"));
+ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("preuba222")), dt_money);
 f62->displayBox().SetPosition(wxPoint(260,290));
 f62->setEditable(true);
+
 ddAbstractFigure *f63=new ddAbstractFigure();
 f63->displayBox().SetPosition(wxPoint(250,250));
 f63->displayBox().width=130;
 f63->displayBox().height=130;
+
+
+
 ddCompositeFigure *f6 = new ddCompositeFigure();
 f6->add(f63);
 f6->add(f62);
 f6->add(f61);
 design->addTable(f6);
-/*
-end test data
-*/
 }
 
  frmDatabaseDesigner::~frmDatabaseDesigner(){
