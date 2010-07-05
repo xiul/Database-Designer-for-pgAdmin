@@ -223,7 +223,7 @@ void ddLineConnection::connectFigure (ddIConnector *connector)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
 		//connector->getOwner()->onFigureChanged((ddIFigure*)this);
 		connector->getOwner()->addObserver(this);
-		connector->getOwner()->addDependentFigure((ddIFigure*)this);
+		//connector->getOwner()->addDependentFigure((ddIFigure*)this);
 	}
 }
 
@@ -234,7 +234,7 @@ void ddLineConnection::disconnectFigure (ddIConnector *connector)
 		//DD-TODO: HIGH-PRIORITY-FINISH-THIS observer pattern
 		//connector->getOwner()->onFigureChanged(this);
 		connector->getOwner()->removeObserver(this);
-		connector->getOwner()->removeDependentFigure(this);
+		//connector->getOwner()->removeDependentFigure(this);
 	}
 }
 

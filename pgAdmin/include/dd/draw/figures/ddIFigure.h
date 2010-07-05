@@ -34,8 +34,8 @@ public:
 	virtual void draw (wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected (wxBufferedDC& context, ddDrawingView *view);
 	virtual ddCollection* handlesEnumerator();
-	virtual void addDependentFigure (ddIFigure *figure);
-	virtual void removeDependentFigure (ddIFigure *figure);
+//	virtual void addDependentFigure (ddIFigure *figure);
+//	virtual void removeDependentFigure (ddIFigure *figure);
 	virtual void addHandle (ddIHandle *handle);
 	virtual void removeHandle (ddIHandle *handle);
 	ddIConnector* connectorAt (int x, int y);
@@ -56,7 +56,7 @@ protected:
 	ddRect basicDisplayBox;
 	ddCollection *figures;
 	ddCollection *handles;
-	ddCollection *dependentFigures;
+//	ddCollection *dependentFigures;
 	ddCollection *observers;
 private:
 	bool selected;

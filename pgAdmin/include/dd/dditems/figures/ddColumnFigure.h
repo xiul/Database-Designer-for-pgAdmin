@@ -18,6 +18,8 @@
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 #include "dd/dditems/utilities/ddDataType.h"
 
+class ddTableFigure;
+
 class ddColumnFigure : public ddSimpleTextFigure
 {
 public:
@@ -26,8 +28,12 @@ public:
 	virtual wxString& getText(bool extended = false);
 	virtual wxArrayString& popupStrings();
 	virtual void OnTextPopupClick(wxCommandEvent& event);
-protected:
+	virtual void setText(wxString textString);
+	virtual ddTableFigure* getOwnerTable();
+	virtual void setOwnerTable(ddTableFigure *table);
 
+protected:
+	ddTableFigure *ownerTable;
 private:
 	ddDataType columnType;
 	wxString out;

@@ -3650,6 +3650,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\figures\ddRectangleFigure.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\figures\ddSimpleTextFigure.h"
 							>
 						</File>
@@ -3827,6 +3831,10 @@
 						>
 						<File
 							RelativePath=".\include\dd\dditems\figures\ddColumnFigure.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\figures\ddTableFigure.h"
 							>
 						</File>
 					</Filter>
@@ -5279,6 +5287,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\draw\figures\ddRectangleFigure.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\draw\figures\ddSimpleTextFigure.cpp"
 						>
 					</File>
@@ -5448,6 +5460,10 @@
 					>
 					<File
 						RelativePath=".\dd\dditems\figures\ddColumnFigure.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\figures\ddTableFigure.cpp"
 						>
 					</File>
 				</Filter>

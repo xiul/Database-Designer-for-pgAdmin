@@ -31,13 +31,12 @@
 
 ddSimpleTextFigure::ddSimpleTextFigure(wxString textString)
 {
-	text = textString;
 	textEditable = false;
 	font = settings->GetSystemFont();
 	textForeground = *wxBLACK;
-	textBackground = wxBrush (wxColour(245, 245, 245),wxSOLID);
-	refreshDisplayBox = true;
+	textBackground = *wxTRANSPARENT_BRUSH;
 	padding = 2;
+	setText(textString);
 	showMenu = false;
 }
 
@@ -48,8 +47,7 @@ ddSimpleTextFigure::~ddSimpleTextFigure()
 void ddSimpleTextFigure::setText(wxString textString)
 {
 	text = textString;
-	refreshDisplayBox = true;
-	//DD-TODO: update displaybox size
+	recalculateDisplayBox();
 }
 
 //extended is flag that inform about returning an extended version of text stored at figure
@@ -61,58 +59,53 @@ wxString& ddSimpleTextFigure::getText(bool extended)
 void ddSimpleTextFigure::setFont(wxFont textFont)
 {
 	font = textFont;
-	refreshDisplayBox = true;
+	recalculateDisplayBox();
 }
 
 void ddSimpleTextFigure::setForeground(wxColour colour)
 {
 	textForeground = colour;
-	refreshDisplayBox = true;
 }
 
 void ddSimpleTextFigure::setBackground(wxBrush background)
 {
 	textBackground = background;
-	refreshDisplayBox = true;
 }
 
-void ddSimpleTextFigure::getFontMetrics(int &width, int &height, wxBufferedDC& context)
+void ddSimpleTextFigure::getFontMetrics(int &width, int &height)
 {
-	context.SetFont(font);
+	wxMemoryDC temp_dc;
+	temp_dc.SetFont(font);
+	temp_dc.SetTextForeground(textForeground);
+	temp_dc.SetBrush(textBackground);
 	if(getText(true).length()>5)
-		context.GetTextExtent(getText(true),&width,&height);
+		temp_dc.GetTextExtent(getText(true),&width,&height);
 	else
-		context.GetTextExtent(wxT("EMPTY"),&width,&height);
-	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
+		temp_dc.GetTextExtent(wxT("EMPTY"),&width,&height);
 }
 
-
-
-void ddSimpleTextFigure::recalculateDisplayBox(wxBufferedDC& context)
+void ddSimpleTextFigure::recalculateDisplayBox()
 {
 	int w,h;
 	
-	getFontMetrics(w,h,context);
+	getFontMetrics(w,h);
 
 	ddGeometry g;
 	displayBox().width = g.max(w,10)+padding;
-	displayBox().height= g.max(h,10)+padding;
-	refreshDisplayBox = false;
-	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
+	displayBox().height = g.max(h,10)+padding;
 }
 
 void ddSimpleTextFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
 {
-	if(refreshDisplayBox)
-		recalculateDisplayBox(context);
-	
 	ddRect copy = displayBox();
 	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-
 	setupLayout(context);
-
-	context.DrawRectangle(copy); 
 	context.DrawText(getText(true),copy.GetPosition());
+}
+
+void ddSimpleTextFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view)
+{
+	basicDraw(context,view);
 }
 
 void ddSimpleTextFigure::setupLayout(wxBufferedDC& context)

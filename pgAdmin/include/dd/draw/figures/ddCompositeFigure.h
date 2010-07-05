@@ -41,40 +41,8 @@ public:
 	virtual void sendToBack(ddIFigure *figure);
 	virtual void sendToFront(ddIFigure *figure);
 protected:
-
-private:
 	ddCollection *figureFigures;
-	ddCollection *figureHandles;
-
-/*	virtual bool canConnect ();
-	virtual void draw(wxBufferedDC& context);
-	virtual void basicDrawSelected(wxBufferedDC& context);
-	virtual bool includes(ddIFigure *figure);
-	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
-	virtual void moveBy(int x, int y);
-	
-	virtual void moveTo(int x, int y);
-	
-	virtual void onFigureChanged(ddIFigure *figure);
-
-//DD-TODO: public virtual IConnector ConnectorAt (double x, double y)
-//DD-TODO: public void Visit (IFigureVisitor visitor) 
-//DD-TODO: public event EventHandler <FigureEventArgs> FigureInvalidated;
-//DD-TODO: public event EventHandler <FigureEventArgs> FigureChanged;
-
-protected:
-		virtual void basicDraw(wxBufferedDC& context);
-		virtual void drawSelected(wxBufferedDC& context);
-		void willChange();
-		void changed();
-		void invalidate();
-		//DD-TODO: OnFigureChanged event implement
-
-
-		wxColour fillColor, lineColor;
-		double lineWidth;
-
 private:
-*/
+	ddCollection *figureHandles;
 };
 #endif

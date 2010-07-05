@@ -49,7 +49,7 @@ The syntax is comparable to CREATE TABLE, except that only field names and types
 Having defined the types, we can use them to create tables:
 
 CREATE TABLE on_hand (
-    item      inventory_item,
+    item      inventory_item
     count     integer
 );
 

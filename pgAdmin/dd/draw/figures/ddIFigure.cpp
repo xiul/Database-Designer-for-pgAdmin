@@ -36,10 +36,11 @@
 ddIFigure::ddIFigure(){
 	figures=new ddCollection(new ddArrayCollection());
 	handles=new ddCollection(new ddArrayCollection());
-	dependentFigures=new ddCollection(new ddArrayCollection());
+//	dependentFigures=new ddCollection(new ddArrayCollection());
 	observers=new ddCollection(new ddArrayCollection());
 	selected=false;
 	connector=NULL;
+	basicDisplayBox.SetSize(wxSize(0,0));
 	//DD-TODO: this should be initialize here
 }
 
@@ -50,11 +51,11 @@ ddIFigure::~ddIFigure(){
 		delete figures;
 	if(handles)
 		delete handles;
-	if(dependentFigures)
+/*	if(dependentFigures)
 	{
 		dependentFigures->removeAll();
 		delete dependentFigures;
-	}
+	}*/
 	if(observers){
 		observers->removeAll();
 		delete observers;
@@ -85,7 +86,7 @@ ddCollection* ddIFigure::handlesEnumerator(){
 }
 
 
-void ddIFigure::addDependentFigure (ddIFigure *figure){
+/*void ddIFigure::addDependentFigure (ddIFigure *figure){
 	if(!dependentFigures){
 		dependentFigures = new ddCollection(new ddArrayCollection());
 	}
@@ -97,7 +98,7 @@ void ddIFigure::removeDependentFigure (ddIFigure *figure){
 	if(dependentFigures){
 		dependentFigures->removeItem(figure);		
 	}
-}
+}*/
 
 void ddIFigure::addHandle (ddIHandle *handle){
 	if(!handles){

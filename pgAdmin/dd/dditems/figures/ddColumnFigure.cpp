@@ -22,7 +22,7 @@
 #include "dd/dditems/utilities/ddDataType.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 #include "dd/draw/main/ddDrawingView.h"
-
+#include "dd/dditems/figures/ddTableFigure.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -30,11 +30,17 @@
 #endif
 //*******************   End of special debug header to find memory leaks
 
+//DD-TODO: Add composite column functionality by addin subcolumn for
+//         composite types, but care: composite types can be recursive (using inside other composite types)
+
 ddColumnFigure::ddColumnFigure(wxString& columnName, ddDataType dataType):
 ddSimpleTextFigure(columnName)
 {
 	columnType = dataType;
+	this->setEditable(true);
 	enablePopUp();
+	ownerTable = NULL;
+	recalculateDisplayBox();
 }
 
 
@@ -101,130 +107,22 @@ wxArrayString& ddColumnFigure::popupStrings()
 	return strings;
 };
 
-/*
-ddITool* ddColumnFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+//DD-TODO: when a event onfigurechange exists, replace this hack with that event
+//Hack to allow column text to submit new size of text signal to tablefigure and then recalculate displaybox
+void ddColumnFigure::setText(wxString textString)
 {
-	return textEditable ? new ddSimpleTextTool(editor,this,defaultTool) : defaultTool;
-}
-*/
+	ddSimpleTextFigure::setText(textString);
+	if(ownerTable)
+		ownerTable->updateTableSize();
 
-/*
-void ddColumnFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
-{
-	if(refreshDisplayBox)
-		recalculateDisplayBox(context);
-	
-	ddRect copy = displayBox();
-	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-
-	setupLayout(context);
-
-	context.DrawRectangle(copy); 
-	context.DrawText(getText(true),copy.GetPosition());
 }
 
-/*
-void ddSimpleTextFigure::setText(wxString textString)
+ddTableFigure* ddColumnFigure::getOwnerTable()
 {
-	text = textString;
-	refreshDisplayBox = true;
-	//DD-TODO: update displaybox size
-}
-wxString& ddSimpleTextFigure::getText()
-{
-	return text;
+	return ownerTable;
 }
 
-void ddSimpleTextFigure::setFont(wxFont textFont)
+void ddColumnFigure::setOwnerTable(ddTableFigure *table)
 {
-	font = textFont;
-	refreshDisplayBox = true;
+	ownerTable = table;
 }
-
-void ddSimpleTextFigure::setForeground(wxColour colour)
-{
-	textForeground = colour;
-	refreshDisplayBox = true;
-}
-
-void ddSimpleTextFigure::setBackground(wxBrush background)
-{
-	textBackground = background;
-	refreshDisplayBox = true;
-}
-
-void ddSimpleTextFigure::getFontMetrics(int &width, int &height, wxBufferedDC& context)
-{
-	context.SetFont(font);
-	if(text.length()>5)
-		context.GetTextExtent(text,&width,&height);
-	else
-		context.GetTextExtent(wxT("EMPTY"),&width,&height);
-	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
-}
-
-
-
-void ddSimpleTextFigure::recalculateDisplayBox(wxBufferedDC& context)
-{
-	int w,h;
-	
-	getFontMetrics(w,h,context);
-
-	ddGeometry g;
-	displayBox().width = g.max(w,10)+padding;
-	displayBox().height= g.max(h,10)+padding;
-	refreshDisplayBox = false;
-	//DD-TODO: avoid in a future twin function in DrawingView because tool hack
-}
-
-void ddSimpleTextFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
-{
-	if(refreshDisplayBox)
-		recalculateDisplayBox(context);
-	
-	ddRect copy = displayBox();
-	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-
-	setupLayout(context);
-
-	context.DrawRectangle(copy); 
-	context.DrawText(text,copy.GetPosition());
-}
-
-void ddSimpleTextFigure::setupLayout(wxBufferedDC& context)
-{
-	context.SetFont(font);
-	context.SetTextForeground(textForeground);
-	context.SetBrush(textBackground);
-}
-
-//DD-TODO: Add event onTextChanged
-
-void ddSimpleTextFigure::basicMoveBy(int x, int y)
-{
-	displayBox().x += x;
-	displayBox().y += y;
-}
-
-ddITool* ddSimpleTextFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
-{
-	return textEditable ? new ddSimpleTextTool(editor,this,defaultTool) : defaultTool;
-}
-
-void ddSimpleTextFigure::setEditable(bool value)
-{
-	textEditable = value;
-}
-
-bool ddSimpleTextFigure::getEditable()
-{
-	return textEditable;
-}
-
-int ddSimpleTextFigure::getPadding()
-{
-	return padding;
-}
-
-*/

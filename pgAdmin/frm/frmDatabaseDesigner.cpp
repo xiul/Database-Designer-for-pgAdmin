@@ -8,17 +8,20 @@
 #include "ctl/ctlMenuToolbar.h"
 
 // Designer headers
-#include "dd/ddmodel/ddDatabaseDesign.h"
 #include "dd/draw/figures/ddAbstractFigure.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
-#include "dd/draw/figures/ddCompositeFigure.h"
-//#include "dd/draw/main/ddDrawingEditor.h"
-//#include "dd/draw/tools/ddSelectionTool.h"
-//#include "dd/draw/tools/ddDragCreationTool.h"
+//#include "dd/draw/figures/ddCompositeFigure.h"
+#include "dd/dditems/figures/ddTableFigure.h"
+#include "dd/draw/figures/ddRectangleFigure.h"
 #include "dd/draw/tools/ddConnectionCreationTool.h"
-//#include "dd/draw/figures/ddLineConnection.h"
+
+#include "dd/ddmodel/ddDatabaseDesign.h"
+
 #include "dd/dditems/figures/ddColumnFigure.h"
+#include "dd/dditems/figures/ddTableFigure.h"
+
+
 //#include "dd/dditems/utilities/ddDataType.h"
 
 
@@ -160,12 +163,12 @@ f4->setEndTerminal(new ddLineTerminal());
 design->setTool(new ddConnectionCreationTool(design->getEditor(),f4));
 	//SetIcon(wxIcon(sql_32_xpm));
 
-
-ddColumnFigure *f5 = new ddColumnFigure(wxString(wxT("Texto Solito")),dt_boolean);
+/*
+ddSimpleTextFigure *f5 = new ddSimpleTextFigure(wxString(wxT("Texto Solito")));
 f5->displayBox().SetPosition(wxPoint(60,60));
 f5->setEditable(true);
 design->addTable(f5);
-
+*/
 
 //Composite Figure (3) figures inside
 //ddSimpleTextFigure *f61 = new ddSimpleTextFigure(wxT("preuba111"));
@@ -178,17 +181,18 @@ ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("preuba222")), dt_money);
 f62->displayBox().SetPosition(wxPoint(260,290));
 f62->setEditable(true);
 
-ddAbstractFigure *f63=new ddAbstractFigure();
-f63->displayBox().SetPosition(wxPoint(250,250));
+/*ddAbstractFigure *f63=new ddRectangleFigure();
+f63->displayBox().SetPosition(wxPoint(100,450));
 f63->displayBox().width=130;
 f63->displayBox().height=130;
+design->addTable(f63);
+*/
 
+ddTableFigure *f6 = new ddTableFigure(225,225);
+//f6->addColumn(f63);
 
-
-ddCompositeFigure *f6 = new ddCompositeFigure();
-f6->add(f63);
-f6->add(f62);
-f6->add(f61);
+f6->addColumn(f62);
+f6->addColumn(f61);
 design->addTable(f6);
 }
 
