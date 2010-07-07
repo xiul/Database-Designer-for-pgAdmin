@@ -15,11 +15,10 @@
 
 // wxWindows headers
 #include <wx/wx.h>
-#include <wx/dcbuffer.h>
 
 // App headers
-#include "dd/draw/figures/ddRectangleFigure.h"
-#include "dd/draw/main/ddDrawingView.h"
+#include "dd/dditems/locators/ddAddColLocator.h"
+#include "dd/dditems/figures/ddTableFigure.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -28,35 +27,32 @@
 //*******************   End of special debug header to find memory leaks
 
 
-
-ddRectangleFigure::ddRectangleFigure(){
-	
-}
-
-ddRectangleFigure::~ddRectangleFigure(){
-
-}
-
-void ddRectangleFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
+ddAddColLocator::ddAddColLocator()
 {
-	ddRect copy = displayBox();
-	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-	context.DrawRectangle(copy);
 }
 
-void ddRectangleFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view)
+ddAddColLocator::~ddAddColLocator()
 {
-	ddRect copy = displayBox();
-	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-	context.DrawRectangle(copy);
 }
 
-void ddRectangleFigure::setRectangle(ddRect& rect)
+ddPoint* ddAddColLocator::locate(ddIFigure *owner)
 {
-	basicDisplayBox=rect;
+	if(owner)
+	{
+		ddTableFigure *table = (ddTableFigure*) owner;
+		int x = table->displayBox().x + table->displayBox().width - 30; //(8+2+8+2+8+2)
+		int y = table->displayBox().y + 6;
+		return new ddPoint(x,y);
+	}
+	return new ddPoint(0,0);
 }
 
-void ddRectangleFigure::setSize(wxSize& size)
-{
-	basicDisplayBox.SetSize(size);
-}
+/*
+			if (owner != null) {
+				TableFigure ownerTable = (TableFigure)owner;
+				return new PointD ((ownerTable.DisplayBox.X + ownerTable.DisplayBox.Width - 27),
+				(ownerTable.DisplayBox.Y + 6));
+			}
+			return new PointD (0, 0);
+
+*/

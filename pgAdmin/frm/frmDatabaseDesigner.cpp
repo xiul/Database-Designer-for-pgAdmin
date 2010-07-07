@@ -8,7 +8,7 @@
 #include "ctl/ctlMenuToolbar.h"
 
 // Designer headers
-#include "dd/draw/figures/ddAbstractFigure.h"
+//#include "dd/draw/figures/ddAbstractFigure.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 //#include "dd/draw/figures/ddCompositeFigure.h"
@@ -118,21 +118,21 @@ END_EVENT_TABLE()
 
 
 
-	f=new ddAbstractFigure();
+	f=new ddRectangleFigure();
 	f->displayBox().SetPosition(wxPoint(5,5));
 	f->displayBox().width=100;
 	f->displayBox().height=100;
 	//f->setSelected(false);
 	design->addTable(f);
 
-	f2=new ddAbstractFigure();
+	f2=new ddRectangleFigure();
 	f2->displayBox().SetPosition(wxPoint(150,150));
 	f2->displayBox().width=130;
 	f2->displayBox().height=130;
 	//f2->setSelected(true);
 	design->addTable(f2);
 
-	f3=new ddAbstractFigure();
+	f3=new ddRectangleFigure();
 	f3->displayBox().SetPosition(wxPoint(290,290));
 	f3->displayBox().width=130;
 	f3->displayBox().height=130;

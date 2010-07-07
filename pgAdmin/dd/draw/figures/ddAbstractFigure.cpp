@@ -48,6 +48,7 @@ bool ddAbstractFigure::includes(ddIFigure *figure){
 }
 
 void ddAbstractFigure::draw(wxBufferedDC& context, ddDrawingView *view){
+	ddIFigure::draw(context,view);
 	basicDraw(context,view);
 }
 
@@ -61,7 +62,8 @@ void ddAbstractFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
 }
 
 void ddAbstractFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view){
-		basicDrawSelected(context,view);
+	ddIFigure::drawSelected(context,view);	
+	basicDrawSelected(context,view);
 }
 
 void ddAbstractFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view){

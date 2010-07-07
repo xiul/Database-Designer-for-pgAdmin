@@ -9,31 +9,33 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDSIMPLETEXTTOOL_H
-#define DDSIMPLETEXTTOOL_H
+#ifndef DDCOLUMNTEXTTOOL_H
+#define DDCOLUMNTEXTTOOL_H
 
-#include "dd/draw/tools/ddFigureTool.h"
-#include "dd/draw/figures/ddSimpleTextFigure.h"
+#include "dd/draw/tools/ddSimpleTextTool.h"
+#include "dd/dditems/figures/ddColumnFigure.h"
 
 
-class ddSimpleTextTool : public ddFigureTool
+class ddColumnTextTool : public ddSimpleTextTool
 {
 
 public:
-	ddSimpleTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
-    ~ddSimpleTextTool();
+	ddColumnTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt);
+    ~ddColumnTextTool();
 	virtual void mouseDown(ddMouseEvent& event);  //Mouse Right Click
-	virtual void activate();
-	virtual void deactivate();
-	virtual void mouseDrag(ddMouseEvent& event);
-	virtual void OnTextPopupClick(wxCommandEvent& event);
+//	virtual void activate();
+//	virtual void deactivate();
+//	virtual void mouseDrag(ddMouseEvent& event);
+//	virtual void OnTextPopupClick(wxCommandEvent& event);
 	//Because a bug it was move to main View class as a hack. virtual void changeHandler(wxCommandEvent& event);
 protected:
 private:
-	ddSimpleTextFigure *txtFigure;
-	void calculateSizeEntry();
+	ddColumnFigure *colFigure;
+/*	void calculateSizeEntry();
 	bool showEdit;
+	ddSimpleTextFigure *txtFigure;
 	wxTextCtrl *edit;
 	//Because a bug in the way wxwidgets connect events I can't declare it here, wxTextCtrl *edit, instead I do it on the view.
+*/
 };
 #endif

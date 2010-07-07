@@ -27,14 +27,17 @@ public:
 	void removeColumn(ddColumnFigure *column);
 	void updateTableSize();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
+	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
 	void resetPosition(ddColumnFigure *column);
-
+	bool deleteColumnActivated();
+	void toggleColumnDeleteMode();
 protected:
 
 private:
 	ddRectangleFigure *rectangleFigure;
-	ddSimpleTextFigure *tableTitle;
+	ddColumnFigure *tableTitle;
 	bool firstTime;
+	bool deleteColumnMode;
 	int internalPadding, externalPadding;
 
 };

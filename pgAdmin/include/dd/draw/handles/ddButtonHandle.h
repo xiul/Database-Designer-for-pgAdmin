@@ -9,40 +9,35 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef DDIHANDLE_H
-#define DDIHANDLE_H
+#ifndef DDBUTTONHANDLE_H
+#define DDBUTTONHANDLE_H
 
-#include "dd/draw/main/ddObject.h"
+#include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/handles/ddLocatorHandle.h"
 #include "dd/draw/utilities/ddRect.h"
 #include "dd/draw/utilities/ddPoint.h"
 
-class ddDrawingView;  //Hack-Fix to avoid circular reference
-class ddIFigure;
+//class ddDrawingView;  //Hack-Fix to avoid circular reference
+//class ddIFigure;
 
-class ddIHandle : public ddObject
+class ddButtonHandle : public ddIHandle
 {
 public:
-	ddIHandle(ddIFigure *owner);
-    ~ddIHandle();
-	
-	static const int size = 4;
+	ddButtonHandle(ddIFigure *owner, ddILocator *buttonLocator ,wxBitmap &buttonImage, wxSize &size);
+    ~ddButtonHandle();
 
-	virtual bool containsPoint(int x, int y);
-	virtual void draw(wxBufferedDC& context, ddDrawingView *view)=0;
-	virtual ddPoint* locate()=0;
+	virtual wxCursor& createCursor();
+	virtual ddRect& getDisplayBox();
+	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
+	virtual ddPoint* locate();
 	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
-	virtual wxCursor& createCursor()=0;
-	virtual ddRect& getDisplayBox();
 protected:
-	virtual ddIFigure* getOwner();
-	ddRect displayBox;
+
 private:
-	ddIFigure *figureOwner;
-	double lineWidth;
-	//DD-TODO: Add	fillColor and addColor
-
-
+	bool clicked;
+	ddILocator *bLocator;
+	wxBitmap buttonIcon;
 };
 #endif

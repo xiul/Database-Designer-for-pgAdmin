@@ -3662,6 +3662,10 @@
 						Name="handles"
 						>
 						<File
+							RelativePath=".\include\dd\draw\handles\ddButtonHandle.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\handles\ddChangeConnectionEndHandle.h"
 							>
 						</File>
@@ -3843,6 +3847,54 @@
 						>
 						<File
 							RelativePath=".\include\dd\dditems\utilities\ddDataType.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="handles"
+						>
+						<File
+							RelativePath=".\include\dd\dditems\handles\ddAddColButtonHandle.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\handles\ddAddFkButtonHandle.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\handles\ddMoveColButtonHandle.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\handles\ddRemoveColButtonHandle.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="locators"
+						>
+						<File
+							RelativePath=".\include\dd\dditems\locators\ddAddColLocator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\locators\ddAddFkLocator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\locators\ddMoveColLocator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\locators\ddRemoveColLocator.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="tools"
+						>
+						<File
+							RelativePath=".\include\dd\dditems\tools\ddColumnTextTool.h"
 							>
 						</File>
 					</Filter>
@@ -5355,6 +5407,10 @@
 					Name="handles"
 					>
 					<File
+						RelativePath=".\dd\draw\handles\ddButtonHandle.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\draw\handles\ddChangeConnectionEndHandle.cpp"
 						>
 					</File>
@@ -5470,6 +5526,54 @@
 				<Filter
 					Name="utilities"
 					>
+				</Filter>
+				<Filter
+					Name="handles"
+					>
+					<File
+						RelativePath=".\dd\dditems\handles\ddAddColButtonHandle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\handles\ddAddFkButtonHandle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\handles\ddMoveColButtonHandle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\handles\ddRemoveColButtonHandle.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="locators"
+					>
+					<File
+						RelativePath=".\dd\dditems\locators\ddAddColLocator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\locators\ddAddFkLocator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\locators\ddMoveColLocator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\locators\ddRemoveColLocator.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="tools"
+					>
+					<File
+						RelativePath=".\dd\dditems\tools\ddColumnTextTool.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

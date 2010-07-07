@@ -42,7 +42,8 @@ public:
 	virtual void sendToFront(ddIFigure *figure);
 protected:
 	ddCollection *figureFigures;
-private:
 	ddCollection *figureHandles;
+private:
+	
 };
 #endif

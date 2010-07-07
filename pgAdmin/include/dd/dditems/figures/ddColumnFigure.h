@@ -31,11 +31,13 @@ public:
 	virtual void setText(wxString textString);
 	virtual ddTableFigure* getOwnerTable();
 	virtual void setOwnerTable(ddTableFigure *table);
-
+	virtual void setShowDataType(bool value);
+	ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 protected:
 	ddTableFigure *ownerTable;
 private:
 	ddDataType columnType;
 	wxString out;
+	bool showDataType;
 };
 #endif

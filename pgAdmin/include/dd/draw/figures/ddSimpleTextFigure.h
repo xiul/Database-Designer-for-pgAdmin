@@ -54,8 +54,8 @@ protected:
 	virtual void setupLayout(wxBufferedDC& context);
 	wxArrayString strings;
 	bool showMenu;
-private:
 	bool textEditable;
+private:
 	int padding;
 	wxString text;
 	wxFont font;

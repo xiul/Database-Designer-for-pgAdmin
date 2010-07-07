@@ -42,6 +42,13 @@ ddIFigure::ddIFigure(){
 	connector=NULL;
 	basicDisplayBox.SetSize(wxSize(0,0));
 	//DD-TODO: this should be initialize here
+	
+	//Default color and pen defined
+	defaultPen = wxPen(wxColour(0, 0, 0),1,wxSOLID);
+	defaultBrush = wxBrush (wxColour(255, 255, 255),wxSOLID);
+	defaultSelectedPen = wxPen(wxColour(255, 0, 0),1,wxSOLID);
+	defaultSelectedBrush = wxBrush (wxColour(225, 225, 225),wxSOLID);
+	
 }
 
 ddIFigure::~ddIFigure(){
@@ -76,9 +83,13 @@ bool ddIFigure::containsPoint (int x, int y){
 }
 
 void ddIFigure::draw (wxBufferedDC& context, ddDrawingView *view){
+	context.SetPen(defaultPen);
+	context.SetBrush(defaultBrush);
 }
 
 void ddIFigure::drawSelected (wxBufferedDC& context, ddDrawingView *view){
+	context.SetPen(defaultSelectedPen);
+	context.SetBrush(defaultSelectedBrush);
 }
 
 ddCollection* ddIFigure::handlesEnumerator(){
@@ -175,3 +186,22 @@ void ddIFigure::removeObserver(ddIFigure *observer)
 		//DD-TODO: this delete the figure???? wxwidgets api is very bad documented
 	}
 }
+
+
+void ddIFigure::setDefaultPen(wxPen& pen)
+{
+	defaultPen=pen;
+}
+void ddIFigure::setDefaultSelectedPen(wxPen& pen)
+{
+	defaultSelectedPen=pen;
+}
+void ddIFigure::setDefaultBrush(wxBrush& brush)
+{
+	defaultBrush=brush;
+}
+void ddIFigure::setDefaultSelectedBrush(wxBrush& brush)
+{
+	defaultSelectedBrush=brush;
+}
+

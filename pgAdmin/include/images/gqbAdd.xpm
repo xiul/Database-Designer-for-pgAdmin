@@ -1,5 +1,5 @@
 /* XPM */
-const char * gqbAdd_xpm[] = {
+static const char * gqbAdd_xpm[] = {
 "19 15 2 1",
 " 	c None",
 ".	c #4A5CE3",

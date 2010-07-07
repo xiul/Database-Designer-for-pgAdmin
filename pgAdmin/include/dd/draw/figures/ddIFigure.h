@@ -58,8 +58,14 @@ protected:
 	ddCollection *handles;
 //	ddCollection *dependentFigures;
 	ddCollection *observers;
+	void setDefaultPen(wxPen& pen);
+	void setDefaultSelectedPen(wxPen& pen);
+	void setDefaultBrush(wxBrush& brush);
+	void setDefaultSelectedBrush(wxBrush& brush);
 private:
 	bool selected;
 	ddIConnector *connector;
+	wxPen defaultPen, defaultSelectedPen;
+	wxBrush defaultBrush, defaultSelectedBrush;
 };
 #endif

@@ -19,6 +19,7 @@
 
 // App headers
 #include "dd/dditems/figures/ddColumnFigure.h"
+#include "dd/dditems/tools/ddColumnTextTool.h"
 #include "dd/dditems/utilities/ddDataType.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 #include "dd/draw/main/ddDrawingView.h"
@@ -40,10 +41,9 @@ ddSimpleTextFigure(columnName)
 	this->setEditable(true);
 	enablePopUp();
 	ownerTable = NULL;
+	showDataType = true;
 	recalculateDisplayBox();
 }
-
-
 
 ddColumnFigure::~ddColumnFigure()
 {
@@ -52,7 +52,7 @@ ddColumnFigure::~ddColumnFigure()
 
 wxString& ddColumnFigure::getText(bool extended)
 {
-	if(extended)
+	if(showDataType && extended)
 	{
 		wxString ddType = popupStrings()[columnType];
 		out = wxString( ddSimpleTextFigure::getText() + wxString(wxT(" : ")) + ddType );
@@ -125,4 +125,14 @@ ddTableFigure* ddColumnFigure::getOwnerTable()
 void ddColumnFigure::setOwnerTable(ddTableFigure *table)
 {
 	ownerTable = table;
+}
+
+void ddColumnFigure::setShowDataType(bool value)
+{
+	showDataType = value;
+}
+
+ddITool* ddColumnFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+{
+	return textEditable ? new ddColumnTextTool(editor,this,defaultTool) : defaultTool;
 }

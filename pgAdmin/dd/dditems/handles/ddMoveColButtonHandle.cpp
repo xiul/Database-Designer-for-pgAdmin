@@ -15,11 +15,12 @@
 
 // wxWindows headers
 #include <wx/wx.h>
-#include <wx/dcbuffer.h>
 
 // App headers
-#include "dd/draw/figures/ddRectangleFigure.h"
-#include "dd/draw/main/ddDrawingView.h"
+#include "dd/dditems/handles/ddMoveColButtonHandle.h"
+#include "dd/dditems/figures/ddTableFigure.h"
+#include "dd/dditems/utilities/ddDataType.h"
+
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -28,35 +29,26 @@
 //*******************   End of special debug header to find memory leaks
 
 
-
-ddRectangleFigure::ddRectangleFigure(){
-	
-}
-
-ddRectangleFigure::~ddRectangleFigure(){
-
-}
-
-void ddRectangleFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
+ddMoveColButtonHandle::ddMoveColButtonHandle(ddIFigure *owner, ddILocator *buttonLocator ,wxBitmap &buttonImage, wxSize &size):
+ddButtonHandle(owner,buttonLocator,buttonImage,size)
 {
-	ddRect copy = displayBox();
-	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-	context.DrawRectangle(copy);
 }
 
-void ddRectangleFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view)
-{
-	ddRect copy = displayBox();
-	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-	context.DrawRectangle(copy);
+ddMoveColButtonHandle::~ddMoveColButtonHandle(){
 }
 
-void ddRectangleFigure::setRectangle(ddRect& rect)
+void ddMoveColButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
-	basicDisplayBox=rect;
+	ddTableFigure *table = (ddTableFigure*) getOwner();
+	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),dt_varchar_n));
 }
 
-void ddRectangleFigure::setSize(wxSize& size)
+void ddMoveColButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
 {
-	basicDisplayBox.SetSize(size);
 }
+
+void ddMoveColButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
+{
+}
+
+//debo hacer que la figura tabla tenga el handle y añadirselo :D
