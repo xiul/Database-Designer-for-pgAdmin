@@ -30,7 +30,7 @@ public:
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
 	void resetPosition(ddColumnFigure *column);
 	bool deleteColumnActivated();
-	void toggleColumnDeleteMode();
+	void toggleColumnDeleteMode(bool disable=false);
 protected:
 
 private:

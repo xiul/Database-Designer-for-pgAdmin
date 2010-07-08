@@ -41,7 +41,6 @@ void ddRemoveColButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 	ddColumnFigure *column = (ddColumnFigure*) table->findFigure(x,y);
-	//DD-TODO: Validate column belongs to table, what to do if other kind of figure selected???
 	if(column)
 			table->toggleColumnDeleteMode();
 }

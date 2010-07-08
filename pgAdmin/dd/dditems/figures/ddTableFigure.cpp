@@ -195,7 +195,10 @@ bool ddTableFigure::deleteColumnActivated()
 	return deleteColumnMode;
 }
 
-void ddTableFigure::toggleColumnDeleteMode()
+void ddTableFigure::toggleColumnDeleteMode(bool disable)
 {
-	deleteColumnMode = !deleteColumnMode;
+	if(disable)
+		deleteColumnMode = false;
+	else
+		deleteColumnMode = !deleteColumnMode;
 }

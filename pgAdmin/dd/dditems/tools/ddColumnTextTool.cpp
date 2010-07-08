@@ -36,7 +36,10 @@ class ddDrawingEditor;
 ddColumnTextTool::ddColumnTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddSimpleTextTool(editor,fig,dt)
 {
-	colFigure = (ddColumnFigure *) fig;
+	if(colFigure->ms_classInfo.IsKindOf(&ddColumnFigure::ms_classInfo))
+		colFigure = (ddColumnFigure *) fig;
+	else
+		colFigure = NULL;
 }
 
 ddColumnTextTool::~ddColumnTextTool()
@@ -47,20 +50,18 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 {	
 	if(event.LeftDown())
 	{
-		if(colFigure && colFigure->getOwnerTable()->deleteColumnActivated())
+	
+		if(colFigure && colFigure->getOwnerTable() && colFigure->getOwnerTable()->deleteColumnActivated())
 		{
 			ddTableFigure *table = colFigure->getOwnerTable();
-			table->removeColumn(colFigure);
-			colFigure = NULL;
-
-			preguntar si se quiere borrar la columna o no antes de hacerlo, mostrar de algun modo en la figura
-				que se esta en modo de borrar columna
-
-
+			if(getDrawingEditor()->view()->isFigureSelected(table))
+			{
+				table->removeColumn(colFigure);		
+				colFigure = NULL;
+			}
 			table->toggleColumnDeleteMode();
 			return;
 		}
 	}
 	ddSimpleTextTool::mouseDown(event);
 }
-
