@@ -38,9 +38,17 @@ ddCompositeFigure::ddCompositeFigure(){
 
 ddCompositeFigure::~ddCompositeFigure(){
 
-	figureHandles->removeAll();  //Handles should be delete by their owner (figure)
+	ddIHandle *tmpH;
+	//figureHandles->removeAll();  //Handles should be delete by their owner (figure)
+	while(figureHandles->count()>0)
+	{
+		tmpH = (ddIHandle*) figureHandles->getItemAt(0);
+		figureHandles->removeItemAt(0);
+		delete tmpH;
+	}
 	if(figureHandles)
 		delete figureHandles;  
+
 
 	ddIFigure *tmp;
 	while(figureFigures->count()>0)

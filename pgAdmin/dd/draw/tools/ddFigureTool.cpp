@@ -34,9 +34,12 @@ ddAbstractTool(editor)
 	figure=fig;
 }
 
-ddFigureTool::~ddFigureTool(){
+ddFigureTool::~ddFigureTool()
+{
 	if(defaultTool)
+	{
 		delete defaultTool;
+	}
 }
 
 void ddFigureTool::setDefaultTool(ddITool *dt)

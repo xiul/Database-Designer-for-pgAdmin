@@ -61,6 +61,13 @@ ddPolyLineFigure()
 
 ddLineConnection::~ddLineConnection()
 {
+/*	if(changeConnStartHandle)
+		delete changeConnStartHandle;
+
+	if(changeConnEndHandle)
+		delete changeConnEndHandle;
+		They are delete in other place
+*/
 }
 
 ddIConnector* ddLineConnection::getStartConnector()

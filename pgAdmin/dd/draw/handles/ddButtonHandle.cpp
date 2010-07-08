@@ -19,6 +19,7 @@
 // App headers
 #include "dd/draw/handles/ddButtonHandle.h"
 #include "dd/draw/utilities/ddPoint.h"
+#include "dd/draw/main/ddDrawingView.h"
 
 
 
@@ -40,8 +41,10 @@ ddIHandle(owner)
 	displayBox.SetSize(size);
 }
 
-ddButtonHandle::~ddButtonHandle(){
-
+ddButtonHandle::~ddButtonHandle()
+{
+	if(bLocator)
+		delete bLocator;
 }
 
 wxCursor& ddButtonHandle::createCursor()
@@ -60,8 +63,9 @@ ddRect& ddButtonHandle::getDisplayBox()
 
 void ddButtonHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
-	wxPoint p = getDisplayBox().GetPosition();
-	context.DrawBitmap(buttonIcon,p.x,p.y,true);
+	wxPoint copy = getDisplayBox().GetPosition();
+	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+	context.DrawBitmap(buttonIcon,copy.x,copy.y,true);
 }
 
 

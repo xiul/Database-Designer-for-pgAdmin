@@ -141,7 +141,11 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	f = (ddIFigure*)figureFigures->getItemAt(1);
 	y+=f->displayBox().height;
 	
-	context.DrawLine(x1,y+(internalPadding),x2,y+(internalPadding));
+	ddPoint copy1,copy2;
+	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
+	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
+
+	context.DrawLine(copy1,copy2);
 }
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
@@ -163,8 +167,12 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	int y=f->displayBox().GetPosition().y;
 	f = (ddIFigure*)figureFigures->getItemAt(1);
 	y+=f->displayBox().height;
-	
-	context.DrawLine(x1,y+(internalPadding),x2,y+(internalPadding));
+
+	ddPoint copy1,copy2;
+	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
+	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
+
+	context.DrawLine(copy1,copy2);
 }
 
 

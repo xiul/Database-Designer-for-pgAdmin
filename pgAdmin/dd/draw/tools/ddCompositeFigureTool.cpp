@@ -36,18 +36,22 @@ ddFigureTool(editor,fig,dt)
 
 ddCompositeFigureTool::~ddCompositeFigureTool()
 {
-	
-/* Memory leak here, but if I enable it, an error is raised when for example, the CreateFigureTool at
-ddSimpleTextTool return the default tool instead of new tool
-"return textEditable ? new ddSimpleTextTool(editor,this,defaultTool) : defaultTool;"
-reason delegate tool is duplicate at this tool and in owner tool. This apply for other clases
+	ddITool *tmpDefault=ddFigureTool::getDefaultTool();
+	ddFigureTool *tmpDelegateDefault;
 
-//DD-TODO: fix this error & memory leak
-if(delegateTool)
+	if(delegateTool->ms_classInfo.IsKindOf(&ddFigureTool::ms_classInfo))
+		tmpDelegateDefault = (ddFigureTool*)delegateTool;
+	else 
+		tmpDelegateDefault = NULL;
+
+	if(delegateTool && delegateTool!=tmpDefault)
 	{
+		//Hack to avoid delete defaultTool (Delegate->defaultTool) of delegate tool 
+		// if this is the same as defaultTool (this->defaultTool) of this Object.
+		if(tmpDelegateDefault && tmpDelegateDefault->getDefaultTool()==tmpDefault)  
+			tmpDelegateDefault->setDefaultTool(NULL);   
 		delete delegateTool;
 	}
-*/
 }
 
 void ddCompositeFigureTool::setDefaultTool(ddITool *dt)
