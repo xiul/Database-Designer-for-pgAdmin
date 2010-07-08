@@ -21,7 +21,7 @@ public:
 	ddMoveColLocator();
     ~ddMoveColLocator();
 
-	virtual ddPoint* locate(ddIFigure *owner);
+	virtual ddPoint& locate(ddIFigure *owner);
 
 protected:
 

@@ -29,7 +29,7 @@ public:
 
 	virtual bool containsPoint(int x, int y);
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view)=0;
-	virtual ddPoint* locate()=0;
+	virtual ddPoint& locate()=0;
 	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;

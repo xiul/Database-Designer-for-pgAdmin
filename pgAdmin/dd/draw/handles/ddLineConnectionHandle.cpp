@@ -43,10 +43,10 @@ void ddLineConnectionHandle::invokeEnd(int x, int y, ddDrawingView *view)
 	//DD-TODO: verify index are well defined here and it's doing what is suppossed to do
 	if( figure->pointCount() > 2 && getIndex() != 0 && getIndex() != (figure->pointCount()-1) )
 	{
-		ddPoint *p1 = figure->pointAt(getIndex()-1);
-		ddPoint *p2 = figure->pointAt(getIndex()+1);
+		ddPoint p1 = figure->pointAt(getIndex()-1);
+		ddPoint p2 = figure->pointAt(getIndex()+1);
 		ddGeometry g;
-		if(g.lineContainsPoint(p1->x, p1->y, p2->x, p2->y, x, y))
+		if(g.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, x, y))
 		{
 			figure->removePointAt(getIndex());
 		}

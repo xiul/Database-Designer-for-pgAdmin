@@ -28,6 +28,7 @@
 
 ddILocator::ddILocator()
 {
+	locatePoint = ddPoint(0,0);
 }
 
 ddILocator::~ddILocator()

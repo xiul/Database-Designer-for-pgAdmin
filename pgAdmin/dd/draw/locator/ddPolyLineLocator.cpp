@@ -36,15 +36,16 @@ ddPolyLineLocator::ddPolyLineLocator(int index){
 	indx=index;
 }
 
-ddPoint* ddPolyLineLocator::locate(ddIFigure *owner){
+ddPoint& ddPolyLineLocator::locate(ddIFigure *owner){
 	if(owner)
 	{
 		ddPolyLineFigure *figure = (ddPolyLineFigure *) owner;
-		return figure->pointAt(indx);
+		locatePoint = figure->pointAt(indx);
+		return locatePoint;
 	}
 	else
 	{
-		return new ddPoint();  //DD-TODO: avoid this memory leak, why to use this?
+		return locatePoint;
 	}
 }
 

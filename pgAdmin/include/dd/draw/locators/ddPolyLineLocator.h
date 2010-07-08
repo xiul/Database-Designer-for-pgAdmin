@@ -20,7 +20,7 @@ public:
 	ddPolyLineLocator(int index);
     ~ddPolyLineLocator();
 
-	virtual ddPoint* locate(ddIFigure *owner);
+	virtual ddPoint& locate(ddIFigure *owner);
 	virtual void setIndex(int index);
 
 protected:

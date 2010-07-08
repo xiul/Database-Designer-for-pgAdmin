@@ -36,7 +36,7 @@ ddChangeConnectionEndHandle::~ddChangeConnectionEndHandle()
 {
 }
 
-ddPoint* ddChangeConnectionEndHandle::locate()
+ddPoint& ddChangeConnectionEndHandle::locate()
 {
 	return connection->getEndPoint();
 }

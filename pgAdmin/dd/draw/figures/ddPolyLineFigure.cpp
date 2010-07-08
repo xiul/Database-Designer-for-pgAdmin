@@ -40,6 +40,9 @@ ddPolyLineFigure::ddPolyLineFigure(){
 	startTerminal = NULL;
 	endTerminal = NULL;
 	handlesChanged = false;
+	startPoint=ddPoint(0,0);
+	endPoint=ddPoint(0,0);
+	pointAtPos=ddPoint(0,0);
 	//primero=true;
 }
 
@@ -71,7 +74,7 @@ ddRect& ddPolyLineFigure::getBasicDisplayBox() {
 	}
 	if(points->count()>=1)
 	{
-		basicDisplayBox.SetPosition(*(pointAt(0)));
+		basicDisplayBox.SetPosition(pointAt(0));
 	}
 	else
 	{
@@ -93,9 +96,11 @@ int ddPolyLineFigure::pointCount(){
  return points->count();
 }
 
-ddPoint* ddPolyLineFigure::getStartPoint(){
+ddPoint& ddPolyLineFigure::getStartPoint(){
 	//DD-TODO: fix [] operator not working here, bad casting info was shown
-	return (ddPoint *) points->getItemAt(0);
+	startPoint.x = ((ddPoint*)points->getItemAt(0))->x;
+	startPoint.y = ((ddPoint*)points->getItemAt(0))->y;
+	return startPoint;
 }
 
 void ddPolyLineFigure::setStartPoint(ddPoint point){
@@ -114,9 +119,11 @@ void ddPolyLineFigure::setStartPoint(ddPoint point){
 	//DD-TODO: need to delete start point if overwrite it
 }
 
-ddPoint* ddPolyLineFigure::getEndPoint(){
+ddPoint& ddPolyLineFigure::getEndPoint(){
 	//DD-TODO: fix [] operator not working here, bad casting info was shown
-	return (ddPoint *) points->getItemAt(points->count()-1);
+	endPoint.x = ((ddPoint*)points->getItemAt(points->count()-1))->x;
+	endPoint.y = ((ddPoint*)points->getItemAt(points->count()-1))->y;
+	return endPoint;
 }
 
 void ddPolyLineFigure::setEndPoint(ddPoint point){
@@ -215,7 +222,7 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
 	}
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS set context attributes: width, round join, color, dashes
 
-	ddPoint *start, *end;
+	ddPoint start, end;
 
 	if(startTerminal)
 	{
@@ -256,8 +263,9 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
 		context.DrawLine(copyP1,copyP2);
 	}
 	//DD-TODO: this is really needed or I can change way end/startTerminal->draw works?
-	delete start;
+/*	delete start;
 	delete end;
+	*/
 }
 
 void ddPolyLineFigure::basicMoveBy(int x, int y){
@@ -277,19 +285,21 @@ ddITool* ddPolyLineFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *de
 
 int ddPolyLineFigure::findSegment (int x, int y){
 	for(int i=0 ; i<points->count()-1 ; i++){
-		ddPoint *p1 = pointAt(i);
-		ddPoint *p2 = pointAt(i+1);
+		ddPoint p1 = pointAt(i);
+		ddPoint p2 = pointAt(i+1);
 		ddGeometry g;
-		if(g.lineContainsPoint(p1->x, p1->y, p2->x, p2->y, x, y)){
+		if(g.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, x, y)){
 			return i+1;
 		}
 	}
 	return -1;
 }
 
-ddPoint* ddPolyLineFigure::pointAt(int index)
+ddPoint& ddPolyLineFigure::pointAt(int index)
 {
-	return (ddPoint *)points->getItemAt(index);
+	pointAtPos.x = ((ddPoint*)points->getItemAt(index))->x;
+	pointAtPos.y = ((ddPoint*)points->getItemAt(index))->y;
+	return pointAtPos;
 }
 
 bool ddPolyLineFigure::containsPoint (int x, int y){
@@ -301,10 +311,10 @@ bool ddPolyLineFigure::containsPoint (int x, int y){
 	}
 
 	for(int i=0 ; i<points->count()-1 ; i++){
-		ddPoint *p1 = pointAt(i);
-		ddPoint *p2 = pointAt(i+1);
+		ddPoint p1 = pointAt(i);
+		ddPoint p2 = pointAt(i+1);
 		ddGeometry g;
-		if(g.lineContainsPoint(p1->x, p1->y, p2->x, p2->y, x, y)){
+		if(g.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, x, y)){
 			return true;
 		}
 	}

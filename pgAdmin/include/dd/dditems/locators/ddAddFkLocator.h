@@ -21,7 +21,7 @@ public:
 	ddAddFkLocator();
     ~ddAddFkLocator();
 
-	virtual ddPoint* locate(ddIFigure *owner);
+	virtual ddPoint& locate(ddIFigure *owner);
 
 protected:
 

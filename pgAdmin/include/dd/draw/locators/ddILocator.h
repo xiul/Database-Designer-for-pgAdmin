@@ -22,10 +22,11 @@ public:
 	ddILocator();
     ~ddILocator();
 
-	virtual ddPoint* locate(ddIFigure *owner)=0;
+	virtual ddPoint& locate(ddIFigure *owner)=0;
 
 protected:
-
+	ddPoint locatePoint;
 private:
+
 };
 #endif

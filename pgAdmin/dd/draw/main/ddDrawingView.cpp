@@ -312,10 +312,6 @@ void ddDrawingView::onMotion(wxMouseEvent& event)
 void ddDrawingView::onMouseDown(wxMouseEvent& event)
 {
 	ddMouseEvent ddEvent = ddMouseEvent(event,this);
-bool ne=false;
-	if(event.LeftDClick())
-		ne=true;
-
 	drawingEditor->tool()->mouseDown(ddEvent);
 	this->Refresh();
 }

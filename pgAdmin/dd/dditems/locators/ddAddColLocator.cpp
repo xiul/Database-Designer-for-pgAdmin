@@ -35,16 +35,20 @@ ddAddColLocator::~ddAddColLocator()
 {
 }
 
-ddPoint* ddAddColLocator::locate(ddIFigure *owner)
+ddPoint& ddAddColLocator::locate(ddIFigure *owner)
 {
 	if(owner)
 	{
 		ddTableFigure *table = (ddTableFigure*) owner;
 		int x = table->displayBox().x + table->displayBox().width - 30; //(8+2+8+2+8+2)
 		int y = table->displayBox().y + 6;
-		return new ddPoint(x,y);
+		locatePoint.x=x;
+		locatePoint.y=y;
+		return locatePoint;
 	}
-	return new ddPoint(0,0);
+	locatePoint.x=0;
+	locatePoint.y=0;
+	return locatePoint;
 }
 
 /*

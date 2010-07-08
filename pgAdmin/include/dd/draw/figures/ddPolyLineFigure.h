@@ -28,9 +28,9 @@ public:
 	virtual void basicDraw (wxBufferedDC& context, ddDrawingView *view);
 	virtual void basicDrawSelected(wxBufferedDC& context, ddDrawingView *view);
 	virtual int pointCount();
-	virtual ddPoint* getStartPoint();
+	virtual ddPoint& getStartPoint();
 	virtual void setStartPoint(ddPoint point);
-	virtual ddPoint* getEndPoint();
+	virtual ddPoint& getEndPoint();
 	virtual void setEndPoint(ddPoint point);
 	virtual void setStartTerminal(ddLineTerminal *terminal);
 	virtual ddLineTerminal* getStartTerminal();
@@ -50,13 +50,14 @@ public:
 	virtual void basicMoveBy(int x, int y);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 
-	virtual ddPoint* pointAt(int index);
+	virtual ddPoint& pointAt(int index);
 	virtual bool containsPoint (int x, int y);
 
 protected:
 	//DD-TODO: need to store dashes?
 	virtual void updateHandlesIndexes();
 	ddArrayCollection *points;
+	ddPoint endPoint, startPoint, pointAtPos;
 private:
 	ddLineTerminal *startTerminal, *endTerminal;
 	bool handlesChanged;//, primero;

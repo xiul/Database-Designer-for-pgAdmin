@@ -20,7 +20,7 @@ class ddChangeConnectionEndHandle : public ddChangeConnectionHandle
 public:
 	ddChangeConnectionEndHandle(ddLineConnection *owner);
     ~ddChangeConnectionEndHandle();
-	virtual ddPoint* locate();
+	virtual ddPoint& locate();
 	virtual ddIConnector* target();
 	virtual void disconnect();
 	virtual void connect(ddIConnector *connector);

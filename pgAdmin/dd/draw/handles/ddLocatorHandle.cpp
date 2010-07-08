@@ -37,8 +37,8 @@ ddLocatorHandle::~ddLocatorHandle()
 		delete loc;
 }
 
-ddPoint* ddLocatorHandle::locate(){
-	return loc==NULL ? new ddPoint(0,0) : loc->locate(getOwner()) ;
+ddPoint& ddLocatorHandle::locate(){
+	return loc==NULL ? ddPoint(0,0) : loc->locate(getOwner()) ;
 }
 
 ddILocator* ddLocatorHandle::locator()

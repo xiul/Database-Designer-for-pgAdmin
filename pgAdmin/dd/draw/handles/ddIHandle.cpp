@@ -39,10 +39,10 @@ ddIFigure* ddIHandle::getOwner(){
 }
 
 ddRect& ddIHandle::getDisplayBox(){
-	ddPoint *p = locate();
+	ddPoint p = locate();
 	displayBox.width=0;
 	displayBox.height=0;
-	displayBox.SetPosition(*p);
+	displayBox.SetPosition(p);
 	displayBox.Inflate(size,size);
 	return displayBox;
 }

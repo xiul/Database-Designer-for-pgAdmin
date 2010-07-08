@@ -53,8 +53,8 @@ wxCursor& ddButtonHandle::createCursor()
 //DD-TODO: avoid this memory leak throught every call to locate()
 ddRect& ddButtonHandle::getDisplayBox()
 {
-	ddPoint *p = locate();
-	displayBox.SetPosition(*p);
+	ddPoint p = locate();
+	displayBox.SetPosition(p);
 	return displayBox;
 }
 
@@ -65,10 +65,10 @@ void ddButtonHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 }
 
 
-ddPoint* ddButtonHandle::locate()
+ddPoint& ddButtonHandle::locate()
 {
 	if(bLocator)
 		return bLocator->locate(getOwner());
 	else
-		return NULL;
+		return ddPoint(0,0);
 }

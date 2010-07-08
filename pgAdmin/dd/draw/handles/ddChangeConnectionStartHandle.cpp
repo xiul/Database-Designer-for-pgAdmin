@@ -36,7 +36,7 @@ ddChangeConnectionStartHandle::~ddChangeConnectionStartHandle()
 {
 }
 
-ddPoint* ddChangeConnectionStartHandle::locate()
+ddPoint& ddChangeConnectionStartHandle::locate()
 {
 	return connection->getStartPoint();
 }
