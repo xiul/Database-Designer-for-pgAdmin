@@ -66,7 +66,6 @@ ddLineConnection::~ddLineConnection()
 
 	if(changeConnEndHandle)
 		delete changeConnEndHandle;
-		They are delete in other place
 */
 }
 

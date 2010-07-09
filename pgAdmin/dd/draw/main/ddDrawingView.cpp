@@ -304,7 +304,7 @@ void ddDrawingView::onMotion(wxMouseEvent& event)
 	}
 	else
 	{
-		drawingEditor->tool()->mouseMove(ddEvent);
+			drawingEditor->tool()->mouseMove(ddEvent);
 	}
 	this->Refresh();
 }

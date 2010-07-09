@@ -3862,10 +3862,6 @@
 							>
 						</File>
 						<File
-							RelativePath=".\include\dd\dditems\handles\ddMoveColButtonHandle.h"
-							>
-						</File>
-						<File
 							RelativePath=".\include\dd\dditems\handles\ddRemoveColButtonHandle.h"
 							>
 						</File>
@@ -3879,10 +3875,6 @@
 						</File>
 						<File
 							RelativePath=".\include\dd\dditems\locators\ddAddFkLocator.h"
-							>
-						</File>
-						<File
-							RelativePath=".\include\dd\dditems\locators\ddMoveColLocator.h"
 							>
 						</File>
 						<File
@@ -5539,10 +5531,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\dd\dditems\handles\ddMoveColButtonHandle.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\dd\dditems\handles\ddRemoveColButtonHandle.cpp"
 						>
 					</File>
@@ -5556,10 +5544,6 @@
 					</File>
 					<File
 						RelativePath=".\dd\dditems\locators\ddAddFkLocator.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\dd\dditems\locators\ddMoveColLocator.cpp"
 						>
 					</File>
 					<File

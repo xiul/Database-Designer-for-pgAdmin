@@ -23,8 +23,6 @@
 #include "dd/dditems/figures/ddColumnFigure.h"
 #include "dd/draw/main/ddDrawingView.h"
 #include "dd/dditems/utilities/ddDataType.h"
-#include "dd/dditems/handles/ddMoveColButtonHandle.h"
-#include "dd/dditems/locators/ddMoveColLocator.h"
 #include "dd/dditems/handles/ddAddColButtonHandle.h"
 #include "dd/dditems/locators/ddAddColLocator.h"
 #include "dd/dditems/handles/ddRemoveColButtonHandle.h"
@@ -35,7 +33,6 @@
 #include "images/ddAddColumn.xpm"
 #include "images/ddRemoveColumn.xpm"
 #include "images/ddAddForeignKey.xpm"
-#include "images/ddMoveColumn.xpm"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -68,10 +65,14 @@ ddCompositeFigure()
 	tableTitle->moveTo(rectangleFigure->getBasicDisplayBox().x+externalPadding,rectangleFigure->getBasicDisplayBox().y+externalPadding);
 
 	//Intialize handles
-	figureHandles->addItem(new ddMoveColButtonHandle(this,new ddMoveColLocator(), wxBitmap(ddMoveColumn_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddAddColButtonHandle(this,new ddAddColLocator(), wxBitmap(ddAddColumn_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddRemoveColButtonHandle(this,new ddRemoveColLocator(), wxBitmap(ddRemoveColumn_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddAddFkButtonHandle(this,new ddAddFkLocator(), wxBitmap(ddAddForeignKey_xpm),wxSize(8,8)));
+
+	fromSelToNOSel=false;
+	
+	minWidth=tableTitle->getTextWidth()+35;
+	minHeight=tableTitle->getTextHeight()*2+internalPadding*2;
 
 updateTableSize();
 }
@@ -94,6 +95,8 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 {
 	column->setOwnerTable(NULL);
 	remove(column);
+	if(column)
+		delete column;
 	updateTableSize();
 
 //DD-TODO: if remove column and it's foreign key, should update observers 
@@ -121,12 +124,23 @@ void ddTableFigure::updateTableSize()
 //Adjust size of table	 with padding
 wxSize s = r.GetSize();
 s.IncBy(externalPadding*2,externalPadding*2);
+if(s.GetHeight()<minHeight)
+	s.SetHeight(minHeight);
+if(s.GetWidth()<minWidth)
+	s.SetWidth(minWidth);
 rectangleFigure->setSize(s);
 }
 
 
 void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 {
+	//Hack to disable delete column mode when the figure pass from selected to no selected.
+	if(fromSelToNOSel)
+	{
+		toggleColumnDeleteMode(true);
+		fromSelToNOSel=false;
+	}
+
 	context.SetPen(*wxBLACK_PEN);
 	context.SetBrush(wxBrush (wxColour(255, 255, 224),wxSOLID));
 
@@ -150,6 +164,8 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 {
+	if(!fromSelToNOSel)
+		fromSelToNOSel=true;
 /*	context.SetPen(wxPen(wxColour(70, 130, 180),2,wxSOLID));
 	context.SetBrush(wxBrush (wxColour(224, 248, 255),wxSOLID));
 	*/

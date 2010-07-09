@@ -36,9 +36,10 @@ protected:
 private:
 	ddRectangleFigure *rectangleFigure;
 	ddColumnFigure *tableTitle;
-	bool firstTime;
+	bool fromSelToNOSel;
 	bool deleteColumnMode;
 	int internalPadding, externalPadding;
+	int minWidth, minHeight;
 
 };
 #endif

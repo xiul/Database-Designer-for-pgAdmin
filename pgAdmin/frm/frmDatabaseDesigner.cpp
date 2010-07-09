@@ -157,12 +157,12 @@ END_EVENT_TABLE()
 //editor->view()->add(f3);
 //antes	editor->setTool(new ddDragCreationTool(editor,f3)); 
 
-ddLineConnection *f4 = new ddLineConnection();
+/*ddLineConnection *f4 = new ddLineConnection();
 f4->setStartTerminal(new ddLineTerminal());
 f4->setEndTerminal(new ddLineTerminal());
-design->setTool(new ddConnectionCreationTool(design->getEditor(),f4));
+//design->setTool(new ddConnectionCreationTool(design->getEditor(),f4));
 	//SetIcon(wxIcon(sql_32_xpm));
-
+*/
 /*
 ddSimpleTextFigure *f5 = new ddSimpleTextFigure(wxString(wxT("Texto Solito")));
 f5->displayBox().SetPosition(wxPoint(60,60));

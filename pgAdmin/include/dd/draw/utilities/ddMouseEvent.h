@@ -33,8 +33,8 @@ class ddMouseEvent : public ddObject
 		bool LeftUp();
 		bool ShiftDown();
 		bool RightDown();
-
 		bool m_shiftDown;
+		ddDrawingView* getView();
 private:
 		ddDrawingView *view;
 		wxMouseEvent& mouseEvent;

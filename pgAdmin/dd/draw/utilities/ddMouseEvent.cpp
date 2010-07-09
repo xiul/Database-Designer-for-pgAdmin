@@ -86,3 +86,8 @@ bool ddMouseEvent::LeftIsDown()
 {
 	return mouseEvent.LeftIsDown();
 }
+
+ddDrawingView* ddMouseEvent::getView()
+{
+	return view;
+}

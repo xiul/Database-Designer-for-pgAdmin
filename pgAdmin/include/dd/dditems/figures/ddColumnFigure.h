@@ -33,6 +33,8 @@ public:
 	virtual void setOwnerTable(ddTableFigure *table);
 	virtual void setShowDataType(bool value);
 	ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
+	int getTextWidth();
+	int getTextHeight();
 protected:
 	ddTableFigure *ownerTable;
 private:

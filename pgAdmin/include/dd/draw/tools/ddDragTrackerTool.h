@@ -33,11 +33,10 @@ public:
 
 protected:
 	ddIFigure *anchorFigure;
-	int lastX, lastY;
 	bool hasMovedValue;
 
 private:
-
+	int lastX, lastY;
 	ddDrawingView *view;
 
 

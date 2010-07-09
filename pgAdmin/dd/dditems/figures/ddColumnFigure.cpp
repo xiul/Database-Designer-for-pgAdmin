@@ -136,3 +136,17 @@ ddITool* ddColumnFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defa
 {
 	return textEditable ? new ddColumnTextTool(editor,this,defaultTool) : defaultTool;
 }
+
+int ddColumnFigure::getTextWidth()
+{
+	int w,h;
+	getFontMetrics(w,h);
+	return w;
+}
+
+int ddColumnFigure::getTextHeight()
+{
+	int w,h;
+	getFontMetrics(w,h);
+	return h;
+}

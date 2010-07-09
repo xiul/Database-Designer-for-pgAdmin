@@ -48,6 +48,10 @@ ddColumnTextTool::~ddColumnTextTool()
 
 void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 {	
+	int y=0;
+	if(event.LeftDClick())
+		y=1;
+
 	if(event.LeftDown())
 	{
 	
@@ -56,12 +60,19 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 			ddTableFigure *table = colFigure->getOwnerTable();
 			if(getDrawingEditor()->view()->isFigureSelected(table))
 			{
-				table->removeColumn(colFigure);		
-				colFigure = NULL;
+				int answer = wxMessageBox(wxT("Delete column: ") + colFigure->getText(true) + wxT("?"), wxT("Confirm"),wxYES_NO, event.getView());
+				if (answer == wxYES)
+				{
+					table->removeColumn(colFigure);		
+					colFigure = NULL;
+				}
 			}
 			table->toggleColumnDeleteMode();
 			return;
 		}
 	}
+	
+	if(colFigure && colFigure->getOwnerTable()) //if click on any other place disable column delete
+		colFigure->getOwnerTable()->toggleColumnDeleteMode(true);
 	ddSimpleTextTool::mouseDown(event);
 }
