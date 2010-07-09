@@ -20,6 +20,8 @@
 #include "dd/dditems/handles/ddAddFkButtonHandle.h"
 #include "dd/dditems/figures/ddTableFigure.h"
 #include "dd/dditems/utilities/ddDataType.h"
+#include "dd/draw/tools/ddConnectionCreationTool.h"
+#include "dd/draw/utilities/ddMouseEvent.h"
 
 
 //*******************   Start of special debug header to find memory leaks
@@ -39,16 +41,36 @@ ddAddFkButtonHandle::~ddAddFkButtonHandle(){
 
 void ddAddFkButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
-	ddTableFigure *table = (ddTableFigure*) getOwner();
-	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),dt_varchar_n));
+	if(getOwner()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo)){
+		ddTableFigure *table = (ddTableFigure*) getOwner();
+		ddLineConnection *fkConnection = new ddLineConnection();
+		fkConnection->setStartTerminal(new ddLineTerminal());
+		fkConnection->setEndTerminal(new ddLineTerminal());
+		ddConnectionCreationTool *conn = new ddConnectionCreationTool(view->editor(),fkConnection);
+		view->editor()->setTool(conn);
+		// Simulate button down to start connection of foreign key
+		wxMouseEvent e(wxEVT_LEFT_DOWN);
+		e.m_x=x;
+		e.m_y=y;
+		e.SetEventObject(view);
+		ddMouseEvent evento(e,view);
+		conn->mouseDown(evento);
+	}
 }
 
 void ddAddFkButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
 {
+	bool a=true;
+	a=false;
+	ddTableFigure *table = (ddTableFigure*) getOwner();
+	table->canConnect();
 }
 
 void ddAddFkButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
 {
-}
+	bool a=true;
+	a=false;
+	ddTableFigure *table = (ddTableFigure*) getOwner();
+	table->canConnect();}
 
 //debo hacer que la figura tabla tenga el handle y añadirselo :D

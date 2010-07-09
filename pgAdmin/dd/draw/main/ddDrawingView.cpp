@@ -393,6 +393,10 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 	mnu.Connect(wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)(wxEventFunction) (wxCommandEventFunction) &ddDrawingView::OnTextPopupClick,NULL,this);
 }
 
+ddDrawingEditor* ddDrawingView::editor()
+{
+	return drawingEditor;
+}
 
 
 /*void ddDrawingView::OnKeyDown(wxKeyEvent& event)

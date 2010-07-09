@@ -14,11 +14,13 @@
 
 #include "dd/draw/figures/ddIFigure.h"
 #include "dd/draw/main/ddDrawing.h"
+//#include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/handles/ddIHandle.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 // Create View Class for MVC pattern of graphic library of pgAdmin
 
 //class ddSimpleTextFigure;   //FIX-HACK to avoid circular references
+
 
 class ddDrawingView : public wxScrolledWindow
 {
@@ -45,6 +47,7 @@ public:
 	virtual void onMouseUp(wxMouseEvent& event);
 	//virtual void onRightClick(wxMouseEvent& event);
 	virtual void onMotion(wxMouseEvent& event);
+	ddDrawingEditor* editor();  
 	//virtual void OnKeyDown(wxKeyEvent& event);
 	wxSize canvasSize;
 	
@@ -69,7 +72,7 @@ public:
 	virtual wxPoint drawingToView(double x, double y);
 	virtual wxPoint viewToDrawing(double x, double y);
 	virtual ddIDrawing* drawing();
-	virtual ddIDrawing* editor();   //DD-TODO: debe retornar un editor
+	
 	virtual int selectionCount();
 	virtual ddRect visibleArea();
 	*/
