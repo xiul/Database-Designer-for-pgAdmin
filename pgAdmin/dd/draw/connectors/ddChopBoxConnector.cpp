@@ -35,6 +35,7 @@ ddChopBoxConnector::~ddChopBoxConnector()
 {
 }
 
+//DD-TODO: change to reference ddPoint&
 ddPoint ddChopBoxConnector::chop(ddIFigure *target, ddPoint point){
 	
 	if(target && target->containsPoint(point.x, point.y))
@@ -52,26 +53,30 @@ ddPoint ddChopBoxConnector::chop(ddIFigure *target, ddPoint point){
 	return g.edgePointFromAngle(getDisplayBox(), angle);
 }
 
-ddPoint ddChopBoxConnector::findStart()
+ddPoint ddChopBoxConnector::findStart(ddLineConnection *connFigure)
 {
-	return getDisplayBox().center();
-}
-
-ddPoint ddChopBoxConnector::findEnd()
-{
-	return getDisplayBox().center();
-
-}
-//	IConnectionFigure
+	if(!connFigure)
+	{
+		return getDisplayBox().center();
+	}
 	
-	/*
-				if (connection == null) {
-				return DisplayBox.Center;
-			}
+	if(connFigure->pointCount()<2)
+	{
+		return getDisplayBox().center();
+	}
 
-			IFigure end = connection.EndConnector.Owner;
-			PointD point = connection.PointAt (connection.PointCount - 2);
+	ddIFigure *start = connFigure->getStartConnector()->getOwner();
+	ddPoint point = connFigure->pointAt(1);
+	return chop(start,point);
+}
 
-			return Chop (end, point);
-	*/
-
+ddPoint ddChopBoxConnector::findEnd(ddLineConnection *connFigure)
+{
+	if(!connFigure)
+	{
+		return getDisplayBox().center();
+	}
+	ddIFigure *end = connFigure->getEndConnector()->getOwner();
+	ddPoint point = connFigure->pointAt(connFigure->pointCount()-2);
+	return chop(end,point);
+}

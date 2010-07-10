@@ -353,7 +353,9 @@ void ddDrawingView::simpleTextToolChangeHandler(wxCommandEvent& event)
 		simpleTextFigure->displayBox().width = g.max(width,10)+simpleTextFigure->getPadding();
 		simpleTextFigure->displayBox().height= g.max(height,10)+simpleTextFigure->getPadding();
 		//calculateSizeEntry
-		simpleTextToolEdit->SetPosition(simpleTextFigure->displayBox().GetPosition());
+		ddPoint p=simpleTextFigure->displayBox().GetPosition();
+		CalcScrolledPosition(p.x,p.y,&p.x,&p.y);
+		simpleTextToolEdit->SetPosition(p);
 		simpleTextToolEdit->SetSize(simpleTextFigure->displayBox().GetSize());
 	}
 	else

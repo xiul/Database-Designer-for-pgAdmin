@@ -40,18 +40,21 @@ ddFigureTool(editor,fig,dt)
 	txtFigure = ((ddSimpleTextFigure *)this->getFigure());
 	editor->view()->setSimpleTextToolFigure(NULL);
 	edit = getDrawingEditor()->view()->getSimpleTextToolEdit();
-	calculateSizeEntry();
+	calculateSizeEntry(editor->view());
 }
 
 ddSimpleTextTool::~ddSimpleTextTool()
 {
 }
 
-void ddSimpleTextTool::calculateSizeEntry()
+void ddSimpleTextTool::calculateSizeEntry(ddDrawingView *view)
 {
 	if(edit)
 	{
-		edit->SetPosition(txtFigure->displayBox().GetPosition());
+	//	edit->SetPosition(txtFigure->displayBox().GetPosition());
+		ddPoint p=txtFigure->displayBox().GetPosition();
+		view->CalcScrolledPosition(p.x,p.y,&p.x,&p.y);
+		edit->SetPosition(p);
 		edit->SetSize(txtFigure->displayBox().GetSize());
 		//DD-TODO: avoid in a future twin function in DrawingView because tool hack
 	}
@@ -68,7 +71,9 @@ void ddSimpleTextTool::mouseDown(ddMouseEvent& event)
                 wxMenu menu;
 				getDrawingEditor()->view()->setSimpleTextToolFigure(txtFigure);
 				getDrawingEditor()->view()->setTextPopUpList(txtFigure->popupStrings(),menu);
-				getDrawingEditor()->view()->PopupMenu(&menu, event.GetPosition());
+				ddPoint p=event.GetPosition();
+				event.getView()->CalcScrolledPosition(p.x,p.y,&p.x,&p.y);
+				getDrawingEditor()->view()->PopupMenu(&menu, p);
 		return;
 	}
 
@@ -78,7 +83,7 @@ void ddSimpleTextTool::mouseDown(ddMouseEvent& event)
 		getDrawingEditor()->view()->setSimpleTextToolFigure(txtFigure);
 		showEdit = true;
 		edit->ChangeValue(txtFigure->getText()); //Same as SetValue but don't generated wxEVT_COMMAND_TEXT_UPDATED event
-		calculateSizeEntry();
+		calculateSizeEntry(event.getView());
 		edit->SetFocus();
 		edit->Show();
 		return;

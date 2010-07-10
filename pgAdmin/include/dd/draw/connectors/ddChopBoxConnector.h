@@ -24,8 +24,8 @@ class ddChopBoxConnector : public ddIConnector
 public:
 	ddChopBoxConnector(ddIFigure *owner);
     ~ddChopBoxConnector();
-	virtual ddPoint findStart();
-	virtual ddPoint findEnd();
+	virtual ddPoint findStart(ddLineConnection *connFigure);
+	virtual ddPoint findEnd(ddLineConnection *connFigure);
 /*	virtual bool containsPoint(int x, int y);
 	virtual void draw(wxBufferedDC& context)=0;
 	virtual ddIFigure* getOwner();

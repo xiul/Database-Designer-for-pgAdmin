@@ -31,7 +31,7 @@ public:
 protected:
 private:
 	ddSimpleTextFigure *txtFigure;
-	void calculateSizeEntry();
+	void calculateSizeEntry(ddDrawingView *view);
 	bool showEdit;
 	wxTextCtrl *edit;
 	//Because a bug in the way wxwidgets connect events I can't declare it here, wxTextCtrl *edit, instead I do it on the view.

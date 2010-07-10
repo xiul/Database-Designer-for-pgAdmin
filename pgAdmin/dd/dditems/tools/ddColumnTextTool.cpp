@@ -48,10 +48,6 @@ ddColumnTextTool::~ddColumnTextTool()
 
 void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 {	
-	int y=0;
-	if(event.LeftDClick())
-		y=1;
-
 	if(event.LeftDown())
 	{
 	
