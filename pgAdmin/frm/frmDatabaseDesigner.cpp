@@ -116,7 +116,7 @@ END_EVENT_TABLE()
 //		TEST DATA
 //*****************************************************************************************************
 
-
+/*
 
 	f=new ddRectangleFigure();
 	f->displayBox().SetPosition(wxPoint(5,5));
@@ -170,30 +170,48 @@ f5->setEditable(true);
 design->addTable(f5);
 */
 
-//Composite Figure (3) figures inside
-//ddSimpleTextFigure *f61 = new ddSimpleTextFigure(wxT("preuba111"));
-ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("preuba111")),dt_varchar_n);
+ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("Id")),dt_integer);
 f61->displayBox().SetPosition(wxPoint(260,270));
 f61->setEditable(true);
 
-//ddSimpleTextFigure *f62 = new ddSimpleTextFigure(wxT("preuba222"));
-ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("preuba222")), dt_money);
+ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue")), dt_bool);
 f62->displayBox().SetPosition(wxPoint(260,290));
 f62->setEditable(true);
 
-/*ddAbstractFigure *f63=new ddRectangleFigure();
-f63->displayBox().SetPosition(wxPoint(100,450));
-f63->displayBox().width=130;
-f63->displayBox().height=130;
-design->addTable(f63);
-*/
-
 ddTableFigure *f6 = new ddTableFigure(225,225);
-//f6->addColumn(f63);
-
 f6->addColumn(f62);
 f6->addColumn(f61);
 design->addTable(f6);
+
+
+ddColumnFigure *f71 = new ddColumnFigure(wxString(wxT("Id")),dt_integer);
+f71->displayBox().SetPosition(wxPoint(260,270));
+f71->setEditable(true);
+
+ddColumnFigure *f72 = new ddColumnFigure(wxString(wxT("Amount")), dt_money);
+f72->displayBox().SetPosition(wxPoint(260,290));
+f72->setEditable(true);
+
+ddTableFigure *f7 = new ddTableFigure(100,100);
+f7->addColumn(f72);
+f7->addColumn(f71);
+design->addTable(f7);
+
+
+ddColumnFigure *f81 = new ddColumnFigure(wxString(wxT("Id")),dt_integer);
+f81->displayBox().SetPosition(wxPoint(260,270));
+f81->setEditable(true);
+
+ddColumnFigure *f82 = new ddColumnFigure(wxString(wxT("Amount22")), dt_money);
+f82->displayBox().SetPosition(wxPoint(260,290));
+f82->setEditable(true);
+
+ddTableFigure *f8 = new ddTableFigure(350,100);
+f8->addColumn(f82);
+f8->addColumn(f81);
+design->addTable(f8);
+
+
 }
 
  frmDatabaseDesigner::~frmDatabaseDesigner(){

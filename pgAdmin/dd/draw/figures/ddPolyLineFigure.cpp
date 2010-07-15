@@ -297,8 +297,17 @@ int ddPolyLineFigure::findSegment (int x, int y){
 
 ddPoint& ddPolyLineFigure::pointAt(int index)
 {
-	pointAtPos.x = ((ddPoint*)points->getItemAt(index))->x;
-	pointAtPos.y = ((ddPoint*)points->getItemAt(index))->y;
+	//hack to avoid error with bad indexes calls
+	if(index<0)
+	{
+		pointAtPos.x = 0;
+		pointAtPos.y = 0;
+	}
+	else
+	{
+		pointAtPos.x = ((ddPoint*)points->getItemAt(index))->x;
+		pointAtPos.y = ((ddPoint*)points->getItemAt(index))->y;
+	}
 	return pointAtPos;
 }
 
