@@ -60,16 +60,12 @@ void ddAddFkButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 
 void ddAddFkButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
 {
-	bool a=true;
-	a=false;
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 	table->canConnect();
 }
 
 void ddAddFkButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
 {
-	bool a=true;
-	a=false;
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 	table->canConnect();}
 

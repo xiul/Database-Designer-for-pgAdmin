@@ -43,6 +43,8 @@ private:
 //	ddDrawingEditor *ownerEditor;
 	ddLineConnection *toolConnection;
 	ddIHandle *handle;
+	int numClicks;
+	bool dragged;
 
 };
 #endif

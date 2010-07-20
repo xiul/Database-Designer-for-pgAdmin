@@ -44,8 +44,8 @@
 ddTableFigure::ddTableFigure(int x, int y):
 ddCompositeFigure()
 {
-	internalPadding = 3;
-	externalPadding = 6;
+	internalPadding = 2;
+	externalPadding = 4;
 	deleteColumnMode=false;
 
 	//Set table size, width and position
@@ -62,7 +62,8 @@ ddCompositeFigure()
 	//If owner == NULL then don't delete that column because it don't belong to table
 	tableTitle->setOwnerTable(NULL); 
 	add(tableTitle);
-	tableTitle->moveTo(rectangleFigure->getBasicDisplayBox().x+externalPadding,rectangleFigure->getBasicDisplayBox().y+externalPadding);
+	//666 tableTitle->moveTo(rectangleFigure->getBasicDisplayBox().x+externalPadding,rectangleFigure->getBasicDisplayBox().y+externalPadding);
+	tableTitle->moveTo(rectangleFigure->getBasicDisplayBox().x+internalPadding*2,rectangleFigure->getBasicDisplayBox().y+internalPadding/2);
 
 	//Intialize handles
 	figureHandles->addItem(new ddAddColButtonHandle(this,new ddAddColLocator(), wxBitmap(ddAddColumn_xpm),wxSize(8,8)));
@@ -121,7 +122,7 @@ void ddTableFigure::updateTableSize()
 	delete iterator;
 
 
-//Adjust size of table	 with padding
+//Adjust size of table with padding
 wxSize s = r.GetSize();
 s.IncBy(externalPadding*2,externalPadding*2);
 if(s.GetHeight()<minHeight)
@@ -146,7 +147,7 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 
 	ddCompositeFigure::draw(context,view);
 
-	//Draw Title Line
+	//Draw Title Line 1
 	ddIFigure *f;
 	f = (ddIFigure*)figureFigures->getItemAt(0);
 	int x1=f->displayBox().GetTopLeft().x;
@@ -154,12 +155,19 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	int y=f->displayBox().GetPosition().y;
 	f = (ddIFigure*)figureFigures->getItemAt(1);
 	y+=f->displayBox().height;
-	
+
 	ddPoint copy1,copy2;
 	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
 	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
-
 	context.DrawLine(copy1,copy2);
+
+	//Draw Title Line 2
+	copy1.y+=9;
+	copy2.y+=9;
+	context.DrawLine(copy1,copy2);
+
+
+	
 }
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
@@ -175,7 +183,7 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 
 	ddCompositeFigure::drawSelected(context,view);
 
-	//Draw Title Line
+	//Draw Title Line 1
 	ddIFigure *f;
 	f = (ddIFigure*)figureFigures->getItemAt(0);
 	int x1=f->displayBox().GetTopLeft().x;
@@ -188,6 +196,11 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
 	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
 
+	context.DrawLine(copy1,copy2);
+
+	//Draw Title Line 2
+	copy1.y+=9;
+	copy2.y+=9;
 	context.DrawLine(copy1,copy2);
 }
 

@@ -37,6 +37,7 @@ public:
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
 	virtual ddIFigure* findFigure(int x, int y);
+	virtual ddIFigure* getFigureAt(int pos);
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 	virtual void sendToBack(ddIFigure *figure);
 	virtual void sendToFront(ddIFigure *figure);
