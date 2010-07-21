@@ -65,7 +65,8 @@ void ddButtonHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
 	wxPoint copy = getDisplayBox().GetPosition();
 	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-	context.DrawBitmap(buttonIcon,copy.x,copy.y,true);
+	if(buttonIcon.IsOk())
+		context.DrawBitmap(buttonIcon,copy.x,copy.y,true);
 }
 
 

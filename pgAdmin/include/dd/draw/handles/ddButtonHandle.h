@@ -34,10 +34,10 @@ public:
 	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
 protected:
-
+	wxBitmap buttonIcon;
 private:
 	bool clicked;
 	ddILocator *bLocator;
-	wxBitmap buttonIcon;
+
 };
 #endif

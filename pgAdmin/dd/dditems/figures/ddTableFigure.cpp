@@ -29,10 +29,18 @@
 #include "dd/dditems/locators/ddRemoveColLocator.h"
 #include "dd/dditems/handles/ddAddFkButtonHandle.h"
 #include "dd/dditems/locators/ddAddFkLocator.h"
+#include "dd/dditems/handles/ddRemoveTableButtonHandle.h"
+#include "dd/dditems/locators/ddRemoveTableLocator.h"
+#include "dd/dditems/handles/ddMinMaxTableButtonHandle.h"
+#include "dd/dditems/locators/ddMinMaxTableLocator.h"
+
 //Images
 #include "images/ddAddColumn.xpm"
 #include "images/ddRemoveColumn.xpm"
 #include "images/ddAddForeignKey.xpm"
+#include "images/ddMaximizeTable.xpm"
+#include "images/ddMinimizeTable.xpm"
+#include "images/ddRemoveTable.xpm"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -69,6 +77,8 @@ ddCompositeFigure()
 	figureHandles->addItem(new ddAddColButtonHandle(this,new ddAddColLocator(), wxBitmap(ddAddColumn_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddRemoveColButtonHandle(this,new ddRemoveColLocator(), wxBitmap(ddRemoveColumn_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddAddFkButtonHandle(this,new ddAddFkLocator(), wxBitmap(ddAddForeignKey_xpm),wxSize(8,8)));
+	figureHandles->addItem(new ddRemoveTableButtonHandle(this,new ddRemoveTableLocator(), wxBitmap(ddRemoveTable_xpm),wxSize(8,8)));
+	figureHandles->addItem(new ddMinMaxTableButtonHandle(this,new ddMinMaxTableLocator(), wxBitmap(ddMinimizeTable_xpm),wxBitmap(ddMaximizeTable_xpm),wxSize(8,8)));
 
 	fromSelToNOSel=false;
 	
@@ -160,6 +170,12 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
 	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
 	context.DrawLine(copy1,copy2);
+	
+	//Draw Columns middle line title
+	wxFont font = settings->GetSystemFont();
+	font.SetPointSize(7);
+	context.SetFont(font);
+	context.DrawText(wxT("Columns"),copy1.x+3,copy1.y-1);
 
 	//Draw Title Line 2
 	copy1.y+=9;
@@ -195,8 +211,14 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	ddPoint copy1,copy2;
 	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
 	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
-
 	context.DrawLine(copy1,copy2);
+
+
+	//Draw Columns middle line title
+	wxFont font = settings->GetSystemFont();
+	font.SetPointSize(7);
+	context.SetFont(font);
+	context.DrawText(wxT("Columns"),copy1.x+3,copy1.y-1);
 
 	//Draw Title Line 2
 	copy1.y+=9;
@@ -215,7 +237,7 @@ void ddTableFigure::resetPosition(ddColumnFigure *column)
 	
 	iterator->Next(); //First Figure is always Rect, just ignore
 	ddIFigure *f = (ddIFigure *) iterator->Next(); //Second Figure is table title
-	verticalPos = f->displayBox().GetBottom(); //f->displayBox().y + f->displayBox().width;
+	verticalPos = f->displayBox().GetBottom() + 10; //f->displayBox().y + f->displayBox().width + 9 from second line + 1 padding;
 	horizontalPos = f->displayBox().x;
 
 	while(iterator->HasNext()){

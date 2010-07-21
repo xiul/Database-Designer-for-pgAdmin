@@ -3862,7 +3862,15 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\dditems\handles\ddMinMaxTableButtonHandle.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\dditems\handles\ddRemoveColButtonHandle.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\handles\ddRemoveTableButtonHandle.h"
 							>
 						</File>
 					</Filter>
@@ -3878,7 +3886,15 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\dditems\locators\ddMinMaxTableLocator.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\dditems\locators\ddRemoveColLocator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\locators\ddRemoveTableLocator.h"
 							>
 						</File>
 					</Filter>
@@ -5531,7 +5547,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\dditems\handles\ddMinMaxTableButtonHandle.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\dditems\handles\ddRemoveColButtonHandle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\handles\ddRemoveTableButtonHandle.cpp"
 						>
 					</File>
 				</Filter>
@@ -5547,7 +5571,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\dditems\locators\ddMinMaxTableLocator.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\dditems\locators\ddRemoveColLocator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\locators\ddRemoveTableLocator.cpp"
 						>
 					</File>
 				</Filter>

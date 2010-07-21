@@ -1,0 +1,13 @@
+/* XPM */
+static const char * ddRemoveTable_xpm[] = {
+"8 8 2 1",
+" 	c None",
+".	c #BA020F",
+" ..  .. ",
+"  .  .  ",
+"   ..   ",
+"   ..   ",
+"   ..   ",
+"  .  .  ",
+" ..  .. ",
+"        "};

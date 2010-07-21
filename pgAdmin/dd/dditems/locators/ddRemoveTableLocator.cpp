@@ -17,7 +17,7 @@
 #include <wx/wx.h>
 
 // App headers
-#include "dd/dditems/locators/ddAddColLocator.h"
+#include "dd/dditems/locators/ddRemoveTableLocator.h"
 #include "dd/dditems/figures/ddTableFigure.h"
 
 //*******************   Start of special debug header to find memory leaks
@@ -27,25 +27,21 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddAddColLocator::ddAddColLocator()
+ddRemoveTableLocator::ddRemoveTableLocator()
 {
 }
 
-ddAddColLocator::~ddAddColLocator()
+ddRemoveTableLocator::~ddRemoveTableLocator()
 {
 }
 
-ddPoint& ddAddColLocator::locate(ddIFigure *owner)
+ddPoint& ddRemoveTableLocator::locate(ddIFigure *owner)
 {
 	if(owner)
 	{
 		ddTableFigure *table = (ddTableFigure*) owner;
-		int x = table->displayBox().x + table->displayBox().width - 30; //(8+2+8+2+8+2)
-
-		ddIFigure *f = (ddIFigure*)table->getFigureAt(0);
-		int y=f->displayBox().GetPosition().y+3;  //2 from internalPadding + 1 to start after line = 3
-		f = (ddIFigure*)table->getFigureAt(1);
-		y+=f->displayBox().height;
+		int x = table->displayBox().x + table->displayBox().width - 10; //(8+2)
+		int y = table->displayBox().y + 6;
 
 		locatePoint.x=x;
 		locatePoint.y=y;
