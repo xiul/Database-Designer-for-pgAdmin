@@ -145,8 +145,11 @@ int ddSimpleTextFigure::getPadding()
 
 wxArrayString& ddSimpleTextFigure::popupStrings()
 {
-	strings.Clear();
-	strings.Add(wxT("MENU"));
+	if(strings.Count()<=0)
+	{
+		strings.Clear();
+		strings.Add(wxT("MENU"));
+	}
 	return strings;
 };
 

@@ -11,35 +11,40 @@
 
 #ifndef DDCOLUMNFIGURE_H
 #define DDCOLUMNFIGURE_H
+#include "dd/draw/figures/ddAbstractFigure.h"
+#include "dd/draw/figures/ddBitmapFigure.h"
+#include "dd/dditems/figures/ddTextColumnFigure.h"
 
 
-#include <wx/arrstr.h>
-
-#include "dd/draw/figures/ddSimpleTextFigure.h"
-#include "dd/dditems/utilities/ddDataType.h"
-
-class ddTableFigure;
-
-class ddColumnFigure : public ddSimpleTextFigure
+// This figure is like composite but minimize overhead for columns
+class ddColumnFigure : public ddAbstractFigure
 {
 public:
-	ddColumnFigure(wxString& columnName, ddDataType dataType);
+	ddColumnFigure(wxString& columnName);
     ~ddColumnFigure();
-	virtual wxString& getText(bool extended = false);
-	virtual wxArrayString& popupStrings();
-	virtual void OnTextPopupClick(wxCommandEvent& event);
-	virtual void setText(wxString textString);
+	virtual void basicMoveBy(int x, int y);
+	virtual void moveTo(int x, int y);
+	virtual bool containsPoint(int x, int y);
+//	virtual ddIteratorBase* figuresEnumerator();
+//	virtual ddIteratorBase* figuresInverseEnumerator();
+	virtual ddRect& getBasicDisplayBox();
+//	virtual ddCollection* handlesEnumerator();
+//	virtual void add(ddIFigure *figure);
+//	virtual void remove(ddIFigure *figure);
+//	virtual bool includes(ddIFigure *figure);
+	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
+	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
+	virtual ddIFigure* findFigure(int x, int y);
+	virtual ddIFigure* getFigureAt(int pos);
+	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
+	virtual void sendToBack(ddIFigure *figure);
+	virtual void sendToFront(ddIFigure *figure);
 	virtual ddTableFigure* getOwnerTable();
 	virtual void setOwnerTable(ddTableFigure *table);
-	virtual void setShowDataType(bool value);
-	ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
-	int getTextWidth();
-	int getTextHeight();
 protected:
-	ddTableFigure *ownerTable;
+	ddBitmapFigure *leftImage;
+	ddTextColumnFigure *columnText;
 private:
-	ddDataType columnType;
-	wxString out;
-	bool showDataType;
+	
 };
 #endif

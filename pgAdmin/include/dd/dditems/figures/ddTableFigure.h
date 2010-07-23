@@ -14,6 +14,7 @@
 #include "dd/draw/figures/ddCompositeFigure.h"
 #include "dd/draw/figures/ddRectangleFigure.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
+#include "dd/dditems/figures/ddTextColumnFigure.h"
 #include "dd/dditems/figures/ddColumnFigure.h"
 
 
@@ -28,18 +29,20 @@ public:
 	void updateTableSize();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
-	void resetPosition(ddColumnFigure *column);
+	void resetColPosition(ddColumnFigure *column);
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
+	void calculateBars(ddDrawingView *view);
 protected:
 
 private:
 	ddRectangleFigure *rectangleFigure;
-	ddColumnFigure *tableTitle;
+	ddTextColumnFigure *tableTitle;
 	bool fromSelToNOSel;
 	bool deleteColumnMode;
 	int internalPadding, externalPadding;
 	int minWidth, minHeight;
-
+	ddPoint colsTopLeft, colsTopRight, colsBottomLeft, colsBottomRight;
+	ddPoint idxsTopLeft, idxsTopRight, idxsBottomLeft, idxsBottomRight;
 };
 #endif

@@ -1,4 +1,4 @@
-//////////////////	////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //
 // pgAdmin III - PostgreSQL Tools
 // RCS-ID:      $Id: gqbView.cpp 8268 2010-04-15 21:49:27Z xiul $
@@ -16,14 +16,24 @@
 // wxWindows headers
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
+#include <wx/pen.h>
 
 // App headers
 #include "dd/dditems/figures/ddColumnFigure.h"
-#include "dd/dditems/tools/ddColumnTextTool.h"
+#include "dd/dditems/figures/ddTextColumnFigure.h"
+#include "dd/dditems/tools/ddColumnFigureTool.h"
+#include "dd/draw/figures/ddBitmapFigure.h"
+/*#include "dd/draw/utilities/ddArrayCollection.h"
+
+*/
 #include "dd/dditems/utilities/ddDataType.h"
-#include "dd/draw/figures/ddSimpleTextFigure.h"
-#include "dd/draw/main/ddDrawingView.h"
-#include "dd/dditems/figures/ddTableFigure.h"
+
+//Images
+#include "images/foreignkey.xpm"
+#include "images/primarykey.xpm"
+#include "images/unique.xpm"
+#include "images/parser.xpm"  //test for fk pk
+
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -31,122 +41,159 @@
 #endif
 //*******************   End of special debug header to find memory leaks
 
-//DD-TODO: Add composite column functionality by addin subcolumn for
-//         composite types, but care: composite types can be recursive (using inside other composite types)
 
-ddColumnFigure::ddColumnFigure(wxString& columnName, ddDataType dataType):
-ddSimpleTextFigure(columnName)
-{
-	columnType = dataType;
-	this->setEditable(true);
-	enablePopUp();
-	ownerTable = NULL;
-	showDataType = true;
-	recalculateDisplayBox();
-}
+ddColumnFigure::ddColumnFigure(wxString& columnName){
+	columnText = new ddTextColumnFigure(columnName,dt_null);
+	leftImage = new ddBitmapFigure(primarykey_xpm);
 
-ddColumnFigure::~ddColumnFigure()
-{
-
-}
-
-wxString& ddColumnFigure::getText(bool extended)
-{
-	if(showDataType && extended)
+	//init displaybox && images position
+	basicDisplayBox.SetPosition(wxPoint(0,0));
+	basicDisplayBox.SetSize( columnText->displayBox().GetSize());
+	if(leftImage)
 	{
-		wxString ddType = popupStrings()[columnType];
-		out = wxString( ddSimpleTextFigure::getText() + wxString(wxT(" : ")) + ddType );
-		return  out;
+		basicDisplayBox.width+=leftImage->displayBox().GetSize().GetWidth();
+		columnText->displayBox().x+=leftImage->displayBox().GetSize().GetWidth();
 	}
 	else
 	{
-		return ddSimpleTextFigure::getText();
+		basicDisplayBox.width+=16; //default value
+		columnText->displayBox().x+=16;
 	}
+
+
 }
 
-//event ID must match enum ddDataType!!! this event was created on view
-void ddColumnFigure::OnTextPopupClick(wxCommandEvent& event)
+ddColumnFigure::~ddColumnFigure(){
+
+	if(columnText)
+		delete columnText;
+	if(leftImage)
+		delete leftImage;
+}
+
+void ddColumnFigure::basicMoveBy(int x, int y)
 {
-	//DD-TODO: improve this
-	switch(event.GetId())
+	ddAbstractFigure::basicMoveBy(x,y);
+	if(leftImage)
 	{
-		case 0:
-			columnType = dt_bigint;
-		break;
-		case 1:
-			columnType = dt_boolean;
-		break;
-		case 2:
-			columnType = dt_bool;
-		break;
-		case 3:
-			columnType = dt_integer;
-		break;
-		case 4:
-			columnType = dt_money;
-		break;
-		case 5:
-			columnType = dt_varchar_n;
-		break;
-	}		
-}
-
-//must match enum ddDataType!!!
-wxArrayString& ddColumnFigure::popupStrings()
-{
-	//fill popup strings only first time
-	if(strings.Count()<=0){
-		strings.Clear();
-		strings.Add(wxT("BIGINT"));
-		strings.Add(wxT("BOOLEAN"));
-		strings.Add(wxT("BOOL"));
-		strings.Add(wxT("INTEGER"));
-		strings.Add(wxT("MONEY"));
-		strings.Add(wxT("VARCHAR("));
+			leftImage->moveBy(x,y);
+			columnText->moveBy(x,y);
 	}
-	return strings;
-};
-
-//DD-TODO: when a event onfigurechange exists, replace this hack with that event
-//Hack to allow column text to submit new size of text signal to tablefigure and then recalculate displaybox
-void ddColumnFigure::setText(wxString textString)
-{
-	ddSimpleTextFigure::setText(textString);
-	if(ownerTable)
-		ownerTable->updateTableSize();
-
+	else
+	{
+			columnText->moveBy(x,y);
+	}
 }
 
-ddTableFigure* ddColumnFigure::getOwnerTable()
+void ddColumnFigure::moveTo(int x, int y)
 {
-	return ownerTable;
+	ddAbstractFigure::moveTo(x,y);
+	if(leftImage)
+	{
+			leftImage->moveTo(x,y);
+			columnText->moveTo(x+leftImage->displayBox().GetSize().GetWidth(),y);
+	}
+	else
+	{
+			columnText->moveTo(x+16,y);
+	}
 }
 
-void ddColumnFigure::setOwnerTable(ddTableFigure *table)
+
+bool ddColumnFigure::containsPoint(int x, int y)
 {
-	ownerTable = table;
+	bool out = false;
+	if(columnText->containsPoint(x,y))
+		{
+			out=true;  
+		}
+		
+	if(leftImage->containsPoint(x,y))
+		{
+			out=true;  
+		}
+	return out;
 }
 
-void ddColumnFigure::setShowDataType(bool value)
+ddRect& ddColumnFigure::getBasicDisplayBox()
 {
-	showDataType = value;
+/*	if(leftImage)
+	{
+		basicDisplayBox.x=columnText->displayBox().x-leftImage->getWidth();
+	}
+	else
+	{
+		basicDisplayBox.x=columnText->displayBox().x-16;
+	}
+	basicDisplayBox.y=columnText->displayBox().y;
+*/
+	return basicDisplayBox;
+}
+
+void ddColumnFigure::draw(wxBufferedDC& context, ddDrawingView *view)
+{
+	columnText->draw(context,view);
+		if(leftImage)
+			leftImage->draw(context,view);
+}
+
+void ddColumnFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
+{
+	columnText->drawSelected(context,view);
+		if(leftImage)
+			leftImage->drawSelected(context,view);
+}
+
+ddIFigure* ddColumnFigure::findFigure(int x, int y)
+{
+	ddIFigure *out=NULL;
+
+	if(columnText->containsPoint(x,y))
+			out=columnText;
+
+	if(leftImage && leftImage->containsPoint(x,y))
+			out=leftImage;
+
+	return out;
 }
 
 ddITool* ddColumnFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
 {
-	return textEditable ? new ddColumnTextTool(editor,this,defaultTool) : defaultTool;
+	return new ddColumnFigureTool(editor, this, defaultTool);
 }
 
-int ddColumnFigure::getTextWidth()
+void ddColumnFigure::sendToBack(ddIFigure *figure)
 {
-	int w,h;
-	getFontMetrics(w,h);
-	return w;
+	//DD-TODO: Implement this function
 }
 
-int ddColumnFigure::getTextHeight()
+void ddColumnFigure::sendToFront(ddIFigure *figure)
 {
-	int w,h;
-	getFontMetrics(w,h);
-	return h;
+	//DD-TODO: Implement this function
+}
+
+
+ddIFigure* ddColumnFigure::getFigureAt(int pos)
+{
+	if(pos==0)
+	{
+		return (ddIFigure*) leftImage;
+	}
+	
+	if(pos==1)
+	{
+		return (ddIFigure*) columnText;
+	}
+	
+	return NULL;
+}
+
+ddTableFigure* ddColumnFigure::getOwnerTable()
+{
+	return columnText->getOwnerTable();
+}
+
+void ddColumnFigure::setOwnerTable(ddTableFigure *table)
+{
+	columnText->setOwnerTable(table);
 }

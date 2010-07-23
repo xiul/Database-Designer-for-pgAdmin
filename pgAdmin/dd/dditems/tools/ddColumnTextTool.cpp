@@ -20,7 +20,7 @@
 
 // App headers
 #include "dd/dditems/tools/ddColumnTextTool.h"
-#include "dd/dditems/figures/ddColumnFigure.h"
+#include "dd/dditems/figures/ddTextColumnFigure.h"
 #include "dd/dditems/figures/ddTableFigure.h"
 
 //*******************   Start of special debug header to find memory leaks
@@ -36,8 +36,8 @@ class ddDrawingEditor;
 ddColumnTextTool::ddColumnTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddSimpleTextTool(editor,fig,dt)
 {
-	if(colFigure->ms_classInfo.IsKindOf(&ddColumnFigure::ms_classInfo))
-		colFigure = (ddColumnFigure *) fig;
+	if(colFigure->ms_classInfo.IsKindOf(&ddTextColumnFigure::ms_classInfo))
+		colFigure = (ddTextColumnFigure *) fig;
 	else
 		colFigure = NULL;
 }
@@ -50,7 +50,6 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 {	
 	if(event.LeftDown())
 	{
-	
 		if(colFigure && colFigure->getOwnerTable() && colFigure->getOwnerTable()->deleteColumnActivated())
 		{
 			ddTableFigure *table = colFigure->getOwnerTable();
@@ -59,13 +58,14 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 				int answer = wxMessageBox(wxT("Delete column: ") + colFigure->getText(true) + wxT("?"), wxT("Confirm"),wxYES_NO, event.getView());
 				if (answer == wxYES)
 				{
-					table->removeColumn(colFigure);		
+			//666 arreglar esto pero ya osea		table->removeColumn(colFigure);		
 					colFigure = NULL;
 				}
 			}
 			table->toggleColumnDeleteMode();
 			return;
 		}
+
 	}
 	
 	if(colFigure && colFigure->getOwnerTable()) //if click on any other place disable column delete

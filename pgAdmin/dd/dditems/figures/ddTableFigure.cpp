@@ -20,6 +20,7 @@
 
 // App headers
 #include "dd/dditems/figures/ddTableFigure.h"
+#include "dd/dditems/figures/ddTextColumnFigure.h"
 #include "dd/dditems/figures/ddColumnFigure.h"
 #include "dd/draw/main/ddDrawingView.h"
 #include "dd/dditems/utilities/ddDataType.h"
@@ -62,7 +63,7 @@ ddCompositeFigure()
 	add(rectangleFigure);
 	
 	//DD-TODO: improve table name automatic creation
-	tableTitle = new ddColumnFigure(wxString(wxT("NewTable")),dt_varchar_n);
+	tableTitle = new ddTextColumnFigure(wxString(wxT("NewTable")),dt_null);
 	tableTitle->setEditable(true);
 	tableTitle->moveTo(x,y);
 	tableTitle->disablePopUp();
@@ -70,7 +71,6 @@ ddCompositeFigure()
 	//If owner == NULL then don't delete that column because it don't belong to table
 	tableTitle->setOwnerTable(NULL); 
 	add(tableTitle);
-	//666 tableTitle->moveTo(rectangleFigure->getBasicDisplayBox().x+externalPadding,rectangleFigure->getBasicDisplayBox().y+externalPadding);
 	tableTitle->moveTo(rectangleFigure->getBasicDisplayBox().x+internalPadding*2,rectangleFigure->getBasicDisplayBox().y+internalPadding/2);
 
 	//Intialize handles
@@ -97,7 +97,7 @@ ddTableFigure::~ddTableFigure()
 void ddTableFigure::addColumn(ddColumnFigure *column)
 {
 	column->setOwnerTable(this);
-	resetPosition(column);
+	resetColPosition(column);
 	add(column);
 	updateTableSize();
 }
@@ -106,6 +106,7 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 {
 	column->setOwnerTable(NULL);
 	remove(column);
+	resetColPosition(NULL);
 	if(column)
 		delete column;
 	updateTableSize();
@@ -142,6 +143,80 @@ if(s.GetWidth()<minWidth)
 rectangleFigure->setSize(s);
 }
 
+//Put a new column their new position below older columns or if column is NULL fix positions of columns because a delete
+void ddTableFigure::resetColPosition(ddColumnFigure *column)
+{
+	ddRect r;
+	int verticalPos = 0, horizontalPos = 0;
+
+	ddIteratorBase *iterator=figuresEnumerator();
+	
+	iterator->Next(); //First Figure is always Rect, just ignore
+	ddIFigure *f = (ddIFigure *) iterator->Next(); //Second Figure is table title
+	verticalPos = f->displayBox().GetBottom() + 10; //f->displayBox().y + f->displayBox().width + 9 from second line + 1 padding;
+	horizontalPos = f->displayBox().x;
+
+	while(iterator->HasNext()){
+		f = (ddIFigure *) iterator->Next();
+		if(!column) //if not column to add then recalculate old columns position
+		{
+			f->moveTo(horizontalPos,verticalPos + internalPadding);
+		}
+		verticalPos += f->displayBox().height; 
+		
+
+	}
+	delete iterator;
+	
+	if(column)
+	{
+/*		column->displayBox().y = internalPadding + verticalPos;
+		column->displayBox().x = horizontalPos;*/
+		column->moveTo(horizontalPos,internalPadding + verticalPos);
+	}
+}
+
+
+void ddTableFigure::calculateBars(ddDrawingView *view)
+{
+	//Calculate Top Line of Columns Bar
+	ddIFigure *f;
+	f = (ddIFigure*)figureFigures->getItemAt(0);
+	int x1=f->displayBox().GetTopLeft().x;
+	int x2=f->displayBox().GetTopRight().x;
+	int y=f->displayBox().GetPosition().y;
+	f = (ddIFigure*)figureFigures->getItemAt(1);
+	y+=f->displayBox().height;
+
+	view->CalcScrolledPosition(x1,y+(internalPadding),&colsTopLeft.x,&colsTopLeft.y);
+	view->CalcScrolledPosition(x2,y+(internalPadding),&colsTopRight.x,&colsTopRight.y);
+	
+	//Calculate Bottom Line of Columns Bar
+	colsBottomLeft = colsTopLeft;
+	colsBottomRight = colsTopRight;
+	colsBottomLeft.y+=9;
+	colsBottomRight.y+=9;
+
+	//Calculate Space for columns and draw indxs line
+	
+	//DD-TODO: Implement indexes and fix this
+	f = (ddIFigure*)figureFigures->getItemAt(figureFigures->count()-1);
+	x1=f->displayBox().GetTopLeft().x;
+	x2=f->displayBox().GetTopRight().x;
+	y=f->displayBox().GetPosition().y;
+	y+=f->displayBox().height;
+
+	view->CalcScrolledPosition(x1,y+(internalPadding),&idxsTopLeft.x,&idxsTopLeft.y);
+	view->CalcScrolledPosition(x2,y+(internalPadding),&idxsTopRight.x,&idxsTopRight.y);
+	//Calculate Bottom Line of Columns Bar
+	idxsBottomLeft = idxsTopLeft;
+	idxsBottomRight = idxsTopRight;
+	idxsBottomLeft.y+=9;
+	idxsBottomRight.y+=9;
+	
+	
+}
+
 
 void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 {
@@ -157,31 +232,35 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 
 	ddCompositeFigure::draw(context,view);
 
-	//Draw Title Line 1
-	ddIFigure *f;
-	f = (ddIFigure*)figureFigures->getItemAt(0);
-	int x1=f->displayBox().GetTopLeft().x;
-	int x2=f->displayBox().GetTopRight().x;
-	int y=f->displayBox().GetPosition().y;
-	f = (ddIFigure*)figureFigures->getItemAt(1);
-	y+=f->displayBox().height;
-
-	ddPoint copy1,copy2;
-	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
-	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
-	context.DrawLine(copy1,copy2);
+	//Draw Columns Title Line 1
+	calculateBars(view);
+	context.DrawLine(colsTopLeft,colsTopRight);
 	
 	//Draw Columns middle line title
 	wxFont font = settings->GetSystemFont();
 	font.SetPointSize(7);
 	context.SetFont(font);
-	context.DrawText(wxT("Columns"),copy1.x+3,copy1.y-1);
+	context.DrawText(wxT("Columns"),colsTopLeft.x+3,colsTopLeft.y-1);
 
-	//Draw Title Line 2
-	copy1.y+=9;
-	copy2.y+=9;
-	context.DrawLine(copy1,copy2);
+	//Draw Columns Title Line 2
+	context.DrawLine(colsBottomLeft,colsBottomRight);
 
+
+/*
+
+
+	//Draw Indexes Title Line 1
+	context.DrawLine(idxsTopLeft,idxsTopRight);
+	
+	//Draw Indexes middle line title
+	font.SetPointSize(7);
+	context.SetFont(font);
+	context.DrawText(wxT("Indexes"),idxsTopLeft.x+3,idxsTopLeft.y-1);
+
+	//Draw Indexes Title Line 2
+	context.DrawLine(idxsBottomLeft,idxsBottomRight);
+
+*/
 
 	
 }
@@ -190,63 +269,25 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 {
 	if(!fromSelToNOSel)
 		fromSelToNOSel=true;
-/*	context.SetPen(wxPen(wxColour(70, 130, 180),2,wxSOLID));
-	context.SetBrush(wxBrush (wxColour(224, 248, 255),wxSOLID));
-	*/
 
 	context.SetPen(wxPen(wxColour(70, 130, 180),2,wxSOLID));
 	context.SetBrush(wxBrush (wxColour(224, 248, 255),wxSOLID));
 
 	ddCompositeFigure::drawSelected(context,view);
 
-	//Draw Title Line 1
-	ddIFigure *f;
-	f = (ddIFigure*)figureFigures->getItemAt(0);
-	int x1=f->displayBox().GetTopLeft().x;
-	int x2=f->displayBox().GetTopRight().x;
-	int y=f->displayBox().GetPosition().y;
-	f = (ddIFigure*)figureFigures->getItemAt(1);
-	y+=f->displayBox().height;
-
-	ddPoint copy1,copy2;
-	view->CalcScrolledPosition(x1,y+(internalPadding),&copy1.x,&copy1.y);
-	view->CalcScrolledPosition(x2,y+(internalPadding),&copy2.x,&copy2.y);
-	context.DrawLine(copy1,copy2);
-
-
+	//Draw Columns Title Line 1
+	calculateBars(view);
+	context.DrawLine(colsTopLeft,colsTopRight);
+	
 	//Draw Columns middle line title
 	wxFont font = settings->GetSystemFont();
 	font.SetPointSize(7);
 	context.SetFont(font);
-	context.DrawText(wxT("Columns"),copy1.x+3,copy1.y-1);
+	context.DrawText(wxT("Columns"),colsTopLeft.x+3,colsTopLeft.y-1);
 
-	//Draw Title Line 2
-	copy1.y+=9;
-	copy2.y+=9;
-	context.DrawLine(copy1,copy2);
-}
+	//Draw Columns Title Line 2
+	context.DrawLine(colsBottomLeft,colsBottomRight);
 
-
-//Put a new column their new position below older columns
-void ddTableFigure::resetPosition(ddColumnFigure *column)
-{
-	ddRect r;
-	int verticalPos = 0, horizontalPos = 0;
-
-	ddIteratorBase *iterator=figuresEnumerator();
-	
-	iterator->Next(); //First Figure is always Rect, just ignore
-	ddIFigure *f = (ddIFigure *) iterator->Next(); //Second Figure is table title
-	verticalPos = f->displayBox().GetBottom() + 10; //f->displayBox().y + f->displayBox().width + 9 from second line + 1 padding;
-	horizontalPos = f->displayBox().x;
-
-	while(iterator->HasNext()){
-		f = (ddIFigure *) iterator->Next();
-		verticalPos += f->displayBox().height; 
-	}
-	delete iterator;
-	column->displayBox().y = internalPadding + verticalPos;
-	column->displayBox().x = horizontalPos;
 }
 
 bool ddTableFigure::deleteColumnActivated()

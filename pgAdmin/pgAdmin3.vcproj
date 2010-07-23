@@ -3626,6 +3626,14 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\figures\ddAbstractMenuFigure.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\draw\figures\ddBitmapFigure.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\figures\ddCompositeFigure.h"
 							>
 						</File>
@@ -3786,6 +3794,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\draw\tools\ddMenuTool.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\draw\tools\ddPolyLineFigureTool.h"
 							>
 						</File>
@@ -3838,7 +3850,15 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\dditems\figures\ddColumnKindIcon.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\dditems\figures\ddTableFigure.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\figures\ddTextColumnFigure.h"
 							>
 						</File>
 					</Filter>
@@ -3901,6 +3921,10 @@
 					<Filter
 						Name="tools"
 						>
+						<File
+							RelativePath=".\include\dd\dditems\tools\ddColumnFigureTool.h"
+							>
+						</File>
 						<File
 							RelativePath=".\include\dd\dditems\tools\ddColumnTextTool.h"
 							>
@@ -5323,6 +5347,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\draw\figures\ddAbstractMenuFigure.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\figures\ddBitmapFigure.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\draw\figures\ddCompositeFigure.cpp"
 						>
 					</File>
@@ -5392,6 +5424,10 @@
 					</File>
 					<File
 						RelativePath=".\dd\draw\tools\ddITool.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\draw\tools\ddMenuTool.cpp"
 						>
 					</File>
 					<File
@@ -5527,7 +5563,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\dd\dditems\figures\ddColumnKindIcon.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\dd\dditems\figures\ddTableFigure.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\figures\ddTextColumnFigure.cpp"
 						>
 					</File>
 				</Filter>
@@ -5586,6 +5630,10 @@
 				<Filter
 					Name="tools"
 					>
+					<File
+						RelativePath=".\dd\dditems\tools\ddColumnFigureTool.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\dd\dditems\tools\ddColumnTextTool.cpp"
 						>

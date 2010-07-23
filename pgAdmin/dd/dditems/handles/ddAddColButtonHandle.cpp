@@ -40,7 +40,7 @@ ddAddColButtonHandle::~ddAddColButtonHandle(){
 void ddAddColButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
-	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),dt_varchar_n));
+	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn"))));
 }
 
 void ddAddColButtonHandle::invokeStep(int x, int y, ddDrawingView *view)

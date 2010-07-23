@@ -102,6 +102,7 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 	simpleTextToolEdit = new wxTextCtrl(this,1979,wxT(""),wxDefaultPosition,wxDefaultSize,wxBORDER_NONE);
 	simpleTextToolEdit->Hide();
 	simpleTextFigure = NULL;
+	menuFigure = NULL;
 	//popTextUpItems=NULL;
 }
 
@@ -327,12 +328,21 @@ void ddDrawingView::onMouseUp(wxMouseEvent& event){
 void ddDrawingView::setSimpleTextToolFigure(ddSimpleTextFigure *figure)
 {
 	simpleTextFigure=figure;
+	menuFigure=NULL;
 	if(simpleTextFigure)
 	{
 		simpleTextToolEdit->SetValue(simpleTextFigure->getText());
 		simpleTextToolEdit->SelectAll();
 	}
 }
+
+//Hack to allow use (events) of wxmenu inside a tool Generic Way
+void ddDrawingView::setMenuToolFigure(ddAbstractMenuFigure *figure)
+{
+	menuFigure=figure;
+	simpleTextFigure=NULL;
+}
+
 
 //Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
 void ddDrawingView::simpleTextToolChangeHandler(wxCommandEvent& event)
@@ -373,12 +383,13 @@ wxTextCtrl* ddDrawingView::getSimpleTextToolEdit()
 	return simpleTextToolEdit;
 }
 
-
 //Hack to allow use (events) of wxmenu inside a tool like simpletexttool
 void ddDrawingView::OnTextPopupClick(wxCommandEvent& event)
 {
 	if(simpleTextFigure)
 		simpleTextFigure->OnTextPopupClick(event);
+	else if(menuFigure)
+		menuFigure->OnTextPopupClick(event);
 	event.Skip();
 }
 

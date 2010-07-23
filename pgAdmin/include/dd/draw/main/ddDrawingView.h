@@ -17,6 +17,7 @@
 //#include "dd/draw/main/ddDrawingEditor.h"
 #include "dd/draw/handles/ddIHandle.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
+#include "dd/draw/figures/ddAbstractMenuFigure.h"
 // Create View Class for MVC pattern of graphic library of pgAdmin
 
 //class ddSimpleTextFigure;   //FIX-HACK to avoid circular references
@@ -62,6 +63,12 @@ public:
 	wxTextCtrl* getSimpleTextToolEdit();
 	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
 
+	//Hack to allow use (events) of wxmenu inside a tool Generic Way
+	void setMenuToolFigure(ddAbstractMenuFigure *figure);
+	//End Hack to allow use (events) of wxmenu inside a tool 
+
+	//DD-TODO: Below functions aren't exclusively used by simpletexttool change their names in a more generic way
+
 	//Hack to allow use (events) of wxmenu inside a tool like simpletexttool
 	void OnTextPopupClick(wxCommandEvent& event);
 	void setTextPopUpList(wxArrayString &strings, wxMenu &mnu);
@@ -90,6 +97,10 @@ private:
 	wxPoint selPoints[5];
 	bool drawSelRect;
 	//End Hack to avoid selection rectangle drawing bug
+	
+	//Hack to allow use (events) of wxmenu inside a tool Generic Way
+	ddAbstractMenuFigure *menuFigure;
+	//End hack to allow use (events) of wxmenu inside a tool Generic Way
 
 	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event && POPUP EVENT
 	wxTextCtrl *simpleTextToolEdit;

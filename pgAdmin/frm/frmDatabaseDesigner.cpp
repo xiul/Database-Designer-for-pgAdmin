@@ -8,16 +8,18 @@
 #include "ctl/ctlMenuToolbar.h"
 
 // Designer headers
-//#include "dd/draw/figures/ddAbstractFigure.h"
+#include "dd/dditems/figures/ddColumnKindIcon.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/figures/ddSimpleTextFigure.h"
 //#include "dd/draw/figures/ddCompositeFigure.h"
 #include "dd/dditems/figures/ddTableFigure.h"
 #include "dd/draw/figures/ddRectangleFigure.h"
+#include "dd/draw/figures/ddBitmapFigure.h"
 #include "dd/draw/tools/ddConnectionCreationTool.h"
 
 #include "dd/ddmodel/ddDatabaseDesign.h"
 
+#include "dd/dditems/figures/ddTextColumnFigure.h"
 #include "dd/dditems/figures/ddColumnFigure.h"
 #include "dd/dditems/figures/ddTableFigure.h"
 
@@ -170,13 +172,13 @@ f5->setEditable(true);
 design->addTable(f5);
 */
 
-ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("Id")),dt_integer);
+ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("Id")));
 f61->displayBox().SetPosition(wxPoint(260,270));
-f61->setEditable(true);
+//f61->setEditable(true);
 
-ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue")), dt_bool);
+ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue")));
 f62->displayBox().SetPosition(wxPoint(260,290));
-f62->setEditable(true);
+//f62->setEditable(true);
 
 ddTableFigure *f6 = new ddTableFigure(225,225);
 f6->addColumn(f62);
@@ -184,13 +186,13 @@ f6->addColumn(f61);
 design->addTable(f6);
 
 
-ddColumnFigure *f71 = new ddColumnFigure(wxString(wxT("Id")),dt_integer);
+ddColumnFigure *f71 = new ddColumnFigure(wxString(wxT("Id")));
 f71->displayBox().SetPosition(wxPoint(260,270));
-f71->setEditable(true);
+//f71->setEditable(true);
 
-ddColumnFigure *f72 = new ddColumnFigure(wxString(wxT("Amount")), dt_money);
+ddColumnFigure *f72 = new ddColumnFigure(wxString(wxT("Amount")));
 f72->displayBox().SetPosition(wxPoint(260,290));
-f72->setEditable(true);
+//f72->setEditable(true);
 
 ddTableFigure *f7 = new ddTableFigure(100,100);
 f7->addColumn(f72);
@@ -198,20 +200,20 @@ f7->addColumn(f71);
 design->addTable(f7);
 
 
-ddColumnFigure *f81 = new ddColumnFigure(wxString(wxT("Id")),dt_integer);
-f81->displayBox().SetPosition(wxPoint(260,270));
-f81->setEditable(true);
-
-ddColumnFigure *f82 = new ddColumnFigure(wxString(wxT("Amount22")), dt_money);
-f82->displayBox().SetPosition(wxPoint(260,290));
-f82->setEditable(true);
 
 ddTableFigure *f8 = new ddTableFigure(350,100);
-f8->addColumn(f82);
-f8->addColumn(f81);
 design->addTable(f8);
 
+ddColumnFigure *f9 = new ddColumnFigure(wxString(wxT("Id")));
+f9->moveTo(444,444);
+//6666 fix this, if you move displaybox then figures should be moved
+//f9->setEditable(true);
+design->addTable(f9);
 
+ddColumnKindIcon *f10 = new ddColumnKindIcon();
+f10->displayBox().SetPosition(wxPoint(120,120));
+f10->displayBox().SetSize(wxSize(50,50));
+design->addTable(f10);
 }
 
  frmDatabaseDesigner::~frmDatabaseDesigner(){

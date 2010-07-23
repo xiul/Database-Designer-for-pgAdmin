@@ -13,7 +13,8 @@
 #define DDDATATYPES_H
 
 const enum ddDataType {
-	dt_bigint = 0,
+	dt_null=0,
+	dt_bigint,
 	dt_boolean,
 	dt_bool,
 	dt_integer,

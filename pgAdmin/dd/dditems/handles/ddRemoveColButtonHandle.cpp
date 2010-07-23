@@ -40,7 +40,7 @@ ddRemoveColButtonHandle::~ddRemoveColButtonHandle(){
 void ddRemoveColButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
-	ddColumnFigure *column = (ddColumnFigure*) table->findFigure(x,y);
+	ddTextColumnFigure *column = (ddTextColumnFigure*) table->findFigure(x,y);
 	if(column)
 			table->toggleColumnDeleteMode();
 }
