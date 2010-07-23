@@ -212,7 +212,7 @@ design->addTable(f9);
 
 ddColumnKindIcon *f10 = new ddColumnKindIcon();
 f10->displayBox().SetPosition(wxPoint(120,120));
-f10->displayBox().SetSize(wxSize(50,50));
+//f10->displayBox().SetSize(wxSize(50,50));
 design->addTable(f10);
 }
 

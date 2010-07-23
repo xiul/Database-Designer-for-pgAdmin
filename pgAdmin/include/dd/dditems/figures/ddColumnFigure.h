@@ -12,7 +12,7 @@
 #ifndef DDCOLUMNFIGURE_H
 #define DDCOLUMNFIGURE_H
 #include "dd/draw/figures/ddAbstractFigure.h"
-#include "dd/draw/figures/ddBitmapFigure.h"
+#include "dd/dditems/figures/ddColumnKindIcon.h"
 #include "dd/dditems/figures/ddTextColumnFigure.h"
 
 
@@ -42,7 +42,7 @@ public:
 	virtual ddTableFigure* getOwnerTable();
 	virtual void setOwnerTable(ddTableFigure *table);
 protected:
-	ddBitmapFigure *leftImage;
+	ddColumnKindIcon *leftImage;
 	ddTextColumnFigure *columnText;
 private:
 	

@@ -23,10 +23,9 @@
 #include "dd/draw/main/ddDrawingView.h"
 
 //Images
-#include "images/foreignkey.xpm"
-#include "images/primarykey.xpm"
-#include "images/unique.xpm"
-#include "images/parser.xpm"  //test for fk pk
+#include "images/ddforeignkey.xpm"
+#include "images/ddprimarykey.xpm"
+#include "images/ddunique.xpm"
 
 
 //*******************   Start of special debug header to find memory leaks
@@ -37,8 +36,9 @@
 
 
 ddColumnKindIcon::ddColumnKindIcon(){
-	 icon = wxBitmap(primarykey_xpm);
-	 iconToDraw = &icon;
+	 icon = wxBitmap(ddprimarykey_xpm);
+	 iconToDraw = NULL;
+	 getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
 }
 
 ddColumnKindIcon::~ddColumnKindIcon(){
@@ -51,31 +51,38 @@ wxArrayString& ddColumnKindIcon::popupStrings()
 	if(strings.Count()<=0)
 	{
 		strings.Clear();
+		strings.Add(wxT("None"));
 		strings.Add(wxT("Primary Key"));
-		strings.Add(wxT("Foreign Key"));
 		strings.Add(wxT("Unique Key"));
-		strings.Add(wxT("Primary Foreing Key"));
 	}
 	return strings;
 };
 
 void ddColumnKindIcon::OnTextPopupClick(wxCommandEvent& event)
 {
-	//Action on popup goes here
 	//strings[event.GetId()]
-	switch(event.GetId())
+	changeIcon((ddRelationType)event.GetId());
+}
+
+void ddColumnKindIcon::changeIcon(ddRelationType type)
+{
+	switch(type)
 	{
-		case 0:	icon = wxBitmap(primarykey_xpm);
+		case 1:	icon = wxBitmap(ddprimarykey_xpm);
 				break;
-		case 1:	icon = wxBitmap(foreignkey_xpm);
+		case 2:	icon = wxBitmap(ddunique_xpm);
 				break;
-		case 2:	icon = wxBitmap(unique_xpm);
+		case 3:	icon = wxBitmap(ddforeignkey_xpm);
 				break;
-		case 3:	icon = wxBitmap(primarykey_xpm);
-				break;
-		case 4:	icon = wxBitmap(parser_xpm);
+		case 4:	icon = wxBitmap(ddprimarykey_xpm);  //DD-TODO: create this icon, test for fk pk
 				break;
 	}
+	
+	if(type!=none)
+		iconToDraw = &icon;
+	else
+		iconToDraw = NULL;
+	getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
 }
 
 void ddColumnKindIcon::basicDraw(wxBufferedDC& context, ddDrawingView *view)
@@ -98,7 +105,7 @@ int ddColumnKindIcon::getWidth()
 	if(iconToDraw)
 		return iconToDraw->GetWidth();
 	else
-		return 16;
+		return 8;
 }
 
 int ddColumnKindIcon::getHeight()
@@ -106,5 +113,5 @@ int ddColumnKindIcon::getHeight()
 	if(iconToDraw)
 		return iconToDraw->GetHeight();
 	else
-		return 16;
+		return 8;
 }

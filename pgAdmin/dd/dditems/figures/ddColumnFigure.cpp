@@ -22,7 +22,7 @@
 #include "dd/dditems/figures/ddColumnFigure.h"
 #include "dd/dditems/figures/ddTextColumnFigure.h"
 #include "dd/dditems/tools/ddColumnFigureTool.h"
-#include "dd/draw/figures/ddBitmapFigure.h"
+#include "dd/dditems/figures/ddColumnKindIcon.h"
 /*#include "dd/draw/utilities/ddArrayCollection.h"
 
 */
@@ -44,7 +44,7 @@
 
 ddColumnFigure::ddColumnFigure(wxString& columnName){
 	columnText = new ddTextColumnFigure(columnName,dt_null);
-	leftImage = new ddBitmapFigure(primarykey_xpm);
+	leftImage = new ddColumnKindIcon();
 
 	//init displaybox && images position
 	basicDisplayBox.SetPosition(wxPoint(0,0));

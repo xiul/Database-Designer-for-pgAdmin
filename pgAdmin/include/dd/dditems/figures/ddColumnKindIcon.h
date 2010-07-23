@@ -21,8 +21,15 @@
 #include "dd/draw/utilities/ddCollection.h"*/
 
 
+const enum ddRelationType {
+	none,
+	pk=0,
+	fk,
+	uk,
+	pkfk
+};
 
-// Create Array Objects used as base for gqbCollections
+
 class ddColumnKindIcon : public ddAbstractMenuFigure
 {
 public:
@@ -32,7 +39,7 @@ public:
 	virtual void OnTextPopupClick(wxCommandEvent& event);
 	virtual void basicDraw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void basicDrawSelected(wxBufferedDC& context, ddDrawingView *view);		
-	//virtual void changeBitmap(wxBitmap *image);
+	virtual void changeIcon(ddRelationType type);
 	virtual int getWidth();
 	virtual int getHeight();
 
