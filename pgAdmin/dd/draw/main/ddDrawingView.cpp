@@ -24,6 +24,9 @@
 #include "dd/draw/utilities/ddGeometry.h"
 #include "dd/draw/utilities/ddMouseEvent.h"
 
+//Images
+#include "images/check.xpm"
+
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -40,6 +43,8 @@ EVT_LEFT_DCLICK(ddDrawingView::onMouseDown)
 EVT_LEFT_UP(ddDrawingView::onMouseUp)
 EVT_ERASE_BACKGROUND(ddDrawingView::onEraseBackGround)  //This erase flicker
 EVT_TEXT(1979,ddDrawingView::simpleTextToolChangeHandler)
+EVT_BUTTON(1980,ddDrawingView::OnOkTxtButton)
+EVT_BUTTON(1981,ddDrawingView::OnCancelTxtButton)
 END_EVENT_TABLE()
 
 //DD-TODO replace numeric constants in events id for alphanumeric constants id
@@ -103,6 +108,10 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 	simpleTextToolEdit->Hide();
 	simpleTextFigure = NULL;
 	menuFigure = NULL;
+	okTxtButton = new wxBitmapButton(this,1980,wxBitmap(check_xpm),wxDefaultPosition,wxDefaultSize,wxBORDER_NONE);
+	okTxtButton->Hide();
+	cancelTxtButton = new wxBitmapButton(this,1981,wxBitmap(check_xpm),wxDefaultPosition,wxDefaultSize,wxBORDER_NONE);
+	cancelTxtButton->Hide();
 	//popTextUpItems=NULL;
 }
 
@@ -115,6 +124,10 @@ ddDrawingView::~ddDrawingView()
 	}
 	if(simpleTextToolEdit)
 		delete simpleTextToolEdit;
+	if(okTxtButton)
+		delete okTxtButton;
+	if(cancelTxtButton)
+		delete cancelTxtButton;
 
 /*	if(popTextUpItems)
 		delete popTextUpItems;
@@ -331,6 +344,7 @@ void ddDrawingView::setSimpleTextToolFigure(ddSimpleTextFigure *figure)
 	menuFigure=NULL;
 	if(simpleTextFigure)
 	{
+		oldText=simpleTextFigure->getText();
 		simpleTextToolEdit->SetValue(simpleTextFigure->getText());
 		simpleTextToolEdit->SelectAll();
 	}
@@ -343,6 +357,26 @@ void ddDrawingView::setMenuToolFigure(ddAbstractMenuFigure *figure)
 	simpleTextFigure=NULL;
 }
 
+//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+void ddDrawingView::OnOkTxtButton(wxCommandEvent& event)
+{
+	drawingEditor->tool()->deactivate();
+	simpleTextToolEdit->Hide();  
+	okTxtButton->Hide();
+	cancelTxtButton->Hide();
+	setSimpleTextToolFigure(NULL);
+}
+
+//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+void ddDrawingView::OnCancelTxtButton(wxCommandEvent& event)
+{
+	simpleTextToolEdit->SetValue(oldText);
+	drawingEditor->tool()->deactivate();
+	simpleTextToolEdit->Hide();  
+	okTxtButton->Hide();
+	cancelTxtButton->Hide();
+	setSimpleTextToolFigure(NULL);
+}
 
 //Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
 void ddDrawingView::simpleTextToolChangeHandler(wxCommandEvent& event)
@@ -367,6 +401,8 @@ void ddDrawingView::simpleTextToolChangeHandler(wxCommandEvent& event)
 		CalcScrolledPosition(p.x,p.y,&p.x,&p.y);
 		simpleTextToolEdit->SetPosition(p);
 		simpleTextToolEdit->SetSize(simpleTextFigure->displayBox().GetSize());
+		okTxtButton->SetPosition(wxPoint(p.x+simpleTextToolEdit->GetSize().GetWidth()+4,p.y));
+		cancelTxtButton->SetPosition(wxPoint(okTxtButton->GetPosition().x+okTxtButton->GetSize().GetWidth()+4,p.y));
 	}
 	else
 	{
@@ -381,6 +417,18 @@ void ddDrawingView::simpleTextToolChangeHandler(wxCommandEvent& event)
 wxTextCtrl* ddDrawingView::getSimpleTextToolEdit()
 {
 	return simpleTextToolEdit;
+}
+
+//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+wxBitmapButton* ddDrawingView::getOkTxt()
+{
+	return okTxtButton;
+}
+
+//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
+wxBitmapButton* ddDrawingView::getCancelTxt()
+{
+	return cancelTxtButton;
 }
 
 //Hack to allow use (events) of wxmenu inside a tool like simpletexttool
@@ -399,8 +447,24 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 	//DD-TODO: choose a better id for event
 	mnu.Disconnect(wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)(wxEventFunction) (wxCommandEventFunction) &ddDrawingView::OnTextPopupClick,NULL,this);
 	int sz = strings.size();  //to avoid warning
+	wxMenuItem *item = NULL;
+	wxMenu *submenu = NULL;
 	for(int i=0 ; i < sz ; i++){
-		wxMenuItem *item = mnu.Append(i, strings[i]);
+			//String "--submenu--menu item--sub menu title" and "--subitem--" create and add items to last created submenu
+			if(strings[i].Contains(wxT("--submenu--"))) //DD-TODO: add other parameters to string
+			{
+				submenu = new wxMenu(strings[i].SubString(strings[i].find(wxT("--"),11)+2,strings[i].length())); 
+				mnu.AppendSubMenu(submenu,strings[i].SubString(11,strings[i].find(wxT("--"),11)-1));
+			}
+			else if(strings[i].Contains(wxT("--subitem--")))
+			{
+				if(submenu)
+					submenu->Append(i,strings[i].SubString(11,strings[i].length()));
+			}
+			else
+			{
+				 item = mnu.Append(i, strings[i]);
+			}
 		}
 // Faltan Eventos
 	mnu.Connect(wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)(wxEventFunction) (wxCommandEventFunction) &ddDrawingView::OnTextPopupClick,NULL,this);

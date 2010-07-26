@@ -36,10 +36,10 @@ class ddDrawingEditor;
 ddColumnTextTool::ddColumnTextTool(ddDrawingEditor *editor, ddIFigure *fig, ddITool *dt):
 ddSimpleTextTool(editor,fig,dt)
 {
-	if(colFigure->ms_classInfo.IsKindOf(&ddTextColumnFigure::ms_classInfo))
-		colFigure = (ddTextColumnFigure *) fig;
+	if(colTextFigure->ms_classInfo.IsKindOf(&ddTextColumnFigure::ms_classInfo))
+		colTextFigure = (ddTextColumnFigure *) fig;
 	else
-		colFigure = NULL;
+		colTextFigure = NULL;
 }
 
 ddColumnTextTool::~ddColumnTextTool()
@@ -50,16 +50,16 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 {	
 	if(event.LeftDown())
 	{
-		if(colFigure && colFigure->getOwnerTable() && colFigure->getOwnerTable()->deleteColumnActivated())
+		if(colTextFigure && colTextFigure->getOwnerColumn() && colTextFigure->getOwnerColumn()->getOwnerTable()->deleteColumnActivated())
 		{
-			ddTableFigure *table = colFigure->getOwnerTable();
+			ddTableFigure *table = colTextFigure->getOwnerColumn()->getOwnerTable();
 			if(getDrawingEditor()->view()->isFigureSelected(table))
 			{
-				int answer = wxMessageBox(wxT("Delete column: ") + colFigure->getText(true) + wxT("?"), wxT("Confirm"),wxYES_NO, event.getView());
+				int answer = wxMessageBox(wxT("Delete column: ") + colTextFigure->getText(true) + wxT("?"), wxT("Confirm"),wxYES_NO, event.getView());
 				if (answer == wxYES)
 				{
-			//666 arreglar esto pero ya osea		table->removeColumn(colFigure);		
-					colFigure = NULL;
+					table->removeColumn(colTextFigure->getOwnerColumn());		
+					colTextFigure = NULL;
 				}
 			}
 			table->toggleColumnDeleteMode();
@@ -68,7 +68,7 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 
 	}
 	
-	if(colFigure && colFigure->getOwnerTable()) //if click on any other place disable column delete
-		colFigure->getOwnerTable()->toggleColumnDeleteMode(true);
+	if(colTextFigure && colTextFigure->getOwnerColumn() &&  colTextFigure->getOwnerColumn()->getOwnerTable()) //if click on any other place disable column delete
+		colTextFigure->getOwnerColumn()->getOwnerTable()->toggleColumnDeleteMode(true);
 	ddSimpleTextTool::mouseDown(event);
 }

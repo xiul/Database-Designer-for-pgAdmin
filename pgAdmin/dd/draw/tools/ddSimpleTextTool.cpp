@@ -40,6 +40,8 @@ ddFigureTool(editor,fig,dt)
 	txtFigure = ((ddSimpleTextFigure *)this->getFigure());
 	editor->view()->setSimpleTextToolFigure(NULL);
 	edit = getDrawingEditor()->view()->getSimpleTextToolEdit();
+	okButton = getDrawingEditor()->view()->getOkTxt();
+	cancelButton = getDrawingEditor()->view()->getCancelTxt();
 	calculateSizeEntry(editor->view());
 }
 
@@ -56,6 +58,8 @@ void ddSimpleTextTool::calculateSizeEntry(ddDrawingView *view)
 		view->CalcScrolledPosition(p.x,p.y,&p.x,&p.y);
 		edit->SetPosition(p);
 		edit->SetSize(txtFigure->displayBox().GetSize());
+		okButton->SetPosition(wxPoint(p.x+edit->GetSize().GetWidth()+4,p.y));
+		cancelButton->SetPosition(wxPoint(okButton->GetPosition().x+okButton->GetSize().GetWidth()+4,p.y));
 		//DD-TODO: avoid in a future twin function in DrawingView because tool hack
 	}
 }
@@ -86,6 +90,8 @@ void ddSimpleTextTool::mouseDown(ddMouseEvent& event)
 		calculateSizeEntry(event.getView());
 		edit->SetFocus();
 		edit->Show();
+		okButton->Show();
+		cancelButton->Show();
 		return;
 	}
 	getDefaultTool()->mouseDown(event);
@@ -101,7 +107,9 @@ void ddSimpleTextTool::deactivate()
 {
 	if(edit)
 	{
-		edit->Hide();  //I can't delete it because view is the owner of this object
+		edit->Hide();  //I can't delete this objects because view is the owner of this objects
+		okButton->Hide();
+		cancelButton->Hide();
 		getDrawingEditor()->view()->setSimpleTextToolFigure(NULL);
 	}
 	ddFigureTool::deactivate();

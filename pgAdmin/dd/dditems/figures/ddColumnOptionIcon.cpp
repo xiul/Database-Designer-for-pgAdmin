@@ -19,14 +19,12 @@
 #include <wx/pen.h>
 
 // App headers
-#include "dd/dditems/figures/ddColumnKindIcon.h"
+#include "dd/dditems/figures/ddColumnOptionIcon.h"
 #include "dd/draw/main/ddDrawingView.h"
 
 //Images
-#include "images/ddforeignkey.xpm"
-#include "images/ddprimarykey.xpm"
-#include "images/ddunique.xpm"
-#include "images/ddprimaryforeignkey.xpm"
+#include "images/ddnull.xpm"
+#include "images/ddnotnull.xpm"
 
 
 //*******************   Start of special debug header to find memory leaks
@@ -36,59 +34,47 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddColumnKindIcon::ddColumnKindIcon(){
-	 icon = wxBitmap(ddprimarykey_xpm);
-	 iconToDraw = NULL;
+ddColumnOptionIcon::ddColumnOptionIcon(){
+	 icon = wxBitmap(ddnull_xpm);
+	 iconToDraw = &icon;
 	 getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
 }
 
-ddColumnKindIcon::~ddColumnKindIcon(){
+ddColumnOptionIcon::~ddColumnOptionIcon(){
 
 }
 
 
-wxArrayString& ddColumnKindIcon::popupStrings()
+wxArrayString& ddColumnOptionIcon::popupStrings()
 {
 	if(strings.Count()<=0)
 	{
 		strings.Clear();
-		strings.Add(wxT("None"));
-		strings.Add(wxT("Primary Key"));
-		strings.Add(wxT("Unique Key"));
-		strings.Add(wxT("f Key"));
-		strings.Add(wxT("fp Key"));
+		strings.Add(wxT("Null"));
+		strings.Add(wxT("Not Null"));
 	}
 	return strings;
 };
 
-void ddColumnKindIcon::OnTextPopupClick(wxCommandEvent& event)
+void ddColumnOptionIcon::OnTextPopupClick(wxCommandEvent& event)
 {
 	//strings[event.GetId()]
-	changeIcon((ddRelationType)event.GetId());
+	changeIcon((ddColumnOptionType)event.GetId());
 }
 
-void ddColumnKindIcon::changeIcon(ddRelationType type)
+void ddColumnOptionIcon::changeIcon(ddColumnOptionType type)
 {
 	switch(type)
 	{
-		case 1:	icon = wxBitmap(ddprimarykey_xpm);
+		case 0:	icon = wxBitmap(ddnull_xpm);
 				break;
-		case 2:	icon = wxBitmap(ddunique_xpm);
-				break;
-		case 3:	icon = wxBitmap(ddforeignkey_xpm);
-				break;
-		case 4:	icon = wxBitmap(ddprimaryforeignkey_xpm);  //DD-TODO: create this icon, test for fk pk
+		case 1:	icon = wxBitmap(ddnotnull_xpm);
 				break;
 	}
-	
-	if(type!=none)
-		iconToDraw = &icon;
-	else
-		iconToDraw = NULL;
 	getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
 }
 
-void ddColumnKindIcon::basicDraw(wxBufferedDC& context, ddDrawingView *view)
+void ddColumnOptionIcon::basicDraw(wxBufferedDC& context, ddDrawingView *view)
 {
 	if(iconToDraw)
 	{
@@ -98,12 +84,12 @@ void ddColumnKindIcon::basicDraw(wxBufferedDC& context, ddDrawingView *view)
 	}
 }
 
-void ddColumnKindIcon::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view)
+void ddColumnOptionIcon::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view)
 {
 	basicDraw(context,view);
 }
 
-int ddColumnKindIcon::getWidth()
+int ddColumnOptionIcon::getWidth()
 {
 	if(iconToDraw)
 		return iconToDraw->GetWidth();
@@ -111,7 +97,7 @@ int ddColumnKindIcon::getWidth()
 		return 8;
 }
 
-int ddColumnKindIcon::getHeight()
+int ddColumnOptionIcon::getHeight()
 {
 	if(iconToDraw)
 		return iconToDraw->GetHeight();

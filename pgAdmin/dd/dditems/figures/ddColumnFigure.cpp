@@ -23,6 +23,7 @@
 #include "dd/dditems/figures/ddTextColumnFigure.h"
 #include "dd/dditems/tools/ddColumnFigureTool.h"
 #include "dd/dditems/figures/ddColumnKindIcon.h"
+#include "dd/dditems/figures/ddColumnOptionIcon.h"
 /*#include "dd/draw/utilities/ddArrayCollection.h"
 
 */
@@ -42,25 +43,28 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddColumnFigure::ddColumnFigure(wxString& columnName){
-	columnText = new ddTextColumnFigure(columnName,dt_null);
+ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner){
+	columnText = new ddTextColumnFigure(columnName,dt_null,this);
 	leftImage = new ddColumnKindIcon();
+	centerImage = new ddColumnOptionIcon();
+	
+	setOwnerTable(owner);
 
 	//init displaybox && images position
 	basicDisplayBox.SetPosition(wxPoint(0,0));
 	basicDisplayBox.SetSize( columnText->displayBox().GetSize());
-	if(leftImage)
+	if(leftImage && centerImage)
 	{
-		basicDisplayBox.width+=leftImage->displayBox().GetSize().GetWidth();
-		columnText->displayBox().x+=leftImage->displayBox().GetSize().GetWidth();
+		basicDisplayBox.width+=leftImage->displayBox().GetSize().GetWidth()+3;
+		basicDisplayBox.width+=centerImage->displayBox().GetSize().GetWidth()+3;
+		columnText->displayBox().x+=leftImage->displayBox().GetSize().GetWidth()+2;
+		columnText->displayBox().x+=centerImage->displayBox().GetSize().GetWidth()+3;
 	}
 	else
 	{
-		basicDisplayBox.width+=16; //default value
-		columnText->displayBox().x+=16;
+		basicDisplayBox.width+=22; //default value =1 + 8 + 3 + 8 +2 
+		columnText->displayBox().x+=22;
 	}
-
-
 }
 
 ddColumnFigure::~ddColumnFigure(){
@@ -69,6 +73,8 @@ ddColumnFigure::~ddColumnFigure(){
 		delete columnText;
 	if(leftImage)
 		delete leftImage;
+	if(centerImage)
+		delete centerImage;
 }
 
 void ddColumnFigure::basicMoveBy(int x, int y)
@@ -77,26 +83,38 @@ void ddColumnFigure::basicMoveBy(int x, int y)
 	if(leftImage)
 	{
 			leftImage->moveBy(x,y);
-			columnText->moveBy(x,y);
 	}
-	else
+	if(centerImage)
 	{
-			columnText->moveBy(x,y);
+			centerImage->moveBy(x,y);
 	}
+	columnText->moveBy(x,y);
 }
 
 void ddColumnFigure::moveTo(int x, int y)
 {
 	ddAbstractFigure::moveTo(x,y);
+	int distance=0;
 	if(leftImage)
 	{
-			leftImage->moveTo(x,y);
-			columnText->moveTo(x+leftImage->displayBox().GetSize().GetWidth(),y);
+		leftImage->moveTo(x,y);
+		distance+=leftImage->displayBox().GetSize().GetWidth()+3;
 	}
 	else
 	{
-			columnText->moveTo(x+16,y);
+		distance+=11; //8+3
 	}
+	if(centerImage)
+	{
+		centerImage->moveTo(x+distance,y);
+		distance+=centerImage->displayBox().GetSize().GetWidth()+3;
+	}
+	else
+	{
+		distance+=11; //8+3
+	}
+
+	columnText->moveTo(x+distance,y);
 }
 
 
@@ -112,6 +130,12 @@ bool ddColumnFigure::containsPoint(int x, int y)
 		{
 			out=true;  
 		}
+	
+	if(centerImage->containsPoint(x,y))
+		{
+			out=true;  
+		}
+
 	return out;
 }
 
@@ -135,6 +159,8 @@ void ddColumnFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	columnText->draw(context,view);
 		if(leftImage)
 			leftImage->draw(context,view);
+		if(centerImage)
+			centerImage->draw(context,view);
 }
 
 void ddColumnFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
@@ -142,6 +168,8 @@ void ddColumnFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	columnText->drawSelected(context,view);
 		if(leftImage)
 			leftImage->drawSelected(context,view);
+		if(centerImage)
+			centerImage->drawSelected(context,view);
 }
 
 ddIFigure* ddColumnFigure::findFigure(int x, int y)
@@ -153,6 +181,9 @@ ddIFigure* ddColumnFigure::findFigure(int x, int y)
 
 	if(leftImage && leftImage->containsPoint(x,y))
 			out=leftImage;
+
+	if(centerImage && centerImage->containsPoint(x,y))
+			out=centerImage;
 
 	return out;
 }
@@ -179,8 +210,13 @@ ddIFigure* ddColumnFigure::getFigureAt(int pos)
 	{
 		return (ddIFigure*) leftImage;
 	}
-	
+
 	if(pos==1)
+	{
+		return (ddIFigure*) centerImage;
+	}
+
+	if(pos==2)
 	{
 		return (ddIFigure*) columnText;
 	}
@@ -190,10 +226,24 @@ ddIFigure* ddColumnFigure::getFigureAt(int pos)
 
 ddTableFigure* ddColumnFigure::getOwnerTable()
 {
-	return columnText->getOwnerTable();
+	return ownerTable;
 }
 
 void ddColumnFigure::setOwnerTable(ddTableFigure *table)
 {
-	columnText->setOwnerTable(table);
+	ownerTable = table;
+}
+
+void ddColumnFigure::displayBoxUpdate()
+{
+	if(leftImage && centerImage)
+	{
+		basicDisplayBox.width=columnText->displayBox().GetSize().GetWidth();
+		basicDisplayBox.width+=leftImage->displayBox().GetSize().GetWidth()+3;
+		basicDisplayBox.width+=centerImage->displayBox().GetSize().GetWidth()+3;
+	}
+	else
+	{
+		basicDisplayBox.width+=22; //default value =1 + 8 + 3 + 8 +2 
+	}
 }

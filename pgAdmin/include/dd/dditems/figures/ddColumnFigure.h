@@ -13,14 +13,16 @@
 #define DDCOLUMNFIGURE_H
 #include "dd/draw/figures/ddAbstractFigure.h"
 #include "dd/dditems/figures/ddColumnKindIcon.h"
+#include "dd/dditems/figures/ddColumnOptionIcon.h"
 #include "dd/dditems/figures/ddTextColumnFigure.h"
 
+class ddTableFigure;
 
 // This figure is like composite but minimize overhead for columns
 class ddColumnFigure : public ddAbstractFigure
 {
 public:
-	ddColumnFigure(wxString& columnName);
+	ddColumnFigure(wxString& columnName, ddTableFigure *owner);
     ~ddColumnFigure();
 	virtual void basicMoveBy(int x, int y);
 	virtual void moveTo(int x, int y);
@@ -41,9 +43,12 @@ public:
 	virtual void sendToFront(ddIFigure *figure);
 	virtual ddTableFigure* getOwnerTable();
 	virtual void setOwnerTable(ddTableFigure *table);
+	void displayBoxUpdate();
 protected:
 	ddColumnKindIcon *leftImage;
+	ddColumnOptionIcon *centerImage;
 	ddTextColumnFigure *columnText;
+	ddTableFigure *ownerTable;
 private:
 	
 };

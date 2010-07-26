@@ -12,15 +12,22 @@
 #ifndef DDDATATYPES_H
 #define DDDATATYPES_H
 
+const enum ddMenuColumn {
+	add_column=0,
+	del_column,
+	ren_column,
+	change_datatype
+};
+
 const enum ddDataType {
 	dt_null=0,
 	dt_bigint,
 	dt_boolean,
 	dt_bool,
 	dt_integer,
-	dt_money,
-	dt_varchar_n
+	dt_money
 };
+
 
 /*
 

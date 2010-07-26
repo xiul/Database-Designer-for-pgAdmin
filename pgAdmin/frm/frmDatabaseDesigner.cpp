@@ -171,30 +171,32 @@ f5->displayBox().SetPosition(wxPoint(60,60));
 f5->setEditable(true);
 design->addTable(f5);
 */
+ddTableFigure *f6 = new ddTableFigure(225,225);
 
-ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("Id")));
+ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("Id")),f6);
 f61->displayBox().SetPosition(wxPoint(260,270));
 //f61->setEditable(true);
 
-ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue")));
+ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue")),f6);
 f62->displayBox().SetPosition(wxPoint(260,290));
 //f62->setEditable(true);
 
-ddTableFigure *f6 = new ddTableFigure(225,225);
+
 f6->addColumn(f62);
 f6->addColumn(f61);
 design->addTable(f6);
 
 
-ddColumnFigure *f71 = new ddColumnFigure(wxString(wxT("Id")));
+ddTableFigure *f7 = new ddTableFigure(100,100);
+ddColumnFigure *f71 = new ddColumnFigure(wxString(wxT("Id")),f7);
 f71->displayBox().SetPosition(wxPoint(260,270));
 //f71->setEditable(true);
 
-ddColumnFigure *f72 = new ddColumnFigure(wxString(wxT("Amount")));
+ddColumnFigure *f72 = new ddColumnFigure(wxString(wxT("Amount")),f7);
 f72->displayBox().SetPosition(wxPoint(260,290));
 //f72->setEditable(true);
 
-ddTableFigure *f7 = new ddTableFigure(100,100);
+
 f7->addColumn(f72);
 f7->addColumn(f71);
 design->addTable(f7);
@@ -204,16 +206,6 @@ design->addTable(f7);
 ddTableFigure *f8 = new ddTableFigure(350,100);
 design->addTable(f8);
 
-ddColumnFigure *f9 = new ddColumnFigure(wxString(wxT("Id")));
-f9->moveTo(444,444);
-//6666 fix this, if you move displaybox then figures should be moved
-//f9->setEditable(true);
-design->addTable(f9);
-
-ddColumnKindIcon *f10 = new ddColumnKindIcon();
-f10->displayBox().SetPosition(wxPoint(120,120));
-//f10->displayBox().SetSize(wxSize(50,50));
-design->addTable(f10);
 }
 
  frmDatabaseDesigner::~frmDatabaseDesigner(){

@@ -20,9 +20,6 @@
 #include "dd/draw/figures/ddAbstractMenuFigure.h"
 // Create View Class for MVC pattern of graphic library of pgAdmin
 
-//class ddSimpleTextFigure;   //FIX-HACK to avoid circular references
-
-
 class ddDrawingView : public wxScrolledWindow
 {
 public:
@@ -61,6 +58,8 @@ public:
 	void simpleTextToolChangeHandler(wxCommandEvent& event);
 	void setSimpleTextToolFigure(ddSimpleTextFigure *figure);
 	wxTextCtrl* getSimpleTextToolEdit();
+	wxBitmapButton* getOkTxt();
+	wxBitmapButton* getCancelTxt();
 	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event
 
 	//Hack to allow use (events) of wxmenu inside a tool Generic Way
@@ -71,6 +70,8 @@ public:
 
 	//Hack to allow use (events) of wxmenu inside a tool like simpletexttool
 	void OnTextPopupClick(wxCommandEvent& event);
+	void OnOkTxtButton(wxCommandEvent& event);
+	void OnCancelTxtButton(wxCommandEvent& event);
 	void setTextPopUpList(wxArrayString &strings, wxMenu &mnu);
 	//End Hack to allow use (events) of wxmenu inside a tool like simpletexttool
 
@@ -104,7 +105,9 @@ private:
 
 	//Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event && POPUP EVENT
 	wxTextCtrl *simpleTextToolEdit;
+	wxBitmapButton *okTxtButton, *cancelTxtButton;
 	ddSimpleTextFigure *simpleTextFigure;
+	wxString oldText;
 	//End Hack to avoid event problem with simpleTextTool wxTextCrtl at EVT_TEXT event && POPUP EVENT
 };
 #endif

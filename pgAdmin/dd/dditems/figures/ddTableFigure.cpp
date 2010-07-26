@@ -63,13 +63,13 @@ ddCompositeFigure()
 	add(rectangleFigure);
 	
 	//DD-TODO: improve table name automatic creation
-	tableTitle = new ddTextColumnFigure(wxString(wxT("NewTable")),dt_null);
+	tableTitle = new ddTextColumnFigure(wxString(wxT("NewTable")),dt_null,NULL);
 	tableTitle->setEditable(true);
 	tableTitle->moveTo(x,y);
 	tableTitle->disablePopUp();
 	tableTitle->setShowDataType(false);
 	//If owner == NULL then don't delete that column because it don't belong to table
-	tableTitle->setOwnerTable(NULL); 
+	//tableTitle->setOwnerTable(NULL); 
 	add(tableTitle);
 	tableTitle->moveTo(rectangleFigure->getBasicDisplayBox().x+internalPadding*2,rectangleFigure->getBasicDisplayBox().y+internalPadding/2);
 
@@ -151,10 +151,12 @@ void ddTableFigure::resetColPosition(ddColumnFigure *column)
 
 	ddIteratorBase *iterator=figuresEnumerator();
 	
-	iterator->Next(); //First Figure is always Rect, just ignore
-	ddIFigure *f = (ddIFigure *) iterator->Next(); //Second Figure is table title
+	//iterator->Next(); 
+	ddIFigure *f = (ddIFigure *) iterator->Next(); //First Figure is always Rect
+	horizontalPos = f->displayBox().x+2;
+	f = (ddIFigure *) iterator->Next(); //Second Figure is table title
 	verticalPos = f->displayBox().GetBottom() + 10; //f->displayBox().y + f->displayBox().width + 9 from second line + 1 padding;
-	horizontalPos = f->displayBox().x;
+	
 
 	while(iterator->HasNext()){
 		f = (ddIFigure *) iterator->Next();
@@ -201,8 +203,8 @@ void ddTableFigure::calculateBars(ddDrawingView *view)
 	
 	//DD-TODO: Implement indexes and fix this
 	f = (ddIFigure*)figureFigures->getItemAt(figureFigures->count()-1);
-	x1=f->displayBox().GetTopLeft().x;
-	x2=f->displayBox().GetTopRight().x;
+	x1=colsBottomLeft.x;
+	x2=colsBottomLeft.x;
 	y=f->displayBox().GetPosition().y;
 	y+=f->displayBox().height;
 
@@ -245,13 +247,13 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	//Draw Columns Title Line 2
 	context.DrawLine(colsBottomLeft,colsBottomRight);
 
-
-/*
-
+	//DrawVertical Lines
+	context.DrawLine(colsBottomLeft.x+11,colsBottomLeft.y,colsBottomLeft.x+11,idxsTopLeft.y);
+	context.DrawLine(colsBottomLeft.x+22,colsBottomLeft.y,idxsTopLeft.x+22,idxsTopLeft.y);
 
 	//Draw Indexes Title Line 1
 	context.DrawLine(idxsTopLeft,idxsTopRight);
-	
+/*	
 	//Draw Indexes middle line title
 	font.SetPointSize(7);
 	context.SetFont(font);
@@ -259,10 +261,7 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 
 	//Draw Indexes Title Line 2
 	context.DrawLine(idxsBottomLeft,idxsBottomRight);
-
-*/
-
-	
+*/	
 }
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
@@ -287,6 +286,15 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 
 	//Draw Columns Title Line 2
 	context.DrawLine(colsBottomLeft,colsBottomRight);
+
+	//DrawVertical Lines
+	context.DrawLine(colsBottomLeft.x+11,colsBottomLeft.y,colsBottomLeft.x+11,idxsTopLeft.y);
+	context.DrawLine(colsBottomLeft.x+22,colsBottomLeft.y,idxsTopLeft.x+22,idxsTopLeft.y);
+
+	//Draw Indexes Title Line 1
+	context.DrawLine(idxsTopLeft,idxsTopRight);
+
+
 
 }
 

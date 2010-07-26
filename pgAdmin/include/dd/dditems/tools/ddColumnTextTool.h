@@ -30,7 +30,7 @@ public:
 	//Because a bug it was move to main View class as a hack. virtual void changeHandler(wxCommandEvent& event);
 protected:
 private:
-	ddTextColumnFigure *colFigure;
+	ddTextColumnFigure *colTextFigure;
 /*	void calculateSizeEntry();
 	bool showEdit;
 	ddSimpleTextFigure *txtFigure;

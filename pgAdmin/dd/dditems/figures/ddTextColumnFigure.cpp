@@ -34,13 +34,13 @@
 //DD-TODO: Add composite column functionality by addin subcolumn for
 //         composite types, but care: composite types can be recursive (using inside other composite types)
 
-ddTextColumnFigure::ddTextColumnFigure(wxString& columnName, ddDataType dataType):
+ddTextColumnFigure::ddTextColumnFigure(wxString& columnName, ddDataType dataType, ddColumnFigure *owner):
 ddSimpleTextFigure(columnName)
 {
 	columnType = dataType;
 	this->setEditable(true);
 	enablePopUp();
-	ownerTable = NULL;
+	ownerColumn = owner;
 	showDataType = true;
 	recalculateDisplayBox();
 }
@@ -70,26 +70,30 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event)
 	//DD-TODO: improve this
 	switch(event.GetId())
 	{
-		case 0:
-			columnType = dt_null;
-		break;		
-		case 1:
-			columnType = dt_bigint;
-		break;
-		case 2:
+		case 0:  // Add Column
+			//columnType = dt_null;
+			getOwnerColumn()->getOwnerTable()->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),getOwnerColumn()->getOwnerTable()));
+			break;
+		case 1:  // Delete Column
+			getOwnerColumn()->getOwnerTable()->removeColumn(getOwnerColumn());
+			break;
+		case 2:  //Rename Column
 			columnType = dt_boolean;
-		break;
-		case 3:
+			break;
+		case 4:  // Submenu opcion 1
 			columnType = dt_bool;
-		break;
-		case 4:
+			break;
+		case 5:
 			columnType = dt_integer;
 		break;
-		case 5:
+		case 6:
 			columnType = dt_money;
 		break;
-		case 6:
-			columnType = dt_varchar_n;
+		case 7:
+			columnType = dt_boolean;
+		break;
+		case 8: //Call datatypes selector
+			columnType = dt_boolean;
 		break;
 	}		
 }
@@ -100,35 +104,56 @@ wxArrayString& ddTextColumnFigure::popupStrings()
 	//fill popup strings only first time
 	if(strings.Count()<=0){
 		strings.Clear();
-		strings.Add(wxT("unknown"));
-		strings.Add(wxT("BIGINT"));
-		strings.Add(wxT("BOOLEAN"));
-		strings.Add(wxT("BOOL"));
-		strings.Add(wxT("INTEGER"));
-		strings.Add(wxT("MONEY"));
-		strings.Add(wxT("VARCHAR(1)"));   //DD-TODO: after add varchar left a cursor over length selected to allow used
+		strings.Add(wxT("Add Column"));
+		strings.Add(wxT("Delete Column"));
+		strings.Add(wxT("Rename Column"));
+		strings.Add(wxT("--submenu--Change Column Datatype--Select a Datatype:"));
+		strings.Add(wxT("--subitem--Integer"));
+		strings.Add(wxT("--subitem--Boolean"));
+		strings.Add(wxT("--subitem--Varchar(1)"));   
+		strings.Add(wxT("--subitem--Choose another datatype"));   
+		//DD-TODO: after add varchar left a cursor over length selected to allow used
 	}
 	return strings;
 };
+
+wxArrayString& ddTextColumnFigure::dataTypes()
+{
+	//fill popup strings only first time
+	if(datatypes.Count()<=0){
+		datatypes.Clear();
+		datatypes.Add(wxT("Not Defined"));
+		datatypes.Add(wxT("Bigint"));
+		datatypes.Add(wxT("Boolean"));
+		datatypes.Add(wxT("Bool"));
+		datatypes.Add(wxT("Integer"));
+		datatypes.Add(wxT("Monery"));
+		//DD-TODO: after add varchar left a cursor over length selected to allow used
+	}
+	return strings;
+
+}
 
 //DD-TODO: when a event onfigurechange exists, replace this hack with that event
 //Hack to allow column text to submit new size of text signal to tablefigure and then recalculate displaybox
 void ddTextColumnFigure::setText(wxString textString)
 {
 	ddSimpleTextFigure::setText(textString);
-	if(ownerTable)
-		ownerTable->updateTableSize();
-
+	if(ownerColumn)
+	{
+		ownerColumn->displayBoxUpdate();
+		ownerColumn->getOwnerTable()->updateTableSize();
+	}
 }
 
-ddTableFigure* ddTextColumnFigure::getOwnerTable()
+ddColumnFigure* ddTextColumnFigure::getOwnerColumn()
 {
-	return ownerTable;
+	return ownerColumn;
 }
 
-void ddTextColumnFigure::setOwnerTable(ddTableFigure *table)
+void ddTextColumnFigure::setOwnerColumn(ddColumnFigure *column)
 {
-	ownerTable = table;
+	ownerColumn = column;
 }
 
 void ddTextColumnFigure::setShowDataType(bool value)
