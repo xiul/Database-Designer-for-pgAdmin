@@ -54,7 +54,7 @@ wxString& ddTextColumnFigure::getText(bool extended)
 {
 	if(showDataType && extended)
 	{
-		wxString ddType = popupStrings()[columnType];
+		wxString ddType = dataTypes()[columnType];
 		out = wxString( ddSimpleTextFigure::getText() + wxString(wxT(" : ")) + ddType );
 		return  out;
 	}
@@ -78,22 +78,29 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event)
 			getOwnerColumn()->getOwnerTable()->removeColumn(getOwnerColumn());
 			break;
 		case 2:  //Rename Column
-			columnType = dt_boolean;
+			//columnType = dt_bigint;
+			// Simulate button down to start connection of foreign key
+			
+			//DD-TODO: look for a solution for this trouble
+
 			break;
 		case 4:  // Submenu opcion 1
-			columnType = dt_bool;
+			columnType = dt_bigint;
 			break;
 		case 5:
-			columnType = dt_integer;
+			columnType = dt_boolean;
 		break;
 		case 6:
-			columnType = dt_money;
+			columnType = dt_integer;
 		break;
 		case 7:
-			columnType = dt_boolean;
+			columnType = dt_money;
 		break;
-		case 8: //Call datatypes selector
-			columnType = dt_boolean;
+		case 8:
+			columnType = dt_varchar;
+		break;
+		case 9: //Call datatypes selector
+			columnType = dt_boolean; //DD-TODO: a new combobox with all datatypes should be created here.
 		break;
 	}		
 }
@@ -106,10 +113,12 @@ wxArrayString& ddTextColumnFigure::popupStrings()
 		strings.Clear();
 		strings.Add(wxT("Add Column"));
 		strings.Add(wxT("Delete Column"));
-		strings.Add(wxT("Rename Column"));
+		strings.Add(wxT("Rename Column (N/A, just double click)"));
 		strings.Add(wxT("--submenu--Change Column Datatype--Select a Datatype:"));
-		strings.Add(wxT("--subitem--Integer"));
+		strings.Add(wxT("--subitem--Bigint"));
 		strings.Add(wxT("--subitem--Boolean"));
+		strings.Add(wxT("--subitem--Integer"));
+		strings.Add(wxT("--subitem--Money"));
 		strings.Add(wxT("--subitem--Varchar(1)"));   
 		strings.Add(wxT("--subitem--Choose another datatype"));   
 		//DD-TODO: after add varchar left a cursor over length selected to allow used
@@ -125,12 +134,12 @@ wxArrayString& ddTextColumnFigure::dataTypes()
 		datatypes.Add(wxT("Not Defined"));
 		datatypes.Add(wxT("Bigint"));
 		datatypes.Add(wxT("Boolean"));
-		datatypes.Add(wxT("Bool"));
 		datatypes.Add(wxT("Integer"));
-		datatypes.Add(wxT("Monery"));
+		datatypes.Add(wxT("Money"));
+		datatypes.Add(wxT("Varchar(1)"));
 		//DD-TODO: after add varchar left a cursor over length selected to allow used
 	}
-	return strings;
+	return datatypes;
 
 }
 

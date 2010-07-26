@@ -23,9 +23,9 @@ const enum ddDataType {
 	dt_null=0,
 	dt_bigint,
 	dt_boolean,
-	dt_bool,
 	dt_integer,
-	dt_money
+	dt_money,
+	dt_varchar
 };
 
 
