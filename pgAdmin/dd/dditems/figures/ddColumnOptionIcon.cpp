@@ -35,6 +35,7 @@
 
 
 ddColumnOptionIcon::ddColumnOptionIcon(){
+	 colOption=null;
 	 icon = wxBitmap(ddnull_xpm);
 	 iconToDraw = &icon;
 	 getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
@@ -64,6 +65,7 @@ void ddColumnOptionIcon::OnTextPopupClick(wxCommandEvent& event)
 
 void ddColumnOptionIcon::changeIcon(ddColumnOptionType type)
 {
+	colOption=type;
 	switch(type)
 	{
 		case 0:	icon = wxBitmap(ddnull_xpm);
@@ -103,4 +105,9 @@ int ddColumnOptionIcon::getHeight()
 		return iconToDraw->GetHeight();
 	else
 		return 10;
+}
+
+ddColumnOptionType ddColumnOptionIcon::getOption()
+{
+	return colOption;
 }

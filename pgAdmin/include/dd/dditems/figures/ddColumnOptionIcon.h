@@ -34,10 +34,12 @@ public:
 	virtual void changeIcon(ddColumnOptionType type);
 	virtual int getWidth();
 	virtual int getHeight();
+	ddColumnOptionType getOption();
 
 protected:
 
 private:
+	ddColumnOptionType colOption;
 	wxBitmap *iconToDraw;
 	wxBitmap icon;
 };

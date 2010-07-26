@@ -44,6 +44,10 @@ public:
 	virtual ddTableFigure* getOwnerTable();
 	virtual void setOwnerTable(ddTableFigure *table);
 	void displayBoxUpdate();
+	bool isNull();
+	bool isNotNull();
+	bool isPrimaryKey();
+	bool isUniqueKey();
 protected:
 	ddColumnKindIcon *leftImage;
 	ddColumnOptionIcon *centerImage;

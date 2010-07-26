@@ -450,20 +450,47 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 	wxMenuItem *item = NULL;
 	wxMenu *submenu = NULL;
 	for(int i=0 ; i < sz ; i++){
-			//String "--submenu--menu item--sub menu title" and "--subitem--" create and add items to last created submenu
-			if(strings[i].Contains(wxT("--submenu--"))) //DD-TODO: add other parameters to string
+			//DD-TODO: only create options for what I need, this can be improved later
+			//String "--submenu##menu item**sub menu title" and "--subitem--" create and add items to last created submenu
+			if(strings[i].Contains(wxT("--submenu"))) 
 			{
-				submenu = new wxMenu(strings[i].SubString(strings[i].find(wxT("--"),11)+2,strings[i].length())); 
-				mnu.AppendSubMenu(submenu,strings[i].SubString(11,strings[i].find(wxT("--"),11)-1));
+				submenu = new wxMenu(strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length())); 
+				mnu.AppendSubMenu(submenu,strings[i].SubString(strings[i].find(wxT("##"))+2,strings[i].find(wxT("**"))-1));
 			}
-			else if(strings[i].Contains(wxT("--subitem--")))
+			else if(strings[i].Contains(wxT("--subitem")))
 			{
 				if(submenu)
-					submenu->Append(i,strings[i].SubString(11,strings[i].length()));
+				{
+					if(strings[i].Contains(wxT("--checked")))
+					{
+						item=submenu->AppendCheckItem(i,strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length()));
+					}
+					else
+					{
+						item=submenu->Append(i,strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length()));
+					}
+				}
+				else
+				{
+				//6666	error
+				}
+			}
+			else if(strings[i].Contains(wxT("--separator--")))
+			{
+				mnu.AppendSeparator();
+			}
+			else if(strings[i].Contains(wxT("--checked")))
+			{
+				item = mnu.AppendCheckItem(i, strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length()));
 			}
 			else
 			{
-				 item = mnu.Append(i, strings[i]);
+				item = mnu.Append(i, strings[i]);
+			}
+
+			if(item && strings[i].Contains(wxT("--checked")))
+			{
+				item->Check(true);
 			}
 		}
 // Faltan Eventos

@@ -21,9 +21,9 @@
 #include "dd/draw/utilities/ddCollection.h"*/
 
 
-const enum ddRelationType {
-	none,
-	pk=0,
+const enum ddColumnType {
+	none=0,
+	pk,
 	fk,
 	uk,
 	pkfk
@@ -39,13 +39,15 @@ public:
 	virtual void OnTextPopupClick(wxCommandEvent& event);
 	virtual void basicDraw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void basicDrawSelected(wxBufferedDC& context, ddDrawingView *view);		
-	virtual void changeIcon(ddRelationType type);
+	virtual void changeIcon(ddColumnType type);
 	virtual int getWidth();
 	virtual int getHeight();
+	ddColumnType getKind();
 
 protected:
 
 private:
+	ddColumnType colType;
 	wxBitmap *iconToDraw;
 	wxBitmap icon;
 };

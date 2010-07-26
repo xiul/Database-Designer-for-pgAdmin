@@ -37,9 +37,10 @@
 
 
 ddColumnKindIcon::ddColumnKindIcon(){
-	 icon = wxBitmap(ddprimarykey_xpm);
-	 iconToDraw = NULL;
-	 getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
+	colType = none;
+	icon = wxBitmap(ddprimarykey_xpm);  //initialize with any image for calculate goals
+	iconToDraw = NULL;
+	getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
 }
 
 ddColumnKindIcon::~ddColumnKindIcon(){
@@ -64,11 +65,12 @@ wxArrayString& ddColumnKindIcon::popupStrings()
 void ddColumnKindIcon::OnTextPopupClick(wxCommandEvent& event)
 {
 	//strings[event.GetId()]
-	changeIcon((ddRelationType)event.GetId());
+	changeIcon((ddColumnType)event.GetId());
 }
 
-void ddColumnKindIcon::changeIcon(ddRelationType type)
+void ddColumnKindIcon::changeIcon(ddColumnType type)
 {
+	colType=type;
 	switch(type)
 	{
 		case 1:	icon = wxBitmap(ddprimarykey_xpm);
@@ -117,4 +119,9 @@ int ddColumnKindIcon::getHeight()
 		return iconToDraw->GetHeight();
 	else
 		return 10;
+}
+
+ddColumnType ddColumnKindIcon::getKind()
+{
+	return colType;
 }

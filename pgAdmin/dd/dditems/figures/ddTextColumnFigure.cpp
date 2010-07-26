@@ -106,25 +106,71 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event)
 }
 
 //must match enum ddDataType!!!
+//It's a lot faster to use constant strings that create it at fly.
 wxArrayString& ddTextColumnFigure::popupStrings()
 {
 	//fill popup strings only first time
-	if(strings.Count()<=0){
+//	if(strings.Count()<=0){
 		strings.Clear();
 		strings.Add(wxT("Add Column"));
 		strings.Add(wxT("Delete Column"));
 		strings.Add(wxT("Rename Column (N/A, just double click)"));
-		strings.Add(wxT("--submenu--Change Column Datatype--Select a Datatype:"));
-		strings.Add(wxT("--subitem--Bigint"));
-		strings.Add(wxT("--subitem--Boolean"));
-		strings.Add(wxT("--subitem--Integer"));
-		strings.Add(wxT("--subitem--Money"));
-		strings.Add(wxT("--subitem--Varchar(1)"));   
-		strings.Add(wxT("--subitem--Choose another datatype"));   
+		
+		strings.Add(wxT("--separator--"));
+
+		if(getOwnerColumn()->isNotNull())
+			strings.Add(wxT("--checked**Not Null"));
+		else
+			strings.Add(wxT("Not Null"));
+		if(getOwnerColumn()->isNull())
+			strings.Add(wxT("--checked**Null"));
+		else
+			strings.Add(wxT("Null"));
+
+		strings.Add(wxT("--separator--"));
+
+		if(getOwnerColumn()->isPrimaryKey())		
+			strings.Add(wxT("--checked**Primary Key"));
+		else
+			strings.Add(wxT("Primary Key"));
+
+		if(getOwnerColumn()->isUniqueKey())
+			strings.Add(wxT("--checked**Unique"));
+		else
+			strings.Add(wxT("Unique"));
+
+		strings.Add(wxT("--separator--"));
+
+		strings.Add(wxT("--submenu##Change Column Datatype**Select a Datatype:"));
+		if(columnType==dt_bigint)
+			strings.Add(wxT("--subitem--checked**Bigint"));
+		else
+			strings.Add(wxT("--subitem**Bigint"));
+
+		if(columnType==dt_boolean)
+			strings.Add(wxT("--subitem--checked**Boolean"));
+		else
+			strings.Add(wxT("--subitem**Boolean"));
+		if(columnType==dt_integer)
+			strings.Add(wxT("--subitem--checked**Integer"));
+		else
+			strings.Add(wxT("--subitem**Integer"));
+		if(columnType==dt_money)
+			strings.Add(wxT("--subitem--checked**Money"));
+		else
+			strings.Add(wxT("--subitem**Money"));
+		if(columnType==dt_varchar)
+			strings.Add(wxT("--subitem--checked**Varchar(1)"));   
+		else
+			strings.Add(wxT("--subitem**Varchar(1)"));   
+		strings.Add(wxT("--subitem**Choose another datatype"));   
 		//DD-TODO: after add varchar left a cursor over length selected to allow used
-	}
+	//}
 	return strings;
 };
+
+
+llenar menus de ocpiones
 
 wxArrayString& ddTextColumnFigure::dataTypes()
 {

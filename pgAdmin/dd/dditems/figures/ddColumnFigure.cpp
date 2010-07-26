@@ -247,3 +247,23 @@ void ddColumnFigure::displayBoxUpdate()
 		basicDisplayBox.width+=22; //default value =1 + 8 + 3 + 8 +2 
 	}
 }
+
+bool ddColumnFigure::isNull()
+{
+	return centerImage->getOption()==null;
+}
+
+bool ddColumnFigure::isNotNull()
+{
+	return centerImage->getOption()==notnull;
+}
+
+bool ddColumnFigure::isPrimaryKey()
+{
+	return leftImage->getKind()==pk;
+}
+
+bool ddColumnFigure::isUniqueKey()
+{
+	return leftImage->getKind()==uk;
+}
