@@ -48,12 +48,18 @@ ddColumnOptionIcon::~ddColumnOptionIcon(){
 
 wxArrayString& ddColumnOptionIcon::popupStrings()
 {
-	if(strings.Count()<=0)
-	{
-		strings.Clear();
+	strings.Clear();
+	
+	if(colOption==null)
+		strings.Add(wxT("--checked**Null"));
+	else
 		strings.Add(wxT("Null"));
+
+	if(colOption==notnull)
+		strings.Add(wxT("--checked**Not Null"));
+	else
 		strings.Add(wxT("Not Null"));
-	}
+
 	return strings;
 };
 

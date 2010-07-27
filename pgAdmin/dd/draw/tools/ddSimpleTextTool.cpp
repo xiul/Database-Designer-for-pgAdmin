@@ -123,7 +123,7 @@ void ddSimpleTextTool::mouseDrag(ddMouseEvent& event)
 	}
 }
 
-void ddSimpleTextTool::OnTextPopupClick(wxCommandEvent& event)
+void ddSimpleTextTool::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view)
 {
-	txtFigure->OnTextPopupClick(event);
+	txtFigure->OnTextPopupClick(event,view);
 }

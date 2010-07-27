@@ -24,9 +24,10 @@
 const enum ddColumnType {
 	none=0,
 	pk,
-	fk,
 	uk,
-	pkfk
+	fk,
+	pkfk,
+	pkuk
 };
 
 

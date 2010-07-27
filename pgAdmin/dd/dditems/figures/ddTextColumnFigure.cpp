@@ -65,8 +65,9 @@ wxString& ddTextColumnFigure::getText(bool extended)
 }
 
 //event ID must match enum ddDataType!!! this event was created on view
-void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event)
+void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view)
 {
+	wxTextEntryDialog *nameDialog=NULL;
 	//DD-TODO: improve this
 	switch(event.GetId())
 	{
@@ -78,29 +79,48 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event)
 			getOwnerColumn()->getOwnerTable()->removeColumn(getOwnerColumn());
 			break;
 		case 2:  //Rename Column
-			//columnType = dt_bigint;
-			// Simulate button down to start connection of foreign key
-			
-			//DD-TODO: look for a solution for this trouble
-
+			nameDialog = new wxTextEntryDialog(view,wxT("Input column name"),wxT("Rename Column"),getText());
+			nameDialog->ShowModal();
+			setText(nameDialog->GetValue());
+			delete nameDialog;
 			break;
-		case 4:  // Submenu opcion 1
+		case 4:  //Not Null
+			getOwnerColumn()->setColumnOption(notnull);
+			break;
+		case 5:	//Null
+			if(!getOwnerColumn()->isPrimaryKey())
+				getOwnerColumn()->setColumnOption(null);
+			break;
+		//DD-TODO: add options for fk, fkpk, fkuk
+		case 7:	//pk
+			getOwnerColumn()->setColumnKind(pk);
+			getOwnerColumn()->setColumnOption(notnull);
+			break;
+		case 8:	//uk
+			getOwnerColumn()->setColumnKind(uk);
+			break;
+		case 9:	//none
+			getOwnerColumn()->setColumnKind(none);
+			break;		
+		
+		case 12:  // Submenu opcion 1
 			columnType = dt_bigint;
 			break;
-		case 5:
+		case 13:
 			columnType = dt_boolean;
 		break;
-		case 6:
+		case 14:
 			columnType = dt_integer;
 		break;
-		case 7:
+		case 15:
 			columnType = dt_money;
 		break;
-		case 8:
+		case 16:
 			columnType = dt_varchar;
 		break;
-		case 9: //Call datatypes selector
-			columnType = dt_boolean; //DD-TODO: a new combobox with all datatypes should be created here.
+		case 17: //Call datatypes selector
+			//DD-TODO: Add all types, improve and separate from quick access types
+			columnType = (ddDataType) wxGetSingleChoiceIndex(wxT("Select column datatype"),wxT("Column Datatypes"),dataTypes());
 		break;
 	}		
 }
@@ -109,68 +129,75 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event)
 //It's a lot faster to use constant strings that create it at fly.
 wxArrayString& ddTextColumnFigure::popupStrings()
 {
-	//fill popup strings only first time
-//	if(strings.Count()<=0){
 		strings.Clear();
-		strings.Add(wxT("Add Column"));
-		strings.Add(wxT("Delete Column"));
-		strings.Add(wxT("Rename Column (N/A, just double click)"));
+		strings.Add(wxT("Add Column"));  //0
+		strings.Add(wxT("Delete Column"));  //1
+		strings.Add(wxT("Rename Column (N/A, just double click)"));  //2
 		
 		strings.Add(wxT("--separator--"));
 
-		if(getOwnerColumn()->isNotNull())
-			strings.Add(wxT("--checked**Not Null"));
+		if(getOwnerColumn()->isNotNull())	//4
+			strings.Add(wxT("--checked**Not Null")); 
 		else
 			strings.Add(wxT("Not Null"));
-		if(getOwnerColumn()->isNull())
+		
+		if(getOwnerColumn()->isNull())	//5
 			strings.Add(wxT("--checked**Null"));
 		else
 			strings.Add(wxT("Null"));
 
 		strings.Add(wxT("--separator--"));
 
-		if(getOwnerColumn()->isPrimaryKey())		
+		if(getOwnerColumn()->isPrimaryKey())	//7
 			strings.Add(wxT("--checked**Primary Key"));
 		else
 			strings.Add(wxT("Primary Key"));
 
-		if(getOwnerColumn()->isUniqueKey())
+		if(getOwnerColumn()->isUniqueKey())		//8
 			strings.Add(wxT("--checked**Unique"));
 		else
 			strings.Add(wxT("Unique"));
 
+		if(getOwnerColumn()->isPlain())		//9
+			strings.Add(wxT("--checked**None"));
+		else
+			strings.Add(wxT("None"));
+
 		strings.Add(wxT("--separator--"));
 
 		strings.Add(wxT("--submenu##Change Column Datatype**Select a Datatype:"));
-		if(columnType==dt_bigint)
+		
+		if(columnType==dt_bigint)		//12
 			strings.Add(wxT("--subitem--checked**Bigint"));
 		else
 			strings.Add(wxT("--subitem**Bigint"));
 
-		if(columnType==dt_boolean)
+		if(columnType==dt_boolean)		//13
 			strings.Add(wxT("--subitem--checked**Boolean"));
 		else
 			strings.Add(wxT("--subitem**Boolean"));
-		if(columnType==dt_integer)
+
+		if(columnType==dt_integer)		//14
 			strings.Add(wxT("--subitem--checked**Integer"));
 		else
 			strings.Add(wxT("--subitem**Integer"));
-		if(columnType==dt_money)
+
+		if(columnType==dt_money)		//15
 			strings.Add(wxT("--subitem--checked**Money"));
 		else
 			strings.Add(wxT("--subitem**Money"));
-		if(columnType==dt_varchar)
+
+		if(columnType==dt_varchar)		//16
 			strings.Add(wxT("--subitem--checked**Varchar(1)"));   
 		else
 			strings.Add(wxT("--subitem**Varchar(1)"));   
-		strings.Add(wxT("--subitem**Choose another datatype"));   
+
+		strings.Add(wxT("--subitem**Choose another datatype"));   //17
 		//DD-TODO: after add varchar left a cursor over length selected to allow used
 	//}
 	return strings;
 };
 
-
-llenar menus de ocpiones
 
 wxArrayString& ddTextColumnFigure::dataTypes()
 {

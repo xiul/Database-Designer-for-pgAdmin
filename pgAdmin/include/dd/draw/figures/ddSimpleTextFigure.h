@@ -12,18 +12,8 @@
 #ifndef DDSIMPLETEXTFIGURE_H
 #define DDSIMPLETEXTFIGURE_H
 #include "dd/draw/figures/ddAbstractFigure.h"
-/*
-#include "dd/draw/main/ddObject.h"
-#include "dd/draw/utilities/ddCollection.h"
-#include "dd/draw/handles/ddIHandle.h"
-//#include "dd/draw/connectors/ddIConnector.h"
-class ddITool;			// HACK-FIX circular reference
-class ddDrawingEditor;
-class ddIConnector;
-class ddITool;
-class ddITool;
-*/
 
+class ddDrawingView;
 
 class ddSimpleTextFigure : public ddAbstractFigure
 {
@@ -47,7 +37,7 @@ public:
 	virtual void enablePopUp();
 	virtual void disablePopUp();
 	virtual bool menuEnabled();
-	virtual void OnTextPopupClick(wxCommandEvent& event);
+	virtual void OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view);
 protected:
 	virtual void getFontMetrics(int &width, int &height);
 	virtual void recalculateDisplayBox();

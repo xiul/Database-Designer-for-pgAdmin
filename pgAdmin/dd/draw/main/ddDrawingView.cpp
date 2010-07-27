@@ -435,7 +435,7 @@ wxBitmapButton* ddDrawingView::getCancelTxt()
 void ddDrawingView::OnTextPopupClick(wxCommandEvent& event)
 {
 	if(simpleTextFigure)
-		simpleTextFigure->OnTextPopupClick(event);
+		simpleTextFigure->OnTextPopupClick(event,this);
 	else if(menuFigure)
 		menuFigure->OnTextPopupClick(event);
 	event.Skip();
@@ -472,7 +472,9 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 				}
 				else
 				{
-				//6666	error
+					wxMessageDialog *error = new wxMessageDialog(NULL, wxT("Error setting text popup strings list"), wxT("Error!"), wxOK | wxICON_ERROR);
+					error->ShowModal();
+					delete error;
 				}
 			}
 			else if(strings[i].Contains(wxT("--separator--")))

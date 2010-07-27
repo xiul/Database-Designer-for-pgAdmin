@@ -50,15 +50,21 @@ ddColumnKindIcon::~ddColumnKindIcon(){
 
 wxArrayString& ddColumnKindIcon::popupStrings()
 {
-	if(strings.Count()<=0)
-	{
-		strings.Clear();
+	strings.Clear();
+	if(colType==none)
+		strings.Add(wxT("--checked**None"));
+	else
 		strings.Add(wxT("None"));
+	
+	if(colType==pk)
+		strings.Add(wxT("--checked**Primary Key"));   //DD-TODO: primary key then put not null at same time
+	else
 		strings.Add(wxT("Primary Key"));
+	
+	if(colType==uk)
+		strings.Add(wxT("--checked**Unique Key"));
+	else
 		strings.Add(wxT("Unique Key"));
-		strings.Add(wxT("f Key"));
-		strings.Add(wxT("fp Key"));
-	}
 	return strings;
 };
 
@@ -79,7 +85,7 @@ void ddColumnKindIcon::changeIcon(ddColumnType type)
 				break;
 		case 3:	icon = wxBitmap(ddforeignkey_xpm);
 				break;
-		case 4:	icon = wxBitmap(ddprimaryforeignkey_xpm);  //DD-TODO: create this icon, test for fk pk
+		case 4:	icon = wxBitmap(ddprimaryforeignkey_xpm);
 				break;
 	}
 	

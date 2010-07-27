@@ -29,7 +29,7 @@ public:
 	virtual wxString& getText(bool extended = false);
 	virtual wxArrayString& popupStrings();
 	virtual wxArrayString& dataTypes();
-	virtual void OnTextPopupClick(wxCommandEvent& event);
+	virtual void OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view);
 	virtual void setText(wxString textString);
 	virtual ddColumnFigure* getOwnerColumn();
 	virtual void setOwnerColumn(ddColumnFigure *column);

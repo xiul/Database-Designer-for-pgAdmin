@@ -267,3 +267,18 @@ bool ddColumnFigure::isUniqueKey()
 {
 	return leftImage->getKind()==uk;
 }
+
+bool ddColumnFigure::isPlain()
+{
+	return leftImage->getKind()==none;
+}
+
+void ddColumnFigure::setColumnKind(ddColumnType type)
+{
+	leftImage->changeIcon(type);
+}
+
+void ddColumnFigure::setColumnOption(ddColumnOptionType type)
+{
+	centerImage->changeIcon(type);
+}
