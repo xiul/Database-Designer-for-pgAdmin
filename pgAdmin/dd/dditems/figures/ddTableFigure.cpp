@@ -196,7 +196,7 @@ void ddTableFigure::calculateBars(ddDrawingView *view)
 	//Calculate Bottom Line of Columns Bar
 	colsBottomLeft = colsTopLeft;
 	colsBottomRight = colsTopRight;
-	colsBottomLeft.y+=9;
+	colsBottomLeft.y+=9;  //666 this 9 change for column text height
 	colsBottomRight.y+=9;
 
 	//Calculate Space for columns and draw indxs line

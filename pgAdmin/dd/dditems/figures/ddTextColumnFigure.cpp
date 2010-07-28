@@ -85,40 +85,45 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 			delete nameDialog;
 			break;
 		case 4:  //Not Null
-			getOwnerColumn()->setColumnOption(notnull);
-			break;
-		case 5:	//Null
-			if(!getOwnerColumn()->isPrimaryKey())
+			if(getOwnerColumn()->isNotNull())
 				getOwnerColumn()->setColumnOption(null);
+			else
+				getOwnerColumn()->setColumnOption(notnull);
 			break;
-		//DD-TODO: add options for fk, fkpk, fkuk
-		case 7:	//pk
-			getOwnerColumn()->setColumnKind(pk);
-			getOwnerColumn()->setColumnOption(notnull);
+		//DD-TODO: add options fr fk, fkpk, fkuk
+		case 6:	//pk
+			if(getOwnerColumn()->isPrimaryKey())
+			{
+				getOwnerColumn()->setColumnKind(none);
+			}
+			else
+			{
+				getOwnerColumn()->setColumnKind(pk);
+				getOwnerColumn()->setColumnOption(notnull);
+			}
 			break;
-		case 8:	//uk
-			getOwnerColumn()->setColumnKind(uk);
+		case 7:	//uk
+			if(getOwnerColumn()->isUniqueKey())
+				getOwnerColumn()->setColumnKind(none);
+			else
+				getOwnerColumn()->setColumnKind(uk);
 			break;
-		case 9:	//none
-			getOwnerColumn()->setColumnKind(none);
-			break;		
-		
-		case 12:  // Submenu opcion 1
+		case 10:  // Submenu opcion 1
 			columnType = dt_bigint;
 			break;
-		case 13:
+		case 11:
 			columnType = dt_boolean;
 		break;
-		case 14:
+		case 12:
 			columnType = dt_integer;
 		break;
-		case 15:
+		case 13:
 			columnType = dt_money;
 		break;
-		case 16:
+		case 14:
 			columnType = dt_varchar;
 		break;
-		case 17: //Call datatypes selector
+		case 15: //Call datatypes selector
 			//DD-TODO: Add all types, improve and separate from quick access types
 			columnType = (ddDataType) wxGetSingleChoiceIndex(wxT("Select column datatype"),wxT("Column Datatypes"),dataTypes());
 		break;
@@ -130,9 +135,9 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 wxArrayString& ddTextColumnFigure::popupStrings()
 {
 		strings.Clear();
-		strings.Add(wxT("Add Column"));  //0
-		strings.Add(wxT("Delete Column"));  //1
-		strings.Add(wxT("Rename Column (N/A, just double click)"));  //2
+		strings.Add(wxT("Add a column ..."));  //0
+		strings.Add(wxT("Delete a column ..."));  //1
+		strings.Add(wxT("Rename a column ..."));  //2
 		
 		strings.Add(wxT("--separator--"));
 
@@ -141,58 +146,58 @@ wxArrayString& ddTextColumnFigure::popupStrings()
 		else
 			strings.Add(wxT("Not Null"));
 		
-		if(getOwnerColumn()->isNull())	//5
+/*		if(getOwnerColumn()->isNull())	//5
 			strings.Add(wxT("--checked**Null"));
 		else
-			strings.Add(wxT("Null"));
+			strings.Add(wxT("Null"));*/
 
 		strings.Add(wxT("--separator--"));
 
-		if(getOwnerColumn()->isPrimaryKey())	//7
+		if(getOwnerColumn()->isPrimaryKey())	//6
 			strings.Add(wxT("--checked**Primary Key"));
 		else
 			strings.Add(wxT("Primary Key"));
 
-		if(getOwnerColumn()->isUniqueKey())		//8
+		if(getOwnerColumn()->isUniqueKey())		//7
 			strings.Add(wxT("--checked**Unique"));
 		else
 			strings.Add(wxT("Unique"));
 
-		if(getOwnerColumn()->isPlain())		//9
+/*		if(getOwnerColumn()->isPlain())		//9
 			strings.Add(wxT("--checked**None"));
 		else
 			strings.Add(wxT("None"));
-
+*/
 		strings.Add(wxT("--separator--"));
 
 		strings.Add(wxT("--submenu##Change Column Datatype**Select a Datatype:"));
 		
-		if(columnType==dt_bigint)		//12
+		if(columnType==dt_bigint)		//10
 			strings.Add(wxT("--subitem--checked**Bigint"));
 		else
 			strings.Add(wxT("--subitem**Bigint"));
 
-		if(columnType==dt_boolean)		//13
+		if(columnType==dt_boolean)		//11
 			strings.Add(wxT("--subitem--checked**Boolean"));
 		else
 			strings.Add(wxT("--subitem**Boolean"));
 
-		if(columnType==dt_integer)		//14
+		if(columnType==dt_integer)		//12
 			strings.Add(wxT("--subitem--checked**Integer"));
 		else
 			strings.Add(wxT("--subitem**Integer"));
 
-		if(columnType==dt_money)		//15
+		if(columnType==dt_money)		//13
 			strings.Add(wxT("--subitem--checked**Money"));
 		else
 			strings.Add(wxT("--subitem**Money"));
 
-		if(columnType==dt_varchar)		//16
+		if(columnType==dt_varchar)		//14
 			strings.Add(wxT("--subitem--checked**Varchar(1)"));   
 		else
 			strings.Add(wxT("--subitem**Varchar(1)"));   
 
-		strings.Add(wxT("--subitem**Choose another datatype"));   //17
+		strings.Add(wxT("--subitem**Choose another datatype"));   //15
 		//DD-TODO: after add varchar left a cursor over length selected to allow used
 	//}
 	return strings;
