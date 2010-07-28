@@ -155,7 +155,11 @@ void ddTableFigure::resetColPosition(ddColumnFigure *column)
 	ddIFigure *f = (ddIFigure *) iterator->Next(); //First Figure is always Rect
 	horizontalPos = f->displayBox().x+2;
 	f = (ddIFigure *) iterator->Next(); //Second Figure is table title
-	verticalPos = f->displayBox().GetBottom() + 10; //f->displayBox().y + f->displayBox().width + 9 from second line + 1 padding;
+	//Get Font Metrics
+	wxFont font = settings->GetSystemFont();
+	font.SetPointSize(7);
+	int height=getHeightFontMetric(wxT("Columns"),font);
+	verticalPos = f->displayBox().GetBottom() + height+1; //f->displayBox().y + f->displayBox().width + X from second line(font metric) + 1 padding;
 	
 
 	while(iterator->HasNext()){
@@ -179,7 +183,7 @@ void ddTableFigure::resetColPosition(ddColumnFigure *column)
 }
 
 
-void ddTableFigure::calculateBars(ddDrawingView *view)
+void ddTableFigure::calculateHorizBars(ddDrawingView *view)
 {
 	//Calculate Top Line of Columns Bar
 	ddIFigure *f;
@@ -196,9 +200,14 @@ void ddTableFigure::calculateBars(ddDrawingView *view)
 	//Calculate Bottom Line of Columns Bar
 	colsBottomLeft = colsTopLeft;
 	colsBottomRight = colsTopRight;
-	colsBottomLeft.y+=9;  //666 this 9 change for column text height
-	colsBottomRight.y+=9;
-
+	
+	//Get Font Metrics
+	wxFont font = settings->GetSystemFont();
+	font.SetPointSize(7);
+	int height=getHeightFontMetric(wxT("Columns"),font);
+	colsBottomLeft.y+=height;  
+	colsBottomRight.y+=height;
+	
 	//Calculate Space for columns and draw indxs line
 	
 	//DD-TODO: Implement indexes and fix this
@@ -235,7 +244,7 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	ddCompositeFigure::draw(context,view);
 
 	//Draw Columns Title Line 1
-	calculateBars(view);
+	calculateHorizBars(view);
 	context.DrawLine(colsTopLeft,colsTopRight);
 	
 	//Draw Columns middle line title
@@ -275,7 +284,7 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	ddCompositeFigure::drawSelected(context,view);
 
 	//Draw Columns Title Line 1
-	calculateBars(view);
+	calculateHorizBars(view);
 	context.DrawLine(colsTopLeft,colsTopRight);
 	
 	//Draw Columns middle line title
@@ -309,4 +318,13 @@ void ddTableFigure::toggleColumnDeleteMode(bool disable)
 		deleteColumnMode = false;
 	else
 		deleteColumnMode = !deleteColumnMode;
+}
+
+int ddTableFigure::getHeightFontMetric(wxString text, wxFont font)
+{
+	int width, height;
+	wxMemoryDC temp_dc;
+	temp_dc.SetFont(font);
+	temp_dc.GetTextExtent(text,&width,&height);
+	return height;
 }

@@ -32,10 +32,11 @@ public:
 	void resetColPosition(ddColumnFigure *column);
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
-	void calculateBars(ddDrawingView *view);
+	void calculateHorizBars(ddDrawingView *view);
 protected:
 
 private:
+	int getHeightFontMetric(wxString text, wxFont font);
 	ddRectangleFigure *rectangleFigure;
 	ddTextColumnFigure *tableTitle;
 	bool fromSelToNOSel;
