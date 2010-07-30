@@ -105,6 +105,11 @@ ddCompositeFigure()
 	minIdxIndex=2;  
 	maxIdxIndex=2;
 
+	//Initialize position where start to draw cols & indxs
+	//This is value to allow scrollbars
+	beginDrawCols=2;
+	beginDrawIdxs=2;
+
 
 	//DD-TODO: adjust this values
 /*	minWidth=tableTitle->getTextWidth()+35;
@@ -195,6 +200,11 @@ if(setRects){
 }
 */
 
+
+TODO NOW:
+resetColPosition  debe cambiar es las columnas de posicion de acuerdo a su indice, de todas formas aquellas
+que no esten en la ventana de dibujo, deben ser no dibujadas, para eso se les colocara la posicion x,y = -1 o un negativo muy grande -650000
+y al detectar dicha posicion o con una variable especial la funcion de dibujo no las tomara en cuenta.
 
 //Put a new column their new position below older columns or if column is NULL fix positions of columns because a delete
 void ddTableFigure::resetColPosition(ddColumnFigure *column)
@@ -295,22 +305,30 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	context.SetPen(*wxBLACK_PEN);
 	context.SetBrush(wxBrush (wxColour(255, 255, 224),wxSOLID));
 
-	context.DrawRectangle(fullSizeRect);
-	
-	ddCompositeFigure::draw(context,view);
-	
-	context.DrawRectangle(titleRect);
+//	context.DrawRectangle(fullSizeRect);
+
+	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //table rectangle
+	f->draw(context,view);
+	f = (ddIFigure *) figureFigures->getItemAt(1); //table title
+	f->draw(context,view);
+
+/*	context.DrawRectangle(titleRect);
 	context.DrawRectangle(titleColsRect);
 	context.DrawRectangle(colsRect);
 	context.DrawRectangle(indxsTitleRect);
 	context.DrawRectangle(indxsRect);
-
+*/
+	for(int i=beginDrawCols; i < (colsWindow+beginDrawCols); i++)
+	{
+		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
+		f->draw(context,view);
+	}
 
 	wxFont font = settings->GetSystemFont();
 	font.SetPointSize(7);
 	context.SetFont(font);
-	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y-1);
-	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y-1);
+	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y);
+	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y);
 
 	//Hack to disable delete column mode when the figure pass from selected to no selected.
 	if(fromSelToNOSel)
@@ -355,13 +373,51 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 {
+	//Hack to unselect any table
 	if(!fromSelToNOSel)
 		fromSelToNOSel=true;
 
+	//Hack to disable delete column mode when the figure pass from selected to no selected.
+	if(fromSelToNOSel)
+	{
+		toggleColumnDeleteMode(true);
+		fromSelToNOSel=false;
+	}
+
+
+
 	context.SetPen(wxPen(wxColour(70, 130, 180),2,wxSOLID));
 	context.SetBrush(wxBrush (wxColour(224, 248, 255),wxSOLID));
+
+	calcRectsAreas();
+//	context.DrawRectangle(fullSizeRect);
+
+	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //table rectangle
+	f->draw(context,view);
+	f = (ddIFigure *) figureFigures->getItemAt(1); //table title
+	f->draw(context,view);
+
+/*	context.DrawRectangle(titleRect);
+	context.DrawRectangle(titleColsRect);
+	context.DrawRectangle(colsRect);
+	context.DrawRectangle(indxsTitleRect);
+	context.DrawRectangle(indxsRect);
+*/
+	for(int i=beginDrawCols; i < (colsWindow+beginDrawCols); i++)
+	{
+		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
+		f->draw(context,view);
+	}
+
+	wxFont font = settings->GetSystemFont();
+	font.SetPointSize(7);
+	context.SetFont(font);
+	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y);
+	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y);
+
+
 	
-	context.DrawRectangle(fullSizeRect);
+/*	context.DrawRectangle(fullSizeRect);
 	context.DrawRectangle(titleRect);
 	context.DrawRectangle(titleColsRect);
 	context.DrawRectangle(colsRect);
@@ -373,7 +429,7 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	font.SetPointSize(7);
 	context.SetFont(font);
 	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y-1);
-	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y-1);
+	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y-1); */
 
 	//Hack to disable delete column mode when the figure pass from selected to no selected.
 	if(fromSelToNOSel)
@@ -382,7 +438,10 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 		fromSelToNOSel=false;
 	}
 
-	ddCompositeFigure::draw(context,view);
+//	ddCompositeFigure::draw(context,view);
+	
+	
+	
 	/*
 	ddCompositeFigure::drawSelected(context,view);
 

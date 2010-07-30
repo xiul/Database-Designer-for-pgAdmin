@@ -45,6 +45,8 @@ private:
 	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;
 	//vector indexes
 	int maxColIndex,minIdxIndex,maxIdxIndex;
+	//position
+	int beginDrawCols, beginDrawIdxs;
 	
 	//Bar lines Points
 	ddPoint colsTopLeft, colsTopRight, colsBottomLeft, colsBottomRight;

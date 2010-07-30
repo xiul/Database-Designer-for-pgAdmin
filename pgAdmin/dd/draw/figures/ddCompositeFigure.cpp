@@ -183,8 +183,9 @@ bool ddCompositeFigure::includes(ddIFigure *figure)
 void ddCompositeFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 {
 	ddIteratorBase *iterator = figuresEnumerator();
+	ddIFigure *f=NULL;
 	while(iterator->HasNext()){
-		ddIFigure *f = (ddIFigure *) iterator->Next();
+		f = (ddIFigure *) iterator->Next();
 		f->draw(context,view);
 	}
 	delete iterator;
@@ -193,8 +194,9 @@ void ddCompositeFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 void ddCompositeFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 {
 	ddIteratorBase *iterator = figuresEnumerator();
+	ddIFigure *f = NULL;
 	while(iterator->HasNext()){
-		ddIFigure *f = (ddIFigure *) iterator->Next();
+		 f = (ddIFigure *) iterator->Next();
 		f->drawSelected(context,view);
 	}
 	delete iterator;
