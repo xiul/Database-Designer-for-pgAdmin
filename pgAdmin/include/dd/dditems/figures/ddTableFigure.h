@@ -26,6 +26,7 @@ public:
     ~ddTableFigure();
 	void addColumn(ddColumnFigure *column);
 	void removeColumn(ddColumnFigure *column);
+	void calcMaxTableSizes();
 	void updateTableSize();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
@@ -33,17 +34,36 @@ public:
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
 	void calculateHorizBars(ddDrawingView *view);
+	void setColsRowsWindow(int num);
 protected:
 
 private:
-	int getHeightFontMetric(wxString text, wxFont font);
+	//Main Rectangle Sizes
+	wxSize maxSize;
+	ddRect titleRect, colsRect, indxsTitleRect, indxsRect;
+	//Rectangle item counters
+	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;
+	//vector indexes
+	int maxColIndex,minIdxIndex,maxIdxIndex;
+	
+	//Bar lines Points
+	ddPoint colsTopLeft, colsTopRight, colsBottomLeft, colsBottomRight;
+	ddPoint idxsTopLeft, idxsTopRight, idxsBottomLeft, idxsBottomRight;
+	
+	//Default Figures
 	ddRectangleFigure *rectangleFigure;
 	ddTextColumnFigure *tableTitle;
+
+	//helper variables
 	bool fromSelToNOSel;
 	bool deleteColumnMode;
 	int internalPadding, externalPadding;
 	int minWidth, minHeight;
-	ddPoint colsTopLeft, colsTopRight, colsBottomLeft, colsBottomRight;
-	ddPoint idxsTopLeft, idxsTopRight, idxsBottomLeft, idxsBottomRight;
+
+	//methods
+	int getHeightFontMetric(wxString text, wxFont font);
+	int getColDefaultHeight(wxFont font);
+	int getFiguresMaxWidth();
+	void calcRectsAreas();
 };
 #endif
