@@ -26,21 +26,21 @@ public:
     ~ddTableFigure();
 	void addColumn(ddColumnFigure *column);
 	void removeColumn(ddColumnFigure *column);
-	void calcMaxTableSizes();
+//	void calcMaxTableSizes();
 	void updateTableSize();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
 	void resetColPosition(ddColumnFigure *column);
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
-	void calculateHorizBars(ddDrawingView *view);
+	//void calculateHorizBars(ddDrawingView *view);
 	void setColsRowsWindow(int num);
 protected:
 
 private:
 	//Main Rectangle Sizes
-	wxSize maxSize;
-	ddRect titleRect, colsRect, indxsTitleRect, indxsRect;
+	//wxSize maxSize;
+	ddRect fullSizeRect, titleRect, titleColsRect, colsRect, indxsTitleRect, indxsRect;
 	//Rectangle item counters
 	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;
 	//vector indexes
