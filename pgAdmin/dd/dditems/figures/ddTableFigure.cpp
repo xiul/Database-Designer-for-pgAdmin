@@ -110,13 +110,6 @@ ddCompositeFigure()
 	beginDrawCols=2;
 	beginDrawIdxs=2;
 
-
-	//DD-TODO: adjust this values
-/*	minWidth=tableTitle->getTextWidth()+35;
-	minHeight=tableTitle->getTextHeight()*2+internalPadding*2;
-*/
-
-//calcMaxTableSizes();
 	calcRectsAreas();
 }
 
@@ -130,7 +123,6 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 {
 	column->setOwnerTable(this);
 	add(column);
-	//calcMaxTableSizes();
 	//Update Indexes
 	if(maxColIndex == minIdxIndex) //maxColIndex == minIdxIndex means not indexes at this table, then update too
 	{	
@@ -141,17 +133,16 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 	colsWindow++;  //by default add a columna increase window
 	calcRectsAreas();
 	recalculateColsPos();
-	
-	
-	
-	if(maxColIndex >= 6)
+
+	/*How to SCROLL
+		if(maxColIndex >= 6)
 	{
 		beginDrawCols=4;
 		colsWindow=2;
 		calcRectsAreas();
 		recalculateColsPos();
 	}
-
+	*/
 }
 
 void ddTableFigure::removeColumn(ddColumnFigure *column)
@@ -175,49 +166,6 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 //DD-TODO: if remove column and it's foreign key, should update observers 
 }
 
-/*
-void ddTableFigure::calcMaxTableSizes()
-{
-	ddRect r;
-	ddIFigure *f;
-	ddIteratorBase *iterator=figuresEnumerator();
-
-	f = (ddIFigure *) iterator->Next(); //First Figure is Main Rect
-	r.SetSize(wxSize(0,0));
-	r.SetPosition( f->displayBox().GetPosition());
-
-	while(iterator->HasNext()){
-		f = (ddIFigure *) iterator->Next();
-		r.add( f->displayBox() );
-	}
-	delete iterator;
-
-//Calc rect size (width,height) for table max sizes
-/*666 maxSize = r.GetSize();
-maxSize.IncBy(externalPadding*2,externalPadding*2);
-*/
-
-
-
-/* don't need this if work with indexes
-if(maxSize.GetHeight()<minHeight)
-	maxSize.SetHeight(minHeight);
-if(maxSize.GetWidth()<minWidth)
-	maxSize.SetWidth(minWidth);
-if(setRects){
-	rectangleFigure->setSize(maxSize);	
-}
-
-}
-*/
-
-/*
-TODO NOW:
-resetColPosition  debe cambiar es las columnas de posicion de acuerdo a su indice, de todas formas aquellas
-que no esten en la ventana de dibujo, deben ser no dibujadas, para eso se les colocara la posicion x,y = -1 o un negativo muy grande -650000
-y al detectar dicha posicion o con una variable especial la funcion de dibujo no las tomara en cuenta.
-*/
-
 void ddTableFigure::recalculateColsPos()
 {
 	wxFont font = settings->GetSystemFont();
@@ -232,130 +180,34 @@ void ddTableFigure::recalculateColsPos()
 		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
 		if( (i >= beginDrawCols) && (i <= (colsWindow+beginDrawCols)) )  //visible to draw
 		{
-//			int realPos = i-beginDrawCols;
 			verticalPos = colsRect.y + (defaultHeight * (i-beginDrawCols) + ((i-beginDrawCols) * internalPadding));
 			f->moveTo(horizontalPos,verticalPos);
 		}
 		else
-			f->moveTo(-65000,-65000);
+			f->moveTo(-65000,-65000);  //any figure outside canvas (x<0 || y<0) is not draw & not used to calculate displaybox
 	}
 }
 
 
-//Put a new column their new position below older columns or if column is NULL fix positions of columns because a delete
-/*
-void ddTableFigure::resetColPosition(ddColumnFigure *column)
-{
-	ddRect r;
-	int verticalPos = 0, horizontalPos = 0;
-
-	ddIteratorBase *iterator=figuresEnumerator();
-	
-	//iterator->Next(); 
-	ddIFigure *f = (ddIFigure *) iterator->Next(); //First Figure is always Rect
-	horizontalPos = f->displayBox().x+2;
-	f = (ddIFigure *) iterator->Next(); //Second Figure is table title
-	//Get Font Metrics
-	wxFont font = settings->GetSystemFont();
-	font.SetPointSize(7);
-	int height=getHeightFontMetric(wxT("Columns"),font);
-	verticalPos = f->displayBox().GetBottom() + height+1; //f->displayBox().y + f->displayBox().width + X from second line(font metric) + 1 padding;
-	
-
-	while(iterator->HasNext()){
-		f = (ddIFigure *) iterator->Next();
-		if(!column) //if not column to add then recalculate old columns position
-		{
-			f->moveTo(horizontalPos,verticalPos + internalPadding);
-		}
-		verticalPos += f->displayBox().height; 
-		
-
-	}
-	delete iterator;
-	
-	if(column)
-	{
-		column->moveTo(horizontalPos,internalPadding + verticalPos);
-	}
-}
-*/
-
-/*
-crear 3 cuadros:
-uno arriba para titulo y demas
-el dos para columnas
-el tres  para indices
-
-el dos y el tres deben tener tamaño max y min, y un cambio en ellos debe cambiar la imagen de tamaño
-esto es preparacion para el vertical scrollbar
-*/
-
-/*
-void ddTableFigure::calculateHorizBars(ddDrawingView *view)
-{
-	//Calculate Top Line of Columns Bar
-	ddIFigure *f;
-	f = (ddIFigure*)figureFigures->getItemAt(0);
-	int x1=f->displayBox().GetTopLeft().x;
-	int x2=f->displayBox().GetTopRight().x;
-	int y=f->displayBox().GetPosition().y;
-	f = (ddIFigure*)figureFigures->getItemAt(1);
-	y+=f->displayBox().height;
-
-	view->CalcScrolledPosition(x1,y+(internalPadding),&colsTopLeft.x,&colsTopLeft.y);
-	view->CalcScrolledPosition(x2,y+(internalPadding),&colsTopRight.x,&colsTopRight.y);
-	
-	//Calculate Bottom Line of Columns Bar
-	colsBottomLeft = colsTopLeft;
-	colsBottomRight = colsTopRight;
-	
-	//Get Font Metrics
-	wxFont font = settings->GetSystemFont();
-	font.SetPointSize(7);
-	int height=getHeightFontMetric(wxT("Columns"),font);
-	colsBottomLeft.y+=height;  
-	colsBottomRight.y+=height;
-	
-	//Calculate Space for columns and draw indxs line
-
-	//DD-TODO: Implement indexes and fix this
-	f = (ddIFigure*)figureFigures->getItemAt(figureFigures->count()-1);
-	x1=colsBottomLeft.x;
-	x2=colsBottomLeft.x;
-	y=f->displayBox().GetPosition().y;
-	y+=f->displayBox().height;
-
-	view->CalcScrolledPosition(x1,y+(internalPadding),&idxsTopLeft.x,&idxsTopLeft.y);
-	view->CalcScrolledPosition(x2,y+(internalPadding),&idxsTopRight.x,&idxsTopRight.y);
-	//Calculate Bottom Line of Columns Bar
-	idxsBottomLeft = idxsTopLeft;
-	idxsBottomRight = idxsTopRight;
-	idxsBottomLeft.y+=9;
-	idxsBottomRight.y+=9;
-}
-*/
 
 void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 {
+	//Hack to disable delete column mode when the figure pass from selected to no selected.
+	if(fromSelToNOSel)
+	{
+		toggleColumnDeleteMode(true);
+		fromSelToNOSel=false;
+	}
+	
 	calcRectsAreas();
 	context.SetPen(*wxBLACK_PEN);
 	context.SetBrush(wxBrush (wxColour(255, 255, 224),wxSOLID));
-
-//	context.DrawRectangle(fullSizeRect);
 
 	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //table rectangle
 	f->draw(context,view);
 	f = (ddIFigure *) figureFigures->getItemAt(1); //table title
 	f->draw(context,view);
 
-
-/*	context.DrawRectangle(titleRect);
-	context.DrawRectangle(titleColsRect);
-	context.DrawRectangle(colsRect);
-	context.DrawRectangle(indxsTitleRect);
-	context.DrawRectangle(indxsRect);
-*/
 	for(int i=beginDrawCols; i < (colsWindow+beginDrawCols); i++)
 	{
 		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
@@ -368,48 +220,22 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	wxFont font = settings->GetSystemFont();
 	font.SetPointSize(7);
 	context.SetFont(font);
-	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y);
-	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y);
-
-	//Hack to disable delete column mode when the figure pass from selected to no selected.
-	if(fromSelToNOSel)
-	{
-		toggleColumnDeleteMode(true);
-		fromSelToNOSel=false;
-	}
-
 
 	//Draw Columns Title Line 1
-	//calculateHorizBars(view);
-/*	context.DrawLine(colsTopLeft,colsTopRight);
-	
-	//Draw Columns middle line title
-	wxFont font = settings->GetSystemFont();
-	font.SetPointSize(7);
-	context.SetFont(font);
-	context.DrawText(wxT("Columns"),colsTopLeft.x+3,colsTopLeft.y-1);
-
+	context.DrawLine(titleColsRect.GetTopLeft(),titleColsRect.GetTopRight());
+	//Draw Columns Title
+	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y);
 	//Draw Columns Title Line 2
-	context.DrawLine(colsBottomLeft,colsBottomRight);
-
+	context.DrawLine(titleColsRect.GetBottomLeft(),titleColsRect.GetBottomRight());
 	//DrawVertical Lines
-	context.DrawLine(colsBottomLeft.x+11,colsBottomLeft.y,colsBottomLeft.x+11,idxsTopLeft.y);
-	context.DrawLine(colsBottomLeft.x+22,colsBottomLeft.y,idxsTopLeft.x+22,idxsTopLeft.y);
-
+	context.DrawLine(titleColsRect.GetBottomLeft().x+11,titleColsRect.GetBottomLeft().y,titleColsRect.GetBottomLeft().x+11,titleIndxsRect.GetTopLeft().y);
+	context.DrawLine(titleColsRect.GetBottomLeft().x+22,titleColsRect.GetBottomLeft().y,titleColsRect.GetBottomLeft().x+22,titleIndxsRect.GetTopLeft().y);
 	//Draw Indexes Title Line 1
-	context.DrawLine(idxsTopLeft,idxsTopRight);
-/*	
-	//Draw Indexes middle line title
-	font.SetPointSize(7);
-	context.SetFont(font);
-	context.DrawText(wxT("Indexes"),idxsTopLeft.x+3,idxsTopLeft.y-1);
-
+	context.DrawLine(titleIndxsRect.GetTopLeft(),titleIndxsRect.GetTopRight());
+	//Draw Indexes Title	
+	context.DrawText(wxT("Indexes"),titleIndxsRect.x+3,titleIndxsRect.y);
 	//Draw Indexes Title Line 2
-	context.DrawLine(idxsBottomLeft,idxsBottomRight);
-*/	
-
-	
-
+	context.DrawLine(titleIndxsRect.GetBottomLeft(),titleIndxsRect.GetBottomRight());
 }
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
@@ -425,25 +251,15 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 		fromSelToNOSel=false;
 	}
 
-
-
+	calcRectsAreas();
 	context.SetPen(wxPen(wxColour(70, 130, 180),2,wxSOLID));
 	context.SetBrush(wxBrush (wxColour(224, 248, 255),wxSOLID));
-
-	calcRectsAreas();
-//	context.DrawRectangle(fullSizeRect);
 
 	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //table rectangle
 	f->drawSelected(context,view);
 	f = (ddIFigure *) figureFigures->getItemAt(1); //table title
 	f->drawSelected(context,view);
 
-/*	context.DrawRectangle(titleRect);
-	context.DrawRectangle(titleColsRect);
-	context.DrawRectangle(colsRect);
-	context.DrawRectangle(indxsTitleRect);
-	context.DrawRectangle(indxsRect);
-*/
 	for(int i=beginDrawCols; i < (colsWindow+beginDrawCols); i++)
 	{
 		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
@@ -456,59 +272,22 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	wxFont font = settings->GetSystemFont();
 	font.SetPointSize(7);
 	context.SetFont(font);
-	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y);
-	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y);
-
-
-	
-/*	context.DrawRectangle(fullSizeRect);
-	context.DrawRectangle(titleRect);
-	context.DrawRectangle(titleColsRect);
-	context.DrawRectangle(colsRect);
-	context.DrawRectangle(indxsTitleRect);
-	context.DrawRectangle(indxsRect);
-
-
-	wxFont font = settings->GetSystemFont();
-	font.SetPointSize(7);
-	context.SetFont(font);
-	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y-1);
-	context.DrawText(wxT("Indexes"),indxsTitleRect.x+3,indxsTitleRect.y-1); */
-
-	//Hack to disable delete column mode when the figure pass from selected to no selected.
-	if(fromSelToNOSel)
-	{
-		toggleColumnDeleteMode(true);
-		fromSelToNOSel=false;
-	}
-
-//	ddCompositeFigure::draw(context,view);
-	
-	
-	
-	/*
-	ddCompositeFigure::drawSelected(context,view);
 
 	//Draw Columns Title Line 1
-	//calculateHorizBars(view);
-	context.DrawLine(colsTopLeft,colsTopRight);
-	
-	//Draw Columns middle line title
-	wxFont font = settings->GetSystemFont();
-	font.SetPointSize(7);
-	context.SetFont(font);
-	context.DrawText(wxT("Columns"),colsTopLeft.x+3,colsTopLeft.y-1);
-
+	context.DrawLine(titleColsRect.GetTopLeft(),titleColsRect.GetTopRight());
+	//Draw Columns Title
+	context.DrawText(wxT("Columns"),titleColsRect.x+3,titleColsRect.y);
 	//Draw Columns Title Line 2
-	context.DrawLine(colsBottomLeft,colsBottomRight);
-
+	context.DrawLine(titleColsRect.GetBottomLeft(),titleColsRect.GetBottomRight());
 	//DrawVertical Lines
-	context.DrawLine(colsBottomLeft.x+11,colsBottomLeft.y,colsBottomLeft.x+11,idxsTopLeft.y);
-	context.DrawLine(colsBottomLeft.x+22,colsBottomLeft.y,idxsTopLeft.x+22,idxsTopLeft.y);
-
+	context.DrawLine(titleColsRect.GetBottomLeft().x+11,titleColsRect.GetBottomLeft().y,titleColsRect.GetBottomLeft().x+11,titleIndxsRect.GetTopLeft().y);
+	context.DrawLine(titleColsRect.GetBottomLeft().x+22,titleColsRect.GetBottomLeft().y,titleColsRect.GetBottomLeft().x+22,titleIndxsRect.GetTopLeft().y);
 	//Draw Indexes Title Line 1
-	context.DrawLine(idxsTopLeft,idxsTopRight);
-	*/
+	context.DrawLine(titleIndxsRect.GetTopLeft(),titleIndxsRect.GetTopRight());
+	//Draw Indexes Title	
+	context.DrawText(wxT("Indexes"),titleIndxsRect.x+3,titleIndxsRect.y);
+	//Draw Indexes Title Line 2
+	context.DrawLine(titleIndxsRect.GetBottomLeft(),titleIndxsRect.GetBottomRight());
 }
 
 void ddTableFigure::setColsRowsWindow(int num)
@@ -586,15 +365,18 @@ void ddTableFigure::calcRectsAreas()
 	wxFont font = settings->GetSystemFont();
 	int defaultHeight = getColDefaultHeight(font);
 
+	//cache displayBox()
+	ddRect db = displayBox();
+
 	//*** titleRect
 	font.SetPointSize(7);
 	int colsTitleHeight=getHeightFontMetric(wxT("Columns"),font);
-	titleRect.x = displayBox().x;
-	titleRect.y = displayBox().y;
+	titleRect.x = db.x;
+	titleRect.y = db.y;
 	titleRect.width=maxWidth;
-	titleRect.height=defaultHeight; //666+colsTitleHeight;
+	titleRect.height=defaultHeight;
 
-	titleColsRect.x = displayBox().x;
+	titleColsRect.x = db.x;
 	titleColsRect.y = titleRect.y+titleRect.height;
 	titleColsRect.width=maxWidth;
 	titleColsRect.height=colsTitleHeight;
@@ -605,25 +387,25 @@ void ddTableFigure::calcRectsAreas()
 		colsRect.height = defaultHeight * colsWindow + (colsWindow * internalPadding);
 	else
 		colsRect.height = defaultHeight;
-	colsRect.x=displayBox().x;
+	colsRect.x=db.x;
 	colsRect.y=titleRect.y+titleRect.height+titleColsRect.height;
 
 	//*** idxTitleRect
-	indxsTitleRect.width=maxWidth;
-	indxsTitleRect.height=colsTitleHeight;
-	indxsTitleRect.x=displayBox().x;
-	indxsTitleRect.y=colsRect.y+colsRect.height;
+	titleIndxsRect.width=maxWidth;
+	titleIndxsRect.height=colsTitleHeight;
+	titleIndxsRect.x=db.x;
+	titleIndxsRect.y=colsRect.y+colsRect.height;
 
 	//*** indexesRect
 	indxsRect.width=maxWidth;
 	indxsRect.height = defaultHeight * idxsWindow + (idxsWindow * internalPadding);
-	indxsRect.x=displayBox().x;
-	indxsRect.y=indxsTitleRect.y+indxsTitleRect.height;
+	indxsRect.x=db.x;
+	indxsRect.y=titleIndxsRect.y+titleIndxsRect.height;
 
 	//*** FullTable Size
 	fullSizeRect.width = maxWidth;
-	fullSizeRect.height = titleRect.height + titleColsRect.height + colsRect.height + indxsTitleRect.height + indxsRect.height;
-	fullSizeRect.x=displayBox().x;  //666
+	fullSizeRect.height = titleRect.height + titleColsRect.height + colsRect.height + titleIndxsRect.height + indxsRect.height;
+	fullSizeRect.x=db.x;
 	fullSizeRect.y=titleRect.y;
 
 	//Update sizes
@@ -635,4 +417,3 @@ void ddTableFigure::updateTableSize()
 	//do something
 	rectangleFigure->setSize(fullSizeRect.GetSize());
 }
-
