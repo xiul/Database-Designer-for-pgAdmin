@@ -30,7 +30,8 @@ public:
 	void updateTableSize();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
-	void resetColPosition(ddColumnFigure *column);
+	//void resetColPosition(ddColumnFigure *column);
+	void recalculateColsPos();
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
 	//void calculateHorizBars(ddDrawingView *view);

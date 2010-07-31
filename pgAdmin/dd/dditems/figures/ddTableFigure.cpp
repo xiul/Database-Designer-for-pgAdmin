@@ -129,7 +129,6 @@ ddTableFigure::~ddTableFigure()
 void ddTableFigure::addColumn(ddColumnFigure *column)
 {
 	column->setOwnerTable(this);
-	resetColPosition(column);
 	add(column);
 	//calcMaxTableSizes();
 	//Update Indexes
@@ -141,13 +140,24 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 	maxColIndex++;
 	colsWindow++;  //by default add a columna increase window
 	calcRectsAreas();
+	recalculateColsPos();
+	
+	
+	
+	if(maxColIndex >= 6)
+	{
+		beginDrawCols=4;
+		colsWindow=2;
+		calcRectsAreas();
+		recalculateColsPos();
+	}
+
 }
 
 void ddTableFigure::removeColumn(ddColumnFigure *column)
 {
 	column->setOwnerTable(NULL);
 	remove(column);
-	resetColPosition(NULL);
 	if(column)
 		delete column;
 	//calcMaxTableSizes();
@@ -161,6 +171,7 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 	if(maxColIndex==colsWindow)  //only decrease if size of window and columns is the same
 		colsWindow--;
 	calcRectsAreas();
+	recalculateColsPos();
 //DD-TODO: if remove column and it's foreign key, should update observers 
 }
 
@@ -200,13 +211,39 @@ if(setRects){
 }
 */
 
-
+/*
 TODO NOW:
 resetColPosition  debe cambiar es las columnas de posicion de acuerdo a su indice, de todas formas aquellas
 que no esten en la ventana de dibujo, deben ser no dibujadas, para eso se les colocara la posicion x,y = -1 o un negativo muy grande -650000
 y al detectar dicha posicion o con una variable especial la funcion de dibujo no las tomara en cuenta.
+*/
+
+void ddTableFigure::recalculateColsPos()
+{
+	wxFont font = settings->GetSystemFont();
+	int defaultHeight = getColDefaultHeight(font);
+
+	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //First Figure is always Rect
+	int horizontalPos = f->displayBox().x+2;
+	int verticalPos = 0;
+
+	for(int i = 2; i < maxColIndex ; i++)
+	{
+		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
+		if( (i >= beginDrawCols) && (i <= (colsWindow+beginDrawCols)) )  //visible to draw
+		{
+//			int realPos = i-beginDrawCols;
+			verticalPos = colsRect.y + (defaultHeight * (i-beginDrawCols) + ((i-beginDrawCols) * internalPadding));
+			f->moveTo(horizontalPos,verticalPos);
+		}
+		else
+			f->moveTo(-65000,-65000);
+	}
+}
+
 
 //Put a new column their new position below older columns or if column is NULL fix positions of columns because a delete
+/*
 void ddTableFigure::resetColPosition(ddColumnFigure *column)
 {
 	ddRect r;
@@ -242,7 +279,7 @@ void ddTableFigure::resetColPosition(ddColumnFigure *column)
 		column->moveTo(horizontalPos,internalPadding + verticalPos);
 	}
 }
-
+*/
 
 /*
 crear 3 cuadros:
@@ -312,6 +349,7 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	f = (ddIFigure *) figureFigures->getItemAt(1); //table title
 	f->draw(context,view);
 
+
 /*	context.DrawRectangle(titleRect);
 	context.DrawRectangle(titleColsRect);
 	context.DrawRectangle(colsRect);
@@ -321,7 +359,10 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	for(int i=beginDrawCols; i < (colsWindow+beginDrawCols); i++)
 	{
 		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
-		f->draw(context,view);
+		if(f->displayBox().GetPosition().x > 0 && f->displayBox().GetPosition().y > 0)
+		{
+			f->draw(context,view);
+		}
 	}
 
 	wxFont font = settings->GetSystemFont();
@@ -393,9 +434,9 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 //	context.DrawRectangle(fullSizeRect);
 
 	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //table rectangle
-	f->draw(context,view);
+	f->drawSelected(context,view);
 	f = (ddIFigure *) figureFigures->getItemAt(1); //table title
-	f->draw(context,view);
+	f->drawSelected(context,view);
 
 /*	context.DrawRectangle(titleRect);
 	context.DrawRectangle(titleColsRect);
@@ -406,7 +447,10 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	for(int i=beginDrawCols; i < (colsWindow+beginDrawCols); i++)
 	{
 		f = (ddIFigure *) figureFigures->getItemAt(i); //table title
-		f->draw(context,view);
+		if(f->displayBox().GetPosition().x > 0 && f->displayBox().GetPosition().y > 0)
+		{
+			f->drawSelected(context,view);
+		}
 	}
 
 	wxFont font = settings->GetSystemFont();
@@ -591,3 +635,4 @@ void ddTableFigure::updateTableSize()
 	//do something
 	rectangleFigure->setSize(fullSizeRect.GetSize());
 }
+

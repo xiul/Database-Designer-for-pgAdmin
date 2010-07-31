@@ -179,9 +179,15 @@ f61->displayBox().SetPosition(wxPoint(260,270));
 
 ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue")),f6);
 f62->displayBox().SetPosition(wxPoint(260,290));
-//f62->setEditable(true);
 
+ddColumnFigure *f63 = new ddColumnFigure(wxString(wxT("SomeValue")),f6);
+f63->displayBox().SetPosition(wxPoint(260,310));
 
+ddColumnFigure *f64 = new ddColumnFigure(wxString(wxT("SomeValue")),f6);
+f64->displayBox().SetPosition(wxPoint(260,330));
+
+f6->addColumn(f64);
+f6->addColumn(f63);
 f6->addColumn(f62);
 f6->addColumn(f61);
 design->addTable(f6);

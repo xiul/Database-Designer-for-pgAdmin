@@ -96,6 +96,7 @@ ddIteratorBase* ddCompositeFigure::figuresInverseEnumerator()
 	return figureFigures->createDownIterator();
 }
 
+//ignore figures at negative positions
 ddRect& ddCompositeFigure::getBasicDisplayBox()
 {
 	basicDisplayBox.SetPosition(wxPoint(0,0));
@@ -109,11 +110,13 @@ ddRect& ddCompositeFigure::getBasicDisplayBox()
 		{
 			basicDisplayBox.SetPosition( f->displayBox().GetPosition());
 			basicDisplayBox.SetSize( f->displayBox().GetSize());
-			firstFigure = false;
+			if(f->displayBox().GetPosition().x > 0 && f->displayBox().GetPosition().y > 0)
+				firstFigure = false;
 		}
 		else
 		{
-			basicDisplayBox.add( f->displayBox() );
+			if(f->displayBox().GetPosition().x > 0 && f->displayBox().GetPosition().y > 0)
+				basicDisplayBox.add( f->displayBox() );
 		}
 	}
 	delete iterator;
