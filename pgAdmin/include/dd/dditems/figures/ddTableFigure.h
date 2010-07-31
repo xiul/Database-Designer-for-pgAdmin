@@ -41,7 +41,7 @@ protected:
 private:
 	//Main Rectangle Sizes
 	//wxSize maxSize;
-	ddRect fullSizeRect, titleRect, titleColsRect, colsRect, indxsTitleRect, indxsRect;
+	ddRect fullSizeRect, titleRect, titleColsRect, colsRect, titleIndxsRect, indxsRect;
 	//Rectangle item counters
 	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;
 	//vector indexes
@@ -50,8 +50,9 @@ private:
 	int beginDrawCols, beginDrawIdxs;
 	
 	//Bar lines Points
-	ddPoint colsTopLeft, colsTopRight, colsBottomLeft, colsBottomRight;
+/*	ddPoint colsTopLeft, colsTopRight, colsBottomLeft, colsBottomRight;
 	ddPoint idxsTopLeft, idxsTopRight, idxsBottomLeft, idxsBottomRight;
+	*/
 	
 	//Default Figures
 	ddRectangleFigure *rectangleFigure;
@@ -61,7 +62,6 @@ private:
 	bool fromSelToNOSel;
 	bool deleteColumnMode;
 	int internalPadding, externalPadding;
-	int minWidth, minHeight;
 
 	//methods
 	int getHeightFontMetric(wxString text, wxFont font);
