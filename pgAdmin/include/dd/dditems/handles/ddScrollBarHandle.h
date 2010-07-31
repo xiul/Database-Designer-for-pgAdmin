@@ -16,24 +16,27 @@
 #include "dd/draw/handles/ddLocatorHandle.h"
 #include "dd/draw/utilities/ddRect.h"
 #include "dd/draw/utilities/ddPoint.h"
+#include "dd/dditems/figures/ddTableFigure.h"
 
 
 class ddScrollBarHandle : public ddIHandle
 {
 public:
-	ddScrollBarHandle(ddIFigure *owner, ddILocator *buttonLocator , wxSize &size);
+	ddScrollBarHandle(ddTableFigure *owner, ddILocator *scrollBarLocator , wxSize &size);
     ~ddScrollBarHandle();
 
-	//virtual wxCursor& createCursor();
-	//virtual ddRect& getDisplayBox();
+
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual ddPoint& locate();
+	virtual wxCursor& createCursor();
 	virtual void invokeStart(int x, int y, ddDrawingView *view);
 	virtual void invokeStep(int x, int y, ddDrawingView *view);
 	virtual void invokeEnd(int x, int y, ddDrawingView *view);
+	virtual ddRect& getDisplayBox();
 protected:
 private:
-	ddILocator *bLocator;
+	ddILocator *scrollLocator;
+	ddTableFigure *table;
 
 };
 #endif

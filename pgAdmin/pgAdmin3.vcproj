@@ -3925,6 +3925,10 @@
 							RelativePath=".\include\dd\dditems\locators\ddRemoveTableLocator.h"
 							>
 						</File>
+						<File
+							RelativePath=".\include\dd\dditems\locators\ddScrollBarTableLocator.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="tools"
@@ -5640,6 +5644,10 @@
 					</File>
 					<File
 						RelativePath=".\dd\dditems\locators\ddRemoveTableLocator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\locators\ddScrollBarTableLocator.cpp"
 						>
 					</File>
 				</Filter>

@@ -34,6 +34,8 @@
 #include "dd/dditems/locators/ddRemoveTableLocator.h"
 #include "dd/dditems/handles/ddMinMaxTableButtonHandle.h"
 #include "dd/dditems/locators/ddMinMaxTableLocator.h"
+#include "dd/dditems/handles/ddScrollBarHandle.h"
+#include "dd/dditems/locators/ddScrollBarTableLocator.h"
 #include "dd/draw/utilities/ddGeometry.h"
 
 //Images
@@ -92,6 +94,10 @@ ddCompositeFigure()
 	figureHandles->addItem(new ddRemoveTableButtonHandle(this,new ddRemoveTableLocator(), wxBitmap(ddRemoveTable_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddMinMaxTableButtonHandle(this,new ddMinMaxTableLocator(), wxBitmap(ddMinimizeTable_xpm),wxBitmap(ddMaximizeTable_xpm),wxSize(8,8)));
 
+
+	figureHandles->addItem(new ddScrollBarHandle(this,new ddScrollBarTableLocator(),wxSize(10,colsRect.GetSize().GetHeight())));
+	
+		
 	fromSelToNOSel=false;
 	
 	//Intialize columns window (Min is always 1 in both, with or without cols & indxs)
@@ -203,6 +209,17 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	context.SetPen(*wxBLACK_PEN);
 	context.SetBrush(wxBrush (wxColour(255, 255, 224),wxSOLID));
 
+	if(calcScrolled) //Hack to avoid pass view as parameter to calcRectsAreas() because is sometimes called outside a paint event
+	{
+		view->CalcScrolledPosition(fullSizeRect.x,fullSizeRect.y,&fullSizeRect.x,&fullSizeRect.y);
+		view->CalcScrolledPosition(titleRect.x,titleRect.y,&titleRect.x,&titleRect.y);
+		view->CalcScrolledPosition(titleColsRect.x,titleColsRect.y,&titleColsRect.x,&titleColsRect.y);
+		view->CalcScrolledPosition(colsRect.x,colsRect.y,&colsRect.x,&colsRect.y);
+		view->CalcScrolledPosition(titleIndxsRect.x,titleIndxsRect.y,&titleIndxsRect.x,&titleIndxsRect.y);
+		view->CalcScrolledPosition(indxsRect.x,indxsRect.y,&indxsRect.x,&indxsRect.y);
+		calcScrolled=false;
+	}
+
 	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //table rectangle
 	f->draw(context,view);
 	f = (ddIFigure *) figureFigures->getItemAt(1); //table title
@@ -236,6 +253,20 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	context.DrawText(wxT("Indexes"),titleIndxsRect.x+3,titleIndxsRect.y);
 	//Draw Indexes Title Line 2
 	context.DrawLine(titleIndxsRect.GetBottomLeft(),titleIndxsRect.GetBottomRight());
+
+	
+	//fullSizeRect
+/*	titleRect.x=titleRect.x+titleRect.width;
+	context.DrawRectangle(titleRect);
+	titleColsRect.x=titleColsRect.x+titleColsRect.width;
+	context.DrawRectangle(titleColsRect);
+	colsRect.x=colsRect.x+colsRect.width;
+	context.DrawRectangle(colsRect);
+	titleIndxsRect.x=titleIndxsRect.x+titleIndxsRect.width;
+	context.DrawRectangle(titleIndxsRect);
+	indxsRect.x=indxsRect.x+indxsRect.width;
+	context.DrawRectangle(indxsRect);
+*/
 }
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
@@ -254,6 +285,17 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	calcRectsAreas();
 	context.SetPen(wxPen(wxColour(70, 130, 180),2,wxSOLID));
 	context.SetBrush(wxBrush (wxColour(224, 248, 255),wxSOLID));
+
+	if(calcScrolled) //Hack to avoid pass view as parameter to calcRectsAreas() because is sometimes called outside a paint event
+	{
+		view->CalcScrolledPosition(fullSizeRect.x,fullSizeRect.y,&fullSizeRect.x,&fullSizeRect.y);
+		view->CalcScrolledPosition(titleRect.x,titleRect.y,&titleRect.x,&titleRect.y);
+		view->CalcScrolledPosition(titleColsRect.x,titleColsRect.y,&titleColsRect.x,&titleColsRect.y);
+		view->CalcScrolledPosition(colsRect.x,colsRect.y,&colsRect.x,&colsRect.y);
+		view->CalcScrolledPosition(titleIndxsRect.x,titleIndxsRect.y,&titleIndxsRect.x,&titleIndxsRect.y);
+		view->CalcScrolledPosition(indxsRect.x,indxsRect.y,&indxsRect.x,&indxsRect.y);
+		calcScrolled=false;
+	}
 
 	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0); //table rectangle
 	f->drawSelected(context,view);
@@ -361,6 +403,8 @@ int ddTableFigure::getFiguresMaxWidth()
 
 void ddTableFigure::calcRectsAreas()
 {
+	calcScrolled=true;
+
 	int maxWidth = getFiguresMaxWidth() + externalPadding;
 	wxFont font = settings->GetSystemFont();
 	int defaultHeight = getColDefaultHeight(font);
@@ -389,6 +433,7 @@ void ddTableFigure::calcRectsAreas()
 		colsRect.height = defaultHeight;
 	colsRect.x=db.x;
 	colsRect.y=titleRect.y+titleRect.height+titleColsRect.height;
+	unScrolledColsRect=colsRect;
 
 	//*** idxTitleRect
 	titleIndxsRect.width=maxWidth;
@@ -416,4 +461,9 @@ void ddTableFigure::updateTableSize()
 {
 	//do something
 	rectangleFigure->setSize(fullSizeRect.GetSize());
+}
+
+ddRect& ddTableFigure::getColsSpace()
+{
+	return unScrolledColsRect;
 }

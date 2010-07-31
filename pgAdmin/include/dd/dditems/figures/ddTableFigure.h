@@ -21,38 +21,32 @@
 // Create Array Objects used as base for gqbCollections
 class ddTableFigure : public ddCompositeFigure
 {
-public:
+public:  //DD-TODO: put private unneeded public methods
 	ddTableFigure(int x, int y);
     ~ddTableFigure();
 	void addColumn(ddColumnFigure *column);
 	void removeColumn(ddColumnFigure *column);
-//	void calcMaxTableSizes();
 	void updateTableSize();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
-	//void resetColPosition(ddColumnFigure *column);
 	void recalculateColsPos();
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
-	//void calculateHorizBars(ddDrawingView *view);
 	void setColsRowsWindow(int num);
+	ddRect& getColsSpace();
 protected:
 
 private:
 	//Main Rectangle Sizes
-	//wxSize maxSize;
 	ddRect fullSizeRect, titleRect, titleColsRect, colsRect, titleIndxsRect, indxsRect;
+	ddRect unScrolledColsRect;
+//	ddRect scrolledFullSizeRect, scrolledTitleRect, scrolledTitleColsRect, scrolledColsRect, scrolledTitleIndxsRect, scrolledIndxsRect;
 	//Rectangle item counters
 	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;
 	//vector indexes
 	int maxColIndex,minIdxIndex,maxIdxIndex;
 	//position
 	int beginDrawCols, beginDrawIdxs;
-	
-	//Bar lines Points
-/*	ddPoint colsTopLeft, colsTopRight, colsBottomLeft, colsBottomRight;
-	ddPoint idxsTopLeft, idxsTopRight, idxsBottomLeft, idxsBottomRight;
-	*/
 	
 	//Default Figures
 	ddRectangleFigure *rectangleFigure;
@@ -62,6 +56,7 @@ private:
 	bool fromSelToNOSel;
 	bool deleteColumnMode;
 	int internalPadding, externalPadding;
+	bool calcScrolled;
 
 	//methods
 	int getHeightFontMetric(wxString text, wxFont font);

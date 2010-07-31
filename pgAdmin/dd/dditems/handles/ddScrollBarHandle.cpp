@@ -31,40 +31,40 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddScrollBarHandle::ddScrollBarHandle(ddIFigure *owner, ddILocator *buttonLocator , wxSize &size):
+ddScrollBarHandle::ddScrollBarHandle(ddTableFigure *owner, ddILocator *scrollBarLocator , wxSize &size):
 ddIHandle(owner)
 {
-	//buttonIcon=buttonImage; FOR TEST REASON USE DEFAULT ONE UNCOMMENT THIS FOR FINAL VERSION
-	bLocator = buttonLocator;
+	table=owner;
+	scrollLocator = scrollBarLocator;
 	displayBox.SetSize(size);
 }
 
 ddScrollBarHandle::~ddScrollBarHandle()
 {
-	if(bLocator)
-		delete bLocator;
+	if(scrollLocator)
+		delete scrollLocator;
 }
 
-/*
+
 wxCursor& ddScrollBarHandle::createCursor()
 {
-	//DD-TODO:  Should I use reference or a pointer here?
-	return wxCursor(wxCURSOR_PENCIL);
+	return wxCursor(wxCURSOR_HAND);
 }
 
-//DD-TODO: avoid this memory leak throught every call to locate()
-ddRect& ddScrollBarHandle::getDisplayBox()
-{
+//avoid to use inflate on this handle
+ddRect& ddScrollBarHandle::getDisplayBox(){
 	ddPoint p = locate();
+	displayBox.width=0;
+	displayBox.height=0;
 	displayBox.SetPosition(p);
 	return displayBox;
 }
-*/
 
 void ddScrollBarHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
 	wxPoint copy = getDisplayBox().GetPosition();
 	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
+	context.DrawLine(copy.x,copy.y,copy.x,copy.y+100);
 /*	if(buttonIcon.IsOk())
 		context.DrawBitmap(buttonIcon,copy.x,copy.y,true);*/
 }
@@ -83,8 +83,8 @@ void ddScrollBarHandle::invokeEnd(int x, int y, ddDrawingView *view)
 
 ddPoint& ddScrollBarHandle::locate()
 {
-	if(bLocator)
-		return bLocator->locate(getOwner());
+	if(scrollLocator)
+		return scrollLocator->locate(getOwner());
 	else
 		return ddPoint(0,0);
 }
