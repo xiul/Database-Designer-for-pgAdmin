@@ -94,10 +94,8 @@ ddCompositeFigure()
 	figureHandles->addItem(new ddRemoveTableButtonHandle(this,new ddRemoveTableLocator(), wxBitmap(ddRemoveTable_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddMinMaxTableButtonHandle(this,new ddMinMaxTableLocator(), wxBitmap(ddMinimizeTable_xpm),wxBitmap(ddMaximizeTable_xpm),wxSize(8,8)));
 
+	scrollbar=new ddScrollBarHandle(this,new ddScrollBarTableLocator(),wxSize(10,colsRect.GetSize().GetHeight()));
 
-	figureHandles->addItem(new ddScrollBarHandle(this,new ddScrollBarTableLocator(),wxSize(10,colsRect.GetSize().GetHeight())));
-	
-		
 	fromSelToNOSel=false;
 	
 	//Intialize columns window (Min is always 1 in both, with or without cols & indxs)
@@ -121,6 +119,12 @@ ddCompositeFigure()
 
 ddTableFigure::~ddTableFigure()
 {
+	if(scrollbar)
+	{
+		if(figureHandles->existsObject(scrollbar))
+			figureHandles->removeItem(scrollbar);
+		delete scrollbar;
+	}
 }
 
 
@@ -137,18 +141,40 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 	}
 	maxColIndex++;
 	colsWindow++;  //by default add a columna increase window
+	colsRowsSize++;
 	calcRectsAreas();
 	recalculateColsPos();
 
-	/*How to SCROLL
+	/*SCROLLBAR TEST*/
 		if(maxColIndex >= 6)
 	{
-		beginDrawCols=4;
+		setColumnsWindow(4);
+		setColumnsWindow(3);
+		setColumnsWindow(2);
+		setColumnsWindow(1);
+		setColumnsWindow(2);
+		setColumnsWindow(3);
+		setColumnsWindow(2);
+		setColumnsWindow(2);
+		columnsWindowDown();
+		columnsWindowUp();
+		columnsWindowUp();
+		columnsWindowUp();
+		columnsWindowUp();
+		columnsWindowUp();
+		columnsWindowDown();
+		columnsWindowDown();
+		columnsWindowDown();
+		columnsWindowDown();
+		columnsWindowDown();
+
+/*		beginDrawCols=4;
 		colsWindow=2;
 		calcRectsAreas();
 		recalculateColsPos();
+		*/
 	}
-	*/
+
 }
 
 void ddTableFigure::removeColumn(ddColumnFigure *column)
@@ -168,6 +194,7 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 	if(maxColIndex==colsWindow)  //only decrease if size of window and columns is the same
 		colsWindow--;
 	calcRectsAreas();
+	colsRowsSize--;
 	recalculateColsPos();
 //DD-TODO: if remove column and it's foreign key, should update observers 
 }
@@ -397,7 +424,10 @@ int ddTableFigure::getFiguresMaxWidth()
 		maxWidth = g.max(maxWidth,f->displayBox().width);
 	}
 	delete iterator;
-	return maxWidth;
+	if(figureHandles->existsObject(scrollbar))
+		return maxWidth + 11;  //as defined at locator
+	else
+		return maxWidth;
 }
 
 
@@ -466,4 +496,61 @@ void ddTableFigure::updateTableSize()
 ddRect& ddTableFigure::getColsSpace()
 {
 	return unScrolledColsRect;
+}
+
+int ddTableFigure::getTotalColumns()
+{
+	return colsRowsSize;
+}
+
+int ddTableFigure::getColumnsWindow()
+{
+	return colsWindow;
+}
+
+void ddTableFigure::setColumnsWindow(int value)
+{
+	if( (value > 0) && (value <= colsRowsSize) )
+	{
+		colsWindow = value;
+		
+		if(colsWindow==colsRowsSize) 
+		{
+			if(figureHandles->existsObject(scrollbar))
+				figureHandles->removeItem(scrollbar);
+		}
+		else 
+		{
+			if (!figureHandles->existsObject(scrollbar))
+				figureHandles->addItem(scrollbar);
+		}
+		
+		calcRectsAreas();
+		recalculateColsPos();
+	}
+}
+
+void ddTableFigure::columnsWindowUp()  //move window from number to zero
+{
+	if( beginDrawCols > 2 )
+	{
+		beginDrawCols--;
+		calcRectsAreas();
+		recalculateColsPos();
+	}
+}
+
+void ddTableFigure::columnsWindowDown()  //move window from number to maxcolumns
+{
+	if( (beginDrawCols+colsWindow) < maxColIndex)
+	{
+		beginDrawCols++;
+		calcRectsAreas();
+		recalculateColsPos();
+	}
+}
+
+int ddTableFigure::getTopColWindowIndex()
+{
+	return (beginDrawCols-2);
 }

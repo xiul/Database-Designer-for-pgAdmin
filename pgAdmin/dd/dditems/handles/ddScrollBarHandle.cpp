@@ -21,6 +21,9 @@
 #include "dd/draw/utilities/ddPoint.h"
 #include "dd/draw/main/ddDrawingView.h"
 
+//Images
+#include "images/ddUp.xpm"
+#include "images/ddDown.xpm"
 
 
 
@@ -37,6 +40,8 @@ ddIHandle(owner)
 	table=owner;
 	scrollLocator = scrollBarLocator;
 	displayBox.SetSize(size);
+	upBitmap=wxBitmap(ddUp_xpm);
+	downBitmap=wxBitmap(ddDown_xpm);
 }
 
 ddScrollBarHandle::~ddScrollBarHandle()
@@ -54,8 +59,8 @@ wxCursor& ddScrollBarHandle::createCursor()
 //avoid to use inflate on this handle
 ddRect& ddScrollBarHandle::getDisplayBox(){
 	ddPoint p = locate();
-	displayBox.width=0;
-	displayBox.height=0;
+	displayBox.width=11;  //as defined at locator
+	displayBox.height=table->getColsSpace().height;
 	displayBox.SetPosition(p);
 	return displayBox;
 }
@@ -64,13 +69,33 @@ void ddScrollBarHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
 	wxPoint copy = getDisplayBox().GetPosition();
 	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
-	context.DrawLine(copy.x,copy.y,copy.x,copy.y+100);
-/*	if(buttonIcon.IsOk())
-		context.DrawBitmap(buttonIcon,copy.x,copy.y,true);*/
+	context.DrawRectangle(copy.x,copy.y,getDisplayBox().width,getDisplayBox().height);
+	context.DrawBitmap(upBitmap,copy.x+1,copy.y+2,true);
+	context.DrawBitmap(downBitmap,copy.x+1,copy.y+getDisplayBox().height-2-downBitmap.GetHeight(),true);
+	
+	barSize.SetHeight((getDisplayBox().height-12)*0.45); 
+	barSize.SetWidth(getDisplayBox().width-4);
+
+	int colOffset = barSize.GetHeight() / (table->getTotalColumns()-table->getColumnsWindow());
+	int verticalPosBar=3+copy.y+downBitmap.GetHeight()+ colOffset*table->getTopColWindowIndex();
+	context.DrawRectangle(wxPoint(copy.x+2,verticalPosBar),barSize);
+	
+	
+	/*
+	//context.draw
+	//	context.DrawLine(copy.x,copy.y,copy.x,copy.y+100);
+	if(buttonIcon.IsOk())
+		context.DrawBitmap(buttonIcon,copy.x,copy.y,true);
+*/
 }
 
 void ddScrollBarHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
+	if( (y > (getDisplayBox().GetPosition().y + 2)) && (y <  (getDisplayBox().GetPosition().y + 2 + 6)) )  //6 image height
+		table->columnsWindowUp();
+
+	if( (y > (getDisplayBox().GetPosition().y+getDisplayBox().height-2-downBitmap.GetHeight()) ) && (y < (getDisplayBox().GetPosition().y+getDisplayBox().height-2) ) )
+		table->columnsWindowDown();
 }
 
 void ddScrollBarHandle::invokeStep(int x, int y, ddDrawingView *view)

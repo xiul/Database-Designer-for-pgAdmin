@@ -177,15 +177,31 @@ ddColumnFigure *f61 = new ddColumnFigure(wxString(wxT("Id")),f6);
 f61->displayBox().SetPosition(wxPoint(260,270));
 //f61->setEditable(true);
 
-ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue")),f6);
+ddColumnFigure *f62 = new ddColumnFigure(wxString(wxT("SomeValue2")),f6);
 f62->displayBox().SetPosition(wxPoint(260,290));
 
-ddColumnFigure *f63 = new ddColumnFigure(wxString(wxT("SomeValue")),f6);
+ddColumnFigure *f63 = new ddColumnFigure(wxString(wxT("SomeValue3")),f6);
 f63->displayBox().SetPosition(wxPoint(260,310));
 
-ddColumnFigure *f64 = new ddColumnFigure(wxString(wxT("SomeValue")),f6);
+ddColumnFigure *f64 = new ddColumnFigure(wxString(wxT("SomeValue4")),f6);
 f64->displayBox().SetPosition(wxPoint(260,330));
 
+ddColumnFigure *f65 = new ddColumnFigure(wxString(wxT("SomeValue5")),f6);
+f65->displayBox().SetPosition(wxPoint(260,330));
+
+ddColumnFigure *f66 = new ddColumnFigure(wxString(wxT("SomeValue6")),f6);
+f66->displayBox().SetPosition(wxPoint(260,330));
+
+ddColumnFigure *f67 = new ddColumnFigure(wxString(wxT("SomeValue7")),f6);
+f67->displayBox().SetPosition(wxPoint(260,330));
+
+ddColumnFigure *f68 = new ddColumnFigure(wxString(wxT("SomeValue8")),f6);
+f68->displayBox().SetPosition(wxPoint(260,330));
+
+f6->addColumn(f68);
+f6->addColumn(f67);
+f6->addColumn(f66);
+f6->addColumn(f65);
 f6->addColumn(f64);
 f6->addColumn(f63);
 f6->addColumn(f62);

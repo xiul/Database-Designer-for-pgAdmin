@@ -17,6 +17,7 @@
 #include "dd/dditems/figures/ddTextColumnFigure.h"
 #include "dd/dditems/figures/ddColumnFigure.h"
 
+class ddScrollBarHandle;
 
 // Create Array Objects used as base for gqbCollections
 class ddTableFigure : public ddCompositeFigure
@@ -34,6 +35,14 @@ public:  //DD-TODO: put private unneeded public methods
 	void toggleColumnDeleteMode(bool disable=false);
 	void setColsRowsWindow(int num);
 	ddRect& getColsSpace();
+	int getTotalColumns();
+	int getColumnsWindow();
+	int getTopColWindowIndex();
+	void setColumnsWindow(int value);
+	void columnsWindowUp();
+	void columnsWindowDown();
+
+
 protected:
 
 private:
@@ -57,6 +66,7 @@ private:
 	bool deleteColumnMode;
 	int internalPadding, externalPadding;
 	bool calcScrolled;
+	ddScrollBarHandle *scrollbar;
 
 	//methods
 	int getHeightFontMetric(wxString text, wxFont font);

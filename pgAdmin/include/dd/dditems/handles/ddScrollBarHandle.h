@@ -37,6 +37,8 @@ protected:
 private:
 	ddILocator *scrollLocator;
 	ddTableFigure *table;
+	wxBitmap upBitmap, downBitmap;
+	wxSize barSize;
 
 };
 #endif

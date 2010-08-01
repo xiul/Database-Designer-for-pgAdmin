@@ -41,7 +41,7 @@ ddPoint& ddScrollBarTableLocator::locate(ddIFigure *owner)
 	{
 		ddTableFigure *table = (ddTableFigure*) owner;
 		;
-		int x = table->getColsSpace().GetTopRight().x - 5; //scrollwidth
+		int x = table->getColsSpace().GetTopRight().x - 11; //scrollwidth
 		int y = table->getColsSpace().y;
 
 		locatePoint.x=x;
