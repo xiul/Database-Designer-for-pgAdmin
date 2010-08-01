@@ -76,17 +76,14 @@ void ddScrollBarHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 	barSize.SetHeight((getDisplayBox().height-12)*0.45); 
 	barSize.SetWidth(getDisplayBox().width-4);
 
-	int colOffset = barSize.GetHeight() / (table->getTotalColumns()-table->getColumnsWindow());
+	int divBy = (table->getTotalColumns() - table->getColumnsWindow());
+	if(divBy<=0) //666
+		divBy = table->getColumnsWindow();
+	int colOffset = barSize.GetHeight() / divBy;
 	int verticalPosBar=3+copy.y+downBitmap.GetHeight()+ colOffset*table->getTopColWindowIndex();
-	context.DrawRectangle(wxPoint(copy.x+2,verticalPosBar),barSize);
-	
-	
-	/*
-	//context.draw
-	//	context.DrawLine(copy.x,copy.y,copy.x,copy.y+100);
-	if(buttonIcon.IsOk())
-		context.DrawBitmap(buttonIcon,copy.x,copy.y,true);
-*/
+	if(table->getColumnsWindow()>1)
+		context.DrawRectangle(wxPoint(copy.x+2,verticalPosBar),barSize);
+
 }
 
 void ddScrollBarHandle::invokeStart(int x, int y, ddDrawingView *view)

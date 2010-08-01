@@ -146,7 +146,7 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 	recalculateColsPos();
 
 	/*SCROLLBAR TEST*/
-		if(maxColIndex >= 6)
+		if(maxColIndex == 10)
 	{
 		setColumnsWindow(4);
 		setColumnsWindow(3);
@@ -155,7 +155,7 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 		setColumnsWindow(2);
 		setColumnsWindow(3);
 		setColumnsWindow(2);
-		setColumnsWindow(2);
+		setColumnsWindow(4);
 		columnsWindowDown();
 		columnsWindowUp();
 		columnsWindowUp();
@@ -191,13 +191,24 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 		maxIdxIndex--;
 	}
 	maxColIndex--;
-	if(maxColIndex==colsWindow)  //only decrease if size of window and columns is the same
+	if(colsRowsSize==colsWindow)  //only decrease if size of window and columns is the same
 		colsWindow--;
-	calcRectsAreas();
 	colsRowsSize--;
+	if(beginDrawCols > 2) //666
+		beginDrawCols--;
+	calcRectsAreas();
 	recalculateColsPos();
+	if(colsWindow==colsRowsSize)   //if handle need to be removed, remove it
+	{
+		if(figureHandles->existsObject(scrollbar))
+			figureHandles->removeItem(scrollbar);
+	}
+
 //DD-TODO: if remove column and it's foreign key, should update observers 
 }
+
+//al borrar una columna de una tabla con el window = al size falla
+
 
 void ddTableFigure::recalculateColsPos()
 {
@@ -301,13 +312,6 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	//Hack to unselect any table
 	if(!fromSelToNOSel)
 		fromSelToNOSel=true;
-
-	//Hack to disable delete column mode when the figure pass from selected to no selected.
-	if(fromSelToNOSel)
-	{
-		toggleColumnDeleteMode(true);
-		fromSelToNOSel=false;
-	}
 
 	calcRectsAreas();
 	context.SetPen(wxPen(wxColour(70, 130, 180),2,wxSOLID));
