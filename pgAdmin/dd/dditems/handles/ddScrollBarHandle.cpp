@@ -77,7 +77,7 @@ void ddScrollBarHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 	barSize.SetWidth(getDisplayBox().width-4);
 
 	int divBy = (table->getTotalColumns() - table->getColumnsWindow());
-	if(divBy<=0) //666
+	if(divBy<=0)
 		divBy = table->getColumnsWindow();
 	int colOffset = barSize.GetHeight() / divBy;
 	int verticalPosBar=3+copy.y+downBitmap.GetHeight()+ colOffset*table->getTopColWindowIndex();
@@ -88,6 +88,7 @@ void ddScrollBarHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 
 void ddScrollBarHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
+	anchorY=y;
 	if( (y > (getDisplayBox().GetPosition().y + 2)) && (y <  (getDisplayBox().GetPosition().y + 2 + 6)) )  //6 image height
 		table->columnsWindowUp();
 
@@ -97,6 +98,23 @@ void ddScrollBarHandle::invokeStart(int x, int y, ddDrawingView *view)
 
 void ddScrollBarHandle::invokeStep(int x, int y, ddDrawingView *view)
 {
+	int divBy = (table->getTotalColumns() - table->getColumnsWindow());
+	if(divBy<=0)
+		divBy = table->getColumnsWindow();
+	int colOffset = barSize.GetHeight() / divBy;
+	
+	if ( abs(anchorY-y) > colOffset)
+	{
+		if((anchorY-y)>0)
+		{
+			table->columnsWindowUp();
+		}
+		else
+		{
+			table->columnsWindowDown();
+		}
+		anchorY=y;
+	}
 }
 
 void ddScrollBarHandle::invokeEnd(int x, int y, ddDrawingView *view)

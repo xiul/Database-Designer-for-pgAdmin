@@ -292,7 +292,11 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	//Draw Indexes Title Line 2
 	context.DrawLine(titleIndxsRect.GetBottomLeft(),titleIndxsRect.GetBottomRight());
 
-	
+	//Draw scrollbar is needed
+	if(scrollbar && figureHandles->existsObject(scrollbar))
+		scrollbar->draw(context,view);
+		
+
 	//fullSizeRect
 /*	titleRect.x=titleRect.x+titleRect.width;
 	context.DrawRectangle(titleRect);

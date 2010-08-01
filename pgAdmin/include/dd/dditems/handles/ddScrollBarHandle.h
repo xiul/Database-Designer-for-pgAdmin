@@ -39,6 +39,7 @@ private:
 	ddTableFigure *table;
 	wxBitmap upBitmap, downBitmap;
 	wxSize barSize;
+	int anchorY;
 
 };
 #endif

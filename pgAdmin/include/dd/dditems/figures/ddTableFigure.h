@@ -42,14 +42,12 @@ public:  //DD-TODO: put private unneeded public methods
 	void columnsWindowUp();
 	void columnsWindowDown();
 
-
 protected:
 
 private:
 	//Main Rectangle Sizes
 	ddRect fullSizeRect, titleRect, titleColsRect, colsRect, titleIndxsRect, indxsRect;
 	ddRect unScrolledColsRect;
-//	ddRect scrolledFullSizeRect, scrolledTitleRect, scrolledTitleColsRect, scrolledColsRect, scrolledTitleIndxsRect, scrolledIndxsRect;
 	//Rectangle item counters
 	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;
 	//vector indexes
