@@ -98,7 +98,10 @@ void ddSelectionTool::mouseMove(ddMouseEvent& event){
 
 	if(handle){
 		//DD-TODO: widget.GdkWindow.Cursor = handle.CreateCursor ();
-		view->SetCursor(wxCursor(wxCURSOR_MIDDLE_BUTTON));
+		//view->SetCursor(wxCursor(wxCURSOR_MIDDLE_BUTTON));
+		
+		view->SetCursor(handle->createCursor());
+		//view->SetCursor(wxCursor(wxCURSOR_SIZENS));
 	}
 	else
 	{

@@ -34,6 +34,7 @@
 //*******************   End of special debug header to find memory leaks
 
 
+//DD-TODO: can change base class to locatorhandle without any problems?
 ddScrollBarHandle::ddScrollBarHandle(ddTableFigure *owner, ddILocator *scrollBarLocator , wxSize &size):
 ddIHandle(owner)
 {
@@ -51,7 +52,7 @@ ddScrollBarHandle::~ddScrollBarHandle()
 }
 
 
-wxCursor& ddScrollBarHandle::createCursor()
+wxCursor ddScrollBarHandle::createCursor()
 {
 	return wxCursor(wxCURSOR_HAND);
 }

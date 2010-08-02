@@ -26,7 +26,7 @@ public:
 	ddButtonHandle(ddIFigure *owner, ddILocator *buttonLocator ,wxBitmap &buttonImage, wxSize &size);
     ~ddButtonHandle();
 
-	virtual wxCursor& createCursor();
+	virtual wxCursor createCursor();
 	virtual ddRect& getDisplayBox();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual ddPoint& locate();

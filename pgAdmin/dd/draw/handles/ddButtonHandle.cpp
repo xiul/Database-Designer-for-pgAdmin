@@ -47,7 +47,7 @@ ddButtonHandle::~ddButtonHandle()
 		delete bLocator;
 }
 
-wxCursor& ddButtonHandle::createCursor()
+wxCursor ddButtonHandle::createCursor()
 {
 	//DD-TODO:  Should I use reference or a pointer here?
 	return wxCursor(wxCURSOR_PENCIL);

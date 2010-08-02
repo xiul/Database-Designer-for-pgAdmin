@@ -27,7 +27,7 @@ public:
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	//virtual ddPoint* locate();
 	virtual void invokeStep(int x, int y, ddDrawingView *view);
-	virtual wxCursor& createCursor();
+	virtual wxCursor createCursor();
 	virtual int getIndex();
 	virtual void setIndex(int index);
 protected:

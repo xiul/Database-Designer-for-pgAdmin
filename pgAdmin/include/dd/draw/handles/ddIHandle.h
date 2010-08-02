@@ -33,7 +33,7 @@ public:
 	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
 	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
-	virtual wxCursor& createCursor()=0;
+	virtual wxCursor createCursor()=0;
 	virtual ddRect& getDisplayBox();
 protected:
 	virtual ddIFigure* getOwner();

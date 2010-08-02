@@ -64,7 +64,7 @@ void ddChangeConnectionHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 	context.DrawPolygon(5,points,0,0);
 }
 
-wxCursor& ddChangeConnectionHandle::createCursor()
+wxCursor ddChangeConnectionHandle::createCursor()
 {
 	return wxCursor(wxCURSOR_CROSS);
 }

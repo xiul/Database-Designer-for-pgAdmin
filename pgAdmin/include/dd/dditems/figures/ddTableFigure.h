@@ -35,23 +35,28 @@ public:  //DD-TODO: put private unneeded public methods
 	void toggleColumnDeleteMode(bool disable=false);
 	void setColsRowsWindow(int num);
 	ddRect& getColsSpace();
+	ddRect& getFullSpace();
 	int getTotalColumns();
 	int getColumnsWindow();
 	int getTopColWindowIndex();
 	void setColumnsWindow(int value);
 	void columnsWindowUp();
 	void columnsWindowDown();
+	int getColDefaultHeight(wxFont font);
 
 protected:
 
 private:
 	//Main Rectangle Sizes
 	ddRect fullSizeRect, titleRect, titleColsRect, colsRect, titleIndxsRect, indxsRect;
-	ddRect unScrolledColsRect;
+	ddRect unScrolledColsRect, unScrolledFullSizeRect;
+	
 	//Rectangle item counters
 	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;
+	
 	//vector indexes
 	int maxColIndex,minIdxIndex,maxIdxIndex;
+	
 	//position
 	int beginDrawCols, beginDrawIdxs;
 	
@@ -64,11 +69,12 @@ private:
 	bool deleteColumnMode;
 	int internalPadding, externalPadding;
 	bool calcScrolled;
+	
+	//specials handles
 	ddScrollBarHandle *scrollbar;
 
 	//methods
 	int getHeightFontMetric(wxString text, wxFont font);
-	int getColDefaultHeight(wxFont font);
 	int getFiguresMaxWidth();
 	void calcRectsAreas();
 };

@@ -3901,6 +3901,10 @@
 							RelativePath=".\include\dd\dditems\handles\ddScrollBarHandle.h"
 							>
 						</File>
+						<File
+							RelativePath=".\include\dd\dditems\handles\ddSouthTableSizeHandle.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="locators"
@@ -3927,6 +3931,10 @@
 						</File>
 						<File
 							RelativePath=".\include\dd\dditems\locators\ddScrollBarTableLocator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\include\dd\dditems\locators\ddTableBottomLocator.h"
 							>
 						</File>
 					</Filter>
@@ -5622,6 +5630,10 @@
 						RelativePath=".\dd\dditems\handles\ddScrollBarHandle.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\dd\dditems\handles\ddSouthTableSizeHandle.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="locators"
@@ -5648,6 +5660,10 @@
 					</File>
 					<File
 						RelativePath=".\dd\dditems\locators\ddScrollBarTableLocator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\locators\ddTableBottomLocator.cpp"
 						>
 					</File>
 				</Filter>

@@ -68,7 +68,7 @@ void ddPolyLineHandle::invokeStep(int x, int y, ddDrawingView *view)
 }
 
 
-wxCursor& ddPolyLineHandle::createCursor()
+wxCursor ddPolyLineHandle::createCursor()
 {
 	return wxCursor(wxCURSOR_CROSS);
 	//DD-TODO:  Should I use reference or a pointer here?

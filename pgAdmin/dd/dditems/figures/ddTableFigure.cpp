@@ -36,6 +36,8 @@
 #include "dd/dditems/locators/ddMinMaxTableLocator.h"
 #include "dd/dditems/handles/ddScrollBarHandle.h"
 #include "dd/dditems/locators/ddScrollBarTableLocator.h"
+#include "dd/dditems/handles/ddSouthTableSizeHandle.h"
+#include "dd/dditems/locators/ddTableBottomLocator.h"
 #include "dd/draw/utilities/ddGeometry.h"
 
 //Images
@@ -93,7 +95,10 @@ ddCompositeFigure()
 	figureHandles->addItem(new ddAddFkButtonHandle(this,new ddAddFkLocator(), wxBitmap(ddAddForeignKey_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddRemoveTableButtonHandle(this,new ddRemoveTableLocator(), wxBitmap(ddRemoveTable_xpm),wxSize(8,8)));
 	figureHandles->addItem(new ddMinMaxTableButtonHandle(this,new ddMinMaxTableLocator(), wxBitmap(ddMinimizeTable_xpm),wxBitmap(ddMaximizeTable_xpm),wxSize(8,8)));
+// Don't use it to UI consistency, eliminate it	figureHandles->addItem(new ddNorthTableSizeHandle(this,new ddTableTopLocator()));
+	figureHandles->addItem(new ddSouthTableSizeHandle(this, new ddTableBottomLocator()));
 
+	//Intialize special handle
 	scrollbar=new ddScrollBarHandle(this,new ddScrollBarTableLocator(),wxSize(10,colsRect.GetSize().GetHeight()));
 
 	fromSelToNOSel=false;
@@ -490,6 +495,7 @@ void ddTableFigure::calcRectsAreas()
 	fullSizeRect.height = titleRect.height + titleColsRect.height + colsRect.height + titleIndxsRect.height + indxsRect.height;
 	fullSizeRect.x=db.x;
 	fullSizeRect.y=titleRect.y;
+	unScrolledFullSizeRect=fullSizeRect;
 
 	//Update sizes
 	rectangleFigure->setSize(fullSizeRect.GetSize());
@@ -506,6 +512,12 @@ ddRect& ddTableFigure::getColsSpace()
 	return unScrolledColsRect;
 }
 
+ddRect& ddTableFigure::getFullSpace()
+{
+	return unScrolledFullSizeRect;
+}
+
+
 int ddTableFigure::getTotalColumns()
 {
 	return colsRowsSize;
@@ -518,24 +530,44 @@ int ddTableFigure::getColumnsWindow()
 
 void ddTableFigure::setColumnsWindow(int value)
 {
-	if( (value > 0) && (value <= colsRowsSize) )
+	//if value >0 && <= max size table && table+offset < maxColIndex with window
+	if( (value > 0) && (value <= colsRowsSize) && (maxColIndex >= ( beginDrawCols + value ) ) )   
 	{
 		colsWindow = value;
-		
-		if(colsWindow==colsRowsSize) 
-		{
-			if(figureHandles->existsObject(scrollbar))
-				figureHandles->removeItem(scrollbar);
-		}
-		else 
-		{
-			if (!figureHandles->existsObject(scrollbar))
-				figureHandles->addItem(scrollbar);
-		}
-		
 		calcRectsAreas();
 		recalculateColsPos();
 	}
+
+	//if special case of needing to modify beginDrawCols then do it
+	if( (value > 0) && (value <= colsRowsSize) && (maxColIndex < ( beginDrawCols + value ) ) ) 
+	{
+		if( (beginDrawCols + colsWindow)==maxColIndex)  //if index is at max
+		{
+			int diff = value-colsWindow;  //value should be always higher tan colsWindows
+			if(diff > 0 && (beginDrawCols-diff)>=0 )
+			{
+				beginDrawCols-=diff;
+				colsWindow = value;
+				calcRectsAreas();
+				recalculateColsPos();
+
+			}
+		}
+	}
+
+
+	//Hide Scrollbar if needed
+	if(colsWindow==colsRowsSize) 
+	{
+		if(figureHandles->existsObject(scrollbar))
+			figureHandles->removeItem(scrollbar);
+	}
+	else 
+	{
+		if (!figureHandles->existsObject(scrollbar))
+			figureHandles->addItem(scrollbar);
+	}
+
 }
 
 void ddTableFigure::columnsWindowUp()  //move window from number to zero
