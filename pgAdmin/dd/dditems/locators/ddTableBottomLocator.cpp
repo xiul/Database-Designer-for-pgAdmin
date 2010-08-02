@@ -41,8 +41,8 @@ ddPoint& ddTableBottomLocator::locate(ddIFigure *owner)
 	{
 		ddTableFigure *table = (ddTableFigure*) owner;
 
-		int x = table->getFullSpace().GetLeftBottom().x; 
-		int y = table->getFullSpace().GetLeftBottom().y-2;
+		int x = table->getFullSpace().GetLeftBottom().x + table->getFullSpace().width * 0.25; 
+		int y = table->getFullSpace().GetLeftBottom().y+2;
 
 		locatePoint.x=x;
 		locatePoint.y=y;

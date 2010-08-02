@@ -38,8 +38,8 @@ ddLocatorHandle(owner,locator)
 ddRect& ddSouthTableSizeHandle::getDisplayBox(){
 	ddPoint p = locate();
 	ddTableFigure *table = (ddTableFigure*) getOwner();
-	displayBox.width=table->getFullSpace().width;  //as defined at locator
-	displayBox.height=5;
+	displayBox.width=table->getFullSpace().width * 0.5;  //as defined at locator
+	displayBox.height=3;
 	displayBox.SetPosition(p);
 	return displayBox;
 }
@@ -52,7 +52,36 @@ wxCursor ddSouthTableSizeHandle::createCursor()
 
 void ddSouthTableSizeHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
-	context.DrawRectangle(getDisplayBox());	
+	wxPen p = context.GetPen();
+	wxBrush b = context.GetBrush();
+	context.SetPen(*wxRED_PEN);
+	context.SetBrush(*wxRED_BRUSH);
+	ddRect sizer = getDisplayBox();
+	int x=sizer.x;
+	int y=sizer.y;
+	int x2 = sizer.GetRightTop().x;
+	sizer.width-=20;
+	sizer.x+=10;
+	context.DrawRectangle(sizer);
+	
+    
+	wxPoint triangle_down[4];
+    triangle_down[0] = wxPoint(x,y);
+    triangle_down[1] = wxPoint(x+5,y);
+    triangle_down[2] = wxPoint(x+3,y+5);
+	triangle_down[3] = wxPoint(x,y);
+	context.DrawPolygon(4,triangle_down);
+
+	wxPoint triangle_up[4];
+    triangle_up[0] = wxPoint(x2,y+5);
+    triangle_up[1] = wxPoint(x2-5,y+5);
+    triangle_up[2] = wxPoint(x2-3,y);
+	triangle_up[3] = wxPoint(x2,y+5);
+	context.DrawPolygon(4,triangle_up);
+
+	context.SetPen(p);
+	context.SetBrush(b);
+
 	
 	/*if(drawTempRect){
 		if(startPoint.y < endPoint.y)
