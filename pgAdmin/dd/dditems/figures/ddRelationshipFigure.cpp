@@ -15,10 +15,10 @@
 
 // wxWindows headers
 #include <wx/wx.h>
+#include <wx/dcbuffer.h>
 
 // App headers
-#include "dd/dditems/locators/ddTableBottomLocator.h"
-#include "dd/dditems/figures/ddTableFigure.h"
+#include "dd/dditems/figures/ddRelationshipFigure.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -27,28 +27,16 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddTableBottomLocator::ddTableBottomLocator()
+ddRelationshipFigure::ddRelationshipFigure():
+ddLineConnection()
 {
 }
 
-ddTableBottomLocator::~ddTableBottomLocator()
+ddRelationshipFigure::ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2):
+ddLineConnection(figure1,figure2)
 {
 }
 
-ddPoint& ddTableBottomLocator::locate(ddIFigure *owner)
+ddRelationshipFigure::~ddRelationshipFigure()
 {
-	if(owner)
-	{
-		ddTableFigure *table = (ddTableFigure*) owner;
-
-		int x = table->getFullSpace().GetLeftBottom().x + table->getFullSpace().width * 0.25; 
-		int y = table->getFullSpace().GetLeftBottom().y-2;
-
-		locatePoint.x=x;
-		locatePoint.y=y;
-		return locatePoint;
-	}
-	locatePoint.x=0;
-	locatePoint.y=0;
-	return locatePoint;
 }

@@ -52,7 +52,7 @@ wxCursor ddSouthTableSizeHandle::createCursor()
 
 void ddSouthTableSizeHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
-	wxPen p = context.GetPen();
+/*	wxPen p = context.GetPen();
 	wxBrush b = context.GetBrush();
 	context.SetPen(*wxRED_PEN);
 	context.SetBrush(*wxRED_BRUSH);

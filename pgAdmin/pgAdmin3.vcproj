@@ -3858,6 +3858,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\include\dd\dditems\figures\ddRelationshipFigure.h"
+							>
+						</File>
+						<File
 							RelativePath=".\include\dd\dditems\figures\ddTableFigure.h"
 							>
 						</File>
@@ -5588,6 +5592,10 @@
 					</File>
 					<File
 						RelativePath=".\dd\dditems\figures\ddColumnOptionIcon.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\dd\dditems\figures\ddRelationshipFigure.cpp"
 						>
 					</File>
 					<File
