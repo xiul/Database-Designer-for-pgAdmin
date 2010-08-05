@@ -86,20 +86,34 @@ ddColumnFigure* ddColumnKindIcon::getOwnerColumn()
 void ddColumnKindIcon::changeIcon(ddColumnType type, ddDrawingView *view, bool interaction) 
 {
 	bool ukCol = colType==uk;
-	colType=type;
+	
+	//colType=type;
+
 	wxString tmpString;
 	switch(type)
 	{
 		case 0:	icon = wxBitmap(ddprimarykey_xpm);
-				if(colType==pk)
-					type=none;
+				if(colType==pk){
+					colType=none;
+				}
+				else
+				{
+					if(colType==uk)
+					{
+						syncUkIndexes();
+						ukIndex=-1;
+					}
+					colType=pk;
+				}
 				break;
 		case 1: uniqueConstraintManager(ukCol,view,interaction);
 				icon = wxBitmap(ddunique_xpm);
 				break;
 		case 2:	icon = wxBitmap(ddforeignkey_xpm);
+				colType=fk;
 				break;
 		case 3:	icon = wxBitmap(ddprimaryforeignkey_xpm);
+				colType=pkfk;
 				break;
 	}
 	
@@ -121,10 +135,14 @@ void ddColumnKindIcon::basicDraw(wxBufferedDC& context, ddDrawingView *view)
 		view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
 		context.DrawBitmap(*iconToDraw,copy.GetPosition(),true);
 		//DD-TODO: improve this number
-		wxFont font = settings->GetSystemFont();
-		font.SetPointSize(1);
-		wxString inumber = wxString::Format(wxT("%d"), (int)ukIndex+1);
-		context.DrawText(inumber,copy.x+3,copy.y);
+		if(colType==uk && ukIndex>0)
+		{
+			wxFont font = settings->GetSystemFont();
+			font.SetPointSize(6);
+			context.SetFont(font);
+			wxString inumber = wxString::Format(wxT("%d"), (int)ukIndex+1);
+			context.DrawText(inumber,copy.x+4,copy.y+2);
+		}
 	}
 }
 
@@ -167,12 +185,13 @@ void ddColumnKindIcon::setUniqueConstraintIndex(int i)
 void ddColumnKindIcon::uniqueConstraintManager(bool ukCol, ddDrawingView *view, bool interaction)
 {
   wxString tmpString;
-
+  colType=uk;
   if(ukCol)
   {
 	syncUkIndexes();
 	getOwnerColumn()->setUniqueConstraintIndex(-1);
-	getOwnerColumn()->setColumnKind(none);
+	colType=none;
+	//getOwnerColumn()->setColumnKind(none);
 
   }else //colType!=uk
   {

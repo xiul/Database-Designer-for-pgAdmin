@@ -96,9 +96,8 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 			if(getOwnerColumn()->isPrimaryKey())
 			{
 				getOwnerColumn()->setColumnKind(none);
-			}
-			else
-			{
+			}else
+			{	
 				getOwnerColumn()->setColumnKind(pk);
 				getOwnerColumn()->setColumnOption(notnull);
 			}
