@@ -295,40 +295,12 @@ int ddTextColumnFigure::getTextHeight()
 	return h;
 }
 
-/*
-void ddTextColumnFigure::syncUkIndexes()
+ddDataType ddTextColumnFigure::getDataType()
 {
-	ddColumnFigure *col;
-	bool lastUk=true;
-	int maxIndex=-1;
-	ddIteratorBase *iterator = getOwnerColumn()->getOwnerTable()->figuresEnumerator();
-		iterator->Next(); //First Figure is Main Rect
-		iterator->Next(); //Second Figure is Table Title
-		while(iterator->HasNext())
-		{
-			col = (ddColumnFigure*) iterator->Next();
-			
-			if(col->getUniqueConstraintIndex() >  maxIndex)
-				maxIndex = col->getUniqueConstraintIndex();
-
-			if(col!=getOwnerColumn() && (col->getUniqueConstraintIndex() == getOwnerColumn()->getUniqueConstraintIndex()))
-				lastUk=false;
-		}
-	if(lastUk)
-	{
-		//fix uks indexes
-		iterator->ResetIterator();
-		iterator->Next(); //First Figure is Main Rect
-		iterator->Next(); //Second Figure is Table Title
-		while(iterator->HasNext())
-		{
-			col = (ddColumnFigure*) iterator->Next();
-			if( col->getUniqueConstraintIndex() > getOwnerColumn()->getUniqueConstraintIndex() ) 
-				col->setUniqueConstraintIndex(col->getUniqueConstraintIndex()-1);
-		}
-		getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().RemoveAt(getOwnerColumn()->getUniqueConstraintIndex());
-		getOwnerColumn()->setUniqueConstraintIndex(-1);
-	}
-	delete iterator;
+	return columnType;
 }
-*/
+
+void ddTextColumnFigure::setDataType(ddDataType type)
+{
+	columnType=type;
+}

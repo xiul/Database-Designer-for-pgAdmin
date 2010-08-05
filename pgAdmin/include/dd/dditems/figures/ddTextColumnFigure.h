@@ -37,7 +37,8 @@ public:
 	ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 	int getTextWidth();
 	int getTextHeight();
-	//void syncUkIndexes();
+	ddDataType getDataType();
+	void setDataType(ddDataType type);
 protected:
 	ddColumnFigure *ownerColumn;
 private:

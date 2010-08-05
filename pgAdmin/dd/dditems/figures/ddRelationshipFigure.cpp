@@ -31,6 +31,8 @@ ddRelationshipFigure::ddRelationshipFigure():
 ddLineConnection()
 {
 	fkColumns = new ddCollection(new ddArrayCollection());
+	fkFromPk = true;
+	ukIndex = -1;
 }
 
 ddRelationshipFigure::ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2):
@@ -43,8 +45,8 @@ ddRelationshipFigure::~ddRelationshipFigure()
 {
 	if(fkColumns)
 	{
-		fkColumns->removeAll();
-		delete fkColumns;
+		//fkColumns->removeAll();
+		//delete fkColumns;
 	}
 }
 

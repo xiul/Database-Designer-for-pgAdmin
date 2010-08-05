@@ -29,6 +29,8 @@ private:
 	ddCollection *fkColumns;
 	void addFkColumn(ddColumnFigure *column);
 	void removeFkColumn(wxString columnName);
+	bool fkFromPk;
+	int ukIndex;
 
 };
 #endif

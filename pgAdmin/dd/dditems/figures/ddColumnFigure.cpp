@@ -67,6 +67,14 @@ ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner){
 	}
 }
 
+ddColumnFigure::ddColumnFigure(ddColumnFigure *column)
+{
+	ddColumnFigure(column->getColumnName(false),column->getOwnerTable());
+	this->setColumnKind(column->getColumnKind());
+	this->setColumnOption(column->getColumnOption());
+	this->setDataType(column->getDataType());
+}
+
 ddColumnFigure::~ddColumnFigure(){
 
 	if(columnText)
@@ -298,9 +306,22 @@ void ddColumnFigure::setUniqueConstraintIndex(int i)
 	leftImage->setUniqueConstraintIndex(i);
 }
 
-/*
-void ddColumnFigure::uniqueConstraintManager(ddColumnType type, ddDrawingView *view, bool interaction)
+ddColumnType ddColumnFigure::getColumnKind()
 {
-	leftImage->uniqueConstraintManager(type,view,interaction);
+	return leftImage->getKind();
 }
-*/
+
+ddColumnOptionType ddColumnFigure::getColumnOption()
+{
+	return centerImage->getOption();
+}
+
+ddDataType ddColumnFigure::getDataType()
+{
+	return columnText->getDataType();
+}
+
+void ddColumnFigure::setDataType(ddDataType type)
+{
+	columnText->setDataType(type);
+}

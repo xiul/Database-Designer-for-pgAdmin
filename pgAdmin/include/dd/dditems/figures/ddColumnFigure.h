@@ -23,6 +23,7 @@ class ddColumnFigure : public ddAbstractFigure
 {
 public:
 	ddColumnFigure(wxString& columnName, ddTableFigure *owner);
+	ddColumnFigure(ddColumnFigure *column);
     ~ddColumnFigure();
 	virtual void basicMoveBy(int x, int y);
 	virtual void moveTo(int x, int y);
@@ -47,8 +48,11 @@ public:
 	bool isPlain();
 	void setColumnKind(ddColumnType type, ddDrawingView *view=NULL);
 	void setColumnOption(ddColumnOptionType type);
+	ddColumnType getColumnKind();
+	ddColumnOptionType getColumnOption();
+	ddDataType getDataType();
+	void setDataType(ddDataType type);
 	wxString& getColumnName(bool datatype=false);
-	//void uniqueConstraintManager(ddColumnType type, ddDrawingView *view=NULL, bool interaction=true);
 
 protected:
 	ddColumnKindIcon *leftImage;
@@ -56,6 +60,7 @@ protected:
 	ddTextColumnFigure *columnText;
 	ddTableFigure *ownerTable;
 private:
+
 	
 };
 #endif
