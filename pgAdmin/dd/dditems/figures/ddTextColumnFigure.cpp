@@ -68,6 +68,7 @@ wxString& ddTextColumnFigure::getText(bool extended)
 void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view)
 {
 	wxTextEntryDialog *nameDialog=NULL;
+	wxString tmpString;
 	//DD-TODO: improve this
 	switch(event.GetId())
 	{
@@ -79,7 +80,7 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 			getOwnerColumn()->getOwnerTable()->removeColumn(getOwnerColumn());
 			break;
 		case 2:  //Rename Column
-			nameDialog = new wxTextEntryDialog(view,wxT("Input column name"),wxT("Rename Column"),getText());
+			nameDialog = new wxTextEntryDialog(view,wxT("Input column name"),wxT("Rename Column"),getText());   //DD-TODO: change for dialog like in option 17
 			nameDialog->ShowModal();
 			setText(nameDialog->GetValue());
 			delete nameDialog;
@@ -103,10 +104,20 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 			}
 			break;
 		case 7:	//uk
-			if(getOwnerColumn()->isUniqueKey())
+		/*	if(getOwnerColumn()->isUniqueKey())
+			{
+				getOwnerColumn()->syncUkIndexes();
+				getOwnerColumn()->setUniqueConstraintIndex(-1);
 				getOwnerColumn()->setColumnKind(none);
+
+			}
 			else
-				getOwnerColumn()->setColumnKind(uk);
+			{
+				getOwnerColumn()->setColumnKind(uk,view);
+			}
+			*/
+			getOwnerColumn()->setColumnKind(uk,view);
+
 			break;
 		case 10:  // Submenu opcion 1
 			columnType = dt_bigint;
@@ -125,7 +136,21 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 		break;
 		case 15: //Call datatypes selector
 			//DD-TODO: Add all types, improve and separate from quick access types
-			columnType = (ddDataType) wxGetSingleChoiceIndex(wxT("Select column datatype"),wxT("Column Datatypes"),dataTypes());
+			columnType = (ddDataType) wxGetSingleChoiceIndex(wxT("Select column datatype"),wxT("Column Datatypes"),dataTypes(),view);
+		break;
+		case 17:
+			tmpString=wxGetTextFromUser(wxT("Change name of Primary Key constraint:"),getOwnerColumn()->getOwnerTable()->getPkConstraintName(),getOwnerColumn()->getOwnerTable()->getPkConstraintName(),view);
+			if(tmpString.length()>0)
+				getOwnerColumn()->getOwnerTable()->setPkConstraintName(tmpString);
+		break;
+		case 18:
+			int i = wxGetSingleChoiceIndex(wxT("Select Unique Key constraint to edit name"),wxT("Select Unique Constraint to edit name:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames(),view);
+			if(i>=0)
+			{
+				tmpString=wxGetTextFromUser(wxT("Change name of Unique Key constraint:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),view);
+				if(tmpString.length()>0)
+					getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i)=tmpString;
+			}
 		break;
 	}		
 }
@@ -156,12 +181,12 @@ wxArrayString& ddTextColumnFigure::popupStrings()
 		if(getOwnerColumn()->isPrimaryKey())	//6
 			strings.Add(wxT("--checked**Primary Key"));
 		else
-			strings.Add(wxT("Primary Key"));
+			strings.Add(wxT("Primary Key..."));
 
 		if(getOwnerColumn()->isUniqueKey())		//7
 			strings.Add(wxT("--checked**Unique"));
 		else
-			strings.Add(wxT("Unique"));
+			strings.Add(wxT("Unique..."));
 
 /*		if(getOwnerColumn()->isPlain())		//9
 			strings.Add(wxT("--checked**None"));
@@ -198,6 +223,10 @@ wxArrayString& ddTextColumnFigure::popupStrings()
 			strings.Add(wxT("--subitem**Varchar(1)"));   
 
 		strings.Add(wxT("--subitem**Choose another datatype"));   //15
+	
+		strings.Add(wxT("--separator--")); 
+		strings.Add(wxT("Primary Key Constraint name..."));  //17
+		strings.Add(wxT("Unique Constraint name..."));  //18
 		//DD-TODO: after add varchar left a cursor over length selected to allow used
 	//}
 	return strings;
@@ -266,3 +295,41 @@ int ddTextColumnFigure::getTextHeight()
 	getFontMetrics(w,h);
 	return h;
 }
+
+/*
+void ddTextColumnFigure::syncUkIndexes()
+{
+	ddColumnFigure *col;
+	bool lastUk=true;
+	int maxIndex=-1;
+	ddIteratorBase *iterator = getOwnerColumn()->getOwnerTable()->figuresEnumerator();
+		iterator->Next(); //First Figure is Main Rect
+		iterator->Next(); //Second Figure is Table Title
+		while(iterator->HasNext())
+		{
+			col = (ddColumnFigure*) iterator->Next();
+			
+			if(col->getUniqueConstraintIndex() >  maxIndex)
+				maxIndex = col->getUniqueConstraintIndex();
+
+			if(col!=getOwnerColumn() && (col->getUniqueConstraintIndex() == getOwnerColumn()->getUniqueConstraintIndex()))
+				lastUk=false;
+		}
+	if(lastUk)
+	{
+		//fix uks indexes
+		iterator->ResetIterator();
+		iterator->Next(); //First Figure is Main Rect
+		iterator->Next(); //Second Figure is Table Title
+		while(iterator->HasNext())
+		{
+			col = (ddColumnFigure*) iterator->Next();
+			if( col->getUniqueConstraintIndex() > getOwnerColumn()->getUniqueConstraintIndex() ) 
+				col->setUniqueConstraintIndex(col->getUniqueConstraintIndex()-1);
+		}
+		getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().RemoveAt(getOwnerColumn()->getUniqueConstraintIndex());
+		getOwnerColumn()->setUniqueConstraintIndex(-1);
+	}
+	delete iterator;
+}
+*/

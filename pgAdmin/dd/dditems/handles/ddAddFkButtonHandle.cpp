@@ -22,6 +22,7 @@
 #include "dd/dditems/utilities/ddDataType.h"
 #include "dd/draw/tools/ddConnectionCreationTool.h"
 #include "dd/draw/utilities/ddMouseEvent.h"
+#include "dd/dditems/figures/ddRelationshipFigure.h"
 
 
 //*******************   Start of special debug header to find memory leaks
@@ -43,7 +44,7 @@ void ddAddFkButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
 	if(getOwner()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo)){
 		ddTableFigure *table = (ddTableFigure*) getOwner();
-		ddLineConnection *fkConnection = new ddLineConnection();
+		ddRelationshipFigure *fkConnection = new ddRelationshipFigure();
 		fkConnection->setStartTerminal(new ddLineTerminal());
 		fkConnection->setEndTerminal(new ddLineTerminal());
 		ddConnectionCreationTool *conn = new ddConnectionCreationTool(view->editor(),fkConnection);

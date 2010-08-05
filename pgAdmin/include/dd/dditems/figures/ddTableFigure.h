@@ -25,14 +25,22 @@ class ddTableFigure : public ddCompositeFigure
 public:  //DD-TODO: put private unneeded public methods
 	ddTableFigure(int x, int y);
     ~ddTableFigure();
+	
+	//add remove items
 	void addColumn(ddColumnFigure *column);
 	void removeColumn(ddColumnFigure *column);
-	void updateTableSize();
+	
+	//drawing
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
-	void recalculateColsPos();
+	
+	//delete hack
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
+	
+	//columns scrolls
+	void updateTableSize();
+	void recalculateColsPos();
 	void setColsRowsWindow(int num);
 	ddRect& getColsSpace();
 	ddRect& getFullSpace();
@@ -43,7 +51,18 @@ public:  //DD-TODO: put private unneeded public methods
 	void columnsWindowUp();
 	void columnsWindowDown();
 	int getColDefaultHeight(wxFont font);
+	
+	//metadata
+	wxString getTableName();
 
+	//uk pk constraints
+	void setPkConstraintName(wxString name);
+	wxString getPkConstraintName();
+	wxArrayString& getUkConstraintsNames();
+
+/*	int addFk(wxString parentTableName);
+	void removeFk(int fk);
+*/
 protected:
 
 private:
@@ -77,5 +96,16 @@ private:
 	int getHeightFontMetric(wxString text, wxFont font);
 	int getFiguresMaxWidth();
 	void calcRectsAreas();
+
+	//pk uk(s)
+	wxString pkName;
+	wxArrayString ukNames;
+
+
+/*	//foreign keys (created a this table)
+	wxArrayString fkNames;
+	int fkMaxIndex;
+	wxArr
+	*/
 };
 #endif

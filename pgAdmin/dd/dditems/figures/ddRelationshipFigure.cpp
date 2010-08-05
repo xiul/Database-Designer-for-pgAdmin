@@ -30,13 +30,39 @@
 ddRelationshipFigure::ddRelationshipFigure():
 ddLineConnection()
 {
+	fkColumns = new ddCollection(new ddArrayCollection());
 }
 
 ddRelationshipFigure::ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2):
 ddLineConnection(figure1,figure2)
 {
+	fkColumns = new ddCollection(new ddArrayCollection());
 }
 
 ddRelationshipFigure::~ddRelationshipFigure()
 {
+	if(fkColumns)
+	{
+		fkColumns->removeAll();
+		delete fkColumns;
+	}
+}
+
+void ddRelationshipFigure::addFkColumn(ddColumnFigure *column)
+{
+	fkColumns->addItem(column);
+}
+
+void ddRelationshipFigure::removeFkColumn(wxString columnName)
+{
+/*	ddIteratorBase *iterator=figuresEnumerator();
+	ddColumnFigure *c;
+	while(iterator->HasNext()){
+		c = (ddColumnFigure *) iterator->Next();
+		c->
+	}	
+	delete iterator;
+
+	fkColumns->removeItem(column);
+*/
 }

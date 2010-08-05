@@ -12,7 +12,7 @@
 #ifndef DDRELATIONSHIPFIGURE_H
 #define DDRELATIONSHIPFIGURE_H
 #include "dd/draw/figures/ddLineConnection.h"
-//#include "dd/draw/figures/ddIConnectionFigure.h"
+#include "dd/dditems/figures/ddTableFigure.h"
 /*#include "dd/draw/connectors/ddIConnector.h"
 #include "dd/draw/utilities/ddPoint.h"
 #include "dd/draw/handles/ddIHandle.h"
@@ -25,6 +25,10 @@ public:
 	ddRelationshipFigure();
 	ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2);
 	~ddRelationshipFigure();
+private:
+	ddCollection *fkColumns;
+	void addFkColumn(ddColumnFigure *column);
+	void removeFkColumn(wxString columnName);
 
 };
 #endif

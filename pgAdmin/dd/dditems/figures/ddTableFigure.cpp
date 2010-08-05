@@ -119,6 +119,20 @@ ddCompositeFigure()
 	beginDrawCols=2;
 	beginDrawIdxs=2;
 
+	//Initialize
+	pkName=wxT("NewTable_pk");
+	ukNames.clear();
+
+/*	getUkConstraintsNames().Add(wxString(wxT("uk_1")));
+	getUkConstraintsNames().Add(wxString(wxT("uk_2")));
+	getUkConstraintsNames().Add(wxString(wxT("uk_3")));
+	getUkConstraintsNames().Add(wxString(wxT("uk_4")));
+/*
+	//Start foreign keys management variables
+	fkMaxIndex=0;
+	fkNames.Clear();
+*/
+
 	calcRectsAreas();
 }
 
@@ -594,3 +608,37 @@ int ddTableFigure::getTopColWindowIndex()
 {
 	return (beginDrawCols-2);
 }
+
+void ddTableFigure::setPkConstraintName(wxString name)
+{
+	pkName = name;
+}
+
+wxString ddTableFigure::getPkConstraintName()
+{
+	return pkName;	
+}
+
+wxArrayString& ddTableFigure::getUkConstraintsNames()
+{
+	return ukNames;
+}
+
+wxString ddTableFigure::getTableName()
+{
+	ddTextColumnFigure *c = (ddTextColumnFigure*) figureFigures->getItemAt(1);
+	return c->getText(false);
+}
+
+
+/*
+int ddTableFigure::addFk(wxString parentTableName)
+{
+	parentTableName.Append()
+	fkNames.Add(
+}
+
+void ddTableFigure::removeFk(int fk)
+{
+}
+*/

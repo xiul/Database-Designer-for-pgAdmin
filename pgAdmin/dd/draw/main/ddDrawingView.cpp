@@ -437,7 +437,7 @@ void ddDrawingView::OnTextPopupClick(wxCommandEvent& event)
 	if(simpleTextFigure)
 		simpleTextFigure->OnTextPopupClick(event,this);
 	else if(menuFigure)
-		menuFigure->OnTextPopupClick(event);
+		menuFigure->OnTextPopupClick(event,this);
 	event.Skip();
 }
 

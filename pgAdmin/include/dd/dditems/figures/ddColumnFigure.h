@@ -42,9 +42,14 @@ public:
 	bool isNotNull();
 	bool isPrimaryKey();
 	bool isUniqueKey();
+	int getUniqueConstraintIndex();
+	void setUniqueConstraintIndex(int i);
 	bool isPlain();
-	void setColumnKind(ddColumnType type);
+	void setColumnKind(ddColumnType type, ddDrawingView *view=NULL);
 	void setColumnOption(ddColumnOptionType type);
+	wxString& getColumnName(bool datatype=false);
+	//void uniqueConstraintManager(ddColumnType type, ddDrawingView *view=NULL, bool interaction=true);
+
 protected:
 	ddColumnKindIcon *leftImage;
 	ddColumnOptionIcon *centerImage;

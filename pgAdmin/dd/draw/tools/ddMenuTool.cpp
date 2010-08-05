@@ -103,7 +103,7 @@ void ddMenuTool::mouseDrag(ddMouseEvent& event)
 		getDefaultTool()->mouseDrag(event);
 }
 
-void ddMenuTool::OnTextPopupClick(wxCommandEvent& event)
+void ddMenuTool::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view)
 {
-	menuFigure->OnTextPopupClick(event);
+	menuFigure->OnTextPopupClick(event,view);
 }

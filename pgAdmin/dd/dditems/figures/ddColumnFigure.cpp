@@ -45,7 +45,7 @@
 
 ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner){
 	columnText = new ddTextColumnFigure(columnName,dt_null,this);
-	leftImage = new ddColumnKindIcon();
+	leftImage = new ddColumnKindIcon(this);
 	centerImage = new ddColumnOptionIcon();
 	
 	setOwnerTable(owner);
@@ -273,12 +273,34 @@ bool ddColumnFigure::isPlain()
 	return leftImage->getKind()==none;
 }
 
-void ddColumnFigure::setColumnKind(ddColumnType type)
+void ddColumnFigure::setColumnKind(ddColumnType type, ddDrawingView *view)
 {
-	leftImage->changeIcon(type);
+	leftImage->changeIcon(type,view);
 }
 
 void ddColumnFigure::setColumnOption(ddColumnOptionType type)
 {
 	centerImage->changeIcon(type);
 }
+
+wxString& ddColumnFigure::getColumnName(bool datatype)
+{
+	return columnText->getText(datatype);
+}
+
+int ddColumnFigure::getUniqueConstraintIndex()
+{
+	return leftImage->getUniqueConstraintIndex();
+}
+
+void ddColumnFigure::setUniqueConstraintIndex(int i)
+{
+	leftImage->setUniqueConstraintIndex(i);
+}
+
+/*
+void ddColumnFigure::uniqueConstraintManager(ddColumnType type, ddDrawingView *view, bool interaction)
+{
+	leftImage->uniqueConstraintManager(type,view,interaction);
+}
+*/
