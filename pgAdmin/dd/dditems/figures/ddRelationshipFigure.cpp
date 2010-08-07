@@ -30,7 +30,6 @@
 ddRelationshipFigure::ddRelationshipFigure():
 ddLineConnection()
 {
-	fkColumns = new ddCollection(new ddArrayCollection());
 	fkFromPk = true;
 	ukIndex = -1;
 }
@@ -38,33 +37,57 @@ ddLineConnection()
 ddRelationshipFigure::ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2):
 ddLineConnection(figure1,figure2)
 {
-	fkColumns = new ddCollection(new ddArrayCollection());
 }
 
 ddRelationshipFigure::~ddRelationshipFigure()
 {
-	if(fkColumns)
-	{
-		//fkColumns->removeAll();
-		//delete fkColumns;
-	}
+	chm.clear();
 }
 
 void ddRelationshipFigure::addFkColumn(ddColumnFigure *column)
 {
-	fkColumns->addItem(column);
+	chm[column->getColumnName(false)]=column;
 }
 
 void ddRelationshipFigure::removeFkColumn(wxString columnName)
 {
-/*	ddIteratorBase *iterator=figuresEnumerator();
-	ddColumnFigure *c;
-	while(iterator->HasNext()){
-		c = (ddColumnFigure *) iterator->Next();
-		c->
-	}	
-	delete iterator;
+	chm.erase(columnName);
+}
 
-	fkColumns->removeItem(column);
-*/
+void ddRelationshipFigure::updateForeignKey()
+{
+	if(getEndFigure() && getStartFigure() && getStartFigure()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo) && getEndFigure()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo))
+	{
+		ddTableFigure *startTable = (ddTableFigure*) getStartFigure();
+		ddTableFigure *endTable = (ddTableFigure*) getEndFigure();
+		ddColumnFigure *col;
+		ddColumnFigure *NewFkColumn;
+		ddIteratorBase *iterator = startTable->figuresEnumerator();
+		iterator->Next(); //First Figure is Main Rect
+		iterator->Next(); //Second Figure is Table Title
+		while(iterator->HasNext())
+		{
+			col = (ddColumnFigure*) iterator->Next();
+			if(fkFromPk)
+			{
+				//[Name of column at origin of FK] = objeto de la columna, su nombre puede ser el que venga en gana =D
+				
+				if( col->isPrimaryKey() && (chm.find(col->getColumnName())==chm.end()) )
+				{
+					//change ddColumnFigure for new kind of object with less overhead
+					NewFkColumn = new ddColumnFigure(col);
+					chm[NewFkColumn->getColumnName()]=NewFkColumn;
+					//666 Adjust Name before
+					endTable->addColumn(NewFkColumn);
+				}
+			}
+			else  //is from UK
+			{
+			}
+		}
+	}
+	else 
+	{
+		wxMessageBox(wxT("Error invalid kind of start figure at relationship"),wxT("Error invalid kind of start figure at relationship"),wxICON_ERROR);
+	}
 }
