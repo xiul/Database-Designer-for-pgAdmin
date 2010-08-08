@@ -63,6 +63,8 @@ public:  //DD-TODO: put private unneeded public methods
 /*	int addFk(wxString parentTableName);
 	void removeFk(int fk);
 */
+	void updateFkObservers();
+
 protected:
 
 private:

@@ -105,6 +105,10 @@ void ddColumnKindIcon::changeIcon(ddColumnType type, ddDrawingView *view, bool i
 					}
 					colType=pk;
 				}
+				if(!getOwnerColumn()->getIsForeignKey())
+				{
+					getOwnerColumn()->getOwnerTable()->updateFkObservers();
+				}
 				break;
 		case 1: uniqueConstraintManager(ukCol,view,interaction);
 				icon = wxBitmap(ddunique_xpm);
@@ -115,14 +119,21 @@ void ddColumnKindIcon::changeIcon(ddColumnType type, ddDrawingView *view, bool i
 		case 3:	icon = wxBitmap(ddprimaryforeignkey_xpm);
 				colType=pkfk;
 				break;
+		case 5: colType=none;
+				break;
 	}
 	
-	if(colType!=none)
+	if(colType!=none){
 		iconToDraw = &icon;
+	}
 	else
 	{
 		iconToDraw = NULL;
 		ukIndex=-1;
+		if(!getOwnerColumn()->getIsForeignKey())
+		{
+			getOwnerColumn()->getOwnerTable()->updateFkObservers();
+		}
 	}
 	getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
 }

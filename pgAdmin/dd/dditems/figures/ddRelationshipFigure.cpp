@@ -44,6 +44,7 @@ ddRelationshipFigure::~ddRelationshipFigure()
 	chm.clear();
 }
 
+/*
 void ddRelationshipFigure::addFkColumn(ddColumnFigure *column)
 {
 	chm[column->getColumnName(false)]=column;
@@ -53,7 +54,7 @@ void ddRelationshipFigure::removeFkColumn(wxString columnName)
 {
 	chm.erase(columnName);
 }
-
+*/
 void ddRelationshipFigure::updateForeignKey()
 {
 	if(getEndFigure() && getStartFigure() && getStartFigure()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo) && getEndFigure()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo))
@@ -61,27 +62,55 @@ void ddRelationshipFigure::updateForeignKey()
 		ddTableFigure *startTable = (ddTableFigure*) getStartFigure();
 		ddTableFigure *endTable = (ddTableFigure*) getEndFigure();
 		ddColumnFigure *col;
-		ddColumnFigure *NewFkColumn;
+		ddRelationshipItem *NewFkColumn;
+
+
 		ddIteratorBase *iterator = startTable->figuresEnumerator();
 		iterator->Next(); //First Figure is Main Rect
 		iterator->Next(); //Second Figure is Table Title
 		while(iterator->HasNext())
 		{
 			col = (ddColumnFigure*) iterator->Next();
-			if(fkFromPk)
+			if(fkFromPk)  //RELATIONSHIP KIND IS USING A PK (PRIMARY KEY) AS FOREIGN KEYS
 			{
-				//[Name of column at origin of FK] = objeto de la columna, su nombre puede ser el que venga en gana =D
-				
-				if( col->isPrimaryKey() && (chm.find(col->getColumnName())==chm.end()) )
+				//Add new pk columns from source fk table to destination
+				columnsHashMap::iterator it = chm.find(col->getColumnName());
+				bool NotFound = it == chm.end(); // will be true
+
+				if( col->isPrimaryKey() && NotFound )
 				{
-					//change ddColumnFigure for new kind of object with less overhead
-					NewFkColumn = new ddColumnFigure(col);
-					chm[NewFkColumn->getColumnName()]=NewFkColumn;
-					//666 Adjust Name before
-					endTable->addColumn(NewFkColumn);
+					NewFkColumn = new ddRelationshipItem(col,endTable);
+					chm[col->getColumnName()]=NewFkColumn; //key will be original table name always
+					endTable->addColumn(NewFkColumn->fkColumn);
 				}
+
+				//Delete old Fk columns now not pk or deleted from source fk table.
+				//DD-TODO: optimize this later  and add deletes when needed
+
+				//Hack to repeat for every time a column is elimite because hashmap is modified inside a for and now is invalid that for loop
+				bool repeat;   
+				do{
+					repeat=false;
+					for( it = chm.begin(); it != chm.end(); ++it )
+					{
+						wxString key = it->first;
+						NewFkColumn = it->second;
+						if( !NewFkColumn->original->isPrimaryKey() || !startTable->includes(NewFkColumn->original) )
+						{
+							NewFkColumn->destinationTable->removeColumn(NewFkColumn->fkColumn);
+							delete NewFkColumn;
+							chm.erase(it);
+							repeat=true;
+						}
+						if(repeat)
+							break;
+					}
+
+				}while(repeat);
+
+
 			}
-			else  //is from UK
+			else   //RELATIONSHIP KIND IS USING A UK (UNIQUE KEY) AS FOREIGN KEYS
 			{
 			}
 		}
@@ -90,4 +119,27 @@ void ddRelationshipFigure::updateForeignKey()
 	{
 		wxMessageBox(wxT("Error invalid kind of start figure at relationship"),wxT("Error invalid kind of start figure at relationship"),wxICON_ERROR);
 	}
+}
+
+/*
+Items at hash map table
+*/
+
+ddRelationshipItem::ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination)
+{
+	original = originalColumn;
+	destinationTable = destination;
+	wxString newName = originalColumn->getOwnerTable()->getTableName();
+	newName.append(wxT("_"));
+	newName.append(originalColumn->getColumnName(false));
+	//DD-TODO: improve fk name
+	fkColumn = new ddColumnFigure(newName,destinationTable,true);
+}
+
+ddRelationshipItem::~ddRelationshipItem()
+{
+	/*	if(fkColumn)
+		delete fkColumn;
+		raise an error is delete by array
+		*/
 }

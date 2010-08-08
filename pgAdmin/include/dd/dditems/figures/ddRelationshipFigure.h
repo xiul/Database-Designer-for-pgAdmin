@@ -19,7 +19,9 @@
 #include "dd/draw/handles/ddIHandle.h"
 */
 
-WX_DECLARE_STRING_HASH_MAP( ddColumnFigure*, columnsHashMap );
+class ddRelationshipItem;
+
+WX_DECLARE_STRING_HASH_MAP( ddRelationshipItem*, columnsHashMap );
 
 
 class ddRelationshipFigure : public ddLineConnection
@@ -31,11 +33,25 @@ public:
 	void updateForeignKey();
 private:
 	//ddCollection *fkColumns;
-	void addFkColumn(ddColumnFigure *column);
+/*	void addFkColumn(ddColumnFigure *column);
 	void removeFkColumn(wxString columnName);
+	*/
 	bool fkFromPk;
 	int ukIndex;
 	columnsHashMap chm;
 
 };
+
+
+
+class ddRelationshipItem : public ddObject
+{
+public:
+	ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination);
+	~ddRelationshipItem();
+	ddColumnFigure *original;
+	ddColumnFigure *fkColumn;
+	ddTableFigure *destinationTable;
+};
+
 #endif

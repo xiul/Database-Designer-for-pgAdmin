@@ -34,7 +34,7 @@
 
 
 ddIFigure::ddIFigure(){
-	figures=new ddCollection(new ddArrayCollection());
+	figures=new ddCollection(new ddArrayCollection());  //DD-TODO: really need this???
 	handles=new ddCollection(new ddArrayCollection());
 //	dependentFigures=new ddCollection(new ddArrayCollection());
 	observers=new ddCollection(new ddArrayCollection());
@@ -205,3 +205,8 @@ void ddIFigure::setDefaultSelectedBrush(wxBrush& brush)
 	defaultSelectedBrush=brush;
 }
 
+
+ddIteratorBase* ddIFigure::observersEnumerator()
+{
+	return observers->createIterator();
+}

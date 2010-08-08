@@ -24,10 +24,8 @@
 #include "dd/dditems/tools/ddColumnFigureTool.h"
 #include "dd/dditems/figures/ddColumnKindIcon.h"
 #include "dd/dditems/figures/ddColumnOptionIcon.h"
-/*#include "dd/draw/utilities/ddArrayCollection.h"
-
-*/
 #include "dd/dditems/utilities/ddDataType.h"
+#include "dd/dditems/figures/ddTableFigure.h"
 
 //Images
 #include "images/foreignkey.xpm"
@@ -43,11 +41,11 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner){
+ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner, bool columnIsForeignKey){
 	columnText = new ddTextColumnFigure(columnName,dt_null,this);
 	leftImage = new ddColumnKindIcon(this);
 	centerImage = new ddColumnOptionIcon();
-	
+	isForeignKey = columnIsForeignKey;
 	setOwnerTable(owner);
 
 	//init displaybox && images position
@@ -67,6 +65,7 @@ ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner){
 	}
 }
 
+/*
 ddColumnFigure::ddColumnFigure(ddColumnFigure *column)
 {
 	ddColumnFigure(column->getColumnName(false),column->getOwnerTable());
@@ -74,6 +73,7 @@ ddColumnFigure::ddColumnFigure(ddColumnFigure *column)
 	this->setColumnOption(column->getColumnOption());
 	this->setDataType(column->getDataType());
 }
+*/
 
 ddColumnFigure::~ddColumnFigure(){
 
@@ -324,4 +324,14 @@ ddDataType ddColumnFigure::getDataType()
 void ddColumnFigure::setDataType(ddDataType type)
 {
 	columnText->setDataType(type);
+}
+
+void ddColumnFigure::setColumnName(wxString name)
+{
+	columnText->setText(name);
+}
+
+bool ddColumnFigure::getIsForeignKey()
+{
+	return isForeignKey;
 }

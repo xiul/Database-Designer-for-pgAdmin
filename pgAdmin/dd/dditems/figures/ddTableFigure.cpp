@@ -39,6 +39,7 @@
 #include "dd/dditems/handles/ddSouthTableSizeHandle.h"
 #include "dd/dditems/locators/ddTableBottomLocator.h"
 #include "dd/draw/utilities/ddGeometry.h"
+#include "dd/dditems/figures/ddRelationshipFigure.h"
 
 //Images
 #include "images/ddAddColumn.xpm"
@@ -193,7 +194,6 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 		recalculateColsPos();
 		*/
 	}
-
 }
 
 void ddTableFigure::removeColumn(ddColumnFigure *column)
@@ -630,6 +630,15 @@ wxString ddTableFigure::getTableName()
 	return c->getText(false);
 }
 
+void ddTableFigure::updateFkObservers()
+{
+	ddIteratorBase *iterator = observersEnumerator();
+	while(iterator->HasNext()){
+	ddRelationshipFigure *r = (ddRelationshipFigure*) iterator->Next();
+		r->updateForeignKey();
+	}
+	delete iterator;
+}
 
 /*
 int ddTableFigure::addFk(wxString parentTableName)

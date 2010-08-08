@@ -49,6 +49,7 @@ public:
 	virtual void onFigureChanged(ddIFigure *figure)=0;
 	virtual void addObserver (ddIFigure *observer);
 	virtual void removeObserver (ddIFigure *observer);	
+	virtual ddIteratorBase* observersEnumerator();
 
 	virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 

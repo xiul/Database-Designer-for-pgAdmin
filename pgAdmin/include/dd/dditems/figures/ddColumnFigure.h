@@ -22,8 +22,8 @@ class ddTableFigure;
 class ddColumnFigure : public ddAbstractFigure
 {
 public:
-	ddColumnFigure(wxString& columnName, ddTableFigure *owner);
-	ddColumnFigure(ddColumnFigure *column);
+	ddColumnFigure(wxString& columnName, ddTableFigure *owner, bool columnIsForeignKey=false);
+	//ddColumnFigure(ddColumnFigure *column);
     ~ddColumnFigure();
 	virtual void basicMoveBy(int x, int y);
 	virtual void moveTo(int x, int y);
@@ -53,6 +53,8 @@ public:
 	ddDataType getDataType();
 	void setDataType(ddDataType type);
 	wxString& getColumnName(bool datatype=false);
+	void setColumnName(wxString name);
+	bool getIsForeignKey();
 
 protected:
 	ddColumnKindIcon *leftImage;
@@ -60,6 +62,7 @@ protected:
 	ddTextColumnFigure *columnText;
 	ddTableFigure *ownerTable;
 private:
+	bool isForeignKey;
 
 	
 };
