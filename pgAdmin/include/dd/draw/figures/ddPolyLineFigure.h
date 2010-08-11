@@ -12,13 +12,13 @@
 #ifndef DDPOLYLINEFIGURE_H
 #define DDPOLYLINEFIGURE_H
 
-#include "dd/draw/figures/ddAbstractFigure.h"
+#include "dd/draw/figures/ddAbstractMenuFigure.h"
 #include "dd/draw/figures/ddLineTerminal.h"
 #include "dd/draw/utilities/ddArrayCollection.h"
 #include "dd/draw/utilities/ddPoint.h"
 
 // Create Array Objects used as base for gqbCollections
-class ddPolyLineFigure : public ddAbstractFigure
+class ddPolyLineFigure : public ddAbstractMenuFigure
 {
 public:
 	ddPolyLineFigure();
@@ -52,6 +52,7 @@ public:
 
 	virtual ddPoint& pointAt(int index);
 	virtual bool containsPoint (int x, int y);
+	virtual void setLinePen(wxPen pen);
 
 protected:
 	//DD-TODO: need to store dashes?
@@ -61,6 +62,7 @@ protected:
 private:
 	ddLineTerminal *startTerminal, *endTerminal;
 	bool handlesChanged;//, primero;
+	wxPen linePen;
 
 };
 #endif

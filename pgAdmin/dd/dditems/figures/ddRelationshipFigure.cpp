@@ -20,6 +20,7 @@
 // App headers
 #include "dd/dditems/figures/ddRelationshipFigure.h"
 
+
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,6 +32,9 @@ ddRelationshipFigure::ddRelationshipFigure():
 ddLineConnection()
 {
 	fkFromPk = true;
+	fkMandatory = true;
+	fkOneToMany = true;
+	fkIdentifying = false;
 	ukIndex = -1;
 }
 
@@ -43,6 +47,22 @@ ddRelationshipFigure::~ddRelationshipFigure()
 {
 	chm.clear();
 }
+
+/*
+ddITool* ddRelationshipFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+{
+	return new ddPolyLineFigureTool(editor,this,new ddMenuTool(editor,this,defaultTool));
+}
+*/
+
+
+
+/*
+ddITool* ddRelationshipFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
+{
+	return new ddMenuTool(editor,this,defaultTool);
+}
+*/
 
 /*
 void ddRelationshipFigure::addFkColumn(ddColumnFigure *column)
@@ -63,7 +83,6 @@ void ddRelationshipFigure::updateForeignKey()
 		ddTableFigure *endTable = (ddTableFigure*) getEndFigure();
 		ddColumnFigure *col;
 		ddRelationshipItem *NewFkColumn;
-
 
 		ddIteratorBase *iterator = startTable->figuresEnumerator();
 		iterator->Next(); //First Figure is Main Rect
@@ -108,10 +127,10 @@ void ddRelationshipFigure::updateForeignKey()
 
 				}while(repeat);
 
-
 			}
 			else   //RELATIONSHIP KIND IS USING A UK (UNIQUE KEY) AS FOREIGN KEYS
 			{
+				//DD-TODO: Add this functionality.
 			}
 		}
 	}
@@ -120,6 +139,82 @@ void ddRelationshipFigure::updateForeignKey()
 		wxMessageBox(wxT("Error invalid kind of start figure at relationship"),wxT("Error invalid kind of start figure at relationship"),wxICON_ERROR);
 	}
 }
+
+
+wxArrayString& ddRelationshipFigure::popupStrings()
+{
+	strings.clear();
+	
+	if(fkFromPk)
+	{
+		strings.Add(wxT("--checked**Foreign Key from Primary Key"));  //0
+		strings.Add(wxT("Foreign Key from Unique Key..."));   //1
+	}
+	else
+	{
+		strings.Add(wxT("Foreign Key from Primary Key"));   //0
+		strings.Add(wxT("--checked**Foreign Key from Unique Key(Uk#)"));   //1
+	}
+	
+	strings.Add(wxT("--separator--"));   //2
+	
+	if(fkMandatory)
+	{
+		strings.Add(wxT("--checked**Mandatory relationship kind"));   //3
+		strings.Add(wxT("Optional relationship kind"));   //4
+
+	}
+	else
+	{
+		strings.Add(wxT("Mandatory relationship kind"));   //3
+		strings.Add(wxT("--checked**Optional relationship kind"));   //4
+	}
+		
+	if(fkIdentifying)
+		strings.Add(wxT("--checked**Identifying relationship")); //5
+	else
+		strings.Add(wxT("Identifying relationship")); //5
+
+	strings.Add(wxT("--separator--"));   //6
+
+	if(fkOneToMany)
+	{
+		strings.Add(wxT("--checked**1:M"));   //7
+		strings.Add(wxT("1:1"));   //8
+	}
+	else
+	{
+		strings.Add(wxT("1:M"));   //7
+		strings.Add(wxT("--checked**1:1"));   //8
+	}
+
+return strings;
+}
+
+
+void ddRelationshipFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view)
+{
+	switch(event.GetId())
+	{
+		case 0:
+		case 1:
+			fkFromPk=!fkFromPk;
+			break;
+		case 3:
+		case 4:
+			fkMandatory=!fkMandatory;
+			break;
+		case 5:
+			fkIdentifying=!fkIdentifying;
+			break;
+		case 7:
+		case 8:
+			fkOneToMany=!fkOneToMany;
+			break;
+	}
+}
+
+
 
 /*
 Items at hash map table

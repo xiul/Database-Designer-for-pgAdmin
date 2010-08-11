@@ -24,9 +24,11 @@ public:
     ~ddLineTerminal();
 
 	virtual ddPoint& draw (wxBufferedDC& context, ddPoint& a, ddPoint& b, ddDrawingView *view);
-
+	virtual void setLinePen(wxPen pen);
 protected:
+	wxPen terminalLinePen;	
 private:
 	ddPoint middle;
+
 };
 #endif

@@ -23,7 +23,7 @@
 #include "dd/draw/tools/ddConnectionCreationTool.h"
 #include "dd/draw/utilities/ddMouseEvent.h"
 #include "dd/dditems/figures/ddRelationshipFigure.h"
-
+#include "dd/dditems/figures/ddRelationshipTerminal.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -45,8 +45,8 @@ void ddAddFkButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 	if(getOwner()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo)){
 		ddTableFigure *table = (ddTableFigure*) getOwner();
 		ddRelationshipFigure *fkConnection = new ddRelationshipFigure();
-		fkConnection->setStartTerminal(new ddLineTerminal());
-		fkConnection->setEndTerminal(new ddLineTerminal());
+		fkConnection->setStartTerminal(new ddRelationshipTerminal(fkConnection,false));
+		fkConnection->setEndTerminal(new ddRelationshipTerminal(fkConnection,true));
 		ddConnectionCreationTool *conn = new ddConnectionCreationTool(view->editor(),fkConnection);
 		view->editor()->setTool(conn);
 		// Simulate button down to start connection of foreign key

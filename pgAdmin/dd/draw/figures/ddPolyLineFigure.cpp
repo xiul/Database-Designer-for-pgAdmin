@@ -27,6 +27,7 @@
 #include "dd/draw/locators/ddPolyLineLocator.h"
 #include "dd/draw/utilities/ddGeometry.h"
 #include "dd/draw/tools/ddPolyLineFigureTool.h"
+#include "dd/draw/tools/ddMenuTool.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -43,6 +44,7 @@ ddPolyLineFigure::ddPolyLineFigure(){
 	startPoint=ddPoint(0,0);
 	endPoint=ddPoint(0,0);
 	pointAtPos=ddPoint(0,0);
+	linePen = wxPen(wxString(wxT("BLACK")),1,wxSOLID);
 	//primero=true;
 }
 
@@ -221,11 +223,11 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
 		return;
 	}
 	//DD-TODO: HIGH-PRIORITY-FINISH-THIS set context attributes: width, round join, color, dashes
-
 	ddPoint start, end;
 
 	if(startTerminal)
 	{
+		startTerminal->setLinePen(linePen);
 		start = startTerminal->draw(context, getStartPoint(), pointAt(1),view);
 	}
 	else
@@ -235,6 +237,7 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
 
 	if(endTerminal)
 	{
+		endTerminal->setLinePen(linePen);
 		end = endTerminal->draw(context, getEndPoint(), pointAt(pointCount() - 2),view);
 	}
 	else
@@ -244,7 +247,9 @@ void ddPolyLineFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view){
 
 	//DD-TODO: Are There any way of use DrawLines instead of DrawLine?
 	//DD-TODO: Draw when selected???
-	context.SetPen(wxPen(wxColour(100, 100, 100),1,wxSOLID));
+	
+//context.SetPen(wxPen(wxString(wxT("BLACK")),1,wxSOLID));
+	context.SetPen(linePen);
 	/*
 	ddRect rect = ddRect(this->displayBox());
 	//rect.Inflate(4,4);
@@ -280,7 +285,8 @@ void ddPolyLineFigure::basicMoveBy(int x, int y){
 
 ddITool* ddPolyLineFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
 {
-	return new ddPolyLineFigureTool(editor,this,defaultTool);
+	return new ddPolyLineFigureTool(editor,this,new ddMenuTool(editor,this,defaultTool));
+	//return new ddPolyLineFigureTool(editor,this,defaultTool);
 }
 
 int ddPolyLineFigure::findSegment (int x, int y){
@@ -380,4 +386,9 @@ for(int i=0;i<points->count();i++){
 	handles->addItem(new ddPolyLineHandle(this, new ddPolyLineLocator(i), i));
 	}
 */
+}
+
+void ddPolyLineFigure::setLinePen(wxPen pen)
+{
+	linePen=pen;
 }

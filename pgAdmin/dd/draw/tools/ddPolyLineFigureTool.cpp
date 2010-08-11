@@ -22,6 +22,7 @@
 #include "dd/draw/tools/ddHandleTrackerTool.h"
 #include "dd/draw/figures/ddPolyLineFigure.h"
 #include "dd/draw/handles/ddIHandle.h"
+#include "dd/draw/tools/ddMenuTool.h"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -52,6 +53,8 @@ void ddPolyLineFigureTool::mouseDown(ddMouseEvent& event){
 		ddIHandle *handle = getDrawingEditor()->view()->findHandle(x,y);
 		//DD-TODO: set cursor to handle cursor
 		getDrawingEditor()->view()->SetCursor(wxCURSOR_CROSS);//Temporary fix delete and change this.
+		if(defaultTool)
+			delete defaultTool;
 		defaultTool = new ddHandleTrackerTool(getDrawingEditor(), handle);
 	}
 	defaultTool->mouseDown(event);

@@ -24,6 +24,9 @@ public:
 	static double angleFromPoint(ddRect r, ddPoint point);
 	static ddPoint edgePointFromAngle(ddRect r, double angle);
 	static double range(double min, double max, double num);
+	//static void arrowPoints (ddPoint a, ddPoint b, int lineDistance, int pointDistance,	ddPoint *p, ddPoint *p2, ddPoint *m);
+	static double lineSize (ddPoint p1, ddPoint p2);
+	bool intersection(ddPoint p1, ddPoint p2, ddPoint p3, ddPoint p4);
 };
 
 #endif

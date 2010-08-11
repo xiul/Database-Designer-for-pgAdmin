@@ -31,14 +31,25 @@ public:
 	ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2);
 	~ddRelationshipFigure();
 	void updateForeignKey();
+	// virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
+	//	virtual ddITool* ddRelationshipFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
 private:
 	//ddCollection *fkColumns;
 /*	void addFkColumn(ddColumnFigure *column);
 	void removeFkColumn(wxString columnName);
 	*/
+	virtual wxArrayString& popupStrings();
+	virtual void OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view);
+	wxArrayString strings;
+/*	bool showMenu;
+*/
 	bool fkFromPk;
+	bool fkMandatory;
+	bool fkOneToMany;
+	bool fkIdentifying;
 	int ukIndex;
 	columnsHashMap chm;
+	
 
 };
 
