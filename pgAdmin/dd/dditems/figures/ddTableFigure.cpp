@@ -213,7 +213,7 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 	if(colsRowsSize==colsWindow)  //only decrease if size of window and columns is the same
 		colsWindow--;
 	colsRowsSize--;
-	if(beginDrawCols > 2) //666
+	if(beginDrawCols > 2)
 		beginDrawCols--;
 	calcRectsAreas();
 	recalculateColsPos();
@@ -318,20 +318,6 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 	//Draw scrollbar is needed
 	if(scrollbar && figureHandles->existsObject(scrollbar))
 		scrollbar->draw(context,view);
-		
-
-	//fullSizeRect
-/*	titleRect.x=titleRect.x+titleRect.width;
-	context.DrawRectangle(titleRect);
-	titleColsRect.x=titleColsRect.x+titleColsRect.width;
-	context.DrawRectangle(titleColsRect);
-	colsRect.x=colsRect.x+colsRect.width;
-	context.DrawRectangle(colsRect);
-	titleIndxsRect.x=titleIndxsRect.x+titleIndxsRect.width;
-	context.DrawRectangle(titleIndxsRect);
-	indxsRect.x=indxsRect.x+indxsRect.width;
-	context.DrawRectangle(indxsRect);
-*/
 }
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
@@ -391,6 +377,25 @@ void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 	context.DrawText(wxT("Indexes"),titleIndxsRect.x+3,titleIndxsRect.y);
 	//Draw Indexes Title Line 2
 	context.DrawLine(titleIndxsRect.GetBottomLeft(),titleIndxsRect.GetBottomRight());
+
+	if(deleteColumnMode)
+	{
+		context.SetTextForeground(*wxRED);
+		wxBrush old=context.GetBrush();
+		context.SetBrush(*wxGREEN_BRUSH);
+
+		int w,h,x,y;
+		context.GetTextExtent(wxString(wxT("Select Column to delete")),&w,&h);
+		x=fullSizeRect.GetTopLeft().x+(((fullSizeRect.GetTopRight().x-fullSizeRect.GetTopLeft().x)-w)/2);
+		y=fullSizeRect.GetTopLeft().y-h-2;
+		context.DrawRectangle(wxRect(x,y,w,h));
+		context.DrawText(wxString(wxT("Select Column to delete")),x,y);
+		
+		context.SetBrush(old);
+		context.SetTextForeground(*wxBLACK);
+		context.SetBackground(*wxWHITE);
+		
+	}
 }
 
 void ddTableFigure::setColsRowsWindow(int num)

@@ -217,6 +217,7 @@ void ddRelationshipFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView
 			fkMandatory = true;
 			setLinePen(wxPen(*wxBLACK_PEN));
 			fkIdentifying=!fkIdentifying;
+			fkOneToMany = true;
 			break;
 		case 6:
 		case 7:
@@ -229,6 +230,17 @@ bool ddRelationshipFigure::getIdentifying()
 {
 	return fkIdentifying;
 }
+
+bool ddRelationshipFigure::getOneToMany()
+{
+	return fkOneToMany;
+}
+
+bool ddRelationshipFigure::getMandatory()
+{
+	return fkMandatory;
+}
+
 
 /*
 void ddRelationshipFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)

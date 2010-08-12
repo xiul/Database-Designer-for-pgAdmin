@@ -62,7 +62,7 @@ ddPoint& ddRelationshipTerminal::draw (wxBufferedDC& context, ddPoint& a, ddPoin
 		double X = aCopy.x + (bCopy.x - aCopy.x) * 0.9;
 		double Y = aCopy.y + (bCopy.y - aCopy.y) * 0.9;
 		
-		if(ownerFigure->getEndFigure())
+		if(ownerFigure->getEndFigure() && ownerFigure->getOneToMany())
 		{
 			ddRect r = ownerFigure->getEndFigure()->displayBox();
 

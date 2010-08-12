@@ -32,6 +32,8 @@ public:
 	~ddRelationshipFigure();
 	void updateForeignKey();
 	bool getIdentifying();
+	bool getOneToMany();
+	bool getMandatory();
 private:
 	//ddCollection *fkColumns;
 /*	void addFkColumn(ddColumnFigure *column);

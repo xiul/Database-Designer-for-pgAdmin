@@ -22,17 +22,10 @@ class ddRelationshipTerminal : public ddLineTerminal
 public:
 	ddRelationshipTerminal(ddRelationshipFigure *owner, bool endFigureTerminal);
     ~ddRelationshipTerminal();
-
 	virtual ddPoint& draw (wxBufferedDC& context, ddPoint& a, ddPoint& b, ddDrawingView *view);
 protected:
 	
 private:
-	//bool lineIntersection(ddPoint Line1start, ddPoint Line1end, ddPoint Line2start, ddPoint Line2end);
-	//bool intersection(ddPoint p1, ddPoint p2, ddPoint p3, ddPoint p4);
-	//ddPoint middle;
-	//int	lineDistance, pointDistance;
-	//void drawBarkerMany (wxBufferedDC& context, ddPoint points[]);
-	//void calcAnchorPoints(ddPoint a, ddPoint middle, ddPoint anchors[]);
 	double lastFactor;
 	ddRelationshipFigure *ownerFigure;
 	bool endTerminal;
