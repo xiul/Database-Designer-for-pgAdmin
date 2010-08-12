@@ -488,6 +488,7 @@ void ddTableFigure::calcRectsAreas()
 	titleColsRect.y = titleRect.y+titleRect.height;
 	titleColsRect.width=maxWidth;
 	titleColsRect.height=colsTitleHeight;
+	unScrolledTitleRect=titleColsRect;
 	
 	//*** colsRect
 	colsRect.width=maxWidth;
@@ -538,6 +539,11 @@ ddRect& ddTableFigure::getFullSpace()
 	return unScrolledFullSizeRect;
 }
 
+ddRect& ddTableFigure::getTitleRect()
+{
+	return unScrolledTitleRect;
+}
+
 
 int ddTableFigure::getTotalColumns()
 {
@@ -549,31 +555,43 @@ int ddTableFigure::getColumnsWindow()
 	return colsWindow;
 }
 
-void ddTableFigure::setColumnsWindow(int value)
+void ddTableFigure::setColumnsWindow(int value, bool maximize)
 {
-	//if value >0 && <= max size table && table+offset < maxColIndex with window
-	if( (value > 0) && (value <= colsRowsSize) && (maxColIndex >= ( beginDrawCols + value ) ) )   
+
+	if(!maximize)
 	{
+
+		//if value >0 && <= max size table && table+offset < maxColIndex with window
+		if( (value > 0) && (value <= colsRowsSize) && (maxColIndex >= ( beginDrawCols + value ) ) )   
+		{
+			colsWindow = value;
+			calcRectsAreas();
+			recalculateColsPos();
+		}
+
+		//if special case of needing to modify beginDrawCols then do it
+		if( (value > 0) && (value <= colsRowsSize) && (maxColIndex < ( beginDrawCols + value ) ) ) 
+		{
+			if( (beginDrawCols + colsWindow)==maxColIndex)  //if index is at max
+			{
+				int diff = value-colsWindow;  //value should be always higher tan colsWindows
+				if(diff > 0 && (beginDrawCols-diff)>=0 )
+				{
+					beginDrawCols-=diff;
+					colsWindow = value;
+					calcRectsAreas();
+					recalculateColsPos();
+
+				}
+			}
+		}
+	}
+	else
+	{
+		beginDrawCols = 2;
 		colsWindow = value;
 		calcRectsAreas();
 		recalculateColsPos();
-	}
-
-	//if special case of needing to modify beginDrawCols then do it
-	if( (value > 0) && (value <= colsRowsSize) && (maxColIndex < ( beginDrawCols + value ) ) ) 
-	{
-		if( (beginDrawCols + colsWindow)==maxColIndex)  //if index is at max
-		{
-			int diff = value-colsWindow;  //value should be always higher tan colsWindows
-			if(diff > 0 && (beginDrawCols-diff)>=0 )
-			{
-				beginDrawCols-=diff;
-				colsWindow = value;
-				calcRectsAreas();
-				recalculateColsPos();
-
-			}
-		}
 	}
 
 

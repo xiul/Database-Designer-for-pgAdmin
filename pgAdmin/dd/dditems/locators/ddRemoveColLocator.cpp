@@ -40,15 +40,8 @@ ddPoint& ddRemoveColLocator::locate(ddIFigure *owner)
 	if(owner)
 	{
 		ddTableFigure *table = (ddTableFigure*) owner;
-		int x = table->displayBox().x + table->displayBox().width - 20; //(8+2+8+2)
-
-		ddIFigure *f = (ddIFigure*)table->getFigureAt(0);
-		int y=f->displayBox().GetPosition().y+3;  //2 from internalPadding + 1 to start after line = 3
-		f = (ddIFigure*)table->getFigureAt(1);
-		y+=f->displayBox().height;
-
-		locatePoint.x=x;
-		locatePoint.y=y;
+		locatePoint.x=table->getTitleRect().GetBottomRight().x-20;
+		locatePoint.y=table->getTitleRect().GetBottomRight().y-9;
 		return locatePoint;
 	}
 	locatePoint.x=0;

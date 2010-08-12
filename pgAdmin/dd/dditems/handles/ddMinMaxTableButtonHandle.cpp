@@ -42,9 +42,6 @@ ddMinMaxTableButtonHandle::~ddMinMaxTableButtonHandle(){
 
 void ddMinMaxTableButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 {
-/*	ddTableFigure *table = (ddTableFigure*) getOwner();
-	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),dt_varchar_n));
-	*/
 }
 
 void ddMinMaxTableButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
@@ -53,13 +50,17 @@ void ddMinMaxTableButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
 
 void ddMinMaxTableButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
 {
+	ddTableFigure *table = (ddTableFigure*) getOwner();
+
 	if(showFirst)
 	{
 		buttonIcon = buttonMaximizeImage;
+		table->setColumnsWindow(1);
 	}
 	else
 	{
 		buttonIcon = tmpImage;
+		table->setColumnsWindow(table->getTotalColumns(),true);
 	}
 	showFirst=!showFirst;
 }

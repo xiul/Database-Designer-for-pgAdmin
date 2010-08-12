@@ -44,10 +44,11 @@ public:  //DD-TODO: put private unneeded public methods
 	void setColsRowsWindow(int num);
 	ddRect& getColsSpace();
 	ddRect& getFullSpace();
+	ddRect& getTitleRect();
 	int getTotalColumns();
 	int getColumnsWindow();
 	int getTopColWindowIndex();
-	void setColumnsWindow(int value);
+	void setColumnsWindow(int value, bool maximize=false);
 	void columnsWindowUp();
 	void columnsWindowDown();
 	int getColDefaultHeight(wxFont font);
@@ -70,7 +71,7 @@ protected:
 private:
 	//Main Rectangle Sizes
 	ddRect fullSizeRect, titleRect, titleColsRect, colsRect, titleIndxsRect, indxsRect;
-	ddRect unScrolledColsRect, unScrolledFullSizeRect;
+	ddRect unScrolledColsRect, unScrolledFullSizeRect, unScrolledTitleRect;
 	
 	//Rectangle item counters
 	int colsRowsSize, colsWindow, idxsRowsSize, idxsWindow;

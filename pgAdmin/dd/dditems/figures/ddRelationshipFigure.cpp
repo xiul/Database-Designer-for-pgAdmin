@@ -214,6 +214,8 @@ void ddRelationshipFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView
 			}
 			break;
 		case 4:
+			fkMandatory = true;
+			setLinePen(wxPen(*wxBLACK_PEN));
 			fkIdentifying=!fkIdentifying;
 			break;
 		case 6:
