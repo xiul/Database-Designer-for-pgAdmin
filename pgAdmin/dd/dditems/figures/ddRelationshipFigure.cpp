@@ -161,31 +161,31 @@ wxArrayString& ddRelationshipFigure::popupStrings()
 	if(fkMandatory)
 	{
 		strings.Add(wxT("--checked**Mandatory relationship kind"));   //3
-		strings.Add(wxT("Optional relationship kind"));   //4
+		//strings.Add(wxT("Optional relationship kind"));   //4
 
 	}
 	else
 	{
 		strings.Add(wxT("Mandatory relationship kind"));   //3
-		strings.Add(wxT("--checked**Optional relationship kind"));   //4
+		//strings.Add(wxT("--checked**Optional relationship kind"));   //4
 	}
 		
 	if(fkIdentifying)
-		strings.Add(wxT("--checked**Identifying relationship")); //5
+		strings.Add(wxT("--checked**Identifying relationship")); //4
 	else
-		strings.Add(wxT("Identifying relationship")); //5
+		strings.Add(wxT("Identifying relationship")); //4
 
-	strings.Add(wxT("--separator--"));   //6
+	strings.Add(wxT("--separator--"));   //5
 
 	if(fkOneToMany)
 	{
-		strings.Add(wxT("--checked**1:M"));   //7
-		strings.Add(wxT("1:1"));   //8
+		strings.Add(wxT("--checked**1:M"));   //6
+		strings.Add(wxT("1:1"));   //7
 	}
 	else
 	{
-		strings.Add(wxT("1:M"));   //7
-		strings.Add(wxT("--checked**1:1"));   //8
+		strings.Add(wxT("1:M"));   //6
+		strings.Add(wxT("--checked**1:1"));   //7
 	}
 
 return strings;
@@ -198,22 +198,62 @@ void ddRelationshipFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView
 	{
 		case 0:
 		case 1:
-			fkFromPk=!fkFromPk;
+			//fkFromPk=!fkFromPk;
+			wxMessageBox(wxT("To be implemente soon..."),wxT("To be implemente soon..."),wxICON_INFORMATION, (wxScrolledWindow*) view);
 			break;
 		case 3:
-		case 4:
 			fkMandatory=!fkMandatory;
+			if(fkMandatory)
+			{
+				setLinePen(wxPen(*wxBLACK_PEN));
+			}
+			else
+			{
+				fkIdentifying=false;
+				setLinePen(wxPen(*wxBLACK,1,wxSHORT_DASH));		
+			}
 			break;
-		case 5:
+		case 4:
 			fkIdentifying=!fkIdentifying;
 			break;
+		case 6:
 		case 7:
-		case 8:
 			fkOneToMany=!fkOneToMany;
 			break;
 	}
 }
 
+bool ddRelationshipFigure::getIdentifying()
+{
+	return fkIdentifying;
+}
+
+/*
+void ddRelationshipFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
+{
+	if(fkMandatory)
+	{
+		context.SetPen(wxPen(*wxBLACK_PEN));
+	}
+	else
+	{
+		context.SetPen(wxPen(*wxBLACK,1,wxSHORT_DASH));		
+	}
+	ddLineConnection::basicDraw(context,view);
+}
+
+void ddRelationshipFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view)
+{
+	if(fkMandatory)
+	{
+		context.SetPen(wxPen(*wxBLACK_PEN));
+	}
+	else
+	{
+		context.SetPen(wxPen(*wxBLACK,1,wxSHORT_DASH));		
+	}
+	ddLineConnection::basicDrawSelected(context,view);
+}*/
 
 
 /*

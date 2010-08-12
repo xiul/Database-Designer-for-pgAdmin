@@ -68,6 +68,7 @@ ddRect& ddScrollBarHandle::getDisplayBox(){
 
 void ddScrollBarHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 {
+	context.SetBrush(*wxWHITE_BRUSH);
 	wxPoint copy = getDisplayBox().GetPosition();
 	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
 	context.DrawRectangle(copy.x,copy.y,getDisplayBox().width,getDisplayBox().height);

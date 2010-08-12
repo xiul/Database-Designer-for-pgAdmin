@@ -63,10 +63,11 @@ protected:
 	void setDefaultSelectedPen(wxPen& pen);
 	void setDefaultBrush(wxBrush& brush);
 	void setDefaultSelectedBrush(wxBrush& brush);
+	wxPen defaultPen, defaultSelectedPen;
+	wxBrush defaultBrush, defaultSelectedBrush;
 private:
 	bool selected;
 	ddIConnector *connector;
-	wxPen defaultPen, defaultSelectedPen;
-	wxBrush defaultBrush, defaultSelectedBrush;
+
 };
 #endif

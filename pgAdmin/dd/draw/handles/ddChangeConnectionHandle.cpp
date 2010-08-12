@@ -49,19 +49,10 @@ void ddChangeConnectionHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 	ddRect copy = getDisplayBox();
 	view->CalcScrolledPosition(copy.x,copy.y,&copy.x,&copy.y);
 
-
-	points[0].x = copy.center().x;
-	points[0].y = copy.GetTop();
-	points[1].x = copy.GetRight();
-	points[1].y = copy.center().y;
-	points[2].x = copy.x;
-	points[2].y = copy.GetBottom();
-	points[3].x = copy.GetLeft();
-	points[3].y = copy.center().y;
-	points[4].x = copy.center().x;
-	points[4].y = copy.GetTop();
-
-	context.DrawPolygon(5,points,0,0);
+	copy.Deflate(2,2);
+	context.SetPen(*wxGREEN_PEN);
+	context.SetBrush(*wxGREEN_BRUSH);
+	context.DrawRectangle(copy);
 }
 
 wxCursor ddChangeConnectionHandle::createCursor()

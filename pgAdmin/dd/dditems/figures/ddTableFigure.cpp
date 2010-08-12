@@ -255,6 +255,10 @@ void ddTableFigure::recalculateColsPos()
 
 void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 {
+
+	context.SetPen(defaultPen);
+	context.SetBrush(defaultBrush);
+
 	//Hack to disable delete column mode when the figure pass from selected to no selected.
 	if(fromSelToNOSel)
 	{
@@ -332,6 +336,9 @@ void ddTableFigure::draw(wxBufferedDC& context, ddDrawingView *view)
 
 void ddTableFigure::drawSelected(wxBufferedDC& context, ddDrawingView *view)
 {
+	context.SetPen(defaultSelectedPen);
+	context.SetBrush(defaultSelectedBrush);
+
 	//Hack to unselect any table
 	if(!fromSelToNOSel)
 		fromSelToNOSel=true;

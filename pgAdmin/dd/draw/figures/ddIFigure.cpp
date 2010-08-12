@@ -58,11 +58,13 @@ ddIFigure::~ddIFigure(){
 		delete figures;
 	if(handles)
 		delete handles;
-/*	if(dependentFigures)
+/*
+	if(dependentFigures)
 	{
 		dependentFigures->removeAll();
 		delete dependentFigures;
-	}*/
+	}
+*/
 	if(observers){
 		observers->removeAll();
 		delete observers;

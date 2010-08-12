@@ -33,6 +33,7 @@ private:
 	//int	lineDistance, pointDistance;
 	//void drawBarkerMany (wxBufferedDC& context, ddPoint points[]);
 	//void calcAnchorPoints(ddPoint a, ddPoint middle, ddPoint anchors[]);
+	double lastFactor;
 	ddRelationshipFigure *ownerFigure;
 	bool endTerminal;
 };

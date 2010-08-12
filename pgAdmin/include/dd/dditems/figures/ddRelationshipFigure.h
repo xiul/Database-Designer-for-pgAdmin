@@ -31,8 +31,7 @@ public:
 	ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2);
 	~ddRelationshipFigure();
 	void updateForeignKey();
-	// virtual ddITool* CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
-	//	virtual ddITool* ddRelationshipFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool);
+	bool getIdentifying();
 private:
 	//ddCollection *fkColumns;
 /*	void addFkColumn(ddColumnFigure *column);
