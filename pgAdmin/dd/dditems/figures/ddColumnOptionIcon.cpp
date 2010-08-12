@@ -21,6 +21,7 @@
 // App headers
 #include "dd/dditems/figures/ddColumnOptionIcon.h"
 #include "dd/draw/main/ddDrawingView.h"
+#include "dd/dditems/figures/ddColumnFigure.h"
 
 //Images
 #include "images/ddnull.xpm"
@@ -34,11 +35,12 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddColumnOptionIcon::ddColumnOptionIcon(){
-	 colOption=null;
-	 icon = wxBitmap(ddnull_xpm);
-	 iconToDraw = &icon;
-	 getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
+ddColumnOptionIcon::ddColumnOptionIcon(ddColumnFigure *owner){
+	ownerColumn=owner; 
+	colOption=null;
+	icon = wxBitmap(ddnull_xpm);
+	iconToDraw = &icon;
+	getBasicDisplayBox().SetSize(wxSize(getWidth(),getHeight()));
 }
 
 ddColumnOptionIcon::~ddColumnOptionIcon(){
@@ -75,6 +77,10 @@ void ddColumnOptionIcon::changeIcon(ddColumnOptionType type)
 	switch(type)
 	{
 		case 0:	icon = wxBitmap(ddnull_xpm);
+				if(getOwnerColumn()->isPrimaryKey())
+				{
+					getOwnerColumn()->setColumnKind(none);
+				}
 				break;
 		case 1:	icon = wxBitmap(ddnotnull_xpm);
 				break;
@@ -116,4 +122,9 @@ int ddColumnOptionIcon::getHeight()
 ddColumnOptionType ddColumnOptionIcon::getOption()
 {
 	return colOption;
+}
+
+ddColumnFigure* ddColumnOptionIcon::getOwnerColumn()
+{
+	return ownerColumn;
 }

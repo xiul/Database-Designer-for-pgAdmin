@@ -44,7 +44,7 @@
 ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner, bool columnIsForeignKey){
 	columnText = new ddTextColumnFigure(columnName,dt_null,this);
 	leftImage = new ddColumnKindIcon(this);
-	centerImage = new ddColumnOptionIcon();
+	centerImage = new ddColumnOptionIcon(this);
 	isForeignKey = columnIsForeignKey;
 	setOwnerTable(owner);
 

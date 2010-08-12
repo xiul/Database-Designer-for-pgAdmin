@@ -31,27 +31,25 @@ public:
 	ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2);
 	~ddRelationshipFigure();
 	void updateForeignKey();
+	void removeForeignKeys();
 	bool getIdentifying();
 	bool getOneToMany();
 	bool getMandatory();
+	void setOptionAtForeignKeys(ddColumnOptionType type);
+	virtual void connectEnd(ddIConnector *end);
+	void disconnectStart();
+	void disconnectEnd();
 private:
-	//ddCollection *fkColumns;
-/*	void addFkColumn(ddColumnFigure *column);
-	void removeFkColumn(wxString columnName);
-	*/
 	virtual wxArrayString& popupStrings();
 	virtual void OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view);
 	wxArrayString strings;
-/*	bool showMenu;
-*/
 	bool fkFromPk;
 	bool fkMandatory;
 	bool fkOneToMany;
 	bool fkIdentifying;
 	int ukIndex;
 	columnsHashMap chm;
-	
-
+	ddTableFigure *disconnectedTable;
 };
 
 
@@ -59,7 +57,7 @@ private:
 class ddRelationshipItem : public ddObject
 {
 public:
-	ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination);
+	ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination, ddColumnOptionType type);
 	~ddRelationshipItem();
 	ddColumnFigure *original;
 	ddColumnFigure *fkColumn;

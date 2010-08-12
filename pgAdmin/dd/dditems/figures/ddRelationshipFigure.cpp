@@ -36,6 +36,7 @@ ddLineConnection()
 	fkOneToMany = true;
 	fkIdentifying = false;
 	ukIndex = -1;
+	disconnectedTable = NULL;
 }
 
 ddRelationshipFigure::ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2):
@@ -45,6 +46,14 @@ ddLineConnection(figure1,figure2)
 
 ddRelationshipFigure::~ddRelationshipFigure()
 {
+	columnsHashMap::iterator it;
+	ddRelationshipItem *item;
+	for( it = chm.begin(); it != chm.end(); ++it )
+	{
+		wxString key = it->first;
+		item = it->second;
+		delete item;
+	}
 	chm.clear();
 }
 
@@ -94,11 +103,11 @@ void ddRelationshipFigure::updateForeignKey()
 			{
 				//Add new pk columns from source fk table to destination
 				columnsHashMap::iterator it = chm.find(col->getColumnName());
-				bool NotFound = it == chm.end(); // will be true
+				bool NotFound = it == chm.end(); // will be true if not found
 
 				if( col->isPrimaryKey() && NotFound )
 				{
-					NewFkColumn = new ddRelationshipItem(col,endTable);
+					NewFkColumn = new ddRelationshipItem(col,endTable, (fkMandatory?notnull:null) );
 					chm[col->getColumnName()]=NewFkColumn; //key will be original table name always
 					endTable->addColumn(NewFkColumn->fkColumn);
 				}
@@ -117,8 +126,8 @@ void ddRelationshipFigure::updateForeignKey()
 						if( !NewFkColumn->original->isPrimaryKey() || !startTable->includes(NewFkColumn->original) )
 						{
 							NewFkColumn->destinationTable->removeColumn(NewFkColumn->fkColumn);
-							delete NewFkColumn;
 							chm.erase(it);
+							delete NewFkColumn;
 							repeat=true;
 						}
 						if(repeat)
@@ -133,6 +142,7 @@ void ddRelationshipFigure::updateForeignKey()
 				//DD-TODO: Add this functionality.
 			}
 		}
+		delete iterator;
 	}
 	else 
 	{
@@ -206,11 +216,13 @@ void ddRelationshipFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView
 			if(fkMandatory)
 			{
 				setLinePen(wxPen(*wxBLACK_PEN));
+				setOptionAtForeignKeys(notnull);
 			}
 			else
 			{
 				fkIdentifying=false;
 				setLinePen(wxPen(*wxBLACK,1,wxSHORT_DASH));		
+				setOptionAtForeignKeys(null);
 			}
 			break;
 		case 4:
@@ -241,40 +253,71 @@ bool ddRelationshipFigure::getMandatory()
 	return fkMandatory;
 }
 
-
-/*
-void ddRelationshipFigure::basicDraw(wxBufferedDC& context, ddDrawingView *view)
+void ddRelationshipFigure::connectEnd(ddIConnector *end)
 {
-	if(fkMandatory)
-	{
-		context.SetPen(wxPen(*wxBLACK_PEN));
-	}
-	else
-	{
-		context.SetPen(wxPen(*wxBLACK,1,wxSHORT_DASH));		
-	}
-	ddLineConnection::basicDraw(context,view);
+	ddLineConnection::connectEnd(end);
+	updateForeignKey();
 }
 
-void ddRelationshipFigure::basicDrawSelected(wxBufferedDC& context, ddDrawingView *view)
+void ddRelationshipFigure::disconnectStart()
 {
-	if(fkMandatory)
-	{
-		context.SetPen(wxPen(*wxBLACK_PEN));
-	}
-	else
-	{
-		context.SetPen(wxPen(*wxBLACK,1,wxSHORT_DASH));		
-	}
-	ddLineConnection::basicDrawSelected(context,view);
-}*/
+	ddLineConnection::disconnectStart();
+}
 
+void ddRelationshipFigure::disconnectEnd()
+{
+	disconnectedTable = (ddTableFigure*) getEndFigure();
+	ddLineConnection::disconnectEnd();
+	removeForeignKeys();
 
-/*
+}
+
+void ddRelationshipFigure::removeForeignKeys()
+{
+	if(disconnectedTable)
+	{
+		columnsHashMap::iterator it;
+		ddRelationshipItem *NewFkColumn;
+
+		//Hack to repeat for every time a column is elimite because hashmap is modified inside a for and now is invalid that for loop
+		bool repeat;   
+		do{
+		repeat=false;
+			for( it = chm.begin(); it != chm.end(); ++it )
+			{
+				wxString key = it->first;
+				NewFkColumn = it->second;
+				if(NewFkColumn->destinationTable->includes(NewFkColumn->fkColumn) )
+				{
+					NewFkColumn->destinationTable->removeColumn(NewFkColumn->fkColumn);
+					chm.erase(it);
+					delete NewFkColumn;
+					repeat = true;
+					break;
+				}
+			}
+		}while(repeat);
+		chm.clear();
+	}
+}
+
+void ddRelationshipFigure::setOptionAtForeignKeys(ddColumnOptionType type)
+{
+	columnsHashMap::iterator it;
+	ddRelationshipItem *item;
+	for( it = chm.begin(); it != chm.end(); ++it )
+	{
+		wxString key = it->first;
+		item = it->second;
+		item->fkColumn->setColumnOption(type);
+	}
+}
+
+/************************
 Items at hash map table
-*/
+*************************/
 
-ddRelationshipItem::ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination)
+ddRelationshipItem::ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination, ddColumnOptionType type)
 {
 	original = originalColumn;
 	destinationTable = destination;
@@ -283,12 +326,11 @@ ddRelationshipItem::ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFi
 	newName.append(originalColumn->getColumnName(false));
 	//DD-TODO: improve fk name
 	fkColumn = new ddColumnFigure(newName,destinationTable,true);
+	fkColumn->setColumnOption(type);
 }
 
 ddRelationshipItem::~ddRelationshipItem()
 {
-	/*	if(fkColumn)
-		delete fkColumn;
-		raise an error is delete by array
-		*/
+/*	if(fkColumn)
+		delete fkColumn;*/
 }

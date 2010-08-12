@@ -475,6 +475,8 @@ void ddTableFigure::calcRectsAreas()
 	calcScrolled=true;
 
 	int maxWidth = getFiguresMaxWidth() + externalPadding;
+	if(maxWidth < 100)
+		maxWidth = 100;
 	wxFont font = settings->GetSystemFont();
 	int defaultHeight = getColDefaultHeight(font);
 

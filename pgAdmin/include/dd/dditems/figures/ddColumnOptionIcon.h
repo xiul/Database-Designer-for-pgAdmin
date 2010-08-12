@@ -14,7 +14,7 @@
 
 #include "dd/draw/figures/ddAbstractMenuFigure.h"
 
-
+class ddColumnFigure;
 
 const enum ddColumnOptionType {
 	null=0,
@@ -25,7 +25,7 @@ const enum ddColumnOptionType {
 class ddColumnOptionIcon : public ddAbstractMenuFigure
 {
 public:
-	ddColumnOptionIcon();
+	ddColumnOptionIcon(ddColumnFigure *owner);
     ~ddColumnOptionIcon();
 	virtual wxArrayString& popupStrings();
 	virtual void OnTextPopupClick(wxCommandEvent& event);
@@ -35,11 +35,13 @@ public:
 	virtual int getWidth();
 	virtual int getHeight();
 	ddColumnOptionType getOption();
+	ddColumnFigure* getOwnerColumn();
 
 protected:
 
 private:
 	ddColumnOptionType colOption;
+	ddColumnFigure *ownerColumn;
 	wxBitmap *iconToDraw;
 	wxBitmap icon;
 };
