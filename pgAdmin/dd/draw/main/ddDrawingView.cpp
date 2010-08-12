@@ -26,6 +26,7 @@
 
 //Images
 #include "images/check.xpm"
+#include "images/ddcancel.xpm"
 
 //*******************   Start of special debug header to find memory leaks
 #ifdef _DEBUG
@@ -110,7 +111,7 @@ wxHSCROLL | wxVSCROLL | wxBORDER | wxRETAINED)
 	menuFigure = NULL;
 	okTxtButton = new wxBitmapButton(this,1980,wxBitmap(check_xpm),wxDefaultPosition,wxDefaultSize,wxBORDER_NONE);
 	okTxtButton->Hide();
-	cancelTxtButton = new wxBitmapButton(this,1981,wxBitmap(check_xpm),wxDefaultPosition,wxDefaultSize,wxBORDER_NONE);
+	cancelTxtButton = new wxBitmapButton(this,1981,wxBitmap(ddcancel_xpm),wxDefaultPosition,wxDefaultSize,wxBORDER_NONE);
 	cancelTxtButton->Hide();
 	//popTextUpItems=NULL;
 }
@@ -175,7 +176,15 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 		wxBrush* brush = wxTheBrushList->FindOrCreateBrush(*wxRED,wxTRANSPARENT);
 		dc.SetBackground(*brush);
 		dc.SetBackgroundMode(wxTRANSPARENT);	
-		dc.DrawLines(5, selPoints, 0, 0);
+		//Adjust points before drawing
+		wxPoint selAjustedPoints[5];
+		CalcScrolledPosition(selPoints[0].x,selPoints[0].y,&selAjustedPoints[0].x,&selAjustedPoints[0].y);
+		CalcScrolledPosition(selPoints[1].x,selPoints[1].y,&selAjustedPoints[1].x,&selAjustedPoints[1].y);
+		CalcScrolledPosition(selPoints[2].x,selPoints[2].y,&selAjustedPoints[2].x,&selAjustedPoints[2].y);
+		CalcScrolledPosition(selPoints[3].x,selPoints[3].y,&selAjustedPoints[3].x,&selAjustedPoints[3].y);
+		CalcScrolledPosition(selPoints[4].x,selPoints[4].y,&selAjustedPoints[4].x,&selAjustedPoints[4].y);
+		//Draw
+		dc.DrawLines(5, selAjustedPoints, 0, 0);
 		drawSelRect = false;
 	}
 }

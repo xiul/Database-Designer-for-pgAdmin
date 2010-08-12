@@ -65,16 +65,6 @@ ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner, bool 
 	}
 }
 
-/*
-ddColumnFigure::ddColumnFigure(ddColumnFigure *column)
-{
-	ddColumnFigure(column->getColumnName(false),column->getOwnerTable());
-	this->setColumnKind(column->getColumnKind());
-	this->setColumnOption(column->getColumnOption());
-	this->setDataType(column->getDataType());
-}
-*/
-
 ddColumnFigure::~ddColumnFigure(){
 
 	if(columnText)
@@ -149,16 +139,6 @@ bool ddColumnFigure::containsPoint(int x, int y)
 
 ddRect& ddColumnFigure::getBasicDisplayBox()
 {
-/*	if(leftImage)
-	{
-		basicDisplayBox.x=columnText->displayBox().x-leftImage->getWidth();
-	}
-	else
-	{
-		basicDisplayBox.x=columnText->displayBox().x-16;
-	}
-	basicDisplayBox.y=columnText->displayBox().y;
-*/
 	return basicDisplayBox;
 }
 
