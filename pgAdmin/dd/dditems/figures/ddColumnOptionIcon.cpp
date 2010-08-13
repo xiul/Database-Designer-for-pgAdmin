@@ -99,7 +99,11 @@ void ddColumnOptionIcon::changeIcon(ddColumnOptionType type)
 		case 0:	icon = wxBitmap(ddnull_xpm);
 				if(getOwnerColumn()->isPrimaryKey())
 				{
-					getOwnerColumn()->setColumnKind(none);
+					if(getOwnerColumn()->isForeignKey())
+						getOwnerColumn()->setColumnKind(fk);
+					else
+						getOwnerColumn()->setColumnKind(none);
+
 				}
 				break;
 		case 1:	icon = wxBitmap(ddnotnull_xpm);

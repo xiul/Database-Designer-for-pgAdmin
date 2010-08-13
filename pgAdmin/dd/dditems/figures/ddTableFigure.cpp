@@ -228,8 +228,9 @@ void ddTableFigure::removeColumn(ddColumnFigure *column)
 		if(figureHandles->existsObject(scrollbar))
 			figureHandles->removeItem(scrollbar);
 	}
-
-//DD-TODO: if remove column and it's foreign key, should update observers 
+	//hack to update relationship position when table size change
+	moveBy(-1,0);
+	moveBy(1,0);
 }
 
 //al borrar una columna de una tabla con el window = al size falla
@@ -538,8 +539,10 @@ void ddTableFigure::calcRectsAreas()
 
 void ddTableFigure::updateTableSize()
 {
-	//do something
 	rectangleFigure->setSize(fullSizeRect.GetSize());
+	//hack to update relationship position when table size change
+	moveBy(-1,0);
+	moveBy(1,0);
 }
 
 ddRect& ddTableFigure::getColsSpace()
@@ -684,15 +687,3 @@ void ddTableFigure::basicMoveBy(int x, int y)
 	if((f->displayBox().x+x) > 0  && (f->displayBox().y+y) > 0)
 		ddCompositeFigure::basicMoveBy(x,y);
 }
-
-/*
-int ddTableFigure::addFk(wxString parentTableName)
-{
-	parentTableName.Append()
-	fkNames.Add(
-}
-
-void ddTableFigure::removeFk(int fk)
-{
-}
-*/

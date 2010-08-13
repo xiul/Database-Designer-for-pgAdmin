@@ -517,7 +517,7 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 			}
 
 		}
-// Faltan Eventos
+//DD-TODO: create a better version of this hack
 	mnu.Connect(wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)(wxEventFunction) (wxCommandEventFunction) &ddDrawingView::OnTextPopupClick,NULL,this);
 }
 

@@ -141,9 +141,17 @@ void ddSouthTableSizeHandle::invokeStep(int x, int y, ddDrawingView *view)
 /*	endPoint.x=table->getFullSpace().x+table->getFullSpace().width;
 	endPoint.y=y;
 	*/
+	//hack to update relationship position when table size change
+	table->moveBy(-1,0);
+	table->moveBy(1,0);
 }
 
 void ddSouthTableSizeHandle::invokeEnd(int x, int y, ddDrawingView *view)
 {
 	//drawTempRect=false;
+
+	//hack to update relationship position when table size change
+	ddTableFigure *table = (ddTableFigure*) getOwner();
+	table->moveBy(-1,0);
+	table->moveBy(1,0);
 }

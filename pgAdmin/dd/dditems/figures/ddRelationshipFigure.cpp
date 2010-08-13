@@ -107,7 +107,7 @@ void ddRelationshipFigure::updateForeignKey()
 
 				if( col->isPrimaryKey() && NotFound )
 				{
-					NewFkColumn = new ddRelationshipItem(col,endTable, (fkMandatory?notnull:null), (fkIdentifying?pk:none) );
+					NewFkColumn = new ddRelationshipItem(col,endTable, (fkMandatory?notnull:null), (fkIdentifying?pk:fk) );
 					chm[col->getColumnName()]=NewFkColumn; //key will be original table name always
 					endTable->addColumn(NewFkColumn->fkColumn);
 				}
@@ -236,7 +236,7 @@ void ddRelationshipFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView
 			}
 			else
 			{
-				setKindAtForeignKeys(none);
+				setKindAtForeignKeys(fk);
 			}
 			break;
 		case 6:

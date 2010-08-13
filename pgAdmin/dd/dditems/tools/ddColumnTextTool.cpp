@@ -48,6 +48,7 @@ ddColumnTextTool::~ddColumnTextTool()
 
 void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 {	
+	//Hack to graphically delete columns
 	if(event.LeftDown())
 	{
 		if(colTextFigure && colTextFigure->getOwnerColumn() && colTextFigure->getOwnerColumn()->getOwnerTable()->deleteColumnActivated())
@@ -74,7 +75,6 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 		}
 
 	}
-	
 	if(colTextFigure && colTextFigure->getOwnerColumn() &&  colTextFigure->getOwnerColumn()->getOwnerTable()) //if click on any other place disable column delete
 		colTextFigure->getOwnerColumn()->getOwnerTable()->toggleColumnDeleteMode(true);
 	ddSimpleTextTool::mouseDown(event);

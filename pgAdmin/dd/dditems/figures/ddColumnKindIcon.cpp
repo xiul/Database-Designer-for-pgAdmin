@@ -105,7 +105,16 @@ void ddColumnKindIcon::changeIcon(ddColumnType type, ddDrawingView *view, bool i
 	wxString tmpString;
 	switch(type)
 	{
-		case 0:	icon = wxBitmap(ddprimarykey_xpm);
+		case 0:	
+				if(getOwnerColumn()->isForeignKey())
+				{
+					icon = wxBitmap(ddprimaryforeignkey_xpm);
+				}
+				else
+				{
+					icon = wxBitmap(ddprimarykey_xpm);
+				}
+
 				if(colType==pk){
 					colType=none;
 				}
@@ -129,8 +138,8 @@ void ddColumnKindIcon::changeIcon(ddColumnType type, ddDrawingView *view, bool i
 		case 2:	icon = wxBitmap(ddforeignkey_xpm);
 				colType=fk;
 				break;
-		case 3:	icon = wxBitmap(ddprimaryforeignkey_xpm);
-				colType=pkfk;
+		case 3:	// icon = wxBitmap(ddprimaryforeignkey_xpm);
+				//colType=pkfk;
 				break;
 		case 5: colType=none;
 				break;
