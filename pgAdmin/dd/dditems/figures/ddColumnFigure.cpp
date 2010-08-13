@@ -41,11 +41,12 @@
 //*******************   End of special debug header to find memory leaks
 
 
-ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner, bool columnIsForeignKey){
+ddColumnFigure::ddColumnFigure(wxString& columnName, ddTableFigure *owner, ddRelationshipItem *sourceFk){
 	columnText = new ddTextColumnFigure(columnName,dt_null,this);
 	leftImage = new ddColumnKindIcon(this);
 	centerImage = new ddColumnOptionIcon(this);
-	isForeignKey = columnIsForeignKey;
+	//isForeignKey = columnIsForeignKey;
+	fkSource=sourceFk;
 	setOwnerTable(owner);
 
 	//init displaybox && images position
@@ -313,5 +314,5 @@ void ddColumnFigure::setColumnName(wxString name)
 
 bool ddColumnFigure::getIsForeignKey()
 {
-	return isForeignKey;
+	return fkSource!=NULL;
 }

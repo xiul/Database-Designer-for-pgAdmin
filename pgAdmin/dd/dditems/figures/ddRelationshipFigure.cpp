@@ -36,7 +36,7 @@ ddLineConnection()
 	fkOneToMany = true;
 	fkIdentifying = false;
 	ukIndex = -1;
-	disconnectedTable = NULL;
+	disconnectedEndTable = NULL;
 }
 
 ddRelationshipFigure::ddRelationshipFigure(ddIFigure *figure1, ddIFigure *figure2):
@@ -107,7 +107,7 @@ void ddRelationshipFigure::updateForeignKey()
 
 				if( col->isPrimaryKey() && NotFound )
 				{
-					NewFkColumn = new ddRelationshipItem(col,endTable, (fkMandatory?notnull:null) );
+					NewFkColumn = new ddRelationshipItem(col,endTable, (fkMandatory?notnull:null), (fkIdentifying?pk:none) );
 					chm[col->getColumnName()]=NewFkColumn; //key will be original table name always
 					endTable->addColumn(NewFkColumn->fkColumn);
 				}
@@ -230,6 +230,14 @@ void ddRelationshipFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView
 			setLinePen(wxPen(*wxBLACK_PEN));
 			fkIdentifying=!fkIdentifying;
 			fkOneToMany = true;
+			if(fkIdentifying)
+			{
+				setKindAtForeignKeys(pk);
+			}
+			else
+			{
+				setKindAtForeignKeys(none);
+			}
 			break;
 		case 6:
 		case 7:
@@ -259,14 +267,23 @@ void ddRelationshipFigure::connectEnd(ddIConnector *end)
 	updateForeignKey();
 }
 
+void ddRelationshipFigure::connectStart(ddIConnector *start)
+{
+	ddLineConnection::connectStart(start);
+	if(getEndFigure() && getStartFigure())
+		updateForeignKey();
+}
+
 void ddRelationshipFigure::disconnectStart()
 {
+	disconnectedEndTable = (ddTableFigure*) getEndFigure();
+	removeForeignKeys();
 	ddLineConnection::disconnectStart();
 }
 
 void ddRelationshipFigure::disconnectEnd()
 {
-	disconnectedTable = (ddTableFigure*) getEndFigure();
+	disconnectedEndTable = (ddTableFigure*) getEndFigure();
 	ddLineConnection::disconnectEnd();
 	removeForeignKeys();
 
@@ -274,7 +291,7 @@ void ddRelationshipFigure::disconnectEnd()
 
 void ddRelationshipFigure::removeForeignKeys()
 {
-	if(disconnectedTable)
+	if(disconnectedEndTable)
 	{
 		columnsHashMap::iterator it;
 		ddRelationshipItem *NewFkColumn;
@@ -298,6 +315,7 @@ void ddRelationshipFigure::removeForeignKeys()
 			}
 		}while(repeat);
 		chm.clear();
+		disconnectedEndTable=NULL;
 	}
 }
 
@@ -313,11 +331,23 @@ void ddRelationshipFigure::setOptionAtForeignKeys(ddColumnOptionType type)
 	}
 }
 
+void ddRelationshipFigure::setKindAtForeignKeys(ddColumnType type)
+{
+	columnsHashMap::iterator it;
+	ddRelationshipItem *item;
+	for( it = chm.begin(); it != chm.end(); ++it )
+	{
+		wxString key = it->first;
+		item = it->second;
+		item->fkColumn->setColumnKind(type);
+	}
+}
+
 /************************
 Items at hash map table
 *************************/
 
-ddRelationshipItem::ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination, ddColumnOptionType type)
+ddRelationshipItem::ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination, ddColumnOptionType type, ddColumnType colType)
 {
 	original = originalColumn;
 	destinationTable = destination;
@@ -325,8 +355,9 @@ ddRelationshipItem::ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFi
 	newName.append(wxT("_"));
 	newName.append(originalColumn->getColumnName(false));
 	//DD-TODO: improve fk name
-	fkColumn = new ddColumnFigure(newName,destinationTable,true);
+	fkColumn = new ddColumnFigure(newName,destinationTable,this);
 	fkColumn->setColumnOption(type);
+	fkColumn->setColumnKind(colType);
 }
 
 ddRelationshipItem::~ddRelationshipItem()

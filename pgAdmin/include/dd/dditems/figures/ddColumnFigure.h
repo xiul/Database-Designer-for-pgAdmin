@@ -17,12 +17,13 @@
 #include "dd/dditems/figures/ddTextColumnFigure.h"
 
 class ddTableFigure;
+class ddRelationshipItem;
 
 // This figure is like composite but minimize overhead for columns
 class ddColumnFigure : public ddAbstractFigure
 {
 public:
-	ddColumnFigure(wxString& columnName, ddTableFigure *owner, bool columnIsForeignKey=false);
+	ddColumnFigure(wxString& columnName, ddTableFigure *owner, ddRelationshipItem *sourceFk=NULL);
 	//ddColumnFigure(ddColumnFigure *column);
     ~ddColumnFigure();
 	virtual void basicMoveBy(int x, int y);
@@ -62,7 +63,8 @@ protected:
 	ddTextColumnFigure *columnText;
 	ddTableFigure *ownerTable;
 private:
-	bool isForeignKey;
+	//bool isForeignKey;
+	ddRelationshipItem *fkSource;
 
 	
 };

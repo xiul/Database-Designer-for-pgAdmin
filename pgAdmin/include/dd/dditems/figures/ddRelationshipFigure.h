@@ -36,7 +36,9 @@ public:
 	bool getOneToMany();
 	bool getMandatory();
 	void setOptionAtForeignKeys(ddColumnOptionType type);
+	void setKindAtForeignKeys(ddColumnType type);
 	virtual void connectEnd(ddIConnector *end);
+	virtual void connectStart(ddIConnector *start);
 	void disconnectStart();
 	void disconnectEnd();
 private:
@@ -49,7 +51,7 @@ private:
 	bool fkIdentifying;
 	int ukIndex;
 	columnsHashMap chm;
-	ddTableFigure *disconnectedTable;
+	ddTableFigure *disconnectedEndTable;
 };
 
 
@@ -57,7 +59,7 @@ private:
 class ddRelationshipItem : public ddObject
 {
 public:
-	ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination, ddColumnOptionType type);
+	ddRelationshipItem(ddColumnFigure *originalColumn, ddTableFigure *destination, ddColumnOptionType type, ddColumnType colType);
 	~ddRelationshipItem();
 	ddColumnFigure *original;
 	ddColumnFigure *fkColumn;
