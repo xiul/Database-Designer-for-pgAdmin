@@ -458,9 +458,12 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 	int sz = strings.size();  //to avoid warning
 	wxMenuItem *item = NULL;
 	wxMenu *submenu = NULL;
+	bool isSubItem;
 	for(int i=0 ; i < sz ; i++){
 			//DD-TODO: only create options for what I need, this can be improved later
 			//String "--submenu##menu item**sub menu title" and "--subitem--" create and add items to last created submenu
+			isSubItem=false;
+			item=NULL;
 			if(strings[i].Contains(wxT("--submenu"))) 
 			{
 				submenu = new wxMenu(strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length())); 
@@ -468,6 +471,7 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 			}
 			else if(strings[i].Contains(wxT("--subitem")))
 			{
+				isSubItem=true;
 				if(submenu)
 				{
 					if(strings[i].Contains(wxT("--checked")))
@@ -494,7 +498,11 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 			{
 				item = mnu.AppendCheckItem(i, strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length()));
 			}
-			else
+			else if(strings[i].Contains(wxT("**")))
+			{
+				item = mnu.Append(i, strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length()));
+			}
+			else 
 			{
 				item = mnu.Append(i, strings[i]);
 			}
@@ -503,6 +511,11 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 			{
 				item->Check(true);
 			}
+			if(   item &&  ( strings[i].Contains(wxT("--disable")) || (submenu && isSubItem) )   )
+			{
+				item->Enable(false);
+			}
+
 		}
 // Faltan Eventos
 	mnu.Connect(wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)(wxEventFunction) (wxCommandEventFunction) &ddDrawingView::OnTextPopupClick,NULL,this);

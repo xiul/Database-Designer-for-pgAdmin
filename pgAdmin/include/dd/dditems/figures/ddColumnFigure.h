@@ -55,7 +55,7 @@ public:
 	void setDataType(ddDataType type);
 	wxString& getColumnName(bool datatype=false);
 	void setColumnName(wxString name);
-	bool getIsForeignKey();
+	bool isForeignKey();
 
 protected:
 	ddColumnKindIcon *leftImage;

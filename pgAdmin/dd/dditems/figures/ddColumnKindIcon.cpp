@@ -55,15 +55,28 @@ ddColumnKindIcon::~ddColumnKindIcon(){
 wxArrayString& ddColumnKindIcon::popupStrings()
 {
 	strings.Clear();
-/*	if(colType==none)
-		strings.Add(wxT("--checked**None"));
-	else
-		strings.Add(wxT("None"));
-*/	
 	if(colType==pk)
-		strings.Add(wxT("--checked**Primary Key"));   //DD-TODO: primary key then put not null at same time
+	{
+		if(getOwnerColumn()->isForeignKey())
+		{
+			strings.Add(wxT("--checked--disable**Primary Key"));
+		}
+		else
+		{
+			strings.Add(wxT("--checked**Primary Key"));
+		}
+	}
 	else
-		strings.Add(wxT("Primary Key"));
+	{
+		if(getOwnerColumn()->isForeignKey())
+		{	
+			strings.Add(wxT("--disable**Primary Key"));
+		}
+		else
+		{
+			strings.Add(wxT("Primary Key"));
+		}
+	}
 	
 	if(colType==uk)
 		strings.Add(wxT("--checked**Unique Key..."));
@@ -105,7 +118,7 @@ void ddColumnKindIcon::changeIcon(ddColumnType type, ddDrawingView *view, bool i
 					}
 					colType=pk;
 				}
-				if(!getOwnerColumn()->getIsForeignKey())
+				if(!getOwnerColumn()->isForeignKey())
 				{
 					getOwnerColumn()->getOwnerTable()->updateFkObservers();
 				}
@@ -130,7 +143,7 @@ void ddColumnKindIcon::changeIcon(ddColumnType type, ddDrawingView *view, bool i
 	{
 		iconToDraw = NULL;
 		ukIndex=-1;
-		if(!getOwnerColumn()->getIsForeignKey())
+		if(!getOwnerColumn()->isForeignKey())
 		{
 			getOwnerColumn()->getOwnerTable()->updateFkObservers();
 		}

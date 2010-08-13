@@ -312,7 +312,7 @@ void ddColumnFigure::setColumnName(wxString name)
 	columnText->setText(name);
 }
 
-bool ddColumnFigure::getIsForeignKey()
+bool ddColumnFigure::isForeignKey()
 {
 	return fkSource!=NULL;
 }

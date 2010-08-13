@@ -69,88 +69,79 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 {
 	wxTextEntryDialog *nameDialog=NULL;
 	wxString tmpString;
+	int answer;
 	//DD-TODO: improve this
 	switch(event.GetId())
 	{
 		case 0:  // Add Column
-			//columnType = dt_null;
-			getOwnerColumn()->getOwnerTable()->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),getOwnerColumn()->getOwnerTable()));
-			break;
+				getOwnerColumn()->getOwnerTable()->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),getOwnerColumn()->getOwnerTable()));
+				break;
 		case 1:  // Delete Column
-			getOwnerColumn()->getOwnerTable()->removeColumn(getOwnerColumn());
-			break;
+				answer = wxMessageBox(wxT("Delete column: ") + getText(true) + wxT("?"), wxT("Confirm"),wxYES_NO, view);
+				if (answer == wxYES)
+				{
+					getOwnerColumn()->getOwnerTable()->removeColumn(getOwnerColumn());
+				}
+				break;
 		case 2:  //Rename Column
-			nameDialog = new wxTextEntryDialog(view,wxT("Input column name"),wxT("Rename Column"),getText());   //DD-TODO: change for dialog like in option 17
-			nameDialog->ShowModal();
-			setText(nameDialog->GetValue());
-			delete nameDialog;
-			break;
+				nameDialog = new wxTextEntryDialog(view,wxT("Input column name"),wxT("Rename Column"),getText());   //DD-TODO: change for dialog like in option 17
+				nameDialog->ShowModal();
+				setText(nameDialog->GetValue());
+				delete nameDialog;
+				break;
 		case 4:  //Not Null
-			if(getOwnerColumn()->isNotNull())
-				getOwnerColumn()->setColumnOption(null);
-			else
-				getOwnerColumn()->setColumnOption(notnull);
-			break;
-		//DD-TODO: add options fr fk, fkpk, fkuk
+				if(getOwnerColumn()->isNotNull())
+					getOwnerColumn()->setColumnOption(null);
+				else
+					getOwnerColumn()->setColumnOption(notnull);
+				break;
+				//DD-TODO: add options fr fk, fkpk, fkuk
 		case 6:	//pk
-			if(getOwnerColumn()->isPrimaryKey())
-			{
-				getOwnerColumn()->setColumnKind(none);
-			}else
-			{	
-				getOwnerColumn()->setColumnKind(pk);
-				getOwnerColumn()->setColumnOption(notnull);
-			}
-			break;
+				if(getOwnerColumn()->isPrimaryKey())
+				{
+					getOwnerColumn()->setColumnKind(none);
+				}else
+				{	
+					getOwnerColumn()->setColumnKind(pk);
+					getOwnerColumn()->setColumnOption(notnull);
+				}
+				break;
 		case 7:	//uk
-		/*	if(getOwnerColumn()->isUniqueKey())
-			{
-				getOwnerColumn()->syncUkIndexes();
-				getOwnerColumn()->setUniqueConstraintIndex(-1);
-				getOwnerColumn()->setColumnKind(none);
-
-			}
-			else
-			{
 				getOwnerColumn()->setColumnKind(uk,view);
-			}
-			*/
-			getOwnerColumn()->setColumnKind(uk,view);
-
-			break;
+				break;
 		case 10:  // Submenu opcion 1
-			columnType = dt_bigint;
-			break;
+				columnType = dt_bigint;
+				break;
 		case 11:
-			columnType = dt_boolean;
+				columnType = dt_boolean;
 		break;
 		case 12:
-			columnType = dt_integer;
+				columnType = dt_integer;
 		break;
 		case 13:
-			columnType = dt_money;
+				columnType = dt_money;
 		break;
 		case 14:
-			columnType = dt_varchar;
+				columnType = dt_varchar;
 		break;
 		case 15: //Call datatypes selector
-			//DD-TODO: Add all types, improve and separate from quick access types
-			columnType = (ddDataType) wxGetSingleChoiceIndex(wxT("Select column datatype"),wxT("Column Datatypes"),dataTypes(),view);
+				//DD-TODO: Add all types, improve and separate from quick access types
+				columnType = (ddDataType) wxGetSingleChoiceIndex(wxT("Select column datatype"),wxT("Column Datatypes"),dataTypes(),view);
 		break;
 		case 17:
-			tmpString=wxGetTextFromUser(wxT("Change name of Primary Key constraint:"),getOwnerColumn()->getOwnerTable()->getPkConstraintName(),getOwnerColumn()->getOwnerTable()->getPkConstraintName(),view);
-			if(tmpString.length()>0)
-				getOwnerColumn()->getOwnerTable()->setPkConstraintName(tmpString);
-		break;
-		case 18:
-			int i = wxGetSingleChoiceIndex(wxT("Select Unique Key constraint to edit name"),wxT("Select Unique Constraint to edit name:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames(),view);
-			if(i>=0)
-			{
-				tmpString=wxGetTextFromUser(wxT("Change name of Unique Key constraint:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),view);
+				tmpString=wxGetTextFromUser(wxT("Change name of Primary Key constraint:"),getOwnerColumn()->getOwnerTable()->getPkConstraintName(),getOwnerColumn()->getOwnerTable()->getPkConstraintName(),view);
 				if(tmpString.length()>0)
-					getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i)=tmpString;
-			}
-		break;
+					getOwnerColumn()->getOwnerTable()->setPkConstraintName(tmpString);
+				break;
+		case 18:
+				int i = wxGetSingleChoiceIndex(wxT("Select Unique Key constraint to edit name"),wxT("Select Unique Constraint to edit name:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames(),view);
+				if(i>=0)
+				{
+					tmpString=wxGetTextFromUser(wxT("Change name of Unique Key constraint:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),view);
+					if(tmpString.length()>0)
+						getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i)=tmpString;
+				}
+				break;
 	}		
 }
 
@@ -160,41 +151,61 @@ wxArrayString& ddTextColumnFigure::popupStrings()
 {
 		strings.Clear();
 		strings.Add(wxT("Add a column ..."));  //0
-		strings.Add(wxT("Delete a column ..."));  //1
+		if(getOwnerColumn()->isForeignKey())
+		{
+			strings.Add(wxT("--disable**Delete a column ..."));  //1
+		}
+		else
+		{
+			strings.Add(wxT("Delete a column ..."));  //1
+		}
 		strings.Add(wxT("Rename a column ..."));  //2
 		
 		strings.Add(wxT("--separator--"));
 
 		if(getOwnerColumn()->isNotNull())	//4
-			strings.Add(wxT("--checked**Not Null")); 
+		{
+			if(getOwnerColumn()->isForeignKey())
+				strings.Add(wxT("--checked--disable**Not Null")); 
+			else
+				strings.Add(wxT("--checked**Not Null")); 
+		}
 		else
-			strings.Add(wxT("Not Null"));
+		{
+			if(getOwnerColumn()->isForeignKey())		
+				strings.Add(wxT("--disable**Not Null"));
+			else
+				strings.Add(wxT("Not Null"));
+		}
 		
-/*		if(getOwnerColumn()->isNull())	//5
-			strings.Add(wxT("--checked**Null"));
-		else
-			strings.Add(wxT("Null"));*/
-
 		strings.Add(wxT("--separator--"));
 
 		if(getOwnerColumn()->isPrimaryKey())	//6
-			strings.Add(wxT("--checked**Primary Key"));
+		{
+			if(getOwnerColumn()->isForeignKey())	
+				strings.Add(wxT("--checked--disable**Primary Key"));
+			else
+				strings.Add(wxT("--checked**Primary Key"));
+		}
 		else
-			strings.Add(wxT("Primary Key..."));
+		{
+			if(getOwnerColumn()->isForeignKey())	
+				strings.Add(wxT("--disable**Primary Key"));
+			else
+				strings.Add(wxT("Primary Key"));
+		}
 
 		if(getOwnerColumn()->isUniqueKey())		//7
 			strings.Add(wxT("--checked**Unique"));
 		else
 			strings.Add(wxT("Unique..."));
 
-/*		if(getOwnerColumn()->isPlain())		//9
-			strings.Add(wxT("--checked**None"));
-		else
-			strings.Add(wxT("None"));
-*/
 		strings.Add(wxT("--separator--"));
 
-		strings.Add(wxT("--submenu##Change Column Datatype**Select a Datatype:"));
+		if(getOwnerColumn()->isForeignKey())	
+			strings.Add(wxT("--disable--submenu##Change Column Datatype**Select a Datatype:"));
+		else
+			strings.Add(wxT("--submenu##Change Column Datatype**Select a Datatype:"));
 		
 		if(columnType==dt_bigint)		//10
 			strings.Add(wxT("--subitem--checked**Bigint"));

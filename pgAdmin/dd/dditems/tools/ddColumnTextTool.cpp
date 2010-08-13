@@ -52,17 +52,24 @@ void ddColumnTextTool::mouseDown(ddMouseEvent& event)
 	{
 		if(colTextFigure && colTextFigure->getOwnerColumn() && colTextFigure->getOwnerColumn()->getOwnerTable()->deleteColumnActivated())
 		{
-			ddTableFigure *table = colTextFigure->getOwnerColumn()->getOwnerTable();
-			if(getDrawingEditor()->view()->isFigureSelected(table))
+			if(colTextFigure->getOwnerColumn()->isForeignKey())
 			{
-				int answer = wxMessageBox(wxT("Delete column: ") + colTextFigure->getText(true) + wxT("?"), wxT("Confirm"),wxYES_NO, event.getView());
-				if (answer == wxYES)
-				{
-					table->removeColumn(colTextFigure->getOwnerColumn());		
-					colTextFigure = NULL;
-				}
+				wxMessageBox(wxT("You can't delete column: ")+colTextFigure->getText(true)+ wxT(" because is a foreign key, instead just delete relationship"),wxT("Foreign key information"),wxICON_EXCLAMATION, event.getView());
 			}
-			table->toggleColumnDeleteMode();
+			else
+			{
+				ddTableFigure *table = colTextFigure->getOwnerColumn()->getOwnerTable();
+				if(getDrawingEditor()->view()->isFigureSelected(table))
+				{
+					int answer = wxMessageBox(wxT("Delete column: ") + colTextFigure->getText(true) + wxT("?"), wxT("Confirm"),wxYES_NO, event.getView());
+					if (answer == wxYES)
+					{
+						table->removeColumn(colTextFigure->getOwnerColumn());		
+						colTextFigure = NULL;
+					}
+				}
+				table->toggleColumnDeleteMode();
+			}
 			return;
 		}
 

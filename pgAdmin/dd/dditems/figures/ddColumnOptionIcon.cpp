@@ -53,14 +53,34 @@ wxArrayString& ddColumnOptionIcon::popupStrings()
 	strings.Clear();
 	
 	if(colOption==null)
-		strings.Add(wxT("--checked**Null"));
+	{
+		if(getOwnerColumn()->isForeignKey())
+			strings.Add(wxT("--checked--disable**Null"));
+		else
+			strings.Add(wxT("--checked**Null"));
+	}
 	else
-		strings.Add(wxT("Null"));
+	{
+		if(getOwnerColumn()->isForeignKey())
+			strings.Add(wxT("--disable**Null"));
+		else
+			strings.Add(wxT("Null"));
+	}
 
 	if(colOption==notnull)
-		strings.Add(wxT("--checked**Not Null"));
+	{
+		if(getOwnerColumn()->isForeignKey())
+			strings.Add(wxT("--checked--disable**Not Null"));
+		else
+			strings.Add(wxT("--checked**Not Null"));
+	}
 	else
-		strings.Add(wxT("Not Null"));
+	{
+		if(getOwnerColumn()->isForeignKey())
+			strings.Add(wxT("--disable**Not Null"));
+		else
+			strings.Add(wxT("Not Null"));
+	}
 
 	return strings;
 };
