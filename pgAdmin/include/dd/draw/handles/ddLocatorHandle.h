@@ -26,9 +26,9 @@ public:
 
 	virtual ddPoint& locate();
 	virtual ddILocator* locator();
-	virtual void invokeStart(int x, int y, ddDrawingView *view);
-	virtual void invokeStep(int x, int y, ddDrawingView *view);
-	virtual void invokeEnd(int x, int y, ddDrawingView *view);
+	virtual void invokeStart(ddMouseEvent& event, ddDrawingView *view);
+	virtual void invokeStep(ddMouseEvent& event, ddDrawingView *view);
+	virtual void invokeEnd(ddMouseEvent& event, ddDrawingView *view);
 protected:
 
 private:

@@ -46,11 +46,11 @@ ddILocator* ddLocatorHandle::locator()
 	return loc;
 }
 
-void ddLocatorHandle::invokeStart(int x, int y, ddDrawingView *view){
+void ddLocatorHandle::invokeStart(ddMouseEvent& event, ddDrawingView *view){
 }
 
-void ddLocatorHandle::invokeStep(int x, int y, ddDrawingView *view){
+void ddLocatorHandle::invokeStep(ddMouseEvent& event, ddDrawingView *view){
 }
 
-void ddLocatorHandle::invokeEnd(int x, int y, ddDrawingView *view){
+void ddLocatorHandle::invokeEnd(ddMouseEvent& event, ddDrawingView *view){
 }

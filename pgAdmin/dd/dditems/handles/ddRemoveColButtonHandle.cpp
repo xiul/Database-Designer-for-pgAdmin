@@ -37,19 +37,19 @@ ddButtonHandle(owner,buttonLocator,buttonImage,size)
 ddRemoveColButtonHandle::~ddRemoveColButtonHandle(){
 }
 
-void ddRemoveColButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddRemoveColButtonHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
-	ddTextColumnFigure *column = (ddTextColumnFigure*) table->findFigure(x,y);
+	ddTextColumnFigure *column = (ddTextColumnFigure*) table->findFigure(event.GetPosition().x,event.GetPosition().y);
 	if(column)
 			table->toggleColumnDeleteMode();
 }
 
-void ddRemoveColButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddRemoveColButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 
-void ddRemoveColButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddRemoveColButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 

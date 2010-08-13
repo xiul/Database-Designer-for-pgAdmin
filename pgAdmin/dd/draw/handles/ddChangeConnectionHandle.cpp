@@ -60,14 +60,15 @@ wxCursor ddChangeConnectionHandle::createCursor()
 	return wxCursor(wxCURSOR_CROSS);
 }
 
-void ddChangeConnectionHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddChangeConnectionHandle::invokeStart(ddMouseEvent& event, ddDrawingView *view)
 {
 	originalTarget = target();
 	disconnect();
 }
 
-void ddChangeConnectionHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddChangeConnectionHandle::invokeStep(ddMouseEvent& event, ddDrawingView *view)
 {
+	int x=event.GetPosition().x, y=event.GetPosition().y;
 	ddPoint p = ddPoint(x,y);
 	ddIFigure *figure = findConnectableFigure(x,y,view->getDrawing());
 	targetFigure = figure;
@@ -80,8 +81,9 @@ void ddChangeConnectionHandle::invokeStep(int x, int y, ddDrawingView *view)
 	connection->updateConnection();
 }
 
-void ddChangeConnectionHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddChangeConnectionHandle::invokeEnd(ddMouseEvent& event, ddDrawingView *view)
 {
+	int x=event.GetPosition().x, y=event.GetPosition().y;
 	ddIConnector *target = findConnectionTarget(x,y,view->getDrawing()); 
 		if(!target)
 		{

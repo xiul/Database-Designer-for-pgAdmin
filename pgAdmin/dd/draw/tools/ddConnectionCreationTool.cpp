@@ -47,8 +47,8 @@ void ddConnectionCreationTool::mouseDrag(ddMouseEvent& event)
 	if(handle && event.LeftIsDown())
 	{
 		dragged=true;
-		int x=event.GetPosition().x, y=event.GetPosition().y;
-		handle->invokeStep(x,y,getDrawingEditor()->view());
+		//int x=event.GetPosition().x, y=event.GetPosition().y;
+		handle->invokeStep(event,getDrawingEditor()->view());
 	}
 }
 
@@ -93,10 +93,10 @@ void ddConnectionCreationTool::mouseUp(ddMouseEvent& event)
 {
 	if(event.LeftUp())
 	{
-		int x=event.GetPosition().x, y=event.GetPosition().y;
+		//int x=event.GetPosition().x, y=event.GetPosition().y;
 		if(handle)
 		{
-			handle->invokeEnd(x,y,getDrawingEditor()->view());
+			handle->invokeEnd(event,getDrawingEditor()->view());
 		}
 
 		if(toolConnection->getEndConnector()==NULL)
@@ -136,7 +136,7 @@ void ddConnectionCreationTool::mouseMove(ddMouseEvent& event)
 
 	if(handle && numClicks>0)
 	{
-		handle->invokeStep(x,y,getDrawingEditor()->view());
+		handle->invokeStep(event,getDrawingEditor()->view());
 	}
 
 

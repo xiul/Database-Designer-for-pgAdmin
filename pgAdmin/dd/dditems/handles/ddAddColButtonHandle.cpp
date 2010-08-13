@@ -37,17 +37,17 @@ ddButtonHandle(owner,buttonLocator,buttonImage,size)
 ddAddColButtonHandle::~ddAddColButtonHandle(){
 }
 
-void ddAddColButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddAddColButtonHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),table));
 }
 
-void ddAddColButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddAddColButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 
-void ddAddColButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddAddColButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 

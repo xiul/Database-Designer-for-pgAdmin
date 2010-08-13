@@ -40,15 +40,15 @@ ddButtonHandle(owner,buttonLocator,buttonImage,size)
 ddMinMaxTableButtonHandle::~ddMinMaxTableButtonHandle(){
 }
 
-void ddMinMaxTableButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddMinMaxTableButtonHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 
-void ddMinMaxTableButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddMinMaxTableButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 
-void ddMinMaxTableButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddMinMaxTableButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 

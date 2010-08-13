@@ -40,7 +40,7 @@ ddButtonHandle(owner,buttonLocator,buttonImage,size)
 ddAddFkButtonHandle::~ddAddFkButtonHandle(){
 }
 
-void ddAddFkButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddAddFkButtonHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
 	if(getOwner()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo)){
 		ddTableFigure *table = (ddTableFigure*) getOwner();
@@ -51,21 +51,21 @@ void ddAddFkButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
 		view->editor()->setTool(conn);
 		// Simulate button down to start connection of foreign key
 		wxMouseEvent e(wxEVT_LEFT_DOWN);
-		e.m_x=x;
-		e.m_y=y;
+		e.m_x=event.GetPosition().x;
+		e.m_y=event.GetPosition().y;
 		e.SetEventObject(view);
 		ddMouseEvent evento(e,view);
 		conn->mouseDown(evento);
 	}
 }
 
-void ddAddFkButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddAddFkButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 	table->canConnect();
 }
 
-void ddAddFkButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddAddFkButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 	table->canConnect();}

@@ -30,9 +30,9 @@ public:
 	virtual ddRect& getDisplayBox();
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual ddPoint& locate();
-	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
-	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
-	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
+	virtual void invokeStart(ddMouseEvent& event, ddDrawingView *view)=0;
+	virtual void invokeStep(ddMouseEvent& event, ddDrawingView *view)=0;
+	virtual void invokeEnd(ddMouseEvent& event, ddDrawingView *view)=0;
 protected:
 	wxBitmap buttonIcon;
 private:

@@ -22,7 +22,7 @@ class ddLineConnectionHandle : public ddPolyLineHandle
 {
 public:
 	ddLineConnectionHandle(ddPolyLineFigure *figure, ddILocator *loc, int index);
-	virtual void invokeEnd(int x, int y, ddDrawingView *view);
+	virtual void invokeEnd(ddMouseEvent& event, ddDrawingView *view);
 private:
 
 };

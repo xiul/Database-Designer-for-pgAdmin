@@ -37,18 +37,18 @@ ddButtonHandle(owner,buttonLocator,buttonImage,size)
 ddRemoveTableButtonHandle::~ddRemoveTableButtonHandle(){
 }
 
-void ddRemoveTableButtonHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddRemoveTableButtonHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
 /*	ddTableFigure *table = (ddTableFigure*) getOwner();
 	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),dt_varchar_n));
 	*/
 }
 
-void ddRemoveTableButtonHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddRemoveTableButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 
-void ddRemoveTableButtonHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddRemoveTableButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 

@@ -62,12 +62,21 @@ void ddPolyLineHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 }
 */
 
-void ddPolyLineHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddPolyLineHandle::invokeStep(ddMouseEvent& event, ddDrawingView *view)
 {
+	int x=event.GetPosition().x, y=event.GetPosition().y;
 	((ddPolyLineFigure*) getOwner())->setPointAt(indx,x,y);
+	
 }
 
-
+void ddPolyLineHandle::invokeStart(ddMouseEvent& event, ddDrawingView *view)
+{
+	int x=event.GetPosition().x, y=event.GetPosition().y;
+	if(event.RightDown())
+	{
+		((ddPolyLineFigure*) getOwner())->removePointAt(indx);
+	}
+}
 wxCursor ddPolyLineHandle::createCursor()
 {
 	return wxCursor(wxCURSOR_CROSS);

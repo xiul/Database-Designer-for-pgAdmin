@@ -88,8 +88,9 @@ void ddScrollBarHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 
 }
 
-void ddScrollBarHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddScrollBarHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
+	int y=event.GetPosition().y;
 	anchorY=y;
 	if( (y > (getDisplayBox().GetPosition().y + 2)) && (y <  (getDisplayBox().GetPosition().y + 2 + 6)) )  //6 image height
 		table->columnsWindowUp();
@@ -98,8 +99,9 @@ void ddScrollBarHandle::invokeStart(int x, int y, ddDrawingView *view)
 		table->columnsWindowDown();
 }
 
-void ddScrollBarHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddScrollBarHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)
 {
+	int y=event.GetPosition().y;
 	int divBy = (table->getTotalColumns() - table->getColumnsWindow());
 	if(divBy<=0)
 		divBy = table->getColumnsWindow();
@@ -119,7 +121,7 @@ void ddScrollBarHandle::invokeStep(int x, int y, ddDrawingView *view)
 	}
 }
 
-void ddScrollBarHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddScrollBarHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
 }
 

@@ -29,9 +29,9 @@ public:
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual ddPoint& locate();
 	virtual wxCursor createCursor();
-	virtual void invokeStart(int x, int y, ddDrawingView *view);
-	virtual void invokeStep(int x, int y, ddDrawingView *view);
-	virtual void invokeEnd(int x, int y, ddDrawingView *view);
+	virtual void invokeStart(ddMouseEvent &event, ddDrawingView *view);
+	virtual void invokeStep(ddMouseEvent &event, ddDrawingView *view);
+	virtual void invokeEnd(ddMouseEvent &event, ddDrawingView *view);
 	virtual ddRect& getDisplayBox();
 protected:
 private:

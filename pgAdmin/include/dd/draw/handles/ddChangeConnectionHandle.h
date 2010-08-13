@@ -28,9 +28,9 @@ public:
 	
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual wxCursor createCursor();
-	virtual void invokeStart(int x, int y, ddDrawingView *view);
-	virtual void invokeStep(int x, int y, ddDrawingView *view);
-	virtual void invokeEnd(int x, int y, ddDrawingView *view);
+	virtual void invokeStart(ddMouseEvent& event, ddDrawingView *view);
+	virtual void invokeStep(ddMouseEvent& event, ddDrawingView *view);
+	virtual void invokeEnd(ddMouseEvent& event, ddDrawingView *view);
 	virtual ddIConnector* target()=0;
 	virtual void disconnect()=0;
 	virtual void connect(ddIConnector *connector)=0;

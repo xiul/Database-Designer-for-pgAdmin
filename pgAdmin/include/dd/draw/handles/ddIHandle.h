@@ -18,6 +18,7 @@
 
 class ddDrawingView;  //Hack-Fix to avoid circular reference
 class ddIFigure;
+class ddMouseEvent;
 
 class ddIHandle : public ddObject
 {
@@ -30,9 +31,9 @@ public:
 	virtual bool containsPoint(int x, int y);
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view)=0;
 	virtual ddPoint& locate()=0;
-	virtual void invokeStart(int x, int y, ddDrawingView *view)=0;
-	virtual void invokeStep(int x, int y, ddDrawingView *view)=0;
-	virtual void invokeEnd(int x, int y, ddDrawingView *view)=0;
+	virtual void invokeStart(ddMouseEvent& event, ddDrawingView *view)=0;
+	virtual void invokeStep(ddMouseEvent& event, ddDrawingView *view)=0;
+	virtual void invokeEnd(ddMouseEvent& event, ddDrawingView *view)=0;
 	virtual wxCursor createCursor()=0;
 	virtual ddRect& getDisplayBox();
 protected:

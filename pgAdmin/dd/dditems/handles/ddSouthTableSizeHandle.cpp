@@ -101,9 +101,9 @@ void ddSouthTableSizeHandle::draw(wxBufferedDC& context, ddDrawingView *view)
 ddSouthTableSizeHandle::~ddSouthTableSizeHandle(){
 }
 
-void ddSouthTableSizeHandle::invokeStart(int x, int y, ddDrawingView *view)
+void ddSouthTableSizeHandle::invokeStart(ddMouseEvent& event, ddDrawingView *view)
 {
-	anchorY=y;
+	anchorY=event.GetPosition().y;
 	
 /*	ddTableFigure *table = (ddTableFigure*) getOwner();
 
@@ -114,8 +114,9 @@ void ddSouthTableSizeHandle::invokeStart(int x, int y, ddDrawingView *view)
 	drawTempRect=true;*/
 }
 
-void ddSouthTableSizeHandle::invokeStep(int x, int y, ddDrawingView *view)
+void ddSouthTableSizeHandle::invokeStep(ddMouseEvent& event, ddDrawingView *view)
 {
+	int x=event.GetPosition().x, y=event.GetPosition().y;
 	ddTableFigure *table = (ddTableFigure*) getOwner();
 	wxFont font = settings->GetSystemFont();
 	int colOffset = table->getColDefaultHeight(font);
@@ -146,7 +147,7 @@ void ddSouthTableSizeHandle::invokeStep(int x, int y, ddDrawingView *view)
 	table->moveBy(1,0);
 }
 
-void ddSouthTableSizeHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddSouthTableSizeHandle::invokeEnd(ddMouseEvent& event, ddDrawingView *view)
 {
 	//drawTempRect=false;
 

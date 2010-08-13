@@ -35,8 +35,9 @@ ddPolyLineHandle(figure,loc,index)
 {
 }
 
-void ddLineConnectionHandle::invokeEnd(int x, int y, ddDrawingView *view)
+void ddLineConnectionHandle::invokeEnd(ddMouseEvent& event, ddDrawingView *view)
 {
+	int x=event.GetPosition().x, y=event.GetPosition().y;
 	ddPolyLineFigure *figure = (ddPolyLineFigure *) getOwner();
 	//eliminate all handles in the middle of a straight line
 	
