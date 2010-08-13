@@ -678,6 +678,13 @@ void ddTableFigure::updateFkObservers()
 	delete iterator;
 }
 
+void ddTableFigure::basicMoveBy(int x, int y)
+{
+	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0);
+	if((f->displayBox().x+x) > 0  && (f->displayBox().y+y) > 0)
+		ddCompositeFigure::basicMoveBy(x,y);
+}
+
 /*
 int ddTableFigure::addFk(wxString parentTableName)
 {

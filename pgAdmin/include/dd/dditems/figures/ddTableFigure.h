@@ -33,6 +33,7 @@ public:  //DD-TODO: put private unneeded public methods
 	//drawing
 	virtual void draw(wxBufferedDC& context, ddDrawingView *view);
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
+	virtual void basicMoveBy(int x, int y);
 	
 	//delete hack
 	bool deleteColumnActivated();
