@@ -198,6 +198,12 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 
 void ddTableFigure::removeColumn(ddColumnFigure *column)
 {
+	//hack to allow to remove Fk before delete it.
+	if(column->isPrimaryKey())
+	{
+		column->setColumnKind(none);
+		updateFkObservers();
+	}
 	column->setOwnerTable(NULL);
 	remove(column);
 	if(column)

@@ -264,7 +264,8 @@ bool ddRelationshipFigure::getMandatory()
 void ddRelationshipFigure::connectEnd(ddIConnector *end)
 {
 	ddLineConnection::connectEnd(end);
-	updateForeignKey();
+	if(getEndFigure() && getStartFigure())
+		updateForeignKey();
 }
 
 void ddRelationshipFigure::connectStart(ddIConnector *start)
