@@ -715,3 +715,80 @@ void ddTableFigure::basicMoveBy(int x, int y)
 	if((f->displayBox().x+x) > 0  && (f->displayBox().y+y) > 0)
 		ddCompositeFigure::basicMoveBy(x,y);
 }
+
+
+//DD-TODO: fix all model to allow all options from http://www.postgresql.org/docs/8.1/static/sql-createtable.html
+wxString ddTableFigure::generateSQL()
+{
+	//Columns and table
+	wxString tmp(wxT("CREATE TABLE "));
+	tmp+=getTableName() + wxT(" (");
+	ddIteratorBase *iterator = figuresEnumerator();
+	iterator->Next(); //Fixed Position for table rectangle
+	iterator->Next(); //Fixed Position for table name
+	while(iterator->HasNext()){
+		ddColumnFigure *column = (ddColumnFigure*) iterator->Next();
+		tmp+=column->generateSQL();
+		if(iterator->HasNext())
+		{
+			tmp+=wxT(" , ");
+		}
+		else
+		{
+			tmp+=wxT(" ) ");
+		}
+	}
+	//Pk, Uk Constraints
+	iterator->ResetIterator();
+	iterator->Next(); //Fixed Position for table rectangle
+	iterator->Next(); //Fixed Position for table name
+	bool generatePk=false;
+	while(iterator->HasNext()){
+		ddColumnFigure *column = (ddColumnFigure*) iterator->Next();
+		if(column->isPrimaryKey())
+			generatePk=true;
+	}
+	if(generatePk)
+	{
+		tmp += wxT("PRIMARY KEY ( ");
+		iterator->ResetIterator();
+		iterator->Next(); //Fixed Position for table rectangle
+		iterator->Next(); //Fixed Position for table name
+		bool generatePk=false;
+
+		while(iterator->HasNext()){
+			ddColumnFigure *column = (ddColumnFigure*) iterator->Next();
+			if(column->isPrimaryKey()){
+				tmp+=column->getColumnName();
+				if(iterator->HasNext())
+				{
+					tmp+=wxT(" , ");
+				}
+				else
+				{
+					tmp+=wxT(" ) ");
+				}
+			}
+		}
+	}
+	delete iterator;
+	//Fk Constraint
+	iterator = observersEnumerator();
+	if(!iterator->HasNext())
+		tmp+=wxT(" ; ");
+	else
+	{
+		while(iterator->HasNext()){
+			ddRelationshipFigure *rel = (ddRelationshipFigure*) iterator->Next();
+			tmp+=rel->generateSQL();
+			if(iterator->HasNext())
+			{
+				tmp+=wxT(" , ");
+			}
+			else
+				tmp+=wxT(" ; ");
+		}
+	}
+	delete iterator;
+	return tmp;
+}

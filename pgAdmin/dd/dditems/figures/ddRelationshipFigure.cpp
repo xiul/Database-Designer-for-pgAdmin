@@ -329,7 +329,48 @@ void ddRelationshipFigure::setKindAtForeignKeys(ddColumnType type)
 		table->updateFkObservers();
 	}
 }
+wxString ddRelationshipFigure::generateSQL()
+{
+	wxString tmp(wxT("FOREIGN KEY ( "));
+	columnsHashMap::iterator it;
+	ddRelationshipItem *item;
+	for( it = chm.begin(); it != chm.end(); ++it )
+	{
+		wxString key = it->first;
+		item = it->second;
+		tmp += item->fkColumn->getColumnName();
+		
+		if(it!=chm.end())
+		{
+			tmp+=wxT(" , ");
+		}
+		else
+		{
+			tmp+=wxT(" )");
+		}
+	}	
+	
+	tmp += wxT("REFERENCES ") + ((ddTableFigure*)getStartFigure())->getTableName() + wxT(" ( ");
+	for( it = chm.begin(); it != chm.end(); ++it )
+	{
+		wxString key = it->first;
+		item = it->second;
+		tmp += item->original->getColumnName();
+		
+		if(it!=chm.end())
+		{
+			tmp+=wxT(" , ");
+		}
+		else
+		{
+			tmp+=wxT(" )");
+		}
+	}
 
+	return tmp;
+}
+
+/*
 bool ddRelationshipFigure::belongsToThisTable(ddTableFigure *possibleOwner)
 {
 	return possibleOwner == getStartFigure();

@@ -41,7 +41,8 @@ public:
 	virtual void connectStart(ddIConnector *start);
 	void disconnectStart();
 	void disconnectEnd();
-	bool belongsToThisTable(ddTableFigure *possibleOwner);
+	//bool belongsToThisTable(ddTableFigure *possibleOwner);
+	wxString generateSQL();
 protected:
 /*	virtual void connectFigure (ddIConnector *connector);
 	virtual void disconnectFigure (ddIConnector *connector);

@@ -56,6 +56,7 @@ public:
 	wxString& getColumnName(bool datatype=false);
 	void setColumnName(wxString name);
 	bool isForeignKey();
+	wxString generateSQL();
 
 protected:
 	ddColumnKindIcon *leftImage;

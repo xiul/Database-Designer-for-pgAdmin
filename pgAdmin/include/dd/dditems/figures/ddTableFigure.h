@@ -60,6 +60,7 @@ public:  //DD-TODO: put private unneeded public methods
 	
 	//metadata
 	wxString getTableName();
+	wxString generateSQL();
 
 	//uk pk constraints
 	void setPkConstraintName(wxString name);

@@ -42,6 +42,9 @@ ddMinMaxTableButtonHandle::~ddMinMaxTableButtonHandle(){
 
 void ddMinMaxTableButtonHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
+	ddTableFigure *table = (ddTableFigure*) getOwner();
+	
+	wxMessageBox(wxT("Generated SQL: ") + table->generateSQL(), wxT("Generated SQL"), wxOK, (wxScrolledWindow*)view);
 }
 
 void ddMinMaxTableButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)

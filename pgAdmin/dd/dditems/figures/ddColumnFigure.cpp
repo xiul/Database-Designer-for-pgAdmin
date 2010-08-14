@@ -316,3 +316,10 @@ bool ddColumnFigure::isForeignKey()
 {
 	return fkSource!=NULL;
 }
+
+wxString ddColumnFigure::generateSQL()
+{
+	wxString tmp;
+	tmp+=getColumnName() + wxT(" ") + columnText->dataTypes()[getDataType()];
+	return tmp;
+}
