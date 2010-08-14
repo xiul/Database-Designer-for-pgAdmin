@@ -18,6 +18,7 @@
 #include "dd/dditems/figures/ddColumnFigure.h"
 
 class ddScrollBarHandle;
+class ddRelationshipFigure;
 
 // Create Array Objects used as base for gqbCollections
 class ddTableFigure : public ddCompositeFigure
@@ -35,9 +36,12 @@ public:  //DD-TODO: put private unneeded public methods
 	virtual void drawSelected(wxBufferedDC& context, ddDrawingView *view);
 	virtual void basicMoveBy(int x, int y);
 	
-	//delete hack
+	//delete hack columns
 	bool deleteColumnActivated();
 	void toggleColumnDeleteMode(bool disable=false);
+
+	//delete hack tables
+	void processDeleteAlert(ddDrawingView *view);
 	
 	//columns scrolls
 	void updateTableSize();
@@ -61,10 +65,8 @@ public:  //DD-TODO: put private unneeded public methods
 	void setPkConstraintName(wxString name);
 	wxString getPkConstraintName();
 	wxArrayString& getUkConstraintsNames();
-
-/*	int addFk(wxString parentTableName);
-	void removeFk(int fk);
-*/
+	
+	//fk related
 	void updateFkObservers();
 
 protected:
@@ -105,11 +107,5 @@ private:
 	wxString pkName;
 	wxArrayString ukNames;
 
-
-/*	//foreign keys (created a this table)
-	wxArrayString fkNames;
-	int fkMaxIndex;
-	wxArr
-	*/
 };
 #endif

@@ -41,6 +41,11 @@ public:
 	virtual void connectStart(ddIConnector *start);
 	void disconnectStart();
 	void disconnectEnd();
+	bool belongsToThisTable(ddTableFigure *possibleOwner);
+protected:
+/*	virtual void connectFigure (ddIConnector *connector);
+	virtual void disconnectFigure (ddIConnector *connector);
+	*/
 private:
 	virtual wxArrayString& popupStrings();
 	virtual void OnTextPopupClick(wxCommandEvent& event, ddDrawingView *view);

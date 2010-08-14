@@ -19,6 +19,7 @@
 // App headers
 #include "dd/dditems/handles/ddRemoveTableButtonHandle.h"
 #include "dd/dditems/figures/ddTableFigure.h"
+#include "dd/dditems/figures/ddRelationshipFigure.h"
 #include "dd/dditems/utilities/ddDataType.h"
 #include "dd/draw/main/ddDrawingView.h"
 
@@ -48,11 +49,21 @@ void ddRemoveTableButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *v
 
 void ddRemoveTableButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
-	if(view && getOwner()){
-		if(view->isFigureSelected(getOwner()))
-			view->removeFromSelection(getOwner());
-		view->remove(getOwner());
-		if(getOwner())
-			delete getOwner();
+
+	if(view && getOwner())
+	{
+		ddTableFigure *table = (ddTableFigure*) getOwner();	
+		//unselect table
+		if(view->isFigureSelected(table))
+		{
+			view->removeFromSelection(table);
+		}
+		table->processDeleteAlert(view);
+		//drop table
+		view->remove(table);
+		if(table)
+		{
+			delete table;
+		}
 	}
 }

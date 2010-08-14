@@ -41,6 +41,7 @@
 #include "dd/draw/utilities/ddGeometry.h"
 #include "dd/dditems/figures/ddRelationshipFigure.h"
 
+
 //Images
 #include "images/ddAddColumn.xpm"
 #include "images/ddRemoveColumn.xpm"
@@ -133,7 +134,6 @@ ddCompositeFigure()
 	fkMaxIndex=0;
 	fkNames.Clear();
 */
-
 	calcRectsAreas();
 }
 
@@ -165,7 +165,7 @@ void ddTableFigure::addColumn(ddColumnFigure *column)
 	calcRectsAreas();
 	recalculateColsPos();
 
-	/*SCROLLBAR TEST*/
+	/*SCROLLBAR TEST*/  //666 Delete this test
 		if(maxColIndex == 10)
 	{
 		setColumnsWindow(4);
@@ -681,9 +681,49 @@ void ddTableFigure::updateFkObservers()
 	delete iterator;
 }
 
+//relationship is observed by several tables at same time, one is the owner (start connector table)
+//others are just observers of that relationship (end connectors table)
+
+//DD-TODO: improve way relationships connections works, this is fine but not optimized at all
+void ddTableFigure::processDeleteAlert(ddDrawingView *view)
+{
+	ddIteratorBase *iterator = observersEnumerator();
+	bool repeatFlag;
+	do{
+		repeatFlag=false;
+		iterator->ResetIterator();
+		while(iterator->HasNext()){
+			ddRelationshipFigure *rel = (ddRelationshipFigure*) iterator->Next();
+			if(rel->belongsToThisTable(this)==false)  //a relationship that don't start
+			{
+				rel->disconnectStart();
+				observers->removeItem(rel);  //user remove observer instead
+				view->remove(rel);
+				repeatFlag=true;
+				delete rel;
+				break;
+
+			}
+		}
+	}while(repeatFlag);
+	delete iterator;
+}
+
 void ddTableFigure::basicMoveBy(int x, int y)
 {
 	ddIFigure *f = (ddIFigure *) figureFigures->getItemAt(0);
 	if((f->displayBox().x+x) > 0  && (f->displayBox().y+y) > 0)
 		ddCompositeFigure::basicMoveBy(x,y);
 }
+
+/*
+void ddTableFigure::addDependentRelationship(ddRelationshipFigure *relation)
+{
+	dependentRelationships->addItem(relation);
+}
+
+void ddTableFigure::removeDependentRelationship(ddRelationshipFigure *relation)
+{
+	dependentRelationships->removeItem(relation);
+}
+*/

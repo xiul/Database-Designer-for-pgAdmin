@@ -344,6 +344,43 @@ void ddRelationshipFigure::setKindAtForeignKeys(ddColumnType type)
 	}
 }
 
+bool ddRelationshipFigure::belongsToThisTable(ddTableFigure *possibleOwner)
+{
+	return possibleOwner == getStartFigure();
+}
+
+/*
+//Normal behavior is each figure observe to other (start->end,end->start) but here only need (start->end), reverse is a dependentFigure
+//Observer kind = ddRelationshipFigure  DependentFigure kind = ddRelationshipFigure
+void ddRelationshipFigure::connectFigure (ddIConnector *connector)
+{
+	if(getStartConnector()==connector)
+	{
+		ddLineConnection::connectFigure(connector);
+	}
+	else if(connector)
+	{
+		ddTableFigure *t = (ddTableFigure*)connector->getOwner();
+		t->addDependentRelationship(this);
+	}
+}
+
+void ddRelationshipFigure::disconnectFigure (ddIConnector *connector)
+{
+	if(getStartConnector()==connector)
+	{
+		ddLineConnection::disconnectFigure(connector);
+	}
+	else if(connector)
+	{
+			ddTableFigure *t = (ddTableFigure*)connector->getOwner();
+			t->removeDependentRelationship(this);
+	}
+}
+
+*/
+
+
 /************************
 Items at hash map table
 *************************/
@@ -366,3 +403,4 @@ ddRelationshipItem::~ddRelationshipItem()
 /*	if(fkColumn)
 		delete fkColumn;*/
 }
+

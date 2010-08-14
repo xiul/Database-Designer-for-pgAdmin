@@ -75,10 +75,9 @@ public:
 //DD-TODO: HIGH-PRIORITY-FINISH-THIS fix los metodos repetidos para que hagan lo mismo si existen
 protected:
 	virtual void updateHandlesIndexes();
+	virtual void connectFigure (ddIConnector *connector);
+	virtual void disconnectFigure (ddIConnector *connector);
 private:
-	void connectFigure (ddIConnector *connector);
-	void disconnectFigure (ddIConnector *connector);
-
 	ddIHandle *changeConnStartHandle;
 	ddIHandle *changeConnEndHandle; 
 
