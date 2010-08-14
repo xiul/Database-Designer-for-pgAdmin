@@ -139,6 +139,7 @@ ddCompositeFigure()
 
 ddTableFigure::~ddTableFigure()
 {
+	//delete scrollbar
 	if(scrollbar)
 	{
 		if(figureHandles->existsObject(scrollbar))
@@ -681,10 +682,12 @@ void ddTableFigure::updateFkObservers()
 	delete iterator;
 }
 
-//relationship is observed by several tables at same time, one is the owner (start connector table)
-//others are just observers of that relationship (end connectors table)
-
-//DD-TODO: improve way relationships connections works, this is fine but not optimized at all
+/*	
+	relationship is observed by several tables at same time, one is the
+	owner (start connector table) others are just observers of that 
+	relationship (end connectors table)
+*/
+//drop foreign keys with this table as origin or destination
 void ddTableFigure::processDeleteAlert(ddDrawingView *view)
 {
 	ddIteratorBase *iterator = observersEnumerator();
@@ -694,18 +697,15 @@ void ddTableFigure::processDeleteAlert(ddDrawingView *view)
 		iterator->ResetIterator();
 		while(iterator->HasNext()){
 			ddRelationshipFigure *rel = (ddRelationshipFigure*) iterator->Next();
-			if(rel->belongsToThisTable(this)==false)  //a relationship that don't start
-			{
-				rel->disconnectStart();
-				observers->removeItem(rel);  //user remove observer instead
-				view->remove(rel);
-				repeatFlag=true;
-				delete rel;
-				break;
-
-			}
+			rel->disconnectStart();
+			rel->disconnectEnd();
+			view->remove(rel);
+			repeatFlag=true;
+			delete rel;
+			break;
 		}
 	}while(repeatFlag);
+	
 	delete iterator;
 }
 
@@ -715,15 +715,3 @@ void ddTableFigure::basicMoveBy(int x, int y)
 	if((f->displayBox().x+x) > 0  && (f->displayBox().y+y) > 0)
 		ddCompositeFigure::basicMoveBy(x,y);
 }
-
-/*
-void ddTableFigure::addDependentRelationship(ddRelationshipFigure *relation)
-{
-	dependentRelationships->addItem(relation);
-}
-
-void ddTableFigure::removeDependentRelationship(ddRelationshipFigure *relation)
-{
-	dependentRelationships->removeItem(relation);
-}
-*/

@@ -61,7 +61,7 @@ void ddRemoveTableButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *vi
 			{
 				view->removeFromSelection(table);
 			}
-			//drop foreign keys relationship from others table (this table have the fks)
+			//drop foreign keys with this table as origin or destination
 			table->processDeleteAlert(view);
 			//drop table
 			view->remove(table);
