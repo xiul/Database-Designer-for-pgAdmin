@@ -57,33 +57,7 @@ ddRelationshipFigure::~ddRelationshipFigure()
 	chm.clear();
 }
 
-/*
-ddITool* ddRelationshipFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
-{
-	return new ddPolyLineFigureTool(editor,this,new ddMenuTool(editor,this,defaultTool));
-}
-*/
-
-
-
-/*
-ddITool* ddRelationshipFigure::CreateFigureTool(ddDrawingEditor *editor, ddITool *defaultTool)
-{
-	return new ddMenuTool(editor,this,defaultTool);
-}
-*/
-
-/*
-void ddRelationshipFigure::addFkColumn(ddColumnFigure *column)
-{
-	chm[column->getColumnName(false)]=column;
-}
-
-void ddRelationshipFigure::removeFkColumn(wxString columnName)
-{
-	chm.erase(columnName);
-}
-*/
+//DD-TODO: this function is execute two times at least each time because observers store in & out foreign key, fix this behavior
 void ddRelationshipFigure::updateForeignKey()
 {
 	if(getEndFigure() && getStartFigure() && getStartFigure()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo) && getEndFigure()->ms_classInfo.IsKindOf(&ddTableFigure::ms_classInfo))
@@ -110,6 +84,9 @@ void ddRelationshipFigure::updateForeignKey()
 					NewFkColumn = new ddRelationshipItem(col,endTable, (fkMandatory?notnull:null), (fkIdentifying?pk:fk) );
 					chm[col->getColumnName()]=NewFkColumn; //key will be original table name always
 					endTable->addColumn(NewFkColumn->fkColumn);
+					//hack to update relationship position when table size change
+					endTable->moveBy(-1,0);
+					endTable->moveBy(1,0);
 				}
 
 				//Delete old Fk columns now not pk or deleted from source fk table.
@@ -125,10 +102,14 @@ void ddRelationshipFigure::updateForeignKey()
 						NewFkColumn = it->second;
 						if( !NewFkColumn->original->isPrimaryKey() || !startTable->includes(NewFkColumn->original) )
 						{
+							ddTableFigure *tmpTable=NewFkColumn->destinationTable;
 							NewFkColumn->destinationTable->removeColumn(NewFkColumn->fkColumn);
 							chm.erase(it);
 							delete NewFkColumn;
 							repeat=true;
+							//hack to update relationship position when table size change
+							tmpTable->moveBy(-1,0);
+							tmpTable->moveBy(1,0);
 						}
 						if(repeat)
 							break;
@@ -341,6 +322,11 @@ void ddRelationshipFigure::setKindAtForeignKeys(ddColumnType type)
 		wxString key = it->first;
 		item = it->second;
 		item->fkColumn->setColumnKind(type);
+	}
+	if(type==pk || type==fk) //set as identifying relationship (hierarchy)
+	{
+		ddTableFigure *table = (ddTableFigure*) getEndFigure();
+		table->updateFkObservers();
 	}
 }
 
