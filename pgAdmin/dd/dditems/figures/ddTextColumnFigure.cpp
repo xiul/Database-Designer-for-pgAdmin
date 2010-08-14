@@ -146,16 +146,20 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 				answer = wxMessageBox(wxT("Delete Table: ") + getOwnerColumn()->getOwnerTable()->getTableName() + wxT("?"), wxT("Confirm"),wxYES_NO, view);
 				if (answer == wxYES)
 				{
-					ddTableFigure *f=getOwnerColumn()->getOwnerTable();
-					if(view && f)
+					ddTableFigure *table = getOwnerColumn()->getOwnerTable();	
+					//unselect table
+					if(view->isFigureSelected(table))
 					{
-						if(view->isFigureSelected(f))
-							view->removeFromSelection(f);
-						view->remove(f);
-						if(f)
-							delete f;
+						view->removeFromSelection(table);
 					}
-						
+					//drop foreign keys relationship from others table (this table have the fks)
+					table->processDeleteAlert(view);
+					//drop table
+					view->remove(table);
+					if(table)
+					{
+						delete table;
+					}						
 				}
 
 	}		

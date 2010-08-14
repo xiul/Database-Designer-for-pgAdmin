@@ -53,17 +53,22 @@ void ddRemoveTableButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *vi
 	if(view && getOwner())
 	{
 		ddTableFigure *table = (ddTableFigure*) getOwner();	
-		//unselect table
-		if(view->isFigureSelected(table))
+		int answer = wxMessageBox(wxT("Delete Table: ") + table->getTableName() + wxT("?"), wxT("Confirm"),wxYES_NO, view);
+		if (answer == wxYES)
 		{
-			view->removeFromSelection(table);
-		}
-		table->processDeleteAlert(view);
-		//drop table
-		view->remove(table);
-		if(table)
-		{
-			delete table;
+			//unselect table
+			if(view->isFigureSelected(table))
+			{
+				view->removeFromSelection(table);
+			}
+			//drop foreign keys relationship from others table (this table have the fks)
+			table->processDeleteAlert(view);
+			//drop table
+			view->remove(table);
+			if(table)
+			{
+				delete table;
+			}
 		}
 	}
 }
