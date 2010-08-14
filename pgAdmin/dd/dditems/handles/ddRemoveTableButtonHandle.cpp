@@ -20,6 +20,7 @@
 #include "dd/dditems/handles/ddRemoveTableButtonHandle.h"
 #include "dd/dditems/figures/ddTableFigure.h"
 #include "dd/dditems/utilities/ddDataType.h"
+#include "dd/draw/main/ddDrawingView.h"
 
 
 //*******************   Start of special debug header to find memory leaks
@@ -39,9 +40,6 @@ ddRemoveTableButtonHandle::~ddRemoveTableButtonHandle(){
 
 void ddRemoveTableButtonHandle::invokeStart(ddMouseEvent &event, ddDrawingView *view)
 {
-/*	ddTableFigure *table = (ddTableFigure*) getOwner();
-	table->addColumn(new ddColumnFigure(wxString(wxT("NewColumn")),dt_varchar_n));
-	*/
 }
 
 void ddRemoveTableButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *view)
@@ -50,6 +48,11 @@ void ddRemoveTableButtonHandle::invokeStep(ddMouseEvent &event, ddDrawingView *v
 
 void ddRemoveTableButtonHandle::invokeEnd(ddMouseEvent &event, ddDrawingView *view)
 {
+	if(view && getOwner()){
+		if(view->isFigureSelected(getOwner()))
+			view->removeFromSelection(getOwner());
+		view->remove(getOwner());
+		if(getOwner())
+			delete getOwner();
+	}
 }
-
-//debo hacer que la figura tabla tenga el handle y añadirselo :D

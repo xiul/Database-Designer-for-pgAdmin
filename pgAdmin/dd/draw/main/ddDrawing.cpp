@@ -52,24 +52,12 @@ ddDrawing::~ddDrawing()
 void ddDrawing::add(ddIFigure *figure){
 	if(figures)
 		figures->addItem(figure);	
-	//DD-TODO: remove handle
-	//RecalculateDisplayBox???
-
 }
 
 void ddDrawing::remove(ddIFigure *figure){
     if(figures)
 		figures->removeItem(figure);
-
-	//DD-TODO: remove handle
-	//RecalculateDisplayBox???
 }
-
-/*	
-	//DD-TODO: this should be implemented in drawing?
-	virtual void draw(wxBufferedDC& context, ddCollection figures)=0;
-	virtual void draw(wxBufferedDC& context)=0;
-	*/
 
 bool ddDrawing::includes(ddIFigure *figure){
 	if(figures)

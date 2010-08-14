@@ -134,14 +134,30 @@ void ddTextColumnFigure::OnTextPopupClick(wxCommandEvent& event, ddDrawingView *
 					getOwnerColumn()->getOwnerTable()->setPkConstraintName(tmpString);
 				break;
 		case 18:
-				int i = wxGetSingleChoiceIndex(wxT("Select Unique Key constraint to edit name"),wxT("Select Unique Constraint to edit name:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames(),view);
-				if(i>=0)
+				answer = wxGetSingleChoiceIndex(wxT("Select Unique Key constraint to edit name"),wxT("Select Unique Constraint to edit name:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames(),view);
+				if(answer>=0)
 				{
-					tmpString=wxGetTextFromUser(wxT("Change name of Unique Key constraint:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i),view);
+					tmpString=wxGetTextFromUser(wxT("Change name of Unique Key constraint:"),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(answer),getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(answer),view);
 					if(tmpString.length()>0)
-						getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(i)=tmpString;
+						getOwnerColumn()->getOwnerTable()->getUkConstraintsNames().Item(answer)=tmpString;
 				}
 				break;
+		case 20:
+				answer = wxMessageBox(wxT("Delete Table: ") + getOwnerColumn()->getOwnerTable()->getTableName() + wxT("?"), wxT("Confirm"),wxYES_NO, view);
+				if (answer == wxYES)
+				{
+					ddTableFigure *f=getOwnerColumn()->getOwnerTable();
+					if(view && f)
+					{
+						if(view->isFigureSelected(f))
+							view->removeFromSelection(f);
+						view->remove(f);
+						if(f)
+							delete f;
+					}
+						
+				}
+
 	}		
 }
 
@@ -237,6 +253,8 @@ wxArrayString& ddTextColumnFigure::popupStrings()
 		strings.Add(wxT("--separator--")); 
 		strings.Add(wxT("Primary Key Constraint name..."));  //17
 		strings.Add(wxT("Unique Constraint name..."));  //18
+		strings.Add(wxT("--separator--")); 
+		strings.Add(wxT("Delete Table..."));  //20
 		//DD-TODO: after add varchar left a cursor over length selected to allow used
 	//}
 	return strings;

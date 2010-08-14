@@ -60,11 +60,15 @@ void ddDatabaseDesign::addTable(ddIFigure *figure)
 	draw->view()->add(figure);
 }
 
+void ddDatabaseDesign::removeTable(ddIFigure *figure)
+{
+	draw->view()->remove(figure);
+}
+
 void ddDatabaseDesign::setTool(ddITool* tool)
 {
 	draw->setTool(tool);
 }
-
 
 //DD-TODO: change parameter type by a table type
 

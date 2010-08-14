@@ -24,6 +24,7 @@ public:
 	ddDrawingView* getView();
 	ddDrawingEditor* getEditor();
 	void addTable(ddIFigure *figure);
+	void removeTable(ddIFigure *figure);
 	void setTool(ddITool* tool);
 protected:
 

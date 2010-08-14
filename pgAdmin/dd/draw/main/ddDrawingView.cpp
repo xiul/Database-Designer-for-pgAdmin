@@ -155,8 +155,6 @@ void ddDrawingView::onPaint(wxPaintEvent& event)
 
 	delete iterator;
 
-	//DD-TODO: Delete all iterators after use it
-
 	ddIHandle *tmpHandle=NULL;
 	ddIteratorBase *selectionIterator=selection->createIterator();
 	while(selectionIterator->HasNext()){

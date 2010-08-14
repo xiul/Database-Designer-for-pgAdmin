@@ -9,12 +9,12 @@
 //
 //////////////////////////////////////////////////////////////////////////
 
-#ifndef ddDrawing_H
-#define ddDrawing_H
+#ifndef DDDRAWING_H
+#define DDDRAWING_H
 
 #include "dd/draw/figures/ddIFigure.h"
 
-// Create Array Objects used as base for gqbCollections
+//main Model of Drawing
 class ddDrawing : public wxObject
 {
 public:
@@ -46,7 +46,5 @@ private:
 	ddCollection *figures;
 	ddCollection *handles;
 	ddRect displayBox;
-	//DD-TODO: inicializasr listas
-
 };
 #endif
