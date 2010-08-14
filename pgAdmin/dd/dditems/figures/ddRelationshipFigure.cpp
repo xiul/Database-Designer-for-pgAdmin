@@ -335,15 +335,16 @@ wxString ddRelationshipFigure::generateSQL()
 	if(chm.size() > 0)
 	{
 		tmp=wxT("FOREIGN KEY ( ");
-		columnsHashMap::iterator it;
+		columnsHashMap::iterator it, end;
 		ddRelationshipItem *item;
 		for( it = chm.begin(); it != chm.end(); ++it )
 		{
 			wxString key = it->first;
 			item = it->second;
 			tmp += item->fkColumn->getColumnName();
-			
-			if(it!=chm.end())
+			end=it;
+			end++;
+			if(end!=chm.end())
 			{
 				tmp+=wxT(" , ");
 			}
@@ -353,14 +354,15 @@ wxString ddRelationshipFigure::generateSQL()
 			}
 		}	
 		
-		tmp += wxT("REFERENCES ") + ((ddTableFigure*)getStartFigure())->getTableName() + wxT(" ( ");
+		tmp += wxT(" REFERENCES ") + ((ddTableFigure*)getStartFigure())->getTableName() + wxT(" ( ");
 		for( it = chm.begin(); it != chm.end(); ++it )
 		{
 			wxString key = it->first;
 			item = it->second;
 			tmp += item->original->getColumnName();
-			
-			if(it!=chm.end())
+			end=it;
+			end++;			
+			if(end!=chm.end())
 			{
 				tmp+=wxT(" , ");
 			}

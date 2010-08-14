@@ -722,35 +722,39 @@ wxString ddTableFigure::generateSQL()
 {
 	//Columns and table
 	wxString tmp(wxT("CREATE TABLE "));
-	tmp+=getTableName() + wxT(" (");
+	tmp+=getTableName() + wxT(" (\n");
 	ddIteratorBase *iterator = figuresEnumerator();
 	iterator->Next(); //Fixed Position for table rectangle
 	iterator->Next(); //Fixed Position for table name
 	while(iterator->HasNext()){
 		ddColumnFigure *column = (ddColumnFigure*) iterator->Next();
 		tmp+=column->generateSQL();
-		if(iterator->HasNext())
+		if(column->isNotNull())
 		{
-			tmp+=wxT(" , ");
+			tmp+=wxT(" NOT NULL");
 		}
 		else
 		{
-			tmp+=wxT(" ) ");
+			tmp+=wxT(" NULL");
+		}
+		if(iterator->HasNext())
+		{
+			tmp+=wxT(" , \n");
 		}
 	}
 	//Pk, Uk Constraints
 	iterator->ResetIterator();
 	iterator->Next(); //Fixed Position for table rectangle
 	iterator->Next(); //Fixed Position for table name
-	bool generatePk=false;
+	int contPk=0;
 	while(iterator->HasNext()){
 		ddColumnFigure *column = (ddColumnFigure*) iterator->Next();
 		if(column->isPrimaryKey())
-			generatePk=true;
+			contPk++;
 	}
-	if(generatePk)
+	if(contPk>0)
 	{
-		tmp += wxT("PRIMARY KEY ( ");
+		tmp += wxT(", \nPRIMARY KEY ( ");
 		iterator->ResetIterator();
 		iterator->Next(); //Fixed Position for table rectangle
 		iterator->Next(); //Fixed Position for table name
@@ -759,7 +763,8 @@ wxString ddTableFigure::generateSQL()
 			ddColumnFigure *column = (ddColumnFigure*) iterator->Next();
 			if(column->isPrimaryKey()){
 				tmp+=column->getColumnName();
-				if(iterator->HasNext())
+				contPk--;
+				if(contPk>0)
 				{
 					tmp+=wxT(" , ");
 				}
@@ -774,19 +779,24 @@ wxString ddTableFigure::generateSQL()
 	//Fk Constraint
 	iterator = observersEnumerator();
 	if(!iterator->HasNext())
-		tmp+=wxT(" ; ");
-	else
 	{
+		tmp+=wxT("\n ); ");
+	}
+	else
+	{  
 		while(iterator->HasNext()){
 			ddRelationshipFigure *rel = (ddRelationshipFigure*) iterator->Next();
-			tmp+=rel->generateSQL();
-			if(iterator->HasNext())
+			if(rel->getStartFigure()!=this)
 			{
-				tmp+=wxT(" , ");
+				wxString tmp2=rel->generateSQL();
+				if(tmp2.length()>0)
+				{
+					tmp+=wxT(" , \n");
+					tmp+=tmp2;
+				}
 			}
-			else
-				tmp+=wxT(" ; ");
 		}
+		tmp+=wxT("\n ); ");
 	}
 	delete iterator;
 	return tmp;
