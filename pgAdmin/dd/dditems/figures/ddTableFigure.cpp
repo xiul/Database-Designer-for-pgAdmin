@@ -754,7 +754,6 @@ wxString ddTableFigure::generateSQL()
 		iterator->ResetIterator();
 		iterator->Next(); //Fixed Position for table rectangle
 		iterator->Next(); //Fixed Position for table name
-		bool generatePk=false;
 
 		while(iterator->HasNext()){
 			ddColumnFigure *column = (ddColumnFigure*) iterator->Next();

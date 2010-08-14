@@ -458,6 +458,7 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 	wxMenuItem *item = NULL;
 	wxMenu *submenu = NULL;
 	bool isSubItem;
+	bool subItemsDisable=false;
 	for(int i=0 ; i < sz ; i++){
 			//DD-TODO: only create options for what I need, this can be improved later
 			//String "--submenu##menu item**sub menu title" and "--subitem--" create and add items to last created submenu
@@ -465,6 +466,10 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 			item=NULL;
 			if(strings[i].Contains(wxT("--submenu"))) 
 			{
+				if(strings[i].Contains(wxT("--disable"))) 
+					subItemsDisable=true;
+				else
+					subItemsDisable=false;
 				submenu = new wxMenu(strings[i].SubString(strings[i].find(wxT("**"))+2,strings[i].length())); 
 				mnu.AppendSubMenu(submenu,strings[i].SubString(strings[i].find(wxT("##"))+2,strings[i].find(wxT("**"))-1));
 			}
@@ -510,7 +515,7 @@ void ddDrawingView::setTextPopUpList(wxArrayString &strings, wxMenu &mnu)
 			{
 				item->Check(true);
 			}
-			if(   item &&  ( strings[i].Contains(wxT("--disable")) || (submenu && isSubItem) )   )
+			if(   item &&  ( strings[i].Contains(wxT("--disable")) || (submenu && isSubItem && subItemsDisable) )   )
 			{
 				item->Enable(false);
 			}
